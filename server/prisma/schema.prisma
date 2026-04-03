@@ -12,6 +12,8 @@ model User {
   username String @unique
   email String @unique
   saltedHash String
+
+  profile Profile[]
   
   inventory Inventory[]
   decluttered Decluttered []
@@ -25,6 +27,16 @@ model User {
 
   postLikes PostLikes[]
   commentLikes CommentLikes[]
+}
+
+model Profile {
+  id Int @id @default(autoincrement()) 
+  userID Int
+  pfp String?
+  header String?
+  bio String?
+
+  user User @relation(fields: [userID], references: [id])
 }
 
 model Inventory {
