@@ -19,6 +19,12 @@ model User {
 
   followers FollowRelation[] @relation("userFollowers")
   followings FollowRelation[] @relation("userFollowing")
+
+  posts Posts[]
+  comments Comments[]
+
+  postLikes PostLikes[]
+  commentLikes CommentLikes[]
 }
 
 model Inventory {
@@ -27,19 +33,24 @@ model Inventory {
 
   brandName String
   productName String
-  productCategory String
+  productCategory Category
   price Int
 
   status Status @default(noStatus)
 
-  archieved Boolean @default(false)
+  backup Boolean @default(false)
 
   dateAquired String?
   rating Int?
   notes String?
-  wouldBuyAgain RepurchaseChoice
+  wouldBuyAgain RepurchaseChoice @default(null)
 
   whoseInventory User @relation(fields: [belongsTo], references: [id])
+}
+
+enum Category {
+  skincare
+  cosmetics
 }
 
 enum Status {
@@ -49,6 +60,7 @@ enum Status {
 }
 
 enum RepurchaseChoice {
+  null
   no
   yes
   maybe
@@ -91,5 +103,57 @@ model FollowRelation {
 
   @@unique([follower, following])
 
+}
 
+model Posts {
+  id Int @id @default(autoincrement())
+  madeBy Int
+
+  img String?
+  title String
+  body String
+  timestamp DateTime @default(now())
+
+  likes PostLikes[]
+  comments Comments[]
+
+  madeby User @relation(fields: [madeBy], references: [id])
+}
+
+model PostLikes {
+  id Int @id @default(autoincrement())
+  idOfPost Int
+  userWhoLiked Int
+
+  post Posts @relation(fields: [idOfPost], references: [id])
+  liker User @relation(fields: [userWhoLiked], references: [id])
+
+  @@unique([idOfPost, userWhoLiked])
+}
+
+
+model Comments {
+  id Int @id @default(autoincrement())
+  idOfPost Int
+  userWhoCommented Int 
+
+  body String
+  timestamp DateTime @default(now())
+
+  likes CommentLikes[]
+
+  post Posts @relation(fields: [idOfPost], references: [id])
+  commenter User @relation(fields: [userWhoCommented], references: [id])
+
+}
+
+model CommentLikes {
+  id Int @id @default(autoincrement())
+  idOfComment Int
+  userWhoLiked Int
+
+  comments Comments @relation(fields: [idOfComment], references: [id])
+  liker User @relation(fields: [userWhoLiked], references: [id])
+
+  @@unique([idOfComment, userWhoLiked])
 }
