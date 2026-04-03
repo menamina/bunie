@@ -16,6 +16,9 @@ model User {
   inventory Inventory[]
   decluttered Decluttered []
   fullPan FullPan[]
+
+  followers FollowRelation[] @relation("userFollowers")
+  followings FollowRelation[] @relation("userFollowing")
 }
 
 model Inventory {
@@ -55,6 +58,10 @@ enum RepurchaseChoice {
 model Decluttered {
   id Int @id @default(autoincrement())
   belongsTo Int
+  brandName String
+  productName String
+  productCategory String
+
 
 
   whosDecluttered User @relation(fields: [belongsTo], references: [id])
@@ -64,8 +71,25 @@ model Decluttered {
 model FullPan {
   id Int @id @default(autoincrement())
   belongsTo Int
+  brandName String
+  productName String
+  productCategory String
 
 
   whoFullPanned User @relation(fields: [belongsTo], references: [id])
+
+}
+
+model FollowRelation {
+  id Int @id @default(autoincrement())
+
+  follower Int
+  following Int
+
+  followers User @relation("userFollowers", fields: [follower], references: [id])
+  followings User @relation("userFollowing", fields: [following], references: [id])
+
+  @@unique([follower, following])
+
 
 }
