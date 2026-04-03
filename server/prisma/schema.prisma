@@ -21,6 +21,8 @@ model User {
 model Inventory {
   id Int @id @default(autoincrement())
   belongsTo Int
+
+  brandName String
   productName String
   productCategory String
   price Int
@@ -32,6 +34,7 @@ model Inventory {
   dateAquired String?
   rating Int?
   notes String?
+  wouldBuyAgain RepurchaseChoice
 
   whoseInventory User @relation(fields: [belongsTo], references: [id])
 }
@@ -42,10 +45,27 @@ enum Status {
   limbo
 }
 
+enum RepurchaseChoice {
+  no
+  yes
+  maybe
+  ifItWasGifted
+}
+
 model Decluttered {
+  id Int @id @default(autoincrement())
+  belongsTo Int
+
+
+  whosDecluttered User @relation(fields: [belongsTo], references: [id])
 
 }
 
 model FullPan {
+  id Int @id @default(autoincrement())
+  belongsTo Int
+
+
+  whoFullPanned User @relation(fields: [belongsTo], references: [id])
 
 }
