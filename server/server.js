@@ -9,6 +9,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 
 const passport = require("./passport/passport");
+const pool = require("./passport/pool");
 
 const cors = require("cors");
 
@@ -24,7 +25,18 @@ server.use(express.urlencoded({ extended: false }));
 
 server.use(
   session({
-    store: new pgSession({}),
+    store: new pgSession({
+      pool: pool,
+      createTableIfMissing: true,
+    }),
+    secret: process.env.COOKIE,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+      httpOnly: true,
+      sameSite: "lax",
+    },
   }),
 );
 
