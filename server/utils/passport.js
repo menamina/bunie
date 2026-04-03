@@ -19,7 +19,7 @@ async function verify(email, password, done) {
     }
 
     if (user) {
-      const match = await checkPassword(user.saltedHash, password);
+      const match = await checkPassword(password, user.saltedHash);
       if (!match) {
         done(null, false, { message: "incorrect password" });
         return;
