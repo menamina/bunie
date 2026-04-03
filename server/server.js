@@ -9,7 +9,7 @@ const session = require("express-session");
 const pgSession = require("connect-pg-simple")(session);
 
 const pool = require("./pool");
-const passport = require("./passport/passport");
+const passport = require("./utils/passport");
 
 const cors = require("cors");
 
