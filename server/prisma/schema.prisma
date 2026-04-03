@@ -14,6 +14,8 @@ model User {
   saltedHash String
   
   inventory Inventory[]
+  decluttered Decluttered []
+  fullPan FullPan[]
 }
 
 model Inventory {
@@ -23,9 +25,27 @@ model Inventory {
   productCategory String
   price Int
 
+  status Status @default(noStatus)
+
+  archieved Boolean @default(false)
+
   dateAquired String?
   rating Int?
   notes String?
 
   whoseInventory User @relation(fields: [belongsTo], references: [id])
+}
+
+enum Status {
+  noStatus
+  inProgress
+  limbo
+}
+
+model Decluttered {
+
+}
+
+model FullPan {
+
 }
