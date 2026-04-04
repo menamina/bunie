@@ -134,8 +134,6 @@ async function getProfile(req, res) {
           },
         },
         inventory: true,
-        declutttered: true,
-        fullpan: true,
         followers: true,
         following: true,
         posts: true,
@@ -284,7 +282,13 @@ async function getUserInventory(req, res) {
         belongsTo: thisUser,
       },
       select: {
-        inventory: true,
+        inventory: {
+            where: {
+                status: {
+                    notIn: ["decluttered", "fullpan"]
+                }
+            }
+        }
       },
     });
 
@@ -364,12 +368,16 @@ async function getUserDecluttered(req, res) {
         id: thisUser,
       },
       select: {
-        decluttered: true,
+        inventory: {
+          where: {
+            status: "decluttered",
+          },
+        },
       },
     });
 
-    if (thisUsersDecluttered.length === 0) {
-      return res.status(204).json({ noInProgress: true });
+    if (thisUsersDecluttered.inventory.length === 0) {
+      return res.status(204).json({ noDecluttered: true });
     }
     return res.status(200).json({ thisUsersDecluttered });
   } catch (error) {
@@ -388,12 +396,16 @@ async function getUserFinished(req, res) {
         id: thisUser,
       },
       select: {
-        fullpan: true,
+        inventory: {
+          where: {
+            status: "fullpan",
+          },
+        },
       },
     });
 
-    if (thisUsersFinished.length === 0) {
-      return res.status(204).json({ noInProgress: true });
+    if (thisUsersFinished.inventory.length === 0) {
+      return res.status(204).json({ noFinished: true });
     }
     return res.status(200).json({ thisUsersFinished });
   } catch (error) {
