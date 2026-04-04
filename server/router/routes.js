@@ -56,10 +56,9 @@ router.get("/get-my-likes/:id", isAuth, remote.getUserLikes);
 remote.patch("/update-my-profile-API", isAuth, remote.updateUserProfile);
 remote.delete("/delete-my-account-API", isAuth, remote.deleteUserAccount);
 
-// user options //
+// user product options //
 
 remote.post("/add-to-inventory-API", isAuth, remote.addProduct);
-// ^^ is it just a regular add to inven, WIP, or limbo //
 remote.patch(
   "/update-inventory-status/:productID",
   isAuth,

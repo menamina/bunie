@@ -526,28 +526,38 @@ async function deleteProduct(req, res) {
 
 async function togglePostLike(req, res) {
   try {
-    const { likeState } = req.body;
     const { postID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
     const postIDNum = Number(postID);
 
-    if (likeState === "like") {
-      await prisma.postlikes.create({
-        where: {
+    const existingLike = await prisma.postLikes.findUnique({
+      where: {
+        idOfPost_userWhoLiked: {
           idOfPost: postIDNum,
           userWhoLiked: userID,
         },
+      },
+    });
+
+    if (existingLike) {
+      await prisma.postLikes.delete({
+        where: {
+          idOfPost_userWhoLiked: {
+            idOfPost: postIDNum,
+            userWhoLiked: userID,
+          },
+        },
       });
-      return res.status(201).json({ likeAdded: true });
+      return res.status(200).json({ liked: false });
     } else {
-      await prisma.postlikes.delete({
-        where: {
+      await prisma.postLikes.create({
+        data: {
           idOfPost: postIDNum,
           userWhoLiked: userID,
         },
       });
-      return res.status(201).json({ unliked: true });
+      return res.status(201).json({ liked: true });
     }
   } catch (error) {
     console.log(error);
@@ -557,28 +567,38 @@ async function togglePostLike(req, res) {
 
 async function toggleCommentLike(req, res) {
   try {
-    const { likeState } = req.body;
-    const { commendID } = req.params;
+    const { commentID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const commendIDNum = Number(commendID);
+    const commentIDNum = Number(commentID);
 
-    if (likeState === "like") {
-      await prisma.postlikes.create({
-        where: {
-          idOfPost: commendIDNum,
+    const existingLike = await prisma.commentLikes.findUnique({
+      where: {
+        idOfComment_userWhoLiked: {
+          idOfComment: commentIDNum,
           userWhoLiked: userID,
         },
+      },
+    });
+
+    if (existingLike) {
+      await prisma.commentLikes.delete({
+        where: {
+          idOfComment_userWhoLiked: {
+            idOfComment: commentIDNum,
+            userWhoLiked: userID,
+          },
+        },
       });
-      return res.status(201).json({ likeAdded: true });
+      return res.status(200).json({ liked: false });
     } else {
-      await prisma.postlikes.delete({
-        where: {
-          idOfPost: commendIDNum,
+      await prisma.commentLikes.create({
+        data: {
+          idOfComment: commentIDNum,
           userWhoLiked: userID,
         },
       });
-      return res.status(201).json({ unliked: true });
+      return res.status(201).json({ liked: true });
     }
   } catch (error) {
     console.log(error);
@@ -588,7 +608,39 @@ async function toggleCommentLike(req, res) {
 
 async function toggleFollow(req, res) {
   try {
-    const {};
+    const { userID } = req.params;
+    const { id } = req.user;
+    const currentUserID = Number(id);
+    const userToFollowID = Number(userID);
+
+    const existingFollow = await prisma.followRelation.findUnique({
+      where: {
+        follower_following: {
+          follower: currentUserID,
+          following: userToFollowID,
+        },
+      },
+    });
+
+    if (existingFollow) {
+      await prisma.followRelation.delete({
+        where: {
+          follower_following: {
+            follower: currentUserID,
+            following: userToFollowID,
+          },
+        },
+      });
+      return res.status(200).json({ following: false });
+    } else {
+      await prisma.followRelation.create({
+        data: {
+          follower: currentUserID,
+          following: userToFollowID,
+        },
+      });
+      return res.status(201).json({ following: true });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
