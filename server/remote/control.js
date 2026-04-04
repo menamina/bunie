@@ -526,7 +526,29 @@ async function deleteProduct(req, res) {
 
 async function togglePostLike(req, res) {
   try {
-    const {};
+    const { likeState } = req.body;
+    const { postID } = req.params;
+    const { id } = req.user;
+    const userID = Number(id);
+    const postIDNum = Number(postID);
+
+    if (likeState === "like") {
+      await prisma.postlikes.create({
+        where: {
+          idOfPost: postIDNum,
+          userWhoLiked: userID,
+        },
+      });
+      return res.status(201).json({ likeAdded: true });
+    } else {
+      await prisma.postlikes.delete({
+        where: {
+          idOfPost: postIDNum,
+          userWhoLiked: userID,
+        },
+      });
+      return res.status(201).json({ unliked: true });
+    }
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -534,6 +556,37 @@ async function togglePostLike(req, res) {
 }
 
 async function toggleCommentLike(req, res) {
+  try {
+    const { likeState } = req.body;
+    const { commendID } = req.params;
+    const { id } = req.user;
+    const userID = Number(id);
+    const commendIDNum = Number(commendID);
+
+    if (likeState === "like") {
+      await prisma.postlikes.create({
+        where: {
+          idOfPost: commendIDNum,
+          userWhoLiked: userID,
+        },
+      });
+      return res.status(201).json({ likeAdded: true });
+    } else {
+      await prisma.postlikes.delete({
+        where: {
+          idOfPost: commendIDNum,
+          userWhoLiked: userID,
+        },
+      });
+      return res.status(201).json({ unliked: true });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function toggleFollow(req, res) {
   try {
     const {};
   } catch (error) {
@@ -633,6 +686,7 @@ module.exports = {
 
   togglePostLike,
   toggleCommentLike,
+  toggleFollow,
 
   makeAPost,
   updatePost,

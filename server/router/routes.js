@@ -70,6 +70,9 @@ remote.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
 
 // user posts + comments + likes //
 
+remote.post("/like-post/:postID", isAuth, remote.togglePostLike);
+remote.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
+
 remote.post("/make-post-API", isAuth, remote.makeAPost);
 remote.post("/make-comment-API", isAuth, remote.makeAComment);
 
@@ -78,9 +81,6 @@ remote.patch("/update-comment/:commentToUpdate", isAuth, remote.updateComment);
 
 remote.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
 remote.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
-
-remote.post("/like-post/:postID", isAuth, remote.togglePostLike);
-remote.post("/like-post/:postID", isAuth, remote.toggleCommentLike);
 
 // getting other ppl's profiles //
 router.get("/profile-API/:id", isAuth, remote.getProfile);
@@ -98,4 +98,4 @@ router.get("/get-user-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-user-likes/:id", isAuth, remote.getUserLikes);
 
 // following //
-remote.post("/follow", isAuth, remote.followToggle);
+remote.post("/follow", isAuth, remote.toggleFollow);
