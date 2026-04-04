@@ -402,6 +402,74 @@ async function getUserFinished(req, res) {
   }
 }
 
+async function getUserLikes(req, res) {
+  try {
+    const getUserLikes = req.body.thisUser;
+    const thisUser = Number(getUserLikes);
+
+    const thisUsersLikes = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        postsThisUserLikes: {
+          include: {
+            madeBy: true,
+          },
+        },
+      },
+    });
+
+    if (thisUsersLikes.length === 0) {
+      return res.status(204).json({ noInProgress: true });
+    }
+    return res.status(200).json({ thisUsersLikes });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function addProduct(req, res) {
+  try {
+    const { id } = req.params;
+    const userID = Number(id);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function addFinishedProduct(req, res) {
+  try {
+    const { id } = req.params;
+    const userID = Number(id);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function addDeclutteredProduct(req, res) {
+  try {
+    const { id } = req.params;
+    const userID = Number(id);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function updateInventoryStatus(req, res) {
+  try {
+    const { id } = req.params;
+    const userID = Number(id);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
 module.exports = {
   signUpUser,
 
@@ -417,6 +485,11 @@ module.exports = {
   getUserDecluttered,
   getUserFinished,
   getUserLikes,
+
+  addProduct,
+  addFinishedProduct,
+  addDeclutteredProduct,
+  updateInventoryStatus,
 
   getMyProfileSettings,
   updateUserProfile,
