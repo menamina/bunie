@@ -60,9 +60,13 @@ remote.delete("/delete-my-account-API", isAuth, remote.deleteUserAccount);
 
 remote.post("/add-to-inventory-API", isAuth, remote.addProduct);
 // ^^ is it just a regular add to inven, WIP, or limbo //
-remote.patch("/update-inventory-status/:pID", isAuth, remote.updateInventory);
+remote.patch(
+  "/update-inventory-status/:productID",
+  isAuth,
+  remote.updateInventory,
+);
 
-remote.delete("/delete-from-where/:pID", isAuth, remote.deleteProduct);
+remote.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
 
 // user posts + comments + likes //
 

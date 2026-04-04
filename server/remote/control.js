@@ -151,27 +151,6 @@ async function getProfile(req, res) {
   }
 }
 
-async function getMyProfileSettings(req, res) {
-  try {
-    const id = req.user.id;
-    const userID = Number(id);
-
-    const userProfSettings = await prisma.profile.findUnique({
-      where: {
-        userID,
-      },
-    });
-    if (!userProfSettings) {
-      return res.status(204).json({ noProfile });
-    }
-
-    return res.statu(200).json({ userProfSettings });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
-  }
-}
-
 async function getFollowers(req, res) {
   try {
     const getThisUsersFollowers = req.body.thisUser;
@@ -484,10 +463,10 @@ async function addProduct(req, res) {
 
 async function updateInventory(req, res) {
   try {
-    const { pID } = req.params;
+    const { productID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const productID = Number(pID);
+    const productID = Number(productID);
     const {
       brand,
       product,
@@ -526,15 +505,15 @@ async function updateInventory(req, res) {
 
 async function deleteProduct(req, res) {
   try {
-    const { pID } = req.params;
+    const { productID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const productID = Number(pID);
+    const productIDNum = Number(productID);
 
     await prisma.inventory.delete({
       where: {
         belongsTo: userID,
-        id: pID,
+        id: productIDNum,
       },
     });
 
@@ -545,8 +524,87 @@ async function deleteProduct(req, res) {
   }
 }
 
+async function togglePostLike(req, res) {
+  try {
+    const {};
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function toggleCommentLike(req, res) {
+  try {
+    const {};
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
 async function makeAPost(req, res) {
   try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function updatePost(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function makeAComment(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function updateComment(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function deletePost(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function deleteComment(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getMyProfileSettings(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+
+    const userProfSettings = await prisma.profile.findUnique({
+      where: {
+        userID,
+      },
+    });
+    if (!userProfSettings) {
+      return res.status(204).json({ noProfile });
+    }
+
+    return res.statu(200).json({ userProfSettings });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -572,6 +630,18 @@ module.exports = {
   addProduct,
   updateInventory,
   deleteProduct,
+
+  togglePostLike,
+  toggleCommentLike,
+
+  makeAPost,
+  updatePost,
+
+  makeAComment,
+  updateComment,
+
+  deletePost,
+  deleteComment,
 
   getMyProfileSettings,
   updateUserProfile,
