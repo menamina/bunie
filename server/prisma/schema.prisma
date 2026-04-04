@@ -14,7 +14,7 @@ model User {
   saltedHash String
 
   profile Profile?
-
+  
   inventory Inventory[]
 
   followers FollowRelation[] @relation("userFollowers")
@@ -44,7 +44,7 @@ model Inventory {
   brandName String
   productName String
   productCategory Category
-  price Int
+  price Decimal
 
   status Status @default(noStatus)
 
