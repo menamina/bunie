@@ -86,8 +86,8 @@ model FollowRelation {
   follower Int
   following Int
 
-  followerAcc User @relation("userFollowers", fields: [follower], references: [id])
-  followingAcc User @relation("userFollowing", fields: [following], references: [id])
+  followerAcc User @relation("userFollowers", fields: [follower], references: [id], onDelete: Cascade)
+  followingAcc User @relation("userFollowing", fields: [following], references: [id], onDelete: Cascade)
 
   @@unique([follower, following])
 

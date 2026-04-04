@@ -530,6 +530,23 @@ async function deleteProduct(req, res) {
     const { id } = req.user;
     const userID = Number(id);
     const productID = Number(pID);
+
+    await prisma.inventory.delete({
+      where: {
+        belongsTo: userID,
+        id: pID,
+      },
+    });
+
+    return res.status(200).json({ succes: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function makeAPost(req, res) {
+  try {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -554,6 +571,7 @@ module.exports = {
 
   addProduct,
   updateInventory,
+  deleteProduct,
 
   getMyProfileSettings,
   updateUserProfile,
