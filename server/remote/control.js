@@ -445,15 +445,24 @@ async function getUserLikes(req, res) {
 async function addProduct(req, res) {
   try {
     const { id } = req.params;
-    const { brand, product, category, price, status, backup, dateAquired, rating, notes, wouldBuyAgain } = req.body
+    const { brand, product, category, price, status, backup, dateOpurchase, rating, notes, wouldBuyAgain } = req.body
     const userID = Number(id);
 
     await prisma.inventory.create({
         where: {
             belongsTo: userID
-        }
+        },
         data: {
-
+            brand,
+            product,
+            category,
+            price,
+            status,
+            backup: backup ? true : false;
+            purchaseDate: dateOpurchase ? dateOpurchase : null;
+            rating: rating ? rating : null,
+            notes: notes ? notes : false,
+            wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : null
         }
     })
 
