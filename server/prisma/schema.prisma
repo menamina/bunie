@@ -34,7 +34,7 @@ model Profile {
   header String?
   bio String?
 
-  user User @relation(fields: [userID], references: [id])
+  user User @relation(fields: [userID], references: [id], onDelete: Cascade)
 }
 
 model Inventory {
@@ -50,12 +50,12 @@ model Inventory {
 
   backup Boolean @default(false)
 
-  dateAquired String?
+  purchaseDate String?
   rating Int?
   notes String?
   wouldBuyAgain RepurchaseChoice @default(null)
 
-  whoseInventory User @relation(fields: [belongsTo], references: [id])
+  whoseInventory User @relation(fields: [belongsTo], references: [id], onDelete: Cascade)
 }
 
 enum Category {
@@ -105,7 +105,7 @@ model Posts {
   likes PostLikes[]
   comments Comments[]
 
-  madeby User @relation(fields: [madeBy], references: [id])
+  madeby User @relation(fields: [madeBy], references: [id], onDelete: Cascade)
 }
 
 model PostLikes {
@@ -114,7 +114,7 @@ model PostLikes {
   userWhoLiked Int
 
   post Posts @relation(fields: [idOfPost], references: [id])
-  liker User @relation(fields: [userWhoLiked], references: [id])
+  liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfPost, userWhoLiked])
 }
@@ -131,7 +131,7 @@ model Comments {
   likes CommentLikes[]
 
   post Posts @relation(fields: [idOfPost], references: [id])
-  commenter User @relation(fields: [userWhoCommented], references: [id])
+  commenter User @relation(fields: [userWhoCommented], references: [id], onDelete: Cascade)
 
 }
 
@@ -141,7 +141,7 @@ model CommentLikes {
   userWhoLiked Int
 
   comments Comments @relation(fields: [idOfComment], references: [id])
-  liker User @relation(fields: [userWhoLiked], references: [id])
+  liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfComment, userWhoLiked])
 }

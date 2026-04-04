@@ -283,12 +283,12 @@ async function getUserInventory(req, res) {
       },
       select: {
         inventory: {
-            where: {
-                status: {
-                    notIn: ["decluttered", "fullpan"]
-                }
-            }
-        }
+          where: {
+            status: {
+              notIn: ["decluttered", "fullpan"],
+            },
+          },
+        },
       },
     });
 
@@ -445,28 +445,37 @@ async function getUserLikes(req, res) {
 async function addProduct(req, res) {
   try {
     const { id } = req.params;
-    const { brand, product, category, price, status, backup, dateOpurchase, rating, notes, wouldBuyAgain } = req.body
+    const {
+      brand,
+      product,
+      category,
+      price,
+      status,
+      backup,
+      dateOpurchase,
+      rating,
+      notes,
+      wouldBuyAgain,
+    } = req.body;
     const userID = Number(id);
 
     const addedProduct = await prisma.inventory.create({
-        where: {
-            belongsTo: userID
-        },
-        data: {
-            brand,
-            product,
-            category,
-            price,
-            status,
-            backup: backup ? true : false;
-            purchaseDate: dateOpurchase ? dateOpurchase : null;
-            rating: rating ? rating : null,
-            notes: notes ? notes : false,
-            wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : null
-        }
-    })
+      data: {
+        belongsTo: userID,
+        brand,
+        product,
+        category,
+        price,
+        status,
+        backup: backup ? true : false,
+        purchaseDate: dateOpurchase ? dateOpurchase : null,
+        rating: rating ? rating : null,
+        notes: notes ? notes : null,
+        wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : null,
+      },
+    });
 
-    return res.status(201).json({ addedProduct })
+    return res.status(201).json({ addedProduct });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -475,14 +484,52 @@ async function addProduct(req, res) {
 
 async function updateInventory(req, res) {
   try {
-    const { updateDate }
     const { pID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const productID = Number(pID)
+    const productID = Number(pID);
+    const {
+      brand,
+      product,
+      category,
+      price,
+      status,
+      rating,
+      notes,
+      wouldBuyAgain,
+      purchaseDate,
+    } = req.body;
 
+    const updatedProduct = await prisma.inventory.update({
+      where: { belongsTo: userID, id: productID },
+      data: {
+        ...(brand && { brand }),
+        ...(product && { product }),
+        ...(category && { category }),
+        ...(price && { price }),
+        ...(status && { status }),
+        ...(rating && { rating }),
+        ...(notes && { notes }),
+        ...(wouldBuyAgain && { wouldBuyAgain }),
+        ...(purchaseDate && { purchaseDate }),
+      },
+    });
 
+    if (updated) {
+      return res.status(201).json({ updatedProduct });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
 
+async function deleteProduct(req, res) {
+  try {
+    const { pID } = req.params;
+    const { id } = req.user;
+    const userID = Number(id);
+    const productID = Number(pID);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
