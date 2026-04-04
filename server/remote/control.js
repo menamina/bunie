@@ -279,9 +279,19 @@ async function getUserInventory(req, res) {
     const getThisUsersInventory = req.body.thisUser;
     const thisUser = Number(getThisUsersInventory);
 
-    const thisUsersInventory = 
+    const thisUsersInventory = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        inventory: true,
+      },
+    });
 
-
+    if (thisUsersInventory.length === 0) {
+      return res.status(204).json({ noInventory: true });
+    }
+    return res.status(200).json({ thisUsersInventory });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -290,13 +300,24 @@ async function getUserInventory(req, res) {
 
 async function getUserInProgress(req, res) {
   try {
-
     const getThisUsersInProgress = req.body.thisUser;
     const thisUser = Number(getThisUsersInProgress);
 
-    const thisUsersInventory = 
+    const thisUsersInProgress = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        inventory: {
+          status: "inProgress",
+        },
+      },
+    });
 
-
+    if (thisUsersInProgress.length === 0) {
+      return res.status(204).json({ noInProgress: true });
+    }
+    return res.status(200).json({ thisUsersInProgress });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -304,6 +325,32 @@ async function getUserInProgress(req, res) {
 }
 
 async function getUserLimbo(req, res) {
+  try {
+    const getThisUsersLimbo = req.body.thisUser;
+    const thisUser = Number(getThisUsersLimbo);
+
+    const thisUsersLimbo = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        inventory: {
+          status: "limbo",
+        },
+      },
+    });
+
+    if (thisUsersLimbo.length === 0) {
+      return res.status(204).json({ noInProgress: true });
+    }
+    return res.status(200).json({ thisUsersLimbo });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserDecluttered(req, res) {
   try {
   } catch (error) {
     console.log(error);
