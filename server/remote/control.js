@@ -723,15 +723,6 @@ async function updateUserProfile(req, res) {
     const userID = Number(id);
     const { name, username, email, pfp, header, bio } = req.body;
 
-    const user = await prisma.user.findUnique({
-      where: {
-        id: userID,
-      },
-      select: {
-        saltedHash,
-      },
-    });
-
     if (email) {
       const isEmailInUse = await prisma.user.findUnique({
         where: {
@@ -756,7 +747,7 @@ async function updateUserProfile(req, res) {
       return;
     }
 
-    await prisma.user.update({
+    const updatedUser = await prisma.user.update({
       where: {
         userID,
       },
@@ -772,14 +763,50 @@ async function updateUserProfile(req, res) {
       },
     });
 
-    return res.status(200).json({ userDeleted: true });
+    return res.status(200).json({ updatedUser });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
   }
 }
 
-async function updateUserPassword(req, res) {}
+async function updateUserPassword(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+    const { oldPassword, confirmNewPassword } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+      select: {
+        saltedHash,
+      },
+    });
+
+    const passwordMatch = await checkPassword(oldPassword, user.saltedHash);
+
+    if (!passwordMatch) {
+      return res.status(204).json({ passwordsDontMatch: true });
+    }
+
+    const updatedSaltedHash = await passwordGenie(confirmNewPassword);
+
+    const updatedUserPassword = await prisma.user.update({
+      where: {
+        id: userID,
+      },
+      data: {
+        saltedHash: updatedSaltedHash,
+      },
+    });
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
 
 async function deleteUserAccount(req, res) {
   try {
