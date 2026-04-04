@@ -3,6 +3,7 @@ const router = express.Router();
 const remote = require("../remote/control");
 const { isAuth } = require("../utils/isAuth");
 const validator = require("../utils/validator");
+const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
@@ -38,7 +39,7 @@ router.get("/main-feed-API", isAuth, remote.getMainFeed);
 
 // getting user's profile //
 router.get("/my-profile-API/:id", isAuth, remote.getProfile);
-router.get("/get-my-profile-settings", isAuth, remote.getMyProfileSettings);
+router.get("/get-my-profile-settings/", isAuth, remote.getMyProfileSettings);
 
 router.get("/get-my-followers/:id", isAuth, remote.getFollowers);
 router.get("/get-my-followers/:id", isAuth, remote.getFollowing);
@@ -53,8 +54,14 @@ router.get("/get-my-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-my-likes/:id", isAuth, remote.getUserLikes);
 
 // editing user profile //
-remote.patch("/update-my-profile-API", isAuth, remote.updateUserProfile);
-remote.delete("/delete-my-account-API", isAuth, remote.deleteUserAccount);
+remote.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
+router.get(
+  "/update-my-password-API/",
+  isAuth,
+  passwordValidation,
+  remote.updateUserPassword,
+);
+remote.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 
 // user product options //
 

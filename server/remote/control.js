@@ -1,5 +1,6 @@
+const { check } = require("express-validator");
 const prisma = require("../prisma/client");
-const { passwordGenie } = require("../utils/passwords");
+const { passwordGenie, checkPassword } = require("../utils/passwords");
 
 async function signUpUser(req, res) {
   try {
@@ -710,6 +711,88 @@ async function getMyProfileSettings(req, res) {
     }
 
     return res.statu(200).json({ userProfSettings });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function updateUserProfile(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+    const { name, username, email, pfp, header, bio } = req.body;
+
+    const user = await prisma.user.findUnique({
+      where: {
+        id: userID,
+      },
+      select: {
+        saltedHash,
+      },
+    });
+
+    if (email) {
+      const isEmailInUse = await prisma.user.findUnique({
+        where: {
+          email,
+        },
+      });
+      if (isEmailInUse) {
+        return res.status(403).json({ emailInUse: true });
+      }
+      return;
+    }
+
+    if (username) {
+      const isUsernameInUse = await prisma.user.findUnique({
+        where: {
+          username,
+        },
+      });
+      if (isUsernameInUse) {
+        return res.status(403).json({ usernameInUse: true });
+      }
+      return;
+    }
+
+    await prisma.user.update({
+      where: {
+        userID,
+      },
+      data: {
+        ...(name && { name }),
+        ...(username && { username }),
+        ...(email && { email }),
+        profile: {
+          ...(pfp && { pfp }),
+          ...(header && { header }),
+          ...(bio && { bio }),
+        },
+      },
+    });
+
+    return res.status(200).json({ userDeleted: true });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function updateUserPassword(req, res) {}
+
+async function deleteUserAccount(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+
+    await prisma.user.delete({
+      where: {
+        userID,
+      },
+    });
+
+    return res.status(200).json({ userDeleted: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
