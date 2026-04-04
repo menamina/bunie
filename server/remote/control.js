@@ -38,7 +38,7 @@ async function signUpUser(req, res) {
         },
       },
     });
-    return res.status(200);
+    return res.status(201);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -120,7 +120,7 @@ async function getProfile(req, res) {
 
     const userProfile = await prisma.user.findUnique({
       where: {
-        id,
+        userID,
       },
       select: {
         id: true,
@@ -142,6 +142,56 @@ async function getProfile(req, res) {
         postsThisUserLikes: true,
       },
     });
+
+    if (!userProfile) {
+      return res.status(404).json({ noUserFound: true });
+    }
+    return res.status(200).json({ userProfile });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getMyProfileSettings(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+
+    const userProfSettings = await prisma.profile.findUnique({
+      where: {
+        userID,
+      },
+    });
+    if (!userProfSettings) {
+      return res.status(204).json({ noProfile });
+    }
+
+    return res.statu(200).json({ userProfSettings });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getFollowers(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getFollowing(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserPosts(req, res) {
+  try {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -150,6 +200,12 @@ async function getProfile(req, res) {
 
 module.exports = {
   signUpUser,
+
   getMainFeed,
+
   getProfile,
+  getMyProfileSettings,
+
+  getFollowers,
+  getFollowing,
 };
