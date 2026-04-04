@@ -252,6 +252,59 @@ async function getUserPosts(req, res) {
   try {
     const getThisUsersPosts = req.body.thisUser;
     const thisUser = Number(getThisUsersPosts);
+    const thisUsersPosts = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        posts: true,
+      },
+    });
+
+    if (thisUsersPosts.length === 0) {
+      return res.status(204).json({ noPosts: true });
+    }
+    return res.status(200).json({ thisUsersPosts });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserInventory(req, res) {
+  try {
+    const getThisUsersInventory = req.body.thisUser;
+    const thisUser = Number(getThisUsersInventory);
+
+    const thisUsersInventory = 
+
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserInProgress(req, res) {
+  try {
+
+    const getThisUsersInProgress = req.body.thisUser;
+    const thisUser = Number(getThisUsersInProgress);
+
+    const thisUsersInventory = 
+
+
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserLimbo(req, res) {
+  try {
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -264,8 +317,17 @@ module.exports = {
   getMainFeed,
 
   getProfile,
-  getMyProfileSettings,
-
   getFollowers,
   getFollowing,
+  getUserPosts,
+  getUserInventory,
+  getUserInProgress,
+  getUserLimbo,
+  getUserDecluttered,
+  getUserFinished,
+  getUserLikes,
+
+  getMyProfileSettings,
+  updateUserProfile,
+  deleteUserAccount,
 };
