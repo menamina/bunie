@@ -103,3 +103,6 @@ router.get("/get-user-limbo/:id", isAuth, remote.getUserLimbo);
 router.get("/get-user-decluttered/:id", isAuth, remote.getUserDecluttered);
 router.get("/get-user-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-user-likes/:id", isAuth, remote.getUserLikes);
+
+// following //
+remote.post("/follow", isAuth, remote.followToggle);
