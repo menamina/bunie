@@ -445,11 +445,12 @@ async function getUserLikes(req, res) {
 async function addProduct(req, res) {
   try {
     const { id } = req.params;
+    const { brand, product, category, price, status, backup, dateAquired, rating, notes, wouldBuyAgain } = req.body
     const userID = Number(id);
 
     await prisma.inventory.create({
         where: {
-            id: userID
+            belongsTo: userID
         }
         data: {
 

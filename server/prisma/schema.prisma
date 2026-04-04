@@ -41,9 +41,9 @@ model Inventory {
   id Int @id @default(autoincrement())
   belongsTo Int
 
-  brandName String
-  productName String
-  productCategory Category
+  brand String
+  product String
+  category Category
   price Decimal
 
   status Status @default(noStatus)
