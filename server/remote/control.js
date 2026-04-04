@@ -448,7 +448,7 @@ async function addProduct(req, res) {
     const { brand, product, category, price, status, backup, dateOpurchase, rating, notes, wouldBuyAgain } = req.body
     const userID = Number(id);
 
-    await prisma.inventory.create({
+    const addedProduct = await prisma.inventory.create({
         where: {
             belongsTo: userID
         },
@@ -466,37 +466,23 @@ async function addProduct(req, res) {
         }
     })
 
-
+    return res.status(201).json({ addedProduct })
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
   }
 }
 
-async function addFinishedProduct(req, res) {
+async function updateInventory(req, res) {
   try {
-    const { id } = req.params;
+    const { updateDate }
+    const { pID } = req.params;
+    const { id } = req.user;
     const userID = Number(id);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
-  }
-}
+    const productID = Number(pID)
 
-async function addDeclutteredProduct(req, res) {
-  try {
-    const { id } = req.params;
-    const userID = Number(id);
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
-  }
-}
 
-async function updateInventoryStatus(req, res) {
-  try {
-    const { id } = req.params;
-    const userID = Number(id);
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -520,9 +506,7 @@ module.exports = {
   getUserLikes,
 
   addProduct,
-  addFinishedProduct,
-  addDeclutteredProduct,
-  updateInventoryStatus,
+  updateInventory,
 
   getMyProfileSettings,
   updateUserProfile,
