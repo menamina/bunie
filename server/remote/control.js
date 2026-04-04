@@ -213,6 +213,35 @@ async function getFollowers(req, res) {
 
 async function getFollowing(req, res) {
   try {
+    const getThisUsersFollowings = req.body.thisUser;
+    const thisUser = Number(getThisUsersFollowings);
+    const fullFollowingList = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        following: {
+          select: {
+            followingAcc: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                profile: {
+                  select: {
+                    pfp: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    if (fullFollowingList.length === 0) {
+      return res.status(204).json({ noFollowing: true });
+    }
+    return res.status(200).json({ fullFollowingList });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -221,6 +250,8 @@ async function getFollowing(req, res) {
 
 async function getUserPosts(req, res) {
   try {
+    const getThisUsersPosts = req.body.thisUser;
+    const thisUser = Number(getThisUsersPosts);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
