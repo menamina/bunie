@@ -682,6 +682,19 @@ async function updateComment(req, res) {
 
 async function deletePost(req, res) {
   try {
+    const { deletePost } = req.params;
+    const { id } = req.user;
+    const userID = Number(id);
+    const postID = Number(deletePost);
+
+    await prisma.comments.findUnique({
+      where: {
+        id: postID,
+        madeBy: userID,
+      },
+    });
+
+    return res.status(200).json({ postDeleted: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -690,6 +703,19 @@ async function deletePost(req, res) {
 
 async function deleteComment(req, res) {
   try {
+    const { commentToDelete } = req.params;
+    const { id } = req.user;
+    const userID = Number(id);
+    const commentID = Number(commentToDelete);
+
+    await prisma.comments.findUnique({
+      where: {
+        id: commentID,
+        userWhoCommented: userID,
+      },
+    });
+
+    return res.status(200).json({ commentedDeleted: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -793,7 +819,7 @@ async function updateUserPassword(req, res) {
 
     const updatedSaltedHash = await passwordGenie(confirmNewPassword);
 
-    const updatedUserPassword = await prisma.user.update({
+    await prisma.user.update({
       where: {
         id: userID,
       },
