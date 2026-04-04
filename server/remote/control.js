@@ -176,6 +176,35 @@ async function getMyProfileSettings(req, res) {
 
 async function getFollowers(req, res) {
   try {
+    const getThisUsersFollowers = req.body.thisUser;
+    const thisUser = Number(getThisUsersFollowers);
+    const fullFollowerList = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        followers: {
+          select: {
+            followerAcc: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                profile: {
+                  select: {
+                    pfp: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+    if (fullFollowerList.length === 0) {
+      return res.status(204).json({ noFollowers: true });
+    }
+    return res.status(200).json({ fullFollowerList });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
