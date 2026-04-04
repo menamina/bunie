@@ -25,14 +25,14 @@ model User {
   posts Posts[]
   comments Comments[]
 
-  postLikes PostLikes[]
-  commentLikes CommentLikes[]
+  postsThisUserLikes PostLikes[]
+  commentLikesByThisUser CommentLikes[]
 }
 
 model Profile {
   id Int @id @default(autoincrement()) 
   userID Int
-  pfp String?
+  pfp String @default("default-icon.png")
   header String?
   bio String?
 
