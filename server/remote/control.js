@@ -309,7 +309,9 @@ async function getUserInProgress(req, res) {
       },
       select: {
         inventory: {
-          status: "inProgress",
+          where: {
+            status: "inProgress",
+          },
         },
       },
     });
@@ -335,7 +337,9 @@ async function getUserLimbo(req, res) {
       },
       select: {
         inventory: {
-          status: "limbo",
+          where: {
+            status: "limbo",
+          },
         },
       },
     });
@@ -352,6 +356,46 @@ async function getUserLimbo(req, res) {
 
 async function getUserDecluttered(req, res) {
   try {
+    const getUsersDecluttered = req.body.thisUser;
+    const thisUser = Number(getUsersDecluttered);
+
+    const thisUsersDecluttered = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        decluttered: true,
+      },
+    });
+
+    if (thisUsersDecluttered.length === 0) {
+      return res.status(204).json({ noInProgress: true });
+    }
+    return res.status(200).json({ thisUsersDecluttered });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
+async function getUserFinished(req, res) {
+  try {
+    const getUserFinished = req.body.thisUser;
+    const thisUser = Number(getUserFinished);
+
+    const thisUsersFinished = await prisma.user.findUnique({
+      where: {
+        id: thisUser,
+      },
+      select: {
+        fullpan: true,
+      },
+    });
+
+    if (thisUsersFinished.length === 0) {
+      return res.status(204).json({ noInProgress: true });
+    }
+    return res.status(200).json({ thisUsersFinished });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });

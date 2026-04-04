@@ -85,8 +85,8 @@ model Decluttered {
   brandName String
   productName String
   productCategory String
-
-
+  price Int
+  notes String?
 
   whosDecluttered User @relation(fields: [belongsTo], references: [id])
 
@@ -98,7 +98,8 @@ model FullPan {
   brandName String
   productName String
   productCategory String
-
+  price Int
+  notes String?
 
   whoFullPanned User @relation(fields: [belongsTo], references: [id])
 
