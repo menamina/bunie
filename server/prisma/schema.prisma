@@ -14,10 +14,8 @@ model User {
   saltedHash String
 
   profile Profile?
-  
+
   inventory Inventory[]
-  decluttered Decluttered []
-  fullPan FullPan[]
 
   followers FollowRelation[] @relation("userFollowers")
   followings FollowRelation[] @relation("userFollowing")
@@ -81,31 +79,6 @@ enum RepurchaseChoice {
   ifItWasGifted
 }
 
-model Decluttered {
-  id Int @id @default(autoincrement())
-  belongsTo Int
-  brandName String
-  productName String
-  productCategory String
-  price Int
-  notes String?
-
-  whosDecluttered User @relation(fields: [belongsTo], references: [id])
-
-}
-
-model FullPan {
-  id Int @id @default(autoincrement())
-  belongsTo Int
-  brandName String
-  productName String
-  productCategory String
-  price Int
-  notes String?
-
-  whoFullPanned User @relation(fields: [belongsTo], references: [id])
-
-}
 
 model FollowRelation {
   id Int @id @default(autoincrement())
