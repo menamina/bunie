@@ -281,7 +281,7 @@ async function getUserInventory(req, res) {
 
     const thisUsersInventory = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        belongsTo: thisUser,
       },
       select: {
         inventory: true,
@@ -434,6 +434,17 @@ async function addProduct(req, res) {
   try {
     const { id } = req.params;
     const userID = Number(id);
+
+    await prisma.inventory.create({
+        where: {
+            id: userID
+        }
+        data: {
+
+        }
+    })
+
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });

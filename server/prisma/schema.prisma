@@ -13,7 +13,7 @@ model User {
   email String @unique
   saltedHash String
 
-  profile Profile[]
+  profile Profile?
   
   inventory Inventory[]
   decluttered Decluttered []
@@ -31,7 +31,7 @@ model User {
 
 model Profile {
   id Int @id @default(autoincrement()) 
-  userID Int
+  userID Int @unique
   pfp String @default("default-icon.png")
   header String?
   bio String?
@@ -69,6 +69,8 @@ enum Status {
   noStatus
   inProgress
   limbo
+  decluttered
+  fullpan
 }
 
 enum RepurchaseChoice {
