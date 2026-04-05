@@ -5,6 +5,7 @@ const { isAuth } = require("../utils/isAuth");
 const validator = require("../utils/validator");
 const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
+const multer = require("../utils/multer");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
 router.post("login-API", (req, res, next) => {
@@ -54,7 +55,13 @@ router.get("/get-my-decluttered/:id", isAuth, remote.getUserDecluttered);
 router.get("/get-my-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-my-likes/:id", isAuth, remote.getUserLikes);
 
-// editing user profile //
+// edit + delete user profile //
+remote.patch(
+  "/update-my-IMGS-API/",
+  isAuth,
+  multer.array("image", 2),
+  remote.updateUserIMGS,
+);
 remote.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
 router.get(
   "/update-my-password-API/",
@@ -66,7 +73,12 @@ remote.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 
 // user product options //
 
-remote.post("/add-to-inventory-API", isAuth, remote.addProduct);
+remote.post(
+  "/add-to-inventory-API",
+  isAuth,
+  multer.array("image", 5),
+  remote.addProduct,
+);
 remote.patch(
   "/update-inventory-status/:productID",
   isAuth,

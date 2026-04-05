@@ -476,7 +476,7 @@ async function updateInventory(req, res) {
     const { productID } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const productID = Number(productID);
+    const productIDNum = Number(productID);
     const {
       brand,
       product,
@@ -490,7 +490,7 @@ async function updateInventory(req, res) {
     } = req.body;
 
     const updatedProduct = await prisma.inventory.update({
-      where: { belongsTo: userID, id: productID },
+      where: { belongsTo: userID, id: productIDNum },
       data: {
         ...(brand && { brand }),
         ...(product && { product }),
@@ -838,11 +838,22 @@ async function getMyProfileSettings(req, res) {
   }
 }
 
+async function updateUserIMGS(req, res) {
+  try {
+    const id = req.user.id;
+    const userID = Number(id);
+    const { pfp, header } = req.files;
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
 async function updateUserProfile(req, res) {
   try {
     const id = req.user.id;
     const userID = Number(id);
-    const { name, username, email, pfp, header, bio } = req.body;
+    const { name, username, email, bio } = req.body;
 
     if (email) {
       const isEmailInUse = await prisma.user.findUnique({
@@ -877,8 +888,6 @@ async function updateUserProfile(req, res) {
         ...(username && { username }),
         ...(email && { email }),
         profile: {
-          ...(pfp && { pfp }),
-          ...(header && { header }),
           ...(bio && { bio }),
         },
       },
@@ -982,6 +991,7 @@ module.exports = {
   deleteComment,
 
   getMyProfileSettings,
+  updateUserIMGS,
   updateUserProfile,
   updateUserPassword,
   deleteUserAccount,
