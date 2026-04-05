@@ -46,6 +46,14 @@ async function signUpUser(req, res) {
   }
 }
 
+async function IMGS(req, res) {
+  try {
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
 async function getMainFeed(req, res) {
   try {
     const { nextPosts } = req.body;
@@ -424,7 +432,7 @@ async function getUserLikes(req, res) {
 
 async function addProduct(req, res) {
   try {
-    const { id } = req.params;
+    const { id } = req.user;
     const {
       brand,
       product,
@@ -437,6 +445,7 @@ async function addProduct(req, res) {
       notes,
       wouldBuyAgain,
     } = req.body;
+    const { imgs } = req.files;
     const userID = Number(id);
 
     const addedProduct = await prisma.inventory.create({
@@ -653,7 +662,8 @@ async function makeAPost(req, res) {
     const { id } = req.user;
     const userID = Number(id);
 
-    const { title, body, img } = req.body;
+    const { title, body } = req.body;
+    const { img } = req.files;
 
     const post = await prisma.posts.create({
       data: {
@@ -673,6 +683,33 @@ async function makeAPost(req, res) {
 
 async function updatePost(req, res) {
   try {
+    const { id } = req.user;
+    const { postToUpdate } = req.params;
+    const { title, body } = req.body;
+    const userID = Number(id);
+    const postID = Number(postToUpdate);
+
+    const updatedPost = await prisma.user.update({
+      where: {
+        id: userID,
+      },
+      data: {
+        posts: {
+          update: {
+            where: {
+              id: postID,
+            },
+            data: {
+              ...(title && { title }),
+              ...(body && { body }),
+            },
+          },
+        },
+      },
+      include: { posts: true },
+    });
+
+    return res.status(200).json({ updatedPost });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -690,6 +727,7 @@ async function makeAComment(req, res) {
 
     const comment = await prisma.comments.create({
       data: {
+        userWhoCommented: userID,
         idOfPost: postID,
         body,
       },
@@ -704,6 +742,33 @@ async function makeAComment(req, res) {
 
 async function updateComment(req, res) {
   try {
+    const { id } = req.user;
+    const { commentToUpdate } = req.params;
+    const { body } = req.body;
+    const userID = Number(id);
+    const commentID = Number(commentToUpdate);
+
+    const updtedComment = await prisma.user.update({
+      where: {
+        id: userID,
+      },
+      data: {
+        comments: {
+          update: {
+            where: {
+              userWhoCommented: userID,
+              id: commentID,
+            },
+            data: {
+              body,
+            },
+          },
+        },
+      },
+      include: { comments: true },
+    });
+
+    return res.status(200).json({ updatedComment });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -712,10 +777,10 @@ async function updateComment(req, res) {
 
 async function deletePost(req, res) {
   try {
-    const { deletePost } = req.params;
+    const { postToDelete } = req.params;
     const { id } = req.user;
     const userID = Number(id);
-    const postID = Number(deletePost);
+    const postID = Number(postToDelete);
 
     await prisma.comments.findUnique({
       where: {
@@ -885,6 +950,7 @@ async function deleteUserAccount(req, res) {
 module.exports = {
   signUpUser,
 
+  IMGS,
   getMainFeed,
 
   getProfile,
@@ -917,5 +983,6 @@ module.exports = {
 
   getMyProfileSettings,
   updateUserProfile,
+  updateUserPassword,
   deleteUserAccount,
 };
