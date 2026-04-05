@@ -39,7 +39,7 @@ async function signUpUser(req, res) {
         },
       },
     });
-    return res.status(201);
+    return res.status(201).json({ success: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -509,9 +509,7 @@ async function updateInventory(req, res) {
       },
     });
 
-    if (updated) {
-      return res.status(201).json({ updatedProduct });
-    }
+    return res.status(201).json({ updatedProduct });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -669,7 +667,7 @@ async function makeAPost(req, res) {
 
     const { title, body } = req.body;
     const imgs = req.files;
-    if (!imgs) {
+    if (!imgs || imgs.length === 0) {
       const post = await prisma.posts.create({
         data: {
           madeBy: userID,
@@ -765,7 +763,7 @@ async function updateComment(req, res) {
     const userID = Number(id);
     const commentID = Number(commentToUpdate);
 
-    const updtedComment = await prisma.user.update({
+    const updatedComment = await prisma.user.update({
       where: {
         id: userID,
       },
@@ -799,7 +797,7 @@ async function deletePost(req, res) {
     const userID = Number(id);
     const postID = Number(postToDelete);
 
-    await prisma.comments.findUnique({
+    await prisma.posts.delete({
       where: {
         id: postID,
         madeBy: userID,
@@ -820,14 +818,14 @@ async function deleteComment(req, res) {
     const userID = Number(id);
     const commentID = Number(commentToDelete);
 
-    await prisma.comments.findUnique({
+    await prisma.comments.delete({
       where: {
         id: commentID,
         userWhoCommented: userID,
       },
     });
 
-    return res.status(200).json({ commentedDeleted: true });
+    return res.status(200).json({ commentDeleted: true });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -845,7 +843,7 @@ async function getMyProfileSettings(req, res) {
       },
     });
     if (!userProfSettings) {
-      return res.status(204).json({ noProfile });
+      return res.status(204).json({ noProfile: true });
     }
 
     return res.status(200).json({ userProfSettings });
@@ -919,7 +917,9 @@ async function updateUserProfile(req, res) {
         ...(username && { username }),
         ...(email && { email }),
         profile: {
-          ...(bio && { bio }),
+          update: {
+            ...(bio && { bio }),
+          },
         },
       },
     });
@@ -942,7 +942,7 @@ async function updateUserPassword(req, res) {
         id: userID,
       },
       select: {
-        saltedHash,
+        saltedHash: true,
       },
     });
 
