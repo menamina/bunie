@@ -650,6 +650,21 @@ async function toggleFollow(req, res) {
 
 async function makeAPost(req, res) {
   try {
+    const { id } = req.user;
+    const userID = Number(id);
+
+    const { title, body, img } = req.body;
+
+    const post = await prisma.posts.create({
+      data: {
+        madeBy: userID,
+        title,
+        body,
+        ...(img && { img }),
+      },
+    });
+
+    return res.status(201).json({ post });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -666,6 +681,21 @@ async function updatePost(req, res) {
 
 async function makeAComment(req, res) {
   try {
+    const { id } = req.user;
+    const { pID } = req.body;
+    const postID = Number(pID);
+    const userID = Number(id);
+
+    const { body } = req.body;
+
+    const comment = await prisma.comments.create({
+      data: {
+        idOfPost: postID,
+        body,
+      },
+    });
+
+    return res.status(201).json({ comment });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
