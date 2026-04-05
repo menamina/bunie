@@ -859,7 +859,8 @@ async function updateUserIMGS(req, res) {
   try {
     const id = req.user.id;
     const userID = Number(id);
-    const { pfp, header } = req.files;
+    const pfp = req.files["pfp"] ? req.files["pfp"][0] : null;
+    const header = req.files["header"] ? req.files["header"][0] : null;
 
     const updatedIMGS = await prisma.profile.update({
       where: {
@@ -867,8 +868,8 @@ async function updateUserIMGS(req, res) {
         userID,
       },
       data: {
-        ...(pfp && { pfp }),
-        ...(header && { header }),
+        ...(pfp && { pfp: pfp.filename }),
+        ...(header && { header: header.filename }),
       },
     });
 
