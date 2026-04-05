@@ -48,6 +48,8 @@ async function signUpUser(req, res) {
 
 async function IMGS(req, res) {
   try {
+    const { IMGID } = req.params
+    const img = 
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -663,14 +665,26 @@ async function makeAPost(req, res) {
     const userID = Number(id);
 
     const { title, body } = req.body;
-    const { img } = req.files;
+    const imgs = req.files;
+    if (!imgs){
+      const post = await prisma.posts.create({
+      data: {
+        madeBy: userID,
+        title,
+        body,
+      },
+    });
+    return res.status(201).json({post})
+    }
+
+    const fileNames = imgs.map((img) => img.filename)
 
     const post = await prisma.posts.create({
       data: {
         madeBy: userID,
         title,
         body,
-        ...(img && { img }),
+        img: fileNames
       },
     });
 
@@ -831,7 +845,7 @@ async function getMyProfileSettings(req, res) {
       return res.status(204).json({ noProfile });
     }
 
-    return res.statu(200).json({ userProfSettings });
+    return res.status(200).json({ userProfSettings });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -843,6 +857,19 @@ async function updateUserIMGS(req, res) {
     const id = req.user.id;
     const userID = Number(id);
     const { pfp, header } = req.files;
+
+    const updatedIMGS = await prisma.profile.update({
+      where: {
+        id: userID,
+        userID,
+      },
+      data: {
+        ...(pfp && { pfp }),
+        ...(header && { header }),
+      },
+    });
+
+    return res.status(200).json({ updatedIMGS });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });

@@ -44,6 +44,7 @@ server.use(passport.initialize());
 server.use(passport.session());
 
 server.use("/", router);
+server.use("/uploads", express.static("uploads"));
 
 function ifError(error) {
   if (error) {
