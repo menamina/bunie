@@ -448,7 +448,8 @@ async function addProduct(req, res) {
       notes,
       wouldBuyAgain,
     } = req.body;
-    const { imgs } = req.files;
+    const image = req.file;
+    const imgFileName = image.filename;
     const userID = Number(id);
 
     const addedProduct = await prisma.inventory.create({
@@ -458,6 +459,7 @@ async function addProduct(req, res) {
         product,
         category,
         price,
+        img: imgFileName,
         status,
         backup: backup ? true : false,
         purchaseDate: dateOpurchase ? dateOpurchase : null,

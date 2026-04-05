@@ -8,6 +8,7 @@ const passport = require("../utils/passport");
 const multer = require("../utils/multer");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
+
 router.post("login-API", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
@@ -56,50 +57,58 @@ router.get("/get-my-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-my-likes/:id", isAuth, remote.getUserLikes);
 
 // edit + delete user profile //
-remote.patch(
+router.patch(
   "/update-my-IMGS-API/",
   isAuth,
-  multer.array("image", 2),
+  multer.fields([
+    { name: "pfp", maxCount: 1 },
+    { name: "header", maxCount: 1 },
+  ]),
   remote.updateUserIMGS,
 );
-remote.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
+router.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
 router.get(
   "/update-my-password-API/",
   isAuth,
   passwordValidation,
   remote.updateUserPassword,
 );
-remote.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
+router.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 
 // user product options //
 
-remote.post(
+router.post(
   "/add-to-inventory-API",
   isAuth,
-  multer.array("image", 5),
+  multer.single("image"),
   remote.addProduct,
 );
-remote.patch(
+router.patch(
   "/update-inventory-status/:productID",
   isAuth,
   remote.updateInventory,
 );
 
-remote.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
+router.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
 
 // user posts + comments + likes //
 
-remote.post("/like-post/:postID", isAuth, remote.togglePostLike);
-remote.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
+router.post("/like-post/:postID", isAuth, remote.togglePostLike);
+router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
 
-remote.post("/make-post-API", isAuth, remote.makeAPost);
-remote.post("/make-comment-API", isAuth, remote.makeAComment);
+router.post(
+  "/make-post-API",
+  isAuth,
+  multer.array("image", 5),
+  remote.makeAPost,
+);
+router.post("/make-comment-API", isAuth, remote.makeAComment);
 
-remote.patch("/update-post/:postToUpdate", isAuth, remote.updatePost);
-remote.patch("/update-comment/:commentToUpdate", isAuth, remote.updateComment);
+router.patch("/update-post/:postToUpdate", isAuth, remote.updatePost);
+router.patch("/update-comment/:commentToUpdate", isAuth, remote.updateComment);
 
-remote.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
-remote.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
+router.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
+router.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
 
 // getting other ppl's profiles //
 router.get("/profile-API/:id", isAuth, remote.getProfile);
@@ -117,4 +126,4 @@ router.get("/get-user-finished/:id", isAuth, remote.getUserFinished);
 router.get("/get-user-likes/:id", isAuth, remote.getUserLikes);
 
 // following //
-remote.post("/follow", isAuth, remote.toggleFollow);
+router.post("/follow", isAuth, remote.toggleFollow);

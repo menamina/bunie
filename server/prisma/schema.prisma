@@ -45,6 +45,7 @@ model Inventory {
   product String
   category Category
   price Decimal
+  img String
 
   status Status @default(noStatus)
 
