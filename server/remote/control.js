@@ -1,6 +1,6 @@
-const { check } = require("express-validator");
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/passwords");
+const path = require("path");
 
 async function signUpUser(req, res) {
   try {
@@ -48,8 +48,9 @@ async function signUpUser(req, res) {
 
 async function IMGS(req, res) {
   try {
-    const { IMGID } = req.params
-    const img = 
+    const { IMG } = req.params;
+    const img = path.resolve(__dirname, "..", "uploads", IMG);
+    return res.sendFile(img);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -666,25 +667,25 @@ async function makeAPost(req, res) {
 
     const { title, body } = req.body;
     const imgs = req.files;
-    if (!imgs){
+    if (!imgs) {
       const post = await prisma.posts.create({
-      data: {
-        madeBy: userID,
-        title,
-        body,
-      },
-    });
-    return res.status(201).json({post})
+        data: {
+          madeBy: userID,
+          title,
+          body,
+        },
+      });
+      return res.status(201).json({ post });
     }
 
-    const fileNames = imgs.map((img) => img.filename)
+    const fileNames = imgs.map((img) => img.filename);
 
     const post = await prisma.posts.create({
       data: {
         madeBy: userID,
         title,
         body,
-        img: fileNames
+        img: fileNames,
       },
     });
 

@@ -36,7 +36,7 @@ router.post("login-API", (req, res, next) => {
 
 // getting feed //
 
-router.get("/IMGS-API/:IMGID", isAuth, remote.IMGS);
+router.get("/IMGS-API/:IMG", isAuth, remote.IMGS);
 router.get("/main-feed-API", isAuth, remote.getMainFeed);
 
 // getting user's profile //
