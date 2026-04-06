@@ -31,10 +31,18 @@ async function signupUser(signupData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(signupData),
   });
-
   if (!res.ok) {
-    const errorData = await res.json();
-    throw errorData.message;
+    const errData = await res.json();
+    const err = new Error("Signup failed");
+
+    if (res.status === 500) {
+      err.data = { serverError: true };
+    } else if (res.status === 422) {
+      err.data = { validationErrors: errData.errors };
+    } else if (res.status === 403) {
+      err.data = errData.message;
+    }
+    throw err;
   }
 
   return await res.json();

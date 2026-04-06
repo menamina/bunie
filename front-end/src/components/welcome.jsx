@@ -14,10 +14,10 @@ function Welcome() {
     username: "",
     email: "",
     password: "",
-    confirmPasword: "",
+    confirmPassword: "",
   })
 
-  const {mutate, uisPending, error} = useMutate(signUpMutationOptions())
+  const {mutate, isPending, error} = useMutate(signUpMutationOptions())
 
 function signupSugmit(e){
   e.preventDefault()
@@ -43,7 +43,13 @@ function signupSugmit(e){
           </form>
           <div>
             <div>Need an account?</div>
-            <div onClick={() => setView("signup")}>signup</div>
+            <div onClick={() => {
+              setView("signup");
+              setLoginINFO({
+                email: "",
+                password: "",
+              });
+            }}>signup</div>
           </div>
         </div>
       )}
@@ -72,7 +78,7 @@ function signupSugmit(e){
                 </div>
                 <div>
                   <label for="confirmPassword"></label>
-                  <input name="confirmPassword" type="password" value={signupINFO.confirmPasword} onChange={(e) => setSignupINFO(prev => ({...prev, confirmPassword: e.target.value }))}></input>
+                  <input name="confirmPassword" type="password" value={signupINFO.confirmPassword} onChange={(e) => setSignupINFO(prev => ({...prev, confirmPassword: e.target.value }))}></input>
                 </div>
               </>
             )}
@@ -93,7 +99,16 @@ function signupSugmit(e){
           </form>
           <div>
             <div>Already have an account?</div>
-            <div onClick={() => setView("login")}>signup</div>
+            <div onClick={() => {
+              setView("login");
+              setSignupINFO({
+                name: "",
+                username: "",
+                email: "",
+                password: "",
+                confirmPassword: "",
+              });
+            }}>login</div>
           </div>
         </div>
       )}
