@@ -7,16 +7,22 @@ export const sessionCheckQueryOptions = () => {
   });
 };
 
+export const loginMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: loginUser,
+  });
+};
+
 export const signUpMutationOptions = () => {
   return mutationOptions({
-    nutationFn: signupUser,
+    mutationFn: signupUser,
   });
 };
 
 // functions //
 
 async function sessCheck() {
-  const res = await fetch("http://localHost:5555//session-check-API", {
+  const res = await fetch("http://localHost:5555/session-check-API", {
     method: "GET",
     credentials: "include",
   });
@@ -24,12 +30,32 @@ async function sessCheck() {
   return res.json();
 }
 
-async function signupUser(signupData) {
-  const res = await fetch("http://localHost:5555//sign-up-API", {
+async function loginUser(loginINFO) {
+  const res = await fetch("http://localHost:5555/login-API", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(signupData),
+    body: JSON.stringify(loginINFO),
+  });
+  if (!res.ok) {
+    const errData = await res.json();
+    const err = new Error("Login failed");
+
+    if (res.status === 404) {
+      err.data = errData.message;
+    }
+
+    throw err;
+  }
+  return await res.json();
+}
+
+async function signupUser(signupINFO) {
+  const res = await fetch("http://localHost:5555/sign-up-API", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(signupINFO),
   });
   if (!res.ok) {
     const errData = await res.json();
@@ -47,5 +73,3 @@ async function signupUser(signupData) {
 
   return await res.json();
 }
-
-export default sessionCheckQueryOptions;
