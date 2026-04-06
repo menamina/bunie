@@ -1,7 +1,11 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 
 function Profile() {
+  const { username } = useParams();
+
   const [view, setView] = useState("overview");
+  const [isLoggedInUser, setIsLoggedInUserProf] = useState(null);
 
   return (
     <div className="profileDIV">

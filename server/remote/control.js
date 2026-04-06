@@ -127,12 +127,11 @@ async function getMainFeed(req, res) {
 
 async function getProfile(req, res) {
   try {
-    const { id } = req.params;
-    const userID = Number(id);
+    const { username } = req.params;
 
     const userProfile = await prisma.user.findUnique({
       where: {
-        userID,
+        username,
       },
       select: {
         id: true,
@@ -165,11 +164,10 @@ async function getProfile(req, res) {
 
 async function getFollowers(req, res) {
   try {
-    const getThisUsersFollowers = req.body.thisUser;
-    const thisUser = Number(getThisUsersFollowers);
+    const { username } = req.params;
     const fullFollowerList = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         followers: {
@@ -190,7 +188,7 @@ async function getFollowers(req, res) {
         },
       },
     });
-    if (fullFollowerList.length === 0) {
+    if (fullFollowerList.followers.length === 0) {
       return res.status(204).json({ noFollowers: true });
     }
     return res.status(200).json({ fullFollowerList });
@@ -202,11 +200,10 @@ async function getFollowers(req, res) {
 
 async function getFollowing(req, res) {
   try {
-    const getThisUsersFollowings = req.body.thisUser;
-    const thisUser = Number(getThisUsersFollowings);
+    const { username } = req.params;
     const fullFollowingList = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         following: {
@@ -227,7 +224,7 @@ async function getFollowing(req, res) {
         },
       },
     });
-    if (fullFollowingList.length === 0) {
+    if (fullFollowingList.following.length === 0) {
       return res.status(204).json({ noFollowing: true });
     }
     return res.status(200).json({ fullFollowingList });
@@ -239,11 +236,10 @@ async function getFollowing(req, res) {
 
 async function getUserPosts(req, res) {
   try {
-    const getThisUsersPosts = req.body.thisUser;
-    const thisUser = Number(getThisUsersPosts);
+    const { username } = req.params;
     const thisUsersPosts = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         id: true,
@@ -253,7 +249,7 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (thisUsersPosts.length === 0) {
+    if (thisUsersPosts.posts.length === 0) {
       return res.status(204).json({ noPosts: true });
     }
     return res.status(200).json({ thisUsersPosts });
@@ -265,12 +261,11 @@ async function getUserPosts(req, res) {
 
 async function getUserInventory(req, res) {
   try {
-    const getThisUsersInventory = req.body.thisUser;
-    const thisUser = Number(getThisUsersInventory);
+    const { username } = req.params;
 
     const thisUsersInventory = await prisma.user.findUnique({
       where: {
-        belongsTo: thisUser,
+        username,
       },
       select: {
         inventory: {
@@ -283,7 +278,7 @@ async function getUserInventory(req, res) {
       },
     });
 
-    if (thisUsersInventory.length === 0) {
+    if (thisUsersInventory.inventory.length === 0) {
       return res.status(204).json({ noInventory: true });
     }
     return res.status(200).json({ thisUsersInventory });
@@ -295,12 +290,11 @@ async function getUserInventory(req, res) {
 
 async function getUserInProgress(req, res) {
   try {
-    const getThisUsersInProgress = req.body.thisUser;
-    const thisUser = Number(getThisUsersInProgress);
+    const { username } = req.params;
 
     const thisUsersInProgress = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         inventory: {
@@ -311,7 +305,7 @@ async function getUserInProgress(req, res) {
       },
     });
 
-    if (thisUsersInProgress.length === 0) {
+    if (thisUsersInProgress.inventory.length === 0) {
       return res.status(204).json({ noInProgress: true });
     }
     return res.status(200).json({ thisUsersInProgress });
@@ -323,12 +317,11 @@ async function getUserInProgress(req, res) {
 
 async function getUserLimbo(req, res) {
   try {
-    const getThisUsersLimbo = req.body.thisUser;
-    const thisUser = Number(getThisUsersLimbo);
+    const { username } = req.params;
 
     const thisUsersLimbo = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         inventory: {
@@ -339,8 +332,8 @@ async function getUserLimbo(req, res) {
       },
     });
 
-    if (thisUsersLimbo.length === 0) {
-      return res.status(204).json({ noInProgress: true });
+    if (thisUsersLimbo.inventory.length === 0) {
+      return res.status(204).json({ noLimbo: true });
     }
     return res.status(200).json({ thisUsersLimbo });
   } catch (error) {
@@ -351,12 +344,11 @@ async function getUserLimbo(req, res) {
 
 async function getUserDecluttered(req, res) {
   try {
-    const getUsersDecluttered = req.body.thisUser;
-    const thisUser = Number(getUsersDecluttered);
+    const { username } = req.params;
 
     const thisUsersDecluttered = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         inventory: {
@@ -379,12 +371,11 @@ async function getUserDecluttered(req, res) {
 
 async function getUserFinished(req, res) {
   try {
-    const getUserFinished = req.body.thisUser;
-    const thisUser = Number(getUserFinished);
+    const { username } = req.params;
 
     const thisUsersFinished = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         inventory: {
@@ -407,12 +398,11 @@ async function getUserFinished(req, res) {
 
 async function getUserLikes(req, res) {
   try {
-    const getUserLikes = req.body.thisUser;
-    const thisUser = Number(getUserLikes);
+    const { username } = req.params;
 
     const thisUsersLikes = await prisma.user.findUnique({
       where: {
-        id: thisUser,
+        username,
       },
       select: {
         postsThisUserLikes: {
@@ -423,8 +413,8 @@ async function getUserLikes(req, res) {
       },
     });
 
-    if (thisUsersLikes.length === 0) {
-      return res.status(204).json({ noInProgress: true });
+    if (thisUsersLikes.postsThisUserLikes.length === 0) {
+      return res.status(204).json({ noLikes: true });
     }
     return res.status(200).json({ thisUsersLikes });
   } catch (error) {

@@ -106,6 +106,9 @@ router.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
 
 // user posts + comments + likes //
 
+router.get("/get-this-post/:id");
+router.get("/get-this-comment/:id");
+
 router.post("/like-post/:postID", isAuth, remote.togglePostLike);
 router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
 
@@ -134,7 +137,11 @@ router.get("/get-user-posts/:username", isAuth, remote.getUserPosts);
 router.get("/get-user-inventory/:username", isAuth, remote.getUserInventory);
 router.get("/get-user-in-progress/:username", isAuth, remote.getUserInProgress);
 router.get("/get-user-limbo/:username", isAuth, remote.getUserLimbo);
-router.get("/get-user-decluttered/:username", isAuth, remote.getUserDecluttered);
+router.get(
+  "/get-user-decluttered/:username",
+  isAuth,
+  remote.getUserDecluttered,
+);
 router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
 router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 
