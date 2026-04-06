@@ -19,6 +19,14 @@ export const signUpMutationOptions = () => {
   });
 };
 
+export const getProfileQueryOptions = (username, loggedInUser) => {
+  const isLoggedInUserProf = loggedInUser?.user?.username === username;
+  return queryOptions({
+    queryKey: ["profile", username, isLoggedInUserProf],
+    queryFn: getProfile,
+  });
+};
+
 // functions //
 
 async function sessCheck() {
@@ -72,4 +80,20 @@ async function signupUser(signupINFO) {
   }
 
   return await res.json();
+}
+
+async function getProfile(username, authUser) {
+  const isOwnProfile = authUser?.username === username;
+
+  const endpoint = isOwnProfile
+    ? `http://localhost:5555/my-profile-API/${username}`
+    : `http://localhost:5555/profile-API/${username}`;
+
+  const res = await fetch(endpoint, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!res.ok) throw new Error("Failed to fetch profile");
+  return res.json();
 }

@@ -9,7 +9,7 @@ function Profile() {
 
   return (
     <div className="profileDIV">
-      {/* div below willstretch view heighgt view width for header */}
+      {/* div below will stretch view heighgt view width for header */}
       <div className="headerDIV">
         <div classname="headerDIV">
           <img className="header" src="" alt="header for.."></img>
