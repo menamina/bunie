@@ -3,12 +3,23 @@ import { useState } from "react";
 function Welcome() {
   const [view, setView] = useState("login");
   const [viewPassword, setViewPassword] = useState(false);
+  const [loginINFO, setLoginINFO] = useState({
+    email: "",
+    password: ""
+  })
+  const [signupINFO, setSignupINFO] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPasword: "",
+  })
 
   return (
     <div>
       {view === "login" && (
         <div className="loginDIV">
-          <form>
+          <form onSubmit={}>
             <div>
               <label for="email"></label>
               <input name="email" type="email"></input>
@@ -21,12 +32,16 @@ function Welcome() {
               <button>LOGIN</button>
             </div>
           </form>
+          <div>
+            <div>Need an account?</div>
+            <div onClick={() => setView("signup")}>signup</div>
+          </div>
         </div>
       )}
 
       {view === "signup" && (
         <div className="loginDIV">
-          <form>
+          <form onSubmit={}>
             <div>
               <label for="name"></label>
               <input name="name"></input>
@@ -57,15 +72,20 @@ function Welcome() {
               <>
                 <div>
                   <label for="password"></label>
-                  <input name="password" type="password"></input>
+                  <input name="password"></input>
                 </div>
                 <div>
                   <label for="confirmPassword"></label>
-                  <input name="confirmPassword" type="password"></input>
+                  <input name="confirmPassword"></input>
                 </div>
               </>
             )}
+            <button>SIGN UP</button>
           </form>
+          <div>
+            <div>Already have an account?</div>
+            <div onClick={() => setView("login")}>signup</div>
+          </div>
         </div>
       )}
     </div>
