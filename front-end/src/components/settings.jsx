@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 function Settings() {
   const [settingView, setSettingView] = useState("overview");
 
@@ -11,6 +13,9 @@ function Settings() {
     newPassword: "",
     confirmNewpassword: "",
   });
+
+  const [deleteAccountClicked, setDeleteAccountClicked] = useState(false);
+  const [confirmedToDeleteAcc, setConfirmedToDeleteAcc] = useState(false);
 
   return (
     <div className="settingsDIV">
