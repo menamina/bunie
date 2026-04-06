@@ -9,6 +9,19 @@ const multer = require("../utils/multer");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
 
+router.get("/session-check-API", isAuth, (req, res, next) => {
+  return res.status(200).json({
+    user: {
+      id: req.user.id,
+      name: req.user.name,
+      username: req.user.username,
+      pfp: req.user.profile.pfp,
+      header: req.user.profile.header,
+      bio: req.user.profile.bio,
+    },
+  });
+});
+
 router.post("login-API", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
