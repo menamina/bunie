@@ -54,20 +54,20 @@ router.get("/IMGS-API/:IMG", isAuth, remote.IMGS);
 router.get("/main-feed-API", isAuth, remote.getMainFeed);
 
 // getting user's profile //
-router.get("/my-profile-API/:id", isAuth, remote.getProfile);
+router.get("/my-profile-API/:username", isAuth, remote.getProfile);
 router.get("/get-my-profile-settings/", isAuth, remote.getMyProfileSettings);
 
-router.get("/get-my-followers/:id", isAuth, remote.getFollowers);
-router.get("/get-my-followers/:id", isAuth, remote.getFollowing);
+router.get("/get-my-followers/:username", isAuth, remote.getFollowers);
+router.get("/get-my-following/:username", isAuth, remote.getFollowing);
 
-router.get("/get-my-posts/:id", isAuth, remote.getUserPosts);
+router.get("/get-my-posts/:username", isAuth, remote.getUserPosts);
 
-router.get("/get-my-inventory/:id", isAuth, remote.getUserInventory);
-router.get("/get-my-in-progress/:id", isAuth, remote.getUserInProgress);
-router.get("/get-my-limbo/:id", isAuth, remote.getUserLimbo);
-router.get("/get-my-decluttered/:id", isAuth, remote.getUserDecluttered);
-router.get("/get-my-finished/:id", isAuth, remote.getUserFinished);
-router.get("/get-my-likes/:id", isAuth, remote.getUserLikes);
+router.get("/get-my-inventory/:username", isAuth, remote.getUserInventory);
+router.get("/get-my-in-progress/:username", isAuth, remote.getUserInProgress);
+router.get("/get-my-limbo/:username", isAuth, remote.getUserLimbo);
+router.get("/get-my-decluttered/:username", isAuth, remote.getUserDecluttered);
+router.get("/get-my-finished/:username", isAuth, remote.getUserFinished);
+router.get("/get-my-likes/:username", isAuth, remote.getUserLikes);
 
 // edit + delete user profile //
 router.patch(
@@ -124,19 +124,19 @@ router.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
 router.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
 
 // getting other ppl's profiles //
-router.get("/profile-API/:id", isAuth, remote.getProfile);
+router.get("/profile-API/:username", isAuth, remote.getProfile);
 
-router.get("/get-user-followers/:id", isAuth, remote.getFollowers);
-router.get("/get-user-followers/:id", isAuth, remote.getFollowing);
+router.get("/get-user-followers/:username", isAuth, remote.getFollowers);
+router.get("/get-user-following/:username", isAuth, remote.getFollowing);
 
-router.get("/get-user-posts/:id", isAuth, remote.getUserPosts);
+router.get("/get-user-posts/:username", isAuth, remote.getUserPosts);
 
-router.get("/get-user-inventory/:id", isAuth, remote.getUserInventory);
-router.get("/get-user-in-progress/:id", isAuth, remote.getUserInProgress);
-router.get("/get-user-limbo/:id", isAuth, remote.getUserLimbo);
-router.get("/get-user-decluttered/:id", isAuth, remote.getUserDecluttered);
-router.get("/get-user-finished/:id", isAuth, remote.getUserFinished);
-router.get("/get-user-likes/:id", isAuth, remote.getUserLikes);
+router.get("/get-user-inventory/:username", isAuth, remote.getUserInventory);
+router.get("/get-user-in-progress/:username", isAuth, remote.getUserInProgress);
+router.get("/get-user-limbo/:username", isAuth, remote.getUserLimbo);
+router.get("/get-user-decluttered/:username", isAuth, remote.getUserDecluttered);
+router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
+router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 
 // following //
 router.post("/follow", isAuth, remote.toggleFollow);
