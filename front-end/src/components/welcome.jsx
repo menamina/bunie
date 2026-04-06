@@ -21,21 +21,23 @@ function Welcome() {
 
   const {
     mutate: signUp,
-    isPending: signUpPending,
     error: signUpError,
+    reset: resetSignUp,
   } = useMutation(signUpMutationOptions());
   const {
     mutate: logIn,
-    isPending: logInPending,
     error: logInError,
+    reset: resetLogIn,
   } = useMutation(loginMutationOptions());
 
   function loginSubmit(e) {
     e.preventDefault();
+    logIn(loginINFO);
   }
 
   function signupSugmit(e) {
     e.preventDefault();
+    signUp(signupINFO);
   }
 
   return (
@@ -81,6 +83,7 @@ function Welcome() {
                   email: "",
                   password: "",
                 });
+                resetLogIn();
               }}
             >
               signup
@@ -186,6 +189,7 @@ function Welcome() {
                   password: "",
                   confirmPassword: "",
                 });
+                resetSignUp();
               }}
             >
               login
