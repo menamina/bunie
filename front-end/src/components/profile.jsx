@@ -39,13 +39,13 @@ function Profile() {
       </div>
 
       <div className="opts-rendering">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+        <div onClick={() => setView("overview")}>Overview</div>
+        <div onClick={() => setView("inventory")}>Inventory</div>
+        <div onClick={() => setView("inprogress")}>In Progress</div>
+        <div onClick={() => setView("limbo")}>Limbo</div>
+        <div onClick={() => setView("decluttered")}>Decluttered</div>
+        <div onClick={() => setView("finished")}>Finished</div>
+        <div onClick={() => setView("likes")}>Likes</div>
       </div>
 
       <div className="renderViewHere">
