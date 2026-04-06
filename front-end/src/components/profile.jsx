@@ -51,6 +51,7 @@ function Profile() {
         <div onClick={() => setView("likes")}>Likes</div>
       </div>
 
+      {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
         {view === "overview" && <div>Overview</div>}
         {view === "inventory" && <div>Inventory</div>}
