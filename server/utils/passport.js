@@ -3,8 +3,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const { checkPassword } = require("../utils/password");
 const prisma = require("../prisma/client");
 
-const strategy = new LocalStrategy({ usernameField: "email", verify });
-
 async function verify(email, password, done) {
   try {
     const user = await prisma.user.findUnique({
@@ -31,6 +29,8 @@ async function verify(email, password, done) {
     return done(error);
   }
 }
+
+const strategy = new LocalStrategy({ usernameField: "email" }, verify);
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -63,4 +63,4 @@ passport.deserializeUser(async (id, done) => {
 
 passport.use(strategy);
 
-modules.export = passport;
+module.exports = passport;

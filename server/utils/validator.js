@@ -1,17 +1,17 @@
 const { body, validationResult } = require("express-validator");
 
 const validation = [
-  body("name").isEmpty().withMessage("Name required"),
-  body("username").trim().isEmpty().withMessage("Username required"),
+  body("name").notEmpty().withMessage("Name required"),
+  body("username").trim().notEmpty().withMessage("Username required"),
   body("email")
     .trim()
-    .isEmpty()
+    .notEmpty()
     .withMessage("An email is required")
     .isEmail()
     .withMessage("Valid email required"),
-  body("password").trim().isEmpty().withMessage("Password required"),
+  body("password").trim().notEmpty().withMessage("Password required"),
   body("confirmPassword").custom((value, { req }) => {
-    if (value !== req.password) {
+    if (value !== req.body.password) {
       throw new Error("Passwords must match");
     }
     return true;

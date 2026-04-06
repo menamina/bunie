@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const remote = require("../remote/control");
-const { isAuth } = require("../utils/isAuth");
+const isAuth = require("../utils/isAuth");
 const validator = require("../utils/validator");
 const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
@@ -9,7 +9,7 @@ const multer = require("../utils/multer");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
 
-router.get("/session-check-API", isAuth, (req, res, next) => {
+router.get("/session-check-API", isAuth, (req, res) => {
   return res.status(200).json({
     user: {
       id: req.user.id,
@@ -22,7 +22,7 @@ router.get("/session-check-API", isAuth, (req, res, next) => {
   });
 });
 
-router.post("login-API", (req, res, next) => {
+router.post("/login-API", (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
@@ -140,3 +140,5 @@ router.get("/get-user-likes/:id", isAuth, remote.getUserLikes);
 
 // following //
 router.post("/follow", isAuth, remote.toggleFollow);
+
+module.exports = router;
