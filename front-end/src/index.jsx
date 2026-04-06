@@ -1,34 +1,23 @@
-import { useState, useEffect, useMemo } from "react";
 import { Outlet } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-// import Welcome from "./components/welcome";
-
-async function sessCheck() {
-  const res = await fetch("http://localHost:5555//session-check-API", {
-    method: "GET",
-    credentials: "include",
-  });
-
-  return res.json();
-}
+import Welcome from "./components/welcome";
+import sessionCheckQueryOptions from "./ts-queries/queries";
 
 function App() {
-  const { data } = useQuery({
-    queryKey: ["checkSession"],
-    queryFn: sessCheck,
-  });
-  // const [user, setUser] = useState(null);
-  // const [sessCheckAPIErr, setSessCheckAPIErr] = useState(false);
+  const { data, isPending } = useQuery(sessionCheckQueryOptions());
+
+  if (isPending) {
+    return;
+  }
 
   return (
     <div className="mainDIV">
-      {/* {!user && <Welcome setTheUser={setUser} />}
-      {user && (
-        <div className="authUserDiv">
+      {!data && <Welcome />}
+      {data && (
+        <>
           <Outlet></Outlet>
-        </div>
-      )} */}
-      <div>{JSON.stringify(data)}</div>
+        </>
+      )}
     </div>
   );
 }
