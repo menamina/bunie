@@ -22,11 +22,11 @@ function Welcome() {
           <form onSubmit={}>
             <div>
               <label for="email"></label>
-              <input name="email" type="email"></input>
+              <input name="email" type="email" value={loginINFO.email} onChange={(e) => setLoginINFO(prev => ({...prev, email: e.target.value }))}></input>
             </div>
             <div>
               <label for="password"></label>
-              <input name="password" type="password"></input>
+              <input name="password" type="password" value={loginINFO.password} onChange={(e) => setLoginINFO(prev => ({...prev, password: e.target.value }))}></input>
             </div>
             <div>
               <button>LOGIN</button>
@@ -44,26 +44,26 @@ function Welcome() {
           <form onSubmit={}>
             <div>
               <label for="name"></label>
-              <input name="name"></input>
+              <input name="name" value={signupINFO.name} onChange={(e) => setSignupINFO(prev => ({...prev, name: e.target.value }))}></input>
             </div>
             <div>
               <label for="username"></label>
-              <input name="username"></input>
+              <input name="username" value={signupINFO.username} onChange={(e) => setSignupINFO(prev => ({...prev, username: e.target.value }))}></input>
             </div>
             <div>
               <label for="email"></label>
-              <input name="email" type="email"></input>
+              <input name="email" type="email"value={signupINFO.email} onChange={(e) => setSignupINFO(prev => ({...prev, email: e.target.value }))}></input>
             </div>
 
             {!viewPassword && (
               <>
                 <div>
                   <label for="password"></label>
-                  <input name="password" type="password"></input>
+                  <input name="password" type="password" value={signupINFO.password} onChange={(e) => setSignupINFO(prev => ({...prev, password: e.target.value }))}></input>
                 </div>
                 <div>
                   <label for="confirmPassword"></label>
-                  <input name="confirmPassword" type="password"></input>
+                  <input name="confirmPassword" type="password" value={signupINFO.confirmPasword} onChange={(e) => setSignupINFO(prev => ({...prev, confirmPassword: e.target.value }))}></input>
                 </div>
               </>
             )}
