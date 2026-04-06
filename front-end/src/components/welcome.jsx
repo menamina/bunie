@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useMutation } from '@tanstack/react-query'
+import { signUpMutationOptions } from './mutations'
 
 function Welcome() {
   const [view, setView] = useState("login");
@@ -14,6 +16,13 @@ function Welcome() {
     password: "",
     confirmPasword: "",
   })
+
+  const {mutate, uisPending, error} = useMutate(signUpMutationOptions())
+
+function signupSugmit(e){
+  e.preventDefault()
+  mutate(signupINFO)
+}
 
   return (
     <div>
@@ -41,7 +50,7 @@ function Welcome() {
 
       {view === "signup" && (
         <div className="loginDIV">
-          <form onSubmit={}>
+          <form onSubmit={signupSugmit}>
             <div>
               <label for="name"></label>
               <input name="name" value={signupINFO.name} onChange={(e) => setSignupINFO(prev => ({...prev, name: e.target.value }))}></input>

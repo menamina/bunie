@@ -17,11 +17,11 @@ async function signUpUser(req, res) {
     });
 
     if (usernameInUse) {
-      return res.status(403).json({ emailInUse: true });
+      return res.status(403).json({ message: "Username in use" });
     }
 
     if (emailInUse) {
-      return res.status(403).json({ emailInUse: true });
+      return res.status(403).json({ message: "Email in use" });
     }
 
     const passHash = await passwordGenie(password);
