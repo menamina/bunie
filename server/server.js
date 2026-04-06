@@ -48,7 +48,9 @@ server.use("/uploads", express.static("uploads"));
 
 function ifError(error) {
   if (error) {
-    return console.log("big server whomp :(");
+    console.log("big server whomp :(");
+    console.error(error);
+    return;
   }
   console.log("no server whomp!");
 }
