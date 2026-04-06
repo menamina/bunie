@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function Welcome() {
   const [view, setView] = useState("login");
+  const [viewPassword, setViewPassword] = useState(false);
 
   return (
     <div>
@@ -9,12 +10,12 @@ function Welcome() {
         <div className="loginDIV">
           <form>
             <div>
-              <label></label>
-              <input></input>
+              <label for="email"></label>
+              <input name="email" type="email"></input>
             </div>
             <div>
-              <label></label>
-              <input></input>
+              <label for="password"></label>
+              <input name="password" type="password"></input>
             </div>
             <div>
               <button>LOGIN</button>
@@ -27,25 +28,43 @@ function Welcome() {
         <div className="loginDIV">
           <form>
             <div>
-              <label></label>
-              <input></input>
+              <label for="name"></label>
+              <input name="name"></input>
             </div>
             <div>
-              <label></label>
-              <input></input>
+              <label for="username"></label>
+              <input name="username"></input>
             </div>
             <div>
-              <label></label>
-              <input></input>
+              <label for="email"></label>
+              <input name="email" type="email"></input>
             </div>
-            <div>
-              <label></label>
-              <input></input>
-            </div>
-            <div>
-              <label></label>
-              <input></input>
-            </div>
+
+            {!viewPassword && (
+              <>
+                <div>
+                  <label for="password"></label>
+                  <input name="password" type="password"></input>
+                </div>
+                <div>
+                  <label for="confirmPassword"></label>
+                  <input name="confirmPassword" type="password"></input>
+                </div>
+              </>
+            )}
+
+            {viewPassword && (
+              <>
+                <div>
+                  <label for="password"></label>
+                  <input name="password" type="password"></input>
+                </div>
+                <div>
+                  <label for="confirmPassword"></label>
+                  <input name="confirmPassword" type="password"></input>
+                </div>
+              </>
+            )}
           </form>
         </div>
       )}
