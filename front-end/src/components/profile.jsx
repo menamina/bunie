@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import getProfileQueryOptions from "./ts-queries/queries";
 
 function Profile() {
   const { username } = useParams();
 
   const [view, setView] = useState("overview");
-  const [isLoggedInUser, setIsLoggedInUserProf] = useState(null);
+
+  const { data, isPending } = useQuery(getProfileQueryOptions(username));
 
   return (
     <div className="profileDIV">

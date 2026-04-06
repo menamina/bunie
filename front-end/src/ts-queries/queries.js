@@ -19,10 +19,9 @@ export const signUpMutationOptions = () => {
   });
 };
 
-export const getProfileQueryOptions = (username, loggedInUser) => {
-  const isLoggedInUserProf = loggedInUser?.user?.username === username;
+export const getProfileQueryOptions = () => {
   return queryOptions({
-    queryKey: ["profile", username, isLoggedInUserProf],
+    queryKey: ["profile"],
     queryFn: getProfile,
   });
 };
