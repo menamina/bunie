@@ -97,9 +97,16 @@ function Welcome() {
                 }
               ></input>
             </div>
-            <div>
-              <button>LOGIN</button>
-            </div>
+            {loginINFO && (
+              <div className="clickableLoginBTN">
+                <button>LOGIN</button>
+              </div>
+            )}
+            {!loginINFO && (
+              <div classname="cannot-click-btn">
+                <button>LOGIN</button>
+              </div>
+            )}
           </form>
           <div>
             <div>Need an account?</div>
@@ -202,7 +209,16 @@ function Welcome() {
                 </div>
               </>
             )}
-            <button>SIGN UP</button>
+            {loginINFO && (
+              <div className="clickableSignupBTN">
+                <button>LOGIN</button>
+              </div>
+            )}
+            {!loginINFO && (
+              <div classname="cannot-click-btn">
+                <button>LOGIN</button>
+              </div>
+            )}
           </form>
           <div>
             <div>Already have an account?</div>
