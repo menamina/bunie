@@ -3,7 +3,8 @@ import { useMutation } from "@tanstack/react-query";
 import { signUpMutationOptions, loginMutationOptions } from "./mutations";
 
 function Welcome() {
-  const [view, setView] = useState("login");
+  const [mainWelcome, setMainWelcome] = useState(true);
+  const [view, setView] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
 
   const [loginINFO, setLoginINFO] = useState({
@@ -42,6 +43,32 @@ function Welcome() {
 
   return (
     <div>
+      {mainWelcome && (
+        <div className="pre-login-signup">
+          <div></div>
+          <div>
+            <div>
+              <div
+                onClick={() => {
+                  setMainWelcome(false);
+                  setView("login");
+                }}
+              >
+                login
+              </div>
+              <div
+                onClick={() => {
+                  setMainWelcome(false);
+                  setView("signup");
+                }}
+              >
+                signup
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {view === "login" && (
         <div className="loginDIV">
           <form onSubmit={loginSubmit}>
