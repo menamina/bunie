@@ -154,24 +154,99 @@ function AddToInventory({ closeInventoryModal }) {
             />
           </div>
           <div className="rating">
-            <label htmlFor="rating">Rating?</label>
-            <select
-              name="rating"
-              type="text"
-              value={inventoryINFO.rating}
-              onChange={(e) => {
-                setInventoryINFO((prev) => ({
-                  ...prev,
-                  rating: e.target.value,
-                }));
-              }}
-            >
-              <option value="null">n/a</option>
-              <option value="yes">yes</option>
-              <option value="no">no</option>
-              <option value="maybe">maybe</option>
-              <option value="ifItWasGifted">if it was a gift</option>
-            </select>
+            <fieldset>
+              <legend>Current rating:</legend>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="1"
+                  checked={inventoryINFO.rating === "1"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>1</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="2"
+                  checked={inventoryINFO.rating === "2"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>2</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="3"
+                  checked={inventoryINFO.rating === "3"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>3</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="4"
+                  checked={inventoryINFO.rating === "4"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>4</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="5"
+                  checked={inventoryINFO.rating === "5"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>5</label>
+              </div>
+              <div>
+                <input
+                  type="radio"
+                  name="rating"
+                  value="n/a"
+                  checked={inventoryINFO.rating === "n/a"}
+                  onChange={(e) => {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      rating: e.target.value,
+                    }));
+                  }}
+                />
+                <label>n/a</label>
+              </div>
+            </fieldset>
           </div>
           <div className="notes">
             <label htmlFor="notes">Notes?</label>
