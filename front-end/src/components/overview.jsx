@@ -10,7 +10,7 @@ function Overview({ whoseProfile }) {
     data: userPosts,
     isPending,
     error,
-  } = useQuery(getProfilePosts(whoseProfile, user));
+  } = useQuery(getProfilePosts(whoseProfile.username, user));
 
   if (isPending) {
     return (
@@ -26,7 +26,13 @@ function Overview({ whoseProfile }) {
     </div>;
   }
 
-  return <div className="userPosts"></div>;
+  return (
+    <div className="userPostsDIV">
+      {userPosts.map((post) => {
+        <PostCard post={post} />;
+      })}
+    </div>
+  );
 }
 
 export default Overview;

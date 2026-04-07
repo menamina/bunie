@@ -100,7 +100,7 @@ model Posts {
   madeBy Int
 
   title String
-  body String
+  body String?
   img String[]
   timestamp DateTime @default(now())
 
