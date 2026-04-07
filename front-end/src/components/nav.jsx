@@ -5,15 +5,15 @@ import MakeAPost from "./makeAPost";
 
 function Nav() {
   const { user } = useOutletContext();
-  const [ makePost. setMakePost ] = useState(false)
-  const [ utilsOpen, setUtilsOpen ] = useState(false);
+  const [makePost, setMakePost] = useState(false);
+  const [utilsOpen, setUtilsOpen] = useState(false);
 
   function logout() {}
 
   return (
     <div clasnName="navDIV">
       <div className="home" onClick={refreshFeed}></div>
-      <div className="make-post" onClick={setMakePost(true)}></div>
+      <div className="make-post" onClick={() => setMakePost(true)}></div>
       <Link to={`/${user.username}`} className="profile"></Link>
       <div clasName="utils-div">
         {utilsOpen && (
@@ -31,9 +31,7 @@ function Nav() {
           onClick={() => setUtilsOpen((prev) => !prev)}
         ></div>
       </div>
-      {
-        makePost && <MakeAPost/>
-      }
+      {makePost && <MakeAPost />}
     </div>
   );
 }

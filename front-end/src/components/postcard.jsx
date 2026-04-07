@@ -1,23 +1,107 @@
 import { useState, useOutletContext } from "react";
-import { useParams, Link } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
   const isThisPostAnotherUsers = post.username === user.username;
-  const [postDotsClicked, setPostDotsClicked] = useState(false)
-  const [deletePostClicked, setDeletePostClicked] = useState(false)
+  const [postDotsClicked, setPostDotsClicked] = useState(false);
+  const [deletePostClicked, setDeletePostClicked] = useState(false);
+  const nav = useNavigate();
 
-  function navToProfile(){
-
+  function navToProfile(e) {
+    e.stopPropagation();
+    nav(`/${post.username}`);
   }
 
-  function openPostSettings(){
-
+  function openPostSettings(e) {
+    e.stopPropagation();
+    setPostDotsClicked((prev) => !prev);
   }
+
+  function confirmDelete() {}
 
   return (
     <div className="renderingPosts">
+      {!isThisPostAnotherUsers && (
+        <div
+          className="postDIV"
+          id={post.id}
+          key={post.id}
+          onClick={(e) => {
+            e.stopPropagation();
+            nav(`/post/${post.id}`);
+          }}
+        >
+          <div onClick={navToProfile}>
+            <img />
+          </div>
+          <div>
+            <div>
+              <div>
+                <div>{post.name}</div>
+                <div>{post.username}</div>
+              </div>
+              {postDotsClicked && (
+                <div
+                  className="deleteModal"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setPostDotsClicked(false);
+                    setDeletePostClicked(false);
+                  }}
+                >
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      confirmDelete();
+                    }}
+                  >
+                    delete
+                  </div>
+                </div>
+              )}
+              <div onClick={openPostSettings}>...</div>
+            </div>
+            <div>
+              <h3>{post.posts.title}</h3>
+            </div>
+            {post.posts.body && <div>{post.posts.body}</div>}
+            {post.posts.img && (
+              <div>
+                {post.posts.img.map((img, index) => (
+                  <img
+                    key={index}
+                    className="postIMG"
+                    src={`http://localhost:5555/IMGS-API/${img}`}
+                    alt=""
+                  />
+                ))}
+              </div>
+            )}
+            <div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePostLike();
+                }}
+              >
+                <img></img>
+                <div>{post.posts.likes.length}</div>
+              </div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  makeAComment();
+                }}
+              >
+                <img></img>
+                <div>{post.posts.comments.length}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {isThisPostAnotherUsers && (
         <div className="postDIV" id={post.id} key={post.id}>
           <div onClick={navToProfile}>
@@ -44,40 +128,31 @@ function PostCard({ post }) {
                 ))}
               </div>
             )}
-          </div>
-
-           {!isThisPostAnotherUsers && (
-        <div className="postDIV" id={post.id} key={post.id}>
-          <div onClick={navToProfile}>
-            <img />
-          </div>
-          <div>
             <div>
-                <div>
-              <div>{post.name}</div>
-              <div>{post.username}</div>
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  togglePostLike();
+                }}
+              >
+                <img></img>
+                <div>{post.posts.likes.length}</div>
               </div>
-              <div onClick={openPostSettings}>...</div>
-            </div>
-            <div>
-              <h3>{post.posts.title}</h3>
-            </div>
-            {post.posts.body && <div>{post.posts.body}</div>}
-            {post.posts.img && (
-              <div>
-                {post.posts.img.map((img, index) => (
-                  <img
-                    key={index}
-                    className="postIMG"
-                    src={`http://localhost:5555/IMGS-API/${img}`}
-                    alt=""
-                  />
-                ))}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  makeAComment();
+                }}
+              >
+                <img></img>
+                <div>{post.posts.comments.length}</div>
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
     </div>
   );
 }
+
+export default PostCard;
