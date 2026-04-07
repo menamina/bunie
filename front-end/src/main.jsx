@@ -15,6 +15,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Feed /> },
       { path: "/post/:id", element: <PostOpen /> },
+      { path: "/comment/:id", element: <CommentOpen /> },
       { path: "/settings", element: <Settings /> },
       { path: "/:username", element: <Profile /> },
     ],

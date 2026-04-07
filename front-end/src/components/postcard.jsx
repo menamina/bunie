@@ -41,6 +41,39 @@ function PostCard({ post }) {
                 <div>{post.name}</div>
                 <div>{post.username}</div>
               </div>
+              {deletePostClicked && (
+                <div className="confirmDeletePostModal">
+                  <div>
+                    <div>Delete post?</div>
+                    <div>
+                      This can’t be undone and it will be removed from your
+                      profile, the timeline of any accounts that follow you, and
+                      from search results.
+                    </div>
+                    <div>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPostDotsClicked(false);
+                          setDeletePostClicked(false);
+                          deletePost();
+                        }}
+                      >
+                        delete
+                      </div>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPostDotsClicked(false);
+                          setDeletePostClicked(false);
+                        }}
+                      >
+                        cancel
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
               {postDotsClicked && (
                 <div
                   className="deleteModal"
@@ -53,7 +86,7 @@ function PostCard({ post }) {
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      confirmDelete();
+                      setDeletePostClicked(true);
                     }}
                   >
                     delete
