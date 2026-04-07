@@ -6,6 +6,7 @@ function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
   const [view, setView] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
+  const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
 
   const [loginINFO, setLoginINFO] = useState({
     email: "",
@@ -168,7 +169,7 @@ function Welcome() {
             </div>
 
             {!viewPassword && (
-              <>
+              <div>
                 <div>
                   <label for="password"></label>
                   <input
@@ -183,6 +184,35 @@ function Welcome() {
                     }
                   ></input>
                 </div>
+                <div onClick={() => setViewPassword(true)}>
+                  <img alt="click to view password"></img>
+                </div>
+              </div>
+            )}
+
+            {viewPassword && (
+              <div>
+                <div>
+                  <label for="password"></label>
+                  <input
+                    name="password"
+                    value={signupINFO.password}
+                    onChange={(e) =>
+                      setSignupINFO((prev) => ({
+                        ...prev,
+                        password: e.target.value,
+                      }))
+                    }
+                  ></input>
+                </div>
+                <div onClick={() => setViewPassword(false)}>
+                  <img alt="click to view password"></img>
+                </div>
+              </div>
+            )}
+
+            {!viewConfirmPassword && (
+              <div>
                 <div>
                   <label for="confirmPassword"></label>
                   <input
@@ -197,27 +227,39 @@ function Welcome() {
                     }
                   ></input>
                 </div>
-              </>
+                <div onClick={() => setViewConfirmPassword(true)}>
+                  <img alt="click to view confirm password"></img>
+                </div>
+              </div>
             )}
 
-            {viewPassword && (
-              <>
-                <div>
-                  <label for="password"></label>
-                  <input name="password"></input>
-                </div>
+            {viewConfirmPassword && (
+              <div>
                 <div>
                   <label for="confirmPassword"></label>
-                  <input name="confirmPassword"></input>
+                  <input
+                    name="confirmPassword"
+                    value={signupINFO.confirmPassword}
+                    onChange={(e) =>
+                      setSignupINFO((prev) => ({
+                        ...prev,
+                        confirmPassword: e.target.value,
+                      }))
+                    }
+                  ></input>
                 </div>
-              </>
+                <div onClick={() => setViewConfirmPassword(false)}>
+                  <img alt="click to view password"></img>
+                </div>
+              </div>
             )}
-            {loginINFO && (
+
+            {signupINFO && (
               <div className="clickableSignupBTN">
                 <button>SIGNUP</button>
               </div>
             )}
-            {!loginINFO && (
+            {!signupINFO && (
               <div classname="cannot-click-btn">
                 <div>SIGNUP</div>
               </div>
