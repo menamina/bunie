@@ -1,7 +1,10 @@
 import { useState, useOutletContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getProfileQueryOptions } from "./ts-queries/queries";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import {
+  getProfileQueryOptions,
+  followMutationOptions,
+} from "./ts-queries/queries";
 
 import Overview from "./overview";
 import Inventory from "./inventory";
@@ -22,6 +25,10 @@ function Profile() {
     isPending,
     error,
   } = useQuery(getProfileQueryOptions(username, user));
+
+  const { mutate: toggleFollow } = useMutation({
+    ...followMutationOptions(),
+  });
 
   if (!user) {
     return (
@@ -48,9 +55,13 @@ function Profile() {
     );
   }
 
-  function follow(idToFollow) {}
+  function follow(idToFollow) {
+    toggleFollow(idToFollow);
+  }
 
-  function unfollow(idToUnfollow) {}
+  function unfollow(idToUnfollow) {
+    toggleFollow(idToUnfollow);
+  }
 
   return (
     <div className="profileDIV">
@@ -83,11 +94,11 @@ function Profile() {
               <div>{userProfile?.profile?.bio}</div>
             </div>
             <div>
-              <div className="following" onClick={setView("following")}>
-                {userProfile?.following.length} following
+              <div className="following" onClick={() => setView("following")}>
+                {userProfile?.following?.length || 0} following
               </div>
-              <div className="followers" onClick={setView("followers")}>
-                {userProfile?.followers.length} followers
+              <div className="followers" onClick={() => setView("followers")}>
+                {userProfile?.followers?.length || 0} followers
               </div>
             </div>
           </div>

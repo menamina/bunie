@@ -26,6 +26,12 @@ export const getProfileQueryOptions = (username, authUser) => {
   });
 };
 
+export const followMutationOptions = (userID) => {
+  return mutationOptions({
+    mutationFn: toggleFollow(userID),
+  });
+};
+
 // functions //
 
 async function sessCheck() {
@@ -34,7 +40,7 @@ async function sessCheck() {
     credentials: "include",
   });
 
-  return res.json();
+  return await res.json();
 }
 
 async function loginUser(loginINFO) {
@@ -94,5 +100,13 @@ async function getProfile(username, authUser) {
   });
 
   if (!res.ok) throw new Error("Failed to fetch profile");
-  return res.json();
+  return await res.json();
+}
+
+async function toggleFollow(userID) {
+  const res = await fetch(`http://localHost:5555/follow/${userID}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await res.json;
 }

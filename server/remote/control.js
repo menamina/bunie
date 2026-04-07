@@ -613,6 +613,7 @@ async function toggleFollow(req, res) {
   try {
     const { userID } = req.params;
     const { id } = req.user;
+
     const currentUserID = Number(id);
     const userToFollowID = Number(userID);
 

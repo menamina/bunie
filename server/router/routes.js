@@ -146,6 +146,6 @@ router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
 router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 
 // following //
-router.post("/follow", isAuth, remote.toggleFollow);
+router.post("/follow/:userID", isAuth, remote.toggleFollow);
 
 module.exports = router;
