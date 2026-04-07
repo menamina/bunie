@@ -2,13 +2,16 @@ import { useQuery } from "@tanstack/react-query";
 import { useState, useOutletContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
+import AddToInventory from "./addToInventory";
 
 function Nav() {
   const { user } = useOutletContext();
   const [makePost, setMakePost] = useState(false);
+  const [addToInventory, setAddToInventory] = useState(false);
   const [utilsOpen, setUtilsOpen] = useState(false);
 
   function logout() {}
+  function refreshFeed() {}
 
   return (
     <div clasnName="navDIV">
@@ -16,6 +19,7 @@ function Nav() {
         <img />
       </div>
       <div className="make-post" onClick={() => setMakePost(true)}></div>
+      <div className="make-post" onClick={() => setAddToInventory(true)}></div>
       <Link to={`/${user.username}`} className="profile">
         <img />
       </Link>
@@ -40,6 +44,7 @@ function Nav() {
         ></div>
       </div>
       {makePost && <MakeAPost />}
+      {addToInventory && <AddToInventory />}
     </div>
   );
 }

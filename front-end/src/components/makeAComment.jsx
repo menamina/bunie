@@ -14,4 +14,4 @@ function MakeAComment() {
   );
 }
 
-export default MakeAPost;
+export default MakeAComment;

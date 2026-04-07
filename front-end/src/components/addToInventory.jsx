@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function AddToInventory() {
+function AddToInventory({ closeInventoryModal }) {
   const [postData, setPostData] = useState({
     brand: "",
     product: "",
@@ -20,7 +20,13 @@ function AddToInventory() {
   }
 
   return (
-    <div className="addToInventoryModal">
+    <div
+      className="addToInventoryModal"
+      onClick={(e) => {
+        e.stopPropagation();
+        closeInventoryModal(false);
+      }}
+    >
       <form onSubmit={addToInventory}>
         <div>
           <div className="">
