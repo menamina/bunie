@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { signUpMutationOptions, loginMutationOptions } from "./mutations";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ function Welcome() {
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
 
   const nav = useNavigate();
+  const queryClient = useQueryClient();
 
   const [loginINFO, setLoginINFO] = useState({
     email: "",
@@ -51,6 +52,7 @@ function Welcome() {
   } = useMutation({
     ...loginMutationOptions(),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["session"] });
       setLoginINFO({
         email: "",
         password: "",
@@ -58,7 +60,7 @@ function Welcome() {
       resetLogIn();
       setViewPassword(false);
       setViewConfirmPassword(false);
-      nav("/feed");
+      nav("/");
     },
   });
 

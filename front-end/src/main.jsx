@@ -4,6 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./index";
 import Profile from "./components/profile";
+import Feed from "./components/feed";
 
 const queryClient = new QueryClient();
 
@@ -12,6 +13,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
+      {
+        index: true,
+        element: <Feed />,
+      },
       {
         path: "my-profile-API/:username",
         element: <Profile />,
