@@ -16,7 +16,21 @@ function AddToInventory({ closeInventoryModal }) {
   });
 
   function addToInventory(e) {
-    e.preventDefault;
+    e.preventDefault();
+    closeInventoryModal(false);
+    setPostData({
+      brand: "",
+      product: "",
+      category: "",
+      price: "",
+      img: "",
+      status: "",
+      backup: "",
+      purchaseDate: "",
+      rating: "",
+      notes: "",
+      wouldBuyAgain: "",
+    });
   }
 
   return (
@@ -29,43 +43,47 @@ function AddToInventory({ closeInventoryModal }) {
     >
       <form onSubmit={addToInventory}>
         <div>
-          <div className="">
+          <div className="brand">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="product">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="category">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="price">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="img">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="status">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="backup">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="purchaseDate">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="rating">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
-          <div className="">
+          <div className="notes">
+            <label htmlFor=""></label>
+            <input type="text" value="" onChange={() => {}} />
+          </div>
+          <div className="wouldBuyAgain">
             <label htmlFor=""></label>
             <input type="text" value="" onChange={() => {}} />
           </div>
@@ -88,6 +106,7 @@ function AddToInventory({ closeInventoryModal }) {
                 notes: "",
                 wouldBuyAgain: "",
               });
+              closeInventoryModal(false);
             }}
           >
             cancel

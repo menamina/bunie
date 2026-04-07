@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function MakeAComment() {
-  const [postData, setPostData] = useState({});
+  const [commentData, setCommentData] = useState({});
 
   function makeAComment(e) {
     e.preventDefault;
