@@ -17,7 +17,7 @@ function App() {
       {data && (
         <>
           <Nav />
-          <Outlet></Outlet>
+          <Outlet context={{ user: data }}></Outlet>
         </>
       )}
     </div>

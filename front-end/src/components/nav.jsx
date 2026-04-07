@@ -1,18 +1,20 @@
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, useOutletContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import MakeAPost from "./makeAPost";
 
 function Nav() {
-  const { utilsOpen, setUtilsOpen } = useState(false);
+  const { user } = useOutletContext();
+  const [ makePost. setMakePost ] = useState(false)
+  const [ utilsOpen, setUtilsOpen ] = useState(false);
 
   function logout() {}
 
   return (
     <div clasnName="navDIV">
-      <div className="home"></div>
-      <div className="feed"></div>
-      <div className="make-post"></div>
-      <div className="profile"></div>
+      <div className="home" onClick={refreshFeed}></div>
+      <div className="make-post" onClick={setMakePost(true)}></div>
+      <Link to={`/${user.username}`} className="profile"></Link>
       <div clasName="utils-div">
         {utilsOpen && (
           <div className="utilsModelBackground" onClick={setUtilsOpen(false)}>
@@ -29,6 +31,9 @@ function Nav() {
           onClick={() => setUtilsOpen((prev) => !prev)}
         ></div>
       </div>
+      {
+        makePost && <MakeAPost/>
+      }
     </div>
   );
 }
