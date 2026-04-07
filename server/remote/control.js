@@ -430,7 +430,6 @@ async function addProduct(req, res) {
       category,
       price,
       status,
-      backup,
       dateOpurchase,
       rating,
       notes,
@@ -448,12 +447,11 @@ async function addProduct(req, res) {
         category,
         price,
         img: imgFileName,
-        status,
-        backup: backup ? true : false,
+        status: status ? status : "noStatus",
         purchaseDate: dateOpurchase ? dateOpurchase : null,
         rating: rating ? rating : null,
         notes: notes ? notes : null,
-        wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : null,
+        wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : "null",
       },
     });
 
