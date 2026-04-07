@@ -71,6 +71,7 @@ function Welcome() {
 
       {view === "login" && (
         <div className="loginDIV">
+          {logInError && <div>{logInError}</div>}
           <form onSubmit={loginSubmit}>
             <div>
               <label for="email"></label>
@@ -118,6 +119,7 @@ function Welcome() {
                   password: "",
                 });
                 resetLogIn();
+                setViewPassword(false);
               }}
             >
               signup
@@ -128,6 +130,7 @@ function Welcome() {
 
       {view === "signup" && (
         <div className="loginDIV">
+          {signUpError && <div>{signUpError}</div>}
           <form onSubmit={signupSugmit}>
             <div>
               <label for="name"></label>
@@ -211,12 +214,12 @@ function Welcome() {
             )}
             {loginINFO && (
               <div className="clickableSignupBTN">
-                <button>LOGIN</button>
+                <button>SIGNUP</button>
               </div>
             )}
             {!loginINFO && (
               <div classname="cannot-click-btn">
-                <button>LOGIN</button>
+                <div>SIGNUP</div>
               </div>
             )}
           </form>
@@ -233,6 +236,7 @@ function Welcome() {
                   confirmPassword: "",
                 });
                 resetSignUp();
+                setViewPassword(false);
               }}
             >
               login
