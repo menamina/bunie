@@ -1,14 +1,29 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useOutletContext } from "react";
+import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import getProfileQueryOptions from "./ts-queries/queries";
 
 function Profile() {
   const { username } = useParams();
-
+  const { user } = useOutletContext();
   const [view, setView] = useState("overview");
 
-  const { data, isPending } = useQuery(getProfileQueryOptions(username));
+  useEffect(() => {
+    if (!user) {
+      return (
+        <div>
+          <div>Sorry, you must be logged in to view {username}'s profile</div>
+          <Link to="/">login or sign up here</Link>
+        </div>
+      );
+    } else if (user) {
+      if (user.user === username) {
+        const { data, isPending, error } = useQuery(getProfileQueryOptions());
+      } else {
+        ccc;
+      }
+    }
+  }, []);
 
   return (
     <div className="profileDIV">

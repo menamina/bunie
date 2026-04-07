@@ -18,10 +18,6 @@ const router = createBrowserRouter([
         element: <Feed />,
       },
       {
-        path: "my-profile-API/:username",
-        element: <Profile />,
-      },
-      {
         path: "/:username",
         element: <Profile />,
       },
