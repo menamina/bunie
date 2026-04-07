@@ -8,9 +8,11 @@ function Profile() {
   const { user } = useOutletContext();
   const [view, setView] = useState("overview");
 
-  const { data: userProfile, isPending, error } = useQuery(
-    getProfileQueryOptions(username, user)
-  );
+  const {
+    data: userProfile,
+    isPending,
+    error,
+  } = useQuery(getProfileQueryOptions(username, user));
 
   if (!user) {
     return (
@@ -42,14 +44,21 @@ function Profile() {
       {/* div below will stretch view heighgt view width for header */}
       <div className="headerDIV">
         <div classname="headerDIV">
-          <img className="header" src={userProfile?.header || ""} alt={`header for ${userProfile?.username}`}></img>
+          <img
+            className="header"
+            src={userProfile?.header || ""}
+            alt={`header for ${userProfile?.username}`}
+          ></img>
         </div>
         <div className="whiteSpace"></div>
       </div>
       {/* div below will be a position absolute and cover header a bit and also be not fulll vh vw */}
       <div className="userINFO">
         <div>
-          <img src={userProfile?.pfp || ""} alt={`pfp for ${userProfile?.username}`}></img>
+          <img
+            src={userProfile?.pfp || ""}
+            alt={`pfp for ${userProfile?.username}`}
+          ></img>
         </div>
         <div>
           <div>
@@ -64,7 +73,7 @@ function Profile() {
           <div>
             {/* follow / unfollow */}
             {user?.username === username ? (
-              <div>Edit Profile</div>
+              <Link to="/settings">Edit Profile</Link>
             ) : (
               <div>Follow</div>
             )}
@@ -84,15 +93,15 @@ function Profile() {
 
       {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
-        {view === "overview" && <div>Overview</div>}
-        {view === "inventory" && <div>Inventory</div>}
-        {view === "inprogress" && <div>In Progress</div>}
-        {view === "limbo" && <div>Limbo</div>}
-        {view === "decluttered" && <div>Decluttered</div>}
-        {view === "finished" && <div>Finished</div>}
-        {view === "likes" && <div>Likes</div>}
-        {view === "followers" && <div>Followers</div>}
-        {view === "following" && <div>Following</div>}
+        {view === "overview" && <Overview whoseProfile={userProfile} />}
+        {view === "inventory" && <Inventory whoseProfile={userProfile} />}
+        {view === "inprogress" && <InProgress whoseProfile={userProfile} />}
+        {view === "limbo" && <Limbo whoseProfile={userProfile} />}
+        {view === "decluttered" && <Decluttered whoseProfile={userProfile} />}
+        {view === "finished" && <Finished whoseProfile={userProfile} />}
+        {view === "likes" && <Likes whoseProfile={userProfile} />}
+        {view === "followers" && <Followers whoseProfile={userProfile} />}
+        {view === "following" && <Following whoseProfile={userProfile} />}
       </div>
     </div>
   );
