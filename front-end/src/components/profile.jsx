@@ -3,6 +3,15 @@ import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProfileQueryOptions } from "./ts-queries/queries";
 
+import Overview from "./overview";
+import Inventory from "./inventory";
+import InProgress from "./inprogress";
+import Limbo from "./limbo";
+import Decluttered from "./decluttered";
+import Finished from "./finished";
+import Likes from "./likes";
+import Follow from "./follow";
+
 function Profile() {
   const { username } = useParams();
   const { user } = useOutletContext();
@@ -113,15 +122,25 @@ function Profile() {
 
       {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
-        {view === "overview" && <Overview whoseProfile={userProfile} />}
-        {view === "inventory" && <Inventory whoseProfile={userProfile} />}
-        {view === "inprogress" && <InProgress whoseProfile={userProfile} />}
-        {view === "limbo" && <Limbo whoseProfile={userProfile} />}
-        {view === "decluttered" && <Decluttered whoseProfile={userProfile} />}
-        {view === "finished" && <Finished whoseProfile={userProfile} />}
-        {view === "likes" && <Likes whoseProfile={userProfile} />}
-        {view === "followers" && <Followers whoseProfile={userProfile} />}
-        {view === "following" && <Following whoseProfile={userProfile} />}
+        {view === "overview" && (
+          <Overview whoseProfile={userProfile.username} />
+        )}
+        {view === "inventory" && (
+          <Inventory whoseProfile={userProfile.username} />
+        )}
+        {view === "inprogress" && (
+          <InProgress whoseProfile={userProfile.username} />
+        )}
+        {view === "limbo" && <Limbo whoseProfile={userProfile.username} />}
+        {view === "decluttered" && (
+          <Decluttered whoseProfile={userProfile.username} />
+        )}
+        {view === "finished" && (
+          <Finished whoseProfile={userProfile.username} />
+        )}
+        {view === "likes" && <Likes whoseProfile={userProfile.username} />}
+        {view === "followers" && <Follow whoseProfile={userProfile.username} />}
+        {view === "following" && <Follow whoseProfile={userProfile.username} />}
       </div>
     </div>
   );

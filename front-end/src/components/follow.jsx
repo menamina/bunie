@@ -1,3 +1,3 @@
 function Follow({ whoseProfile }) {}
 
-export default Overview;
+export default Follow;
