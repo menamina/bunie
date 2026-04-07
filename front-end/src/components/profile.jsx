@@ -39,6 +39,10 @@ function Profile() {
     );
   }
 
+  function follow(idToFollow) {}
+
+  function unfollow(idToUnfollow) {}
+
   return (
     <div className="profileDIV">
       {/* div below will stretch view heighgt view width for header */}
@@ -81,10 +85,17 @@ function Profile() {
 
           <div>
             {/* follow / unfollow */}
-            {user?.username === username ? (
+            {user?.username === username && (
               <Link to="/settings">Edit Profile</Link>
-            ) : (
-              <div>Follow</div>
+            )}
+            {user.username !== username && (
+              <div>
+                {userProfile.followers.has(user.id) ? (
+                  <div onClick={() => unfollow(userProfile.id)}>Unfollow</div>
+                ) : (
+                  <div onClick={() => follow(userProfile.id)}>Follow</div>
+                )}
+              </div>
             )}
           </div>
         </div>
