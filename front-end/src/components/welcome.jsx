@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { signUpMutationOptions, loginMutationOptions } from "./mutations";
+import { useNavigate } from "react-router-dom";
 
 function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
   const [view, setView] = useState(false);
   const [viewPassword, setViewPassword] = useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
+
+  const nav = useNavigate();
 
   const [loginINFO, setLoginINFO] = useState({
     email: "",
@@ -25,12 +28,39 @@ function Welcome() {
     mutate: signUp,
     error: signUpError,
     reset: resetSignUp,
-  } = useMutation(signUpMutationOptions());
+  } = useMutation({
+    ...signUpMutationOptions(),
+    onSuccess: () => {
+      setView("login");
+      setSignupINFO({
+        name: "",
+        username: "",
+        email: "",
+        password: "",
+        confirmPassword: "",
+      });
+      resetSignUp();
+      setViewPassword(false);
+      setViewConfirmPassword(false);
+    },
+  });
   const {
     mutate: logIn,
     error: logInError,
     reset: resetLogIn,
-  } = useMutation(loginMutationOptions());
+  } = useMutation({
+    ...loginMutationOptions(),
+    onSuccess: () => {
+      setLoginINFO({
+        email: "",
+        password: "",
+      });
+      resetLogIn();
+      setViewPassword(false);
+      setViewConfirmPassword(false);
+      nav("/feed");
+    },
+  });
 
   function loginSubmit(e) {
     e.preventDefault();
