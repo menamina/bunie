@@ -144,11 +144,9 @@ async function getProfile(req, res) {
             bio: true,
           },
         },
-        inventory: true,
         followers: true,
         following: true,
         posts: true,
-        postsThisUserLikes: true,
       },
     });
 

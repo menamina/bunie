@@ -32,6 +32,13 @@ export const followMutationOptions = (userID) => {
   });
 };
 
+export const getProfilePosts = (username, authUser) => {
+  return queryOptions({
+    queryKey: ["profile", username],
+    queryFN: getUserPosts(username, authUser),
+  });
+};
+
 // functions //
 
 async function sessCheck() {
@@ -106,6 +113,20 @@ async function getProfile(username, authUser) {
 async function toggleFollow(userID) {
   const res = await fetch(`http://localHost:5555/follow/${userID}`, {
     method: "POST",
+    credentials: "include",
+  });
+  return await res.json;
+}
+
+async function getUserPosts(username, authUser) {
+  const isOwnProfile = authUser?.username === username;
+
+  const endpoint = isOwnProfile
+    ? `http://localhost:5555/my-my-posts/${username}`
+    : `http://localhost:5555/get-user-posts/${username}`;
+
+  const res = await fetch(endpoint, {
+    method: "GET",
     credentials: "include",
   });
   return await res.json;
