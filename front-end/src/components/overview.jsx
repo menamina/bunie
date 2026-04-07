@@ -11,6 +11,22 @@ function Overview({ whoseProfile }) {
     isPending,
     error,
   } = useQuery(getProfilePosts(whoseProfile, user));
+
+  if (isPending) {
+    return (
+      <div>
+        <div>Loading</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    <div>
+      <div>{error}</div>
+    </div>;
+  }
+
+  return <div className="userPosts"></div>;
 }
 
 export default Overview;

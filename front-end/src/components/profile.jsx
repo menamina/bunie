@@ -133,25 +133,15 @@ function Profile() {
 
       {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
-        {view === "overview" && (
-          <Overview whoseProfile={userProfile.username} />
-        )}
-        {view === "inventory" && (
-          <Inventory whoseProfile={userProfile.username} />
-        )}
-        {view === "inprogress" && (
-          <InProgress whoseProfile={userProfile.username} />
-        )}
-        {view === "limbo" && <Limbo whoseProfile={userProfile.username} />}
-        {view === "decluttered" && (
-          <Decluttered whoseProfile={userProfile.username} />
-        )}
-        {view === "finished" && (
-          <Finished whoseProfile={userProfile.username} />
-        )}
-        {view === "likes" && <Likes whoseProfile={userProfile.username} />}
-        {view === "followers" && <Follow whoseProfile={userProfile.username} />}
-        {view === "following" && <Follow whoseProfile={userProfile.username} />}
+        {view === "overview" && <Overview whoseProfile={userProfile} />}
+        {view === "inventory" && <Inventory whoseProfile={userProfile} />}
+        {view === "inprogress" && <InProgress whoseProfile={userProfile} />}
+        {view === "limbo" && <Limbo whoseProfile={userProfile} />}
+        {view === "decluttered" && <Decluttered whoseProfile={userProfile} />}
+        {view === "finished" && <Finished whoseProfile={userProfile} />}
+        {view === "likes" && <Likes whoseProfile={userProfile} />}
+        {view === "followers" && <Follow whoseProfile={userProfile} />}
+        {view === "following" && <Follow whoseProfile={userProfile} />}
       </div>
     </div>
   );
