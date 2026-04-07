@@ -19,10 +19,10 @@ export const signUpMutationOptions = () => {
   });
 };
 
-export const getProfileQueryOptions = () => {
+export const getProfileQueryOptions = (username, authUser) => {
   return queryOptions({
-    queryKey: ["profile"],
-    queryFn: getProfile,
+    queryKey: ["profile", username],
+    queryFn: () => getProfile(username, authUser),
   });
 };
 

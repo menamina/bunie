@@ -1,57 +1,73 @@
-import { useState, useEffect, useOutletContext } from "react";
+import { useState, useOutletContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import getProfileQueryOptions from "./ts-queries/queries";
+import { getProfileQueryOptions } from "./ts-queries/queries";
 
 function Profile() {
   const { username } = useParams();
   const { user } = useOutletContext();
   const [view, setView] = useState("overview");
 
-  useEffect(() => {
-    if (!user) {
-      return (
-        <div>
-          <div>Sorry, you must be logged in to view {username}'s profile</div>
-          <Link to="/">login or sign up here</Link>
-        </div>
-      );
-    } else if (user) {
-      if (user.user === username) {
-        const { data, isPending, error } = useQuery(getProfileQueryOptions());
-      } else {
-        ccc;
-      }
-    }
-  }, []);
+  const { data: userProfile, isPending, error } = useQuery(
+    getProfileQueryOptions(username, user)
+  );
+
+  if (!user) {
+    return (
+      <div>
+        <div>Sorry, you must be logged in to view {username}'s profile</div>
+        <Link to="/">login or sign up here</Link>
+      </div>
+    );
+  }
+
+  if (isPending) {
+    return (
+      <div>
+        <div>Loading {username}'s profile...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div>
+        <div>Error loading profile: {error.message}</div>
+      </div>
+    );
+  }
 
   return (
     <div className="profileDIV">
       {/* div below will stretch view heighgt view width for header */}
       <div className="headerDIV">
         <div classname="headerDIV">
-          <img className="header" src="" alt="header for.."></img>
+          <img className="header" src={userProfile?.header || ""} alt={`header for ${userProfile?.username}`}></img>
         </div>
         <div className="whiteSpace"></div>
       </div>
       {/* div below will be a position absolute and cover header a bit and also be not fulll vh vw */}
       <div className="userINFO">
         <div>
-          <img src="" alt="pfp for.."></img>
+          <img src={userProfile?.pfp || ""} alt={`pfp for ${userProfile?.username}`}></img>
         </div>
         <div>
           <div>
             <div className="">
-              <div>name</div>
-              <div>username</div>
+              <div>{userProfile?.name}</div>
+              <div>@{userProfile?.username}</div>
             </div>
             <div>
-              <div>bio</div>
+              <div>{userProfile?.bio}</div>
             </div>
           </div>
           <div>
             {/* follow / unfollow */}
-            {/* edit prof if u */}
+            {user?.username === username ? (
+              <div>Edit Profile</div>
+            ) : (
+              <div>Follow</div>
+            )}
           </div>
         </div>
       </div>
