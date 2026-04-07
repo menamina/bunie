@@ -4,8 +4,11 @@ import { useNavigate } from "react-router-dom";
 function PostCard({ post }) {
   const { user } = useOutletContext();
   const isThisPostAnotherUsers = post.username === user.username;
+
+  const [makeAComment, setMakeAComment] = useState(false);
   const [postDotsClicked, setPostDotsClicked] = useState(false);
   const [deletePostClicked, setDeletePostClicked] = useState(false);
+
   const nav = useNavigate();
 
   function navToProfile(e) {
@@ -19,6 +22,8 @@ function PostCard({ post }) {
   }
 
   function confirmDelete() {}
+
+  function togglePostLike() {}
 
   return (
     <div className="renderingPosts">
@@ -56,7 +61,7 @@ function PostCard({ post }) {
                           e.stopPropagation();
                           setPostDotsClicked(false);
                           setDeletePostClicked(false);
-                          deletePost();
+                          confirmDelete();
                         }}
                       >
                         delete
@@ -124,7 +129,7 @@ function PostCard({ post }) {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-                  makeAComment();
+                  setMakeAComment(true);
                 }}
               >
                 <img></img>
@@ -174,7 +179,7 @@ function PostCard({ post }) {
               <div
                 onClick={(e) => {
                   e.stopPropagation();
-                  makeAComment();
+                  setMakeAComment(true);
                 }}
               >
                 <img></img>
@@ -184,6 +189,8 @@ function PostCard({ post }) {
           </div>
         </div>
       )}
+
+      {makeAComment && <MakeAComment postToCommentOn={post} />}
     </div>
   );
 }

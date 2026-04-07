@@ -12,13 +12,21 @@ function Nav() {
 
   return (
     <div clasnName="navDIV">
-      <div className="home" onClick={refreshFeed}></div>
+      <div className="home" onClick={refreshFeed}>
+        <img />
+      </div>
       <div className="make-post" onClick={() => setMakePost(true)}></div>
-      <Link to={`/${user.username}`} className="profile"></Link>
+      <Link to={`/${user.username}`} className="profile">
+        <img />
+      </Link>
       <div clasName="utils-div">
         {utilsOpen && (
           <div className="utilsModelBackground" onClick={setUtilsOpen(false)}>
-            <Link to="/settings" className="go-to-settings">
+            <Link
+              to="/settings"
+              className="go-to-settings"
+              onClick={() => setUtilsOpen(false)}
+            >
               Settings
             </Link>
             <div className="logout" onClick={logout}>
