@@ -42,7 +42,7 @@ function AddToInventory({ closeInventoryModal }) {
       <form onSubmit={addToInventory}>
         <div>
           <div className="brand">
-            <label htmlFor="brand">Brand name:</label>
+            <label htmlFor="brand">Brand:</label>
             <input
               name="brand"
               type="text"
@@ -56,7 +56,7 @@ function AddToInventory({ closeInventoryModal }) {
             />
           </div>
           <div className="product">
-            <label htmlFor="product">Product name:</label>
+            <label htmlFor="product">Product:</label>
             <input
               name="product"
               type="text"
@@ -70,7 +70,7 @@ function AddToInventory({ closeInventoryModal }) {
             />
           </div>
           <div className="category">
-            <label htmlFor="category">Category name:</label>
+            <label htmlFor="category">Category:</label>
             <input
               name="category"
               type="text"
@@ -84,7 +84,7 @@ function AddToInventory({ closeInventoryModal }) {
             />
           </div>
           <div className="price">
-            <label htmlFor="price">Price name:</label>
+            <label htmlFor="price">Price:</label>
             <input
               name="price"
               type="text"
@@ -99,6 +99,20 @@ function AddToInventory({ closeInventoryModal }) {
           </div>
           <div className="img">
             <label htmlFor="img">Image:</label>
+            {inventoryINFO.img.length > 0 && (
+              <div>
+                <div
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setInventoryINFO((prev) => ({ ...prev, img: "" }));
+                  }}
+                ></div>
+                <img
+                  src={URL.createObjectURL(inventoryINFO.img)}
+                  alt="preview"
+                />
+              </div>
+            )}
             <input
               name="file"
               type="file"
@@ -106,13 +120,13 @@ function AddToInventory({ closeInventoryModal }) {
               onChange={(e) => {
                 setInventoryINFO((prev) => ({
                   ...prev,
-                  img: e.target.value,
+                  img: e.target.file,
                 }));
               }}
             />
           </div>
           <div className="status">
-            <label htmlFor="status">Status name:</label>
+            <label htmlFor="status">Label:</label>
             <input
               name="status"
               type="text"
@@ -125,21 +139,8 @@ function AddToInventory({ closeInventoryModal }) {
               }}
             />
           </div>
-          <div className="backup">
-            <label htmlFor="backup">Backup:</label>
-            <input
-              name="backup"
-              type="text"
-              value={inventoryINFO.backup}
-              onChange={(e) => {
-                setInventoryINFO((prev) => ({
-                  ...prev,
-                  backup: e.target.value,
-                }));
-              }}
-            />
           <div className="purchaseDate">
-            <label htmlFor="purchaseDate">Purchase Date:</label>
+            <label htmlFor="purchaseDate">Purchase Date?</label>
             <input
               name="purchaseDate"
               type="text"
@@ -153,26 +154,48 @@ function AddToInventory({ closeInventoryModal }) {
             />
           </div>
           <div className="rating">
-                  <label htmlFor="brand">Brand name:</label>
+            <label htmlFor="rating">Rating?</label>
             <input
-              name="brand"
+              name="rating"
               type="text"
-              value={inventoryINFO.brand}
+              value={inventoryINFO.rating}
               onChange={(e) => {
                 setInventoryINFO((prev) => ({
                   ...prev,
-                  brand: e.target.value,
+                  rating: e.target.value,
                 }));
               }}
             />
           </div>
           <div className="notes">
-            <label htmlFor=""></label>
-            <input type="text" value="" onChange={(e) => {}} />
+            <label htmlFor="notes">Notes?</label>
+            <input
+              name="notes"
+              type="text"
+              value={inventoryINFO.notes}
+              onChange={(e) => {
+                setInventoryINFO((prev) => ({
+                  ...prev,
+                  notes: e.target.value,
+                }));
+              }}
+            />
           </div>
           <div className="wouldBuyAgain">
-            <label htmlFor=""></label>
-            <input type="text" value="" onChange={(e) => {}} />
+            <label htmlFor="wouldBuyAgain">
+              Would you repurchase this product?
+            </label>
+            <input
+              name="wouldBuyAgain"
+              type="text"
+              value={inventoryINFO.wouldBuyAgain}
+              onChange={(e) => {
+                setInventoryINFO((prev) => ({
+                  ...prev,
+                  wouldBuyAgain: e.target.value,
+                }));
+              }}
+            />
           </div>
         </div>
         <div>
