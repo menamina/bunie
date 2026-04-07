@@ -46,7 +46,7 @@ function Profile() {
         <div classname="headerDIV">
           <img
             className="header"
-            src={userProfile?.header || ""}
+            src={userProfile?.profile?.header || ""}
             alt={`header for ${userProfile?.username}`}
           ></img>
         </div>
@@ -56,7 +56,7 @@ function Profile() {
       <div className="userINFO">
         <div>
           <img
-            src={userProfile?.pfp || ""}
+            src={userProfile?.profile?.pfp || ""}
             alt={`pfp for ${userProfile?.username}`}
           ></img>
         </div>
@@ -67,9 +67,18 @@ function Profile() {
               <div>@{userProfile?.username}</div>
             </div>
             <div>
-              <div>{userProfile?.bio}</div>
+              <div>{userProfile?.profile?.bio}</div>
+            </div>
+            <div>
+              <div className="following" onClick={setView("following")}>
+                {userProfile?.following.length} following
+              </div>
+              <div className="followers" onClick={setView("followers")}>
+                {userProfile?.followers.length} followers
+              </div>
             </div>
           </div>
+
           <div>
             {/* follow / unfollow */}
             {user?.username === username ? (
