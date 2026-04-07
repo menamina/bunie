@@ -155,7 +155,7 @@ function AddToInventory({ closeInventoryModal }) {
           </div>
           <div className="rating">
             <label htmlFor="rating">Rating?</label>
-            <input
+            <select
               name="rating"
               type="text"
               value={inventoryINFO.rating}
@@ -165,7 +165,13 @@ function AddToInventory({ closeInventoryModal }) {
                   rating: e.target.value,
                 }));
               }}
-            />
+            >
+              <option value="null">n/a</option>
+              <option value="yes">yes</option>
+              <option value="no">no</option>
+              <option value="maybe">maybe</option>
+              <option value="ifItWasGifted">if it was a gift</option>
+            </select>
           </div>
           <div className="notes">
             <label htmlFor="notes">Notes?</label>
@@ -183,9 +189,9 @@ function AddToInventory({ closeInventoryModal }) {
           </div>
           <div className="wouldBuyAgain">
             <label htmlFor="wouldBuyAgain">
-              Would you repurchase this product?
+              Would you repurchase/use this product again?
             </label>
-            <input
+            <select
               name="wouldBuyAgain"
               type="text"
               value={inventoryINFO.wouldBuyAgain}
@@ -195,7 +201,13 @@ function AddToInventory({ closeInventoryModal }) {
                   wouldBuyAgain: e.target.value,
                 }));
               }}
-            />
+            >
+              <option value="null">n/a</option>
+              <option value="yes">yes</option>
+              <option value="no">no</option>
+              <option value="maybe">maybe</option>
+              <option value="ifItWasGifted">if it was a gift</option>
+            </select>
           </div>
         </div>
         <div>

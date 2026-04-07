@@ -451,7 +451,7 @@ async function addProduct(req, res) {
         purchaseDate: dateOpurchase ? dateOpurchase : null,
         rating: rating ? rating : null,
         notes: notes ? notes : null,
-        wouldBuyAgain: wouldBuyAgain ? wouldBuyAgain : "null",
+        wouldBuyAgain: wouldBuyAgain,
       },
     });
 
