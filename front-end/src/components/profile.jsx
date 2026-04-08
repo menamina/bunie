@@ -7,13 +7,9 @@ import {
 } from "./ts-queries/queries";
 
 import Overview from "./overview";
-import Inventory from "./inventory";
-import InProgress from "./inprogress";
-import Limbo from "./limbo";
-import Decluttered from "./decluttered";
-import Finished from "./finished";
 import Likes from "./likes";
 import Follow from "./follow";
+import SelectedView from "./selectedView";
 
 function Profile() {
   const { username } = useParams();
@@ -134,11 +130,21 @@ function Profile() {
       {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
         {view === "overview" && <Overview whoseProfile={userProfile} />}
-        {view === "inventory" && <Inventory whoseProfile={userProfile} />}
-        {view === "inprogress" && <InProgress whoseProfile={userProfile} />}
-        {view === "limbo" && <Limbo whoseProfile={userProfile} />}
-        {view === "decluttered" && <Decluttered whoseProfile={userProfile} />}
-        {view === "finished" && <Finished whoseProfile={userProfile} />}
+        {view === "inventory" && (
+          <SelectedView view="inventory" whoseProfile={userProfile} />
+        )}
+        {view === "inprogress" && (
+          <SelectedView view="inprogress" whoseProfile={userProfile} />
+        )}
+        {view === "limbo" && (
+          <SelectedView view="limbo" whoseProfile={userProfile} />
+        )}
+        {view === "decluttered" && (
+          <SelectedView view="decluttered" whoseProfile={userProfile} />
+        )}
+        {view === "finished" && (
+          <SelectedView view="finished" whoseProfile={userProfile} />
+        )}
         {view === "likes" && <Likes whoseProfile={userProfile} />}
         {view === "followers" && <Follow whoseProfile={userProfile} />}
         {view === "following" && <Follow whoseProfile={userProfile} />}
