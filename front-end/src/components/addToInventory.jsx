@@ -303,14 +303,20 @@ function AddToInventory({ closeInventoryModal }) {
           </div>
         </div>
         <div>
-          {isPending &&  <div className="cannot click">add</div>
-          <div className="cannot click" >
-            cancel
-          </div>}
-          {!isPending &&  <button className="">add</button>
-          <div className="" onClick={clearInventoryINFO}>
-            cancel
-          </div>}
+          {isPending && (
+            <>
+              <div className="cannot click">add</div>
+              <div className="cannot click">cancel</div>
+            </>
+          )}
+          {!isPending && (
+            <>
+              <button className="">add</button>
+              <div className="" onClick={clearInventoryINFO}>
+                cancel
+              </div>
+            </>
+          )}
         </div>
       </form>
     </div>

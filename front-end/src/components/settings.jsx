@@ -19,11 +19,28 @@ function Settings() {
 
   return (
     <div className="settingsDIV">
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      <div>Settings</div>
+      <div>
+        <div>
+          <div onClick={() => setSettingView("overview")}>Account</div>
+          <div onClick={() => setSettingView("delete")}>Delete account</div>
+        </div>
+        <div>
+          {settingView === "overview" && (
+            <div>
+              <div className="" onClick={() => setSettingView("change info")}>
+                Account information
+              </div>
+              <div
+                className=""
+                onClick={() => setSettingView("change password")}
+              >
+                Change your password
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }
