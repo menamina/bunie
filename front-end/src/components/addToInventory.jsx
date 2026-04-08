@@ -1,6 +1,19 @@
 import { useState } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { addProductMutOpts } from "../ts-queries/queries";
 
 function AddToInventory({ closeInventoryModal }) {
+  const {
+    mutate: addProduct,
+    error: errorAddingProduct,
+    reset: resetAddProduct,
+  } = useMutation({
+    ...addProductMutOpts(),
+    onSuccess: () => {
+      clearInventoryINFO();
+    },
+  });
+
   const [inventoryINFO, setInventoryINFO] = useState({
     brand: "",
     product: "",
@@ -33,9 +46,7 @@ function AddToInventory({ closeInventoryModal }) {
     });
   }
 
-  function addToInventory() {
-    clearInventoryINFO();
-  }
+  function addToInventory() {}
 
   return (
     <div className="addToInventoryModal" onClick={clearInventoryINFO}>
