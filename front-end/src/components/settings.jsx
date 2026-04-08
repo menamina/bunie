@@ -13,10 +13,10 @@ function Settings() {
   });
 
   const [updateData, setUpdateData] = useState({
-    name: "",
-    username: "",
-    email: "",
-    bio: "",
+    name: user.name,
+    username: user.username,
+    email: user.email,
+    bio: user.bio,
   });
 
   const [updatePassword, setUpdatePassword] = useState({
@@ -61,8 +61,10 @@ function Settings() {
               <div>
                 <div>
                   <div>
+                    <label>Name</label>
                     <input
-                      value={user.username}
+                    placeholder=
+                      value={updateData.name}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
                           ...prev,
@@ -71,19 +73,67 @@ function Settings() {
                       }
                     />
                   </div>
-                  <div>{user.username}</div>
-                  <div>{user.email}</div>
-                  <div>{user.bio}</div>
+                  <div>
+                    <label>Username</label>
+                    <input
+                      value={updateData.username}
+                      onChange={(e) =>
+                        setUpdateData((prev) => ({
+                          ...prev,
+                          username: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>
+                                        <label>Email</label>
+                    <input
+                      value={updateData.email}
+                      onChange={(e) =>
+                        setUpdateData((prev) => ({
+                          ...prev,
+                          email: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>
+                    <label>Bio</label>
+                    <input
+                      value={updateData.bio}
+                      onChange={(e) =>
+                        setUpdateData((prev) => ({
+                          ...prev,
+                          bio: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
                   <div>cake day: {user.joined}</div>
                 </div>
-                <div onClick={() => setEditUserData(true)}>edit user data</div>
+                <div>
+                  <div
+                    onClick={() => {
+                      setEditUserData(false);
+                      setUpdateData({
+                        name: user.name,
+                        username: user.username,
+                        email: user.email,
+                        bio: user.bio,
+                      });
+                    }}
+                  >
+                    cancel
+                  </div>
+                  <div onClick={updateUserData}>update</div>
+                </div>
               </div>
             )}
 
             {!editUserData && (
               <div>
                 <div>
-                  <div>{user.username}</div>
+                  <div>{user.name}</div>
                   <div>{user.username}</div>
                   <div>{user.email}</div>
                   <div>{user.bio}</div>
@@ -95,7 +145,12 @@ function Settings() {
           </div>
         </div>
       )}
-      {settingsView === "change password" && <div></div>}
+      {settingsView === "change password" && 
+      <div>
+        <div>
+
+        </div>
+        </div>}
       {settingsView === "delete" && <div></div>}
     </div>
   );
