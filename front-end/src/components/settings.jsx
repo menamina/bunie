@@ -148,9 +148,19 @@ function Settings() {
       {settingsView === "change password" && 
       <div>
         <div>
-
+          <label htmlFor="">Current password:</label>
+          <input type="password" />
         </div>
-        </div>}
+                <div>
+          <label htmlFor="">New password:</label>
+          <input type="password" />
+        </div>
+                <div>
+          <label htmlFor="">Confirm new password:</label>
+          <input type="password" />
+        </div>
+       </div>
+}
       {settingsView === "delete" && <div></div>}
     </div>
   );
