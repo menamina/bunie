@@ -39,6 +39,18 @@ function Settings() {
               </div>
             </div>
           )}
+          {settingView === "change info" ||
+            (settingView === "change password" && (
+              <div>
+                <div className="" onClick={() => setSettingView("overview")}>
+                  go back button
+                </div>
+                <div className="">
+                  {settingView === "change info" && <div></div>}
+                  {settingView === "change password" && <div></div>}
+                </div>
+              </div>
+            ))}
         </div>
       </div>
     </div>
