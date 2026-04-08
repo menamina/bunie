@@ -12,6 +12,7 @@ model User {
   username String @unique
   email String @unique
   saltedHash String
+  joined DateTime @default(now())
 
   profile Profile?
   
@@ -48,8 +49,6 @@ model Inventory {
   img String
 
   status Status @default(noStatus)
-
-  backup Boolean @default(false)
 
   purchaseDate String?
   rating Int?
