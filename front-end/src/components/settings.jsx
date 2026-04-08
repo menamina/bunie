@@ -4,15 +4,26 @@ import { useOutletContext } from "react-router-dom";
 function Settings() {
   const { user } = useOutletContext();
   const [settingsView, setSettingsView] = useState("overview");
-  const [editUserData, setEditUserData] = usestate(false);
+  const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
 
   const [iconHeaderData, setIconHeaderData] = useState({
     pfp: "",
     header: "",
   });
-  const [updateData, setUpdateData] = useState({});
-  const [updatePassword, setUpdatePassword] = useState({});
+
+  const [updateData, setUpdateData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    bio: "",
+  });
+
+  const [updatePassword, setUpdatePassword] = useState({
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: "",
+  });
 
   return (
     <div className="settingsDIV">
@@ -46,16 +57,41 @@ function Settings() {
           </div>
 
           <div>
+            {editUserData && (
+              <div>
+                <div>
+                  <div>
+                    <input
+                      value={user.username}
+                      onChange={(e) =>
+                        setUpdateData((prev) => ({
+                          ...prev,
+                          name: e.target.value,
+                        }))
+                      }
+                    />
+                  </div>
+                  <div>{user.username}</div>
+                  <div>{user.email}</div>
+                  <div>{user.bio}</div>
+                  <div>cake day: {user.joined}</div>
+                </div>
+                <div onClick={() => setEditUserData(true)}>edit user data</div>
+              </div>
+            )}
 
-            {!editUserData &&  <div>
-              <div>{user.username}</div>
-              <div>{user.username}</div>
-              <div>{user.email}</div>
-              <div>{user.bio}</div>
-              <div>cake day: {user.joined}</div>
-            </div>
-            <div onClick={editUserData}>edit user data</div>}
-           
+            {!editUserData && (
+              <div>
+                <div>
+                  <div>{user.username}</div>
+                  <div>{user.username}</div>
+                  <div>{user.email}</div>
+                  <div>{user.bio}</div>
+                  <div>cake day: {user.joined}</div>
+                </div>
+                <div onClick={() => setEditUserData(true)}>edit user data</div>
+              </div>
+            )}
           </div>
         </div>
       )}
