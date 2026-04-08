@@ -54,6 +54,8 @@ async function addProductToInventory({ productToAdd }) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(productToAdd),
   });
+
+  return await res.json();
 }
 
 async function sessCheck() {
