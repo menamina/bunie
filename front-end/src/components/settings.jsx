@@ -5,8 +5,14 @@ function Settings() {
   const { user } = useOutletContext();
   const [settingsView, setSettingsView] = useState("overview");
   const [editUserData, setEditUserData] = usestate(false);
+  const [openIconHeader, setOpenIconHeader] = useState(false);
 
+  const [iconHeaderData, setIconHeaderData] = useState({
+    pfp: "",
+    header: "",
+  });
   const [updateData, setUpdateData] = useState({});
+  const [updatePassword, setUpdatePassword] = useState({});
 
   return (
     <div className="settingsDIV">
@@ -23,26 +29,33 @@ function Settings() {
       {settingsView === "overview" && (
         <div>
           <div>
-            <div>
-              <img src={`http:localhost:5555/${user.header}`} alt="" />
-              <div>edit header</div>
-            </div>
-            <div>
-              <img src={`http:localhost:5555/${user.pfp}`} alt="" />
-              <div>edit icon</div>
-            </div>
-          </div>
-          <div>
-            <div>
+            {!openIconHeader && (
               <div>
-                <input type="text" value={user.name} />
+                <div>
+                  <img src={`http:localhost:5555/${user.header}`} alt="" />
+                </div>
+                <div>
+                  <img src={`http:localhost:5555/${user.pfp}`} alt="" />
+                </div>
+                <div onClick={() => setOpenIconHeader(true)}>
+                  edit icon + header
+                </div>
               </div>
+            )}
+            {openIconHeader && <div>{/* SHOW IMG PREVEIWEWS HERE */}</div>}
+          </div>
+
+          <div>
+
+            {!editUserData &&  <div>
+              <div>{user.username}</div>
               <div>{user.username}</div>
               <div>{user.email}</div>
               <div>{user.bio}</div>
               <div>cake day: {user.joined}</div>
             </div>
-            <div onClick={editUserData}>edit user data</div>
+            <div onClick={editUserData}>edit user data</div>}
+           
           </div>
         </div>
       )}
