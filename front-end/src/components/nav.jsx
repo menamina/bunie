@@ -43,8 +43,10 @@ function Nav() {
           onClick={() => setUtilsOpen((prev) => !prev)}
         ></div>
       </div>
-      {makePost && <MakeAPost />}
-      {addToInventory && <AddToInventory />}
+      {makePost && <MakeAPost closePostModal={setMakePost} />}
+      {addToInventory && (
+        <AddToInventory closeInventoryModal={setAddToInventory} />
+      )}
     </div>
   );
 }

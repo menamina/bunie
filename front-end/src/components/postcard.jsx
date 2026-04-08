@@ -1,9 +1,10 @@
-import { useState, useOutletContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import MakeAComment from "./makeAComment";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisPostAnotherUsers = post.username === user.username;
+  const isThisMyPost = post.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(false);
   const [postDotsClicked, setPostDotsClicked] = useState(false);
@@ -27,7 +28,7 @@ function PostCard({ post }) {
 
   return (
     <div className="renderingPosts">
-      {!isThisPostAnotherUsers && (
+      {isThisMyPost && (
         <div
           className="postDIV"
           id={post.id}
@@ -140,8 +141,16 @@ function PostCard({ post }) {
         </div>
       )}
 
-      {isThisPostAnotherUsers && (
-        <div className="postDIV" id={post.id} key={post.id}>
+      {!isThisMyPost && (
+        <div
+          className="postDIV"
+          id={post.id}
+          key={post.id}
+          onClick={(e) => {
+            e.stopPropagation();
+            nav(`/post/${post.id}`);
+          }}
+        >
           <div onClick={navToProfile}>
             <img />
           </div>

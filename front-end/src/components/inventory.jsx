@@ -1,3 +1,3 @@
 function Inventory({ whoseProfile }) {}
 
-export default Overview;
+export default Inventory;

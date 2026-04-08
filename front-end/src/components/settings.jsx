@@ -63,7 +63,7 @@ function Settings() {
                   <div>
                     <label>Name</label>
                     <input
-                    placeholder=
+                      placeholder=""
                       value={updateData.name}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -86,7 +86,7 @@ function Settings() {
                     />
                   </div>
                   <div>
-                                        <label>Email</label>
+                    <label>Email</label>
                     <input
                       value={updateData.email}
                       onChange={(e) =>
@@ -145,23 +145,24 @@ function Settings() {
           </div>
         </div>
       )}
-      {settingsView === "change password" && 
-      <div>
+      {settingsView === "change password" && (
+        // ability to view passwords too
         <div>
-          <label htmlFor="">Current password:</label>
-          <input type="password" />
+          <div>
+            <label htmlFor="">Current password:</label>
+            <input type="password" />
+          </div>
+          <div>
+            <label htmlFor="">New password:</label>
+            <input type="password" />
+          </div>
+          <div>
+            <label htmlFor="">Confirm new password:</label>
+            <input type="password" />
+          </div>
         </div>
-                <div>
-          <label htmlFor="">New password:</label>
-          <input type="password" />
-        </div>
-                <div>
-          <label htmlFor="">Confirm new password:</label>
-          <input type="password" />
-        </div>
-       </div>
-}
-      {settingsView === "delete" && <div></div>}
+      )}
+      {settingsView === "delete" && <DeleteAccount/>}
     </div>
   );
 }
