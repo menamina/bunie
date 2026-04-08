@@ -11,6 +11,7 @@ function AddToInventory({ closeInventoryModal }) {
     ...addProductMutOpts(),
     onSuccess: () => {
       clearInventoryINFO();
+      resetAddProduct();
     },
   });
 
@@ -46,11 +47,15 @@ function AddToInventory({ closeInventoryModal }) {
     });
   }
 
-  function addToInventory() {}
-
   return (
     <div className="addToInventoryModal" onClick={clearInventoryINFO}>
-      <form onSubmit={addToInventory}>
+      {errorAddingProduct && <div>{errorAddingProduct}</div>}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          addProduct(inventoryINFO);
+        }}
+      >
         <div>
           <div className="brand">
             <label htmlFor="brand">Brand:</label>

@@ -39,7 +39,22 @@ export const getProfilePosts = (username, authUser) => {
   });
 };
 
+export const addProductMutOpts = ({ productToAdd }) => {
+  return mutationOptions({
+    mutationFn: addProductToInventory({ productToAdd }),
+  });
+};
+
 // functions //
+
+async function addProductToInventory({ productToAdd }) {
+  const res = await fetch("http://localHost:5555/add-to-inventory-API", {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(productToAdd),
+  });
+}
 
 async function sessCheck() {
   const res = await fetch("http://localHost:5555/session-check-API", {
