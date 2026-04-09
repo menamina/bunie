@@ -8,7 +8,7 @@ function SelectedView({ view, whoseProfile }) {
   const [openProductDots, setOpenProductDots] = useState(false);
   const [openProductOptions, setOpenProductOptions] = useState(null);
 
-  const [updateThisProduct, setUpdateProduct] = useState({});
+  const [productToEdit, setProductToEdit] = useState(null);
 
   const viewSelection = {
     inventory: { status: "Inventory", endpoint: "inventory" },
@@ -51,60 +51,70 @@ function SelectedView({ view, whoseProfile }) {
 
   return (
     <div className="productViewDIV">
-      <h2>{config.status}</h2>
-      <div>{products.length} items</div>
-      <div className="productsGrid">
-        {products.map((product) => (
-          <div key={product.id} className="productCard">
-            {openProductOptions === null && 
-            {whoseProfile === user.username && (
-              <div>
-                <div onClick={() => setOpenProductDots(true)}>...</div>
-                {openProductDots && (
-                  <div onClick={cancelProductOptions}>
-                    <div onClick={() => setOpenProductOptions("edit")}>
-                      edit
-                    </div>
-                    <div onClick={() => setOpenProductOptions("delete")}>
-                      delete
-                    </div>
+      {openProductOptions === "edit" && (
+        <EditProduct
+          product={productToEdit}
+          nullProductOptions={setOpenProductOptions}
+        />
+      )}
+
+      {openProductOptions === null && (
+        <>
+          <h2>{config.status}</h2>
+          <div>{products.length} items</div>
+          <div className="productsGrid">
+            {products.map((product) => (
+              <div key={product.id} className="productCard">
+                {whoseProfile === user.username && (
+                  <div>
+                    <div onClick={() => setOpenProductDots(true)}>...</div>
+                    {openProductDots && (
+                      <div onClick={cancelProductOptions}>
+                        <div
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setProductToEdit(product);
+                            setOpenProductOptions("edit");
+                          }}
+                        >
+                          edit
+                        </div>
+                        <div onClick={() => setOpenProductOptions("delete")}>
+                          delete
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
-              </div>
-            )}
 
-            <div>
-              <div>
                 <div>
-                  <div>{product.product} by</div>
-                  <div>{product.brand}</div>
-                </div>
-                <div>
-                  <div>{product.category}</div>
-                  <div>${product.price}</div>
+                  <div>
+                    <div>
+                      <div>{product.product} by</div>
+                      <div>{product.brand}</div>
+                    </div>
+                    <div>
+                      <div>{product.category}</div>
+                      <div>${product.price}</div>
+                    </div>
+                  </div>
+
+                  {product.img && (
+                    <img src={product.img} alt={product.product} />
+                  )}
+                  <div>
+                    {product.rating && <div>Rating: {product.rating}</div>}
+                    {product.notes && <div>Notes: {product.notes}</div>}
+                    {product.wouldBuyAgain && (
+                      <div>Repurchase status: {product.wouldBuyAgain}</div>
+                    )}
+                  </div>
                 </div>
               </div>
-
-              {product.img && <img src={product.img} alt={product.product} />}
-              <div>
-                {product.rating && <div>Rating: {product.rating}</div>}
-                {product.notes && <div>Notes: {product.notes}</div>}
-                {product.wouldBuyAgain && (
-                  <div>Repurchase status: {product.wouldBuyAgain}</div>
-                )}
-              </div>
-            </div>
-        }
-
-            {openProductOptions === "edit" && (
-              <EditProduct
-                product={product}
-                nullProductOptions={setOpenProductOptions}
-              />
-            )}
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </div>
   );
 }
