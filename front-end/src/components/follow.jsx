@@ -8,7 +8,7 @@ function Follow({ whoseProfile, view }) {
     data: followData,
     error: followError,
     isPending,
-  } = useQuery(getFollow(whoseProfile.username, view));
+  } = useQuery(getFollow(whoseProfile.username, VIEW));
 
   if (isPending) {
     return <div>Loading {view}...</div>;
@@ -19,8 +19,8 @@ function Follow({ whoseProfile, view }) {
   }
 
   return (
-    <div>
-      <div>
+    <div className="follopwDIV">
+      <div className="followSelection">
         <div
           onClick={() => setVIEW("followers")}
           className={
@@ -30,9 +30,9 @@ function Follow({ whoseProfile, view }) {
           Followers
         </div>
         <div
-          onClick={() => setVIEW("followers")}
+          onClick={() => setVIEW("following")}
           className={
-            VIEW === "followers" ? "selectedView follow" : "notSelected follow"
+            VIEW === "following" ? "selectedView follow" : "notSelected follow"
           }
         >
           Following
