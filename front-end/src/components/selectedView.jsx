@@ -9,6 +9,7 @@ function SelectedView({ view, whoseProfile }) {
   const [openProductOptions, setOpenProductOptions] = useState(null);
 
   const [productToEdit, setProductToEdit] = useState(null);
+  const [productToDelete, setProductToDelete] = useState(null);
 
   const viewSelection = {
     inventory: { status: "Inventory", endpoint: "inventory" },
@@ -45,17 +46,24 @@ function SelectedView({ view, whoseProfile }) {
   }
 
   function cancelProductOptions(e) {
-    e.preventDefault();
+    e.stopPropagation();
     setOpenProductDots(false);
+    setOpenProductOptions(null);
+    setProductToDelete(null);
   }
+
+  function cancelEdit(e) {
+    e.stopPropagation();
+    setProductToEdit(null);
+    setOpenProductOptions(null);
+  }
+
+  function deleteProduct() {}
 
   return (
     <div className="productViewDIV">
       {openProductOptions === "edit" && (
-        <EditProduct
-          product={productToEdit}
-          nullProductOptions={setOpenProductOptions}
-        />
+        <EditProduct product={productToEdit} cancel={cancelEdit} />
       )}
 
       {openProductOptions === null && (
@@ -72,14 +80,20 @@ function SelectedView({ view, whoseProfile }) {
                       <div onClick={cancelProductOptions}>
                         <div
                           onClick={(e) => {
-                            e.preventDefault();
+                            e.stopPropagation();
                             setProductToEdit(product);
                             setOpenProductOptions("edit");
                           }}
                         >
                           edit
                         </div>
-                        <div onClick={() => setOpenProductOptions("delete")}>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenProductOptions("delete");
+                            setProductToDelete(product);
+                          }}
+                        >
                           delete
                         </div>
                       </div>
@@ -112,6 +126,23 @@ function SelectedView({ view, whoseProfile }) {
                 </div>
               </div>
             ))}
+            {openProductOptions === "delete" && (
+              <div className="deleteModal" onClick={cancelProductOptions}>
+                <div>Delete this item?</div>
+                <div>Once you delete this item it cannot be undone </div>
+                <div>
+                  <div onClick={cancelProductOptions}>cancel</div>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteProduct();
+                    }}
+                  >
+                    delete
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
