@@ -6,11 +6,11 @@ function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();
 
   const viewSelection = {
-    inventory: { title: "Inventory", endpoint: "inventory" },
-    inprogress: { title: "In Progress", endpoint: "in-progress" },
-    limbo: { title: "Limbo", endpoint: "limbo" },
-    decluttered: { title: "Decluttered", endpoint: "decluttered" },
-    finished: { title: "Finished", endpoint: "finished" },
+    inventory: { status: "Inventory", endpoint: "inventory" },
+    inprogress: { status: "In Progress", endpoint: "in-progress" },
+    limbo: { status: "Limbo", endpoint: "limbo" },
+    decluttered: { status: "Decluttered", endpoint: "decluttered" },
+    finished: { status: "Finished", endpoint: "finished" },
   };
 
   const config = viewSelection[view];
@@ -24,7 +24,7 @@ function SelectedView({ view, whoseProfile }) {
   );
 
   if (isPending) {
-    return <div>Loading {config.title}...</div>;
+    return <div>Loading {config.status}...</div>;
   }
 
   if (error) {
@@ -34,23 +34,37 @@ function SelectedView({ view, whoseProfile }) {
   if (!products || products.length === 0) {
     return (
       <div>
-        No items in {whoseProfile.username}'s {config.title}
+        No items in {whoseProfile.username}'s {config.status}
       </div>
     );
   }
 
   return (
     <div className="productViewDIV">
-      <h2>{config.title}</h2>
+      <h2>{config.status}</h2>
+      <div>{products.length} items</div>
       <div className="productsGrid">
         {products.map((product) => (
           <div key={product.id} className="productCard">
+            <div>
+              <div>
+                <div>{product.product} by</div>
+                <div>{product.brand}</div>
+              </div>
+              <div>
+                <div>{product.category}</div>
+                <div>${product.price}</div>
+              </div>
+            </div>
+
             {product.img && <img src={product.img} alt={product.product} />}
-            <div>{product.brand}</div>
-            <div>{product.product}</div>
-            <div>{product.category}</div>
-            <div>${product.price}</div>
-            {product.rating && <div>Rating: {product.rating}</div>}
+            <div>
+              {product.rating && <div>Rating: {product.rating}</div>}
+              {product.notes && <div>Notes: {product.notes}</div>}
+              {product.wouldBuyAgain && (
+                <div>Repurchase status: {product.wouldBuyAgain}</div>
+              )}
+            </div>
           </div>
         ))}
       </div>

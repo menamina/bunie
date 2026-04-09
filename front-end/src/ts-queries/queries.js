@@ -51,16 +51,25 @@ export const getStatusViewOptions = (
   authUsername,
 ) => {
   return queryOptions({
-    queryKey: ["view-status"],
+    queryKey: ["view-status", whoseProfileUsername],
     queryFn: getViewStatus(viewAPI, whoseProfileUsername, authUsername),
   });
 };
 
 // functions //
 async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
-  if (whoseProfileUsername === authUser) {
+  if (whoseProfileUsername === authUsername) {
     const res = await fetch(
       `http://localHost:5555/get-my-${viewAPI}/:${authUsername}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    return await res.json();
+  } else {
+    const res = await fetch(
+      `http://localhost:5555/get-user-${viewAPI}/${whoseProfileUsername}`,
       {
         method: "GET",
         credentials: "include",
