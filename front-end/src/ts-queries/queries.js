@@ -184,7 +184,7 @@ async function getUserPosts(username, authUser) {
     method: "GET",
     credentials: "include",
   });
-  return await res.json;
+  return await res.json();
 }
 
 async function deleteProduct(productId) {
