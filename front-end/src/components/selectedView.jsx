@@ -46,6 +46,19 @@ function SelectedView({ view, whoseProfile }) {
       <div className="productsGrid">
         {products.map((product) => (
           <div key={product.id} className="productCard">
+            {whoseProfile === user.username && (
+              <div>
+                <div onClick={openProductDots}>...</div>
+                {openProductDots && (
+                  <div>
+                    <div onClick={() => setProductOptions("edit")}>edit</div>
+                    <div onClick={() => setProductOptions("delete")}>
+                      delete
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
             <div>
               <div>
                 <div>{product.product} by</div>

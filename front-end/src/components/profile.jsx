@@ -146,8 +146,12 @@ function Profile() {
           <SelectedView view="finished" whoseProfile={userProfile} />
         )}
         {view === "likes" && <Likes whoseProfile={userProfile} />}
-        {view === "followers" && <Follow whoseProfile={userProfile} />}
-        {view === "following" && <Follow whoseProfile={userProfile} />}
+        {view === "followers" && (
+          <Follow whoseProfile={userProfile} view="followers" />
+        )}
+        {view === "following" && (
+          <Follow whoseProfile={userProfile} view="following" />
+        )}
       </div>
     </div>
   );
