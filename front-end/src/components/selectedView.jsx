@@ -1,10 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
-import { getStatusViewOptions } from "../ts-queries/queries";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import {
+  getStatusViewOptions,
+  deleteProductMutOpts,
+} from "../ts-queries/queries";
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
 
 function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();
+  const queryClient = useQueryClient();
   const [openProductDots, setOpenProductDots] = useState(false);
   const [openProductOptions, setOpenProductOptions] = useState(null);
 
@@ -23,18 +27,36 @@ function SelectedView({ view, whoseProfile }) {
 
   const {
     data: products,
-    isPending,
-    error,
+    isPending: viewingProdsPending,
+    error: viewProdsError,
   } = useQuery(
     getStatusViewOptions(config.endpoint, whoseProfile.username, user.username),
   );
 
-  if (isPending) {
+  const {
+    mutate: deleteProductMutation,
+    isPending: deletePending,
+    error: deleteError,
+    reset: resetDelete,
+  } = useMutation({
+    ...deleteProductMutOpts(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["view-status", whoseProfile.username],
+      });
+      setProductToDelete(null);
+      setOpenProductDots(false);
+      setOpenProductOptions(null);
+      resetDelete();
+    },
+  });
+
+  if (viewingProdsPending) {
     return <div>Loading {config.status}...</div>;
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
+  if (viewProdsError) {
+    return <div>Error: {viewProdsError.message}</div>;
   }
 
   if (!products || products.length === 0) {
@@ -58,7 +80,11 @@ function SelectedView({ view, whoseProfile }) {
     setOpenProductOptions(null);
   }
 
-  function deleteProduct() {}
+  function deleteProduct(product) {
+    if (product?.id) {
+      deleteProductMutation(product.id);
+    }
+  }
 
   return (
     <div className="productViewDIV">
@@ -91,7 +117,7 @@ function SelectedView({ view, whoseProfile }) {
                           onClick={(e) => {
                             e.stopPropagation();
                             setOpenProductOptions("delete");
-                            setProductToDelete(product);
+                            setProductToDelete(product.id);
                           }}
                         >
                           delete
@@ -130,17 +156,24 @@ function SelectedView({ view, whoseProfile }) {
               <div className="deleteModal" onClick={cancelProductOptions}>
                 <div>Delete this item?</div>
                 <div>Once you delete this item it cannot be undone </div>
-                <div>
-                  <div onClick={cancelProductOptions}>cancel</div>
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteProduct();
-                    }}
-                  >
-                    delete
+                {!deletePending ? (
+                  <div>
+                    <div onClick={cancelProductOptions}>cancel</div>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deleteProduct(productToDelete);
+                      }}
+                    >
+                      delete
+                    </div>
                   </div>
-                </div>
+                ) : (
+                  <div>
+                    <div className="cantClick">cancel</div>
+                    <div className="cantClick">delete</div>
+                  </div>
+                )}
               </div>
             )}
           </div>

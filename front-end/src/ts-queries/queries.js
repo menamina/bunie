@@ -45,6 +45,12 @@ export const addProductMutOpts = ({ productToAdd }) => {
   });
 };
 
+export const deleteProductMutOpts = () => {
+  return mutationOptions({
+    mutationFn: deleteProduct,
+  });
+};
+
 export const getStatusViewOptions = (
   viewAPI,
   whoseProfileUsername,
@@ -179,4 +185,13 @@ async function getUserPosts(username, authUser) {
     credentials: "include",
   });
   return await res.json;
+}
+
+async function deleteProduct(productId) {
+  const res = await fetch(`http://localhost:5555/delete-from-where/${productId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) throw new Error("Failed to delete product");
+  return await res.json();
 }
