@@ -1,6 +1,6 @@
-import { useQuery } from "@tanstack/react-query";
-import { getFollow } from "../ts-queries/queries";
-import { useOutletContext } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { getFollow, followMutationOptions } from "../ts-queries/queries";
+import { useOutletContext, Link } from "react-router-dom";
 import { useState } from "react";
 
 function Follow({ whoseProfile, view }) {
@@ -13,9 +13,13 @@ function Follow({ whoseProfile, view }) {
     isPending,
   } = useQuery(getFollow(whoseProfile.username, VIEW));
 
-  const { data: authUserFollowing, error: authUserFollowingErr } = useQuery(
+  const { data: authUserFollowing } = useQuery(
     getFollow(user.username, "following"),
   );
+
+  const { mutate: toggleFollow } = useMutation({
+    ...followMutationOptions(),
+  });
 
   return (
     <div className="followDIV">
@@ -43,48 +47,70 @@ function Follow({ whoseProfile, view }) {
         {VIEW === "followers" && (
           <div>
             {followData?.fullFollowerList.followers.map((follower) => {
-              <div key={follower.followerAcc.id}>
-                <div>
-                  <img src={follower.followerAcc.profile.pfp} />
+              const isFollowing = authUserFollowing?.fullFollowingList?.following.some(
+                (f) => f.followingAcc.id === follower.followerAcc.id
+              );
+
+              return (
+                <Link
+                  to={`/${follower.followerAcc.username}`}
+                  key={follower.followerAcc.id}
+                >
                   <div>
-                    <div>{follower.followerAcc.name}</div>
-                    <div>{follower.followerAcc.username}</div>
+                    <img src={follower.followerAcc.profile.pfp} />
+                    <div>
+                      <div>{follower.followerAcc.name}</div>
+                      <div>{follower.followerAcc.username}</div>
+                    </div>
                   </div>
-                </div>
-                <div>
-                  {authUserFollowing?.fullFollowingList.following.FollowingAcc.has(
-                    follower.followerAcc.id && (
-                      <div
-                        onClick={() => toggleFollow(follower.followerAcc.id)}
-                      >
+                  <div>
+                    {isFollowing ? (
+                      <div onClick={() => toggleFollow(follower.followerAcc.id)}>
                         Following
                       </div>
-                    ),
-                  )}
-                  {
-                    !authUserFollowing?.fullFollowingList.following.FollowingAcc.has(
-                      follower.followerAcc.id && (
-                        <div
-                          onClick={() => toggleFollow(follower.followerAcc.id)}
-                        >
-                          Follow
-                        </div>
-                      ),
-                    )
-                  }
-                </div>
-              </div>;
+                    ) : (
+                      <div onClick={() => toggleFollow(follower.followerAcc.id)}>
+                        Follow
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              );
             })}
           </div>
         )}
         {VIEW === "following" && (
           <div>
             {followData?.fullFollowingList.following.map((following) => {
-              <div key={following.followingAcc.id}>
-                <img src={following.followingAcc.profile.pfp} />
-                <div>{following.followingAcc.username}</div>
-                <div>{following.followingAcc.name}</div>
-              </div>;
+              const isFollowing = authUserFollowing?.fullFollowingList?.following.some(
+                (f) => f.followingAcc.id === following.followingAcc.id
+              );
+
+              return (
+                <Link
+                  to={`/${following.followingAcc.username}`}
+                  key={following.followingAcc.id}
+                >
+                  <div>
+                    <img src={following.followingAcc.profile.pfp} />
+                    <div>
+                      <div>{following.followingAcc.name}</div>
+                      <div>{following.followingAcc.username}</div>
+                    </div>
+                  </div>
+                  <div>
+                    {isFollowing ? (
+                      <div onClick={() => toggleFollow(following.followingAcc.id)}>
+                        Following
+                      </div>
+                    ) : (
+                      <div onClick={() => toggleFollow(following.followingAcc.id)}>
+                        Follow
+                      </div>
+                    )}
+                  </div>
+                </Link>
+              );
             })}
           </div>
         )}
