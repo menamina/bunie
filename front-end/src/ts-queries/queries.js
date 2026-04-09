@@ -26,6 +26,12 @@ export const getProfileQueryOptions = (username, authUser) => {
   });
 };
 
+export const followMutationOptions = () => {
+  return mutationOptions({
+    mutationFn: toggleFollow,
+  });
+};
+
 export const getProfilePosts = (username, authUser) => {
   return queryOptions({
     queryKey: ["profile", username],
