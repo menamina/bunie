@@ -45,7 +45,30 @@ export const addProductMutOpts = ({ productToAdd }) => {
   });
 };
 
+export const getStatusViewOptions = (
+  viewAPI,
+  whoseProfileUsername,
+  authUsername,
+) => {
+  return queryOptions({
+    queryKey: ["view-status"],
+    queryFn: getViewStatus(viewAPI, whoseProfileUsername, authUsername),
+  });
+};
+
 // functions //
+async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
+  if (whoseProfileUsername === authUser) {
+    const res = await fetch(
+      `http://localHost:5555/get-my-${viewAPI}/:${authUsername}`,
+      {
+        method: "GET",
+        credentials: "include",
+      },
+    );
+    return await res.json();
+  }
+}
 
 async function addProductToInventory({ productToAdd }) {
   const res = await fetch("http://localHost:5555/add-to-inventory-API", {

@@ -1,37 +1,42 @@
 import { useQuery } from "@tanstack/react-query";
-import { getProductsQueryOptions } from "../ts-queries/queries";
+import { getStatusViewOptions } from "../ts-queries/queries";
+import { useOutletContext } from "react-router-dom";
 
 function SelectedView({ view, whoseProfile }) {
-  const viewConfig = {
+  const { user } = useOutletContext();
+
+  const viewSelection = {
     inventory: { title: "Inventory", endpoint: "inventory" },
-    inprogress: { title: "In Progress", endpoint: "inprogress" },
+    inprogress: { title: "In Progress", endpoint: "in-progress" },
     limbo: { title: "Limbo", endpoint: "limbo" },
     decluttered: { title: "Decluttered", endpoint: "decluttered" },
     finished: { title: "Finished", endpoint: "finished" },
   };
 
-  const config = viewConfig[view];
+  const config = viewSelection[view];
 
   const {
     data: products,
     isPending,
     error,
-  } = useQuery(getProductsQueryOptions(config.endpoint, whoseProfile.username));
+  } = useQuery(
+    getStatusViewOptions(config.endpoint, whoseProfile.username, user.username),
+  );
 
   if (isPending) {
     return <div>Loading {config.title}...</div>;
   }
 
   if (error) {
-    return (
-      <div>
-        Error loading {config.title}: {error.message}
-      </div>
-    );
+    return <div>Error: {error.message}</div>;
   }
 
   if (!products || products.length === 0) {
-    return <div>No items in {config.title}</div>;
+    return (
+      <div>
+        No items in {whoseProfile.username}'s {config.title}
+      </div>
+    );
   }
 
   return (
