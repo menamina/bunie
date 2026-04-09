@@ -57,9 +57,6 @@ router.get("/main-feed-API", isAuth, remote.getMainFeed);
 router.get("/my-profile-API/:username", isAuth, remote.getProfile);
 router.get("/get-my-profile-settings/", isAuth, remote.getMyProfileSettings);
 
-router.get("/get-my-followers/:username", isAuth, remote.getFollowers);
-router.get("/get-my-following/:username", isAuth, remote.getFollowing);
-
 router.get("/get-my-posts/:username", isAuth, remote.getUserPosts);
 
 router.get("/get-my-inventory/:username", isAuth, remote.getUserInventory);

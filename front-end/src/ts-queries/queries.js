@@ -26,12 +26,6 @@ export const getProfileQueryOptions = (username, authUser) => {
   });
 };
 
-export const followMutationOptions = () => {
-  return mutationOptions({
-    mutationFn: toggleFollow,
-  });
-};
-
 export const getProfilePosts = (username, authUser) => {
   return queryOptions({
     queryKey: ["profile", username],
@@ -62,7 +56,25 @@ export const getStatusViewOptions = (
   });
 };
 
+export const getFollow = (username, view) => {
+  return queryOptions({
+    queryKey: ["follow", username, view],
+    queryFn: () => getUserFollow(username, view),
+  });
+};
+
 // functions //
+async function getUserFollow(username, view) {
+  const res = await fetch(
+    `http://localHost:5555/get-user-${view}/:${username}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  return await res.json();
+}
+
 async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
   if (whoseProfileUsername === authUsername) {
     const res = await fetch(
@@ -188,10 +200,13 @@ async function getUserPosts(username, authUser) {
 }
 
 async function deleteProduct(productId) {
-  const res = await fetch(`http://localhost:5555/delete-from-where/${productId}`, {
-    method: "DELETE",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `http://localhost:5555/delete-from-where/${productId}`,
+    {
+      method: "DELETE",
+      credentials: "include",
+    },
+  );
   if (!res.ok) throw new Error("Failed to delete product");
   return await res.json();
 }
