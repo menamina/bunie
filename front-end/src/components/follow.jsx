@@ -10,16 +10,8 @@ function Follow({ whoseProfile, view }) {
     isPending,
   } = useQuery(getFollow(whoseProfile.username, VIEW));
 
-  if (isPending) {
-    return <div>Loading {view}...</div>;
-  }
-
-  if (followError) {
-    return <div>Error: {followError.message}</div>;
-  }
-
   return (
-    <div className="follopwDIV">
+    <div className="followDIV">
       <div className="followSelection">
         <div
           onClick={() => setVIEW("followers")}
@@ -37,6 +29,37 @@ function Follow({ whoseProfile, view }) {
         >
           Following
         </div>
+      </div>
+      {isPending && <div>loading..</div>}
+      {followError && <div>{followError}</div>}
+      <div className="followDataDIV">
+        {VIEW === "followers" && (
+          <div>
+            {followData?.fullFollowerList.followers.map((follower) => {
+              <div key={follower.followerAcc.id}>
+                <div>
+                  <img src={follower.followerAcc.profile.pfp} />
+                  <div>
+                    <div>{follower.followerAcc.name}</div>
+                    <div>{follower.followerAcc.username}</div>
+                  </div>
+                </div>
+                <div></div>
+              </div>;
+            })}
+          </div>
+        )}
+        {VIEW === "following" && (
+          <div>
+            {followData?.fullFollowingList.following.map((following) => {
+              <div key={following.followingAcc.id}>
+                <img src={following.followingAcc.profile.pfp} />
+                <div>{following.followingAcc.username}</div>
+                <div>{following.followingAcc.name}</div>
+              </div>;
+            })}
+          </div>
+        )}
       </div>
     </div>
   );
