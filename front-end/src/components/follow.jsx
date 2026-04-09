@@ -1,14 +1,21 @@
 import { useQuery } from "@tanstack/react-query";
 import { getFollow } from "../ts-queries/queries";
+import { useOutletContext } from "react-router-dom";
+import { useState } from "react";
 
 function Follow({ whoseProfile, view }) {
   const [VIEW, setVIEW] = useState(view);
+  const { user } = useOutletContext();
 
   const {
     data: followData,
     error: followError,
     isPending,
   } = useQuery(getFollow(whoseProfile.username, VIEW));
+
+  const { data: authUserFollowing, error: authUserFollowingErr } = useQuery(
+    getFollow(user.username, "following"),
+  );
 
   return (
     <div className="followDIV">
@@ -44,7 +51,28 @@ function Follow({ whoseProfile, view }) {
                     <div>{follower.followerAcc.username}</div>
                   </div>
                 </div>
-                <div></div>
+                <div>
+                  {authUserFollowing?.fullFollowingList.following.FollowingAcc.has(
+                    follower.followerAcc.id && (
+                      <div
+                        onClick={() => toggleFollow(follower.followerAcc.id)}
+                      >
+                        Following
+                      </div>
+                    ),
+                  )}
+                  {
+                    !authUserFollowing?.fullFollowingList.following.FollowingAcc.has(
+                      follower.followerAcc.id && (
+                        <div
+                          onClick={() => toggleFollow(follower.followerAcc.id)}
+                        >
+                          Follow
+                        </div>
+                      ),
+                    )
+                  }
+                </div>
               </div>;
             })}
           </div>

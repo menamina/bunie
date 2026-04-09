@@ -204,7 +204,7 @@ async function getFollowing(req, res) {
         username,
       },
       select: {
-        following: {
+        followings: {
           select: {
             followingAcc: {
               select: {
