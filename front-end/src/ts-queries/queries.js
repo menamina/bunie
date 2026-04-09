@@ -26,22 +26,22 @@ export const getProfileQueryOptions = (username, authUser) => {
   });
 };
 
-export const followMutationOptions = (userID) => {
+export const followMutationOptions = () => {
   return mutationOptions({
-    mutationFn: toggleFollow(userID),
+    mutationFn: toggleFollow,
   });
 };
 
 export const getProfilePosts = (username, authUser) => {
   return queryOptions({
     queryKey: ["profile", username],
-    queryFN: getUserPosts(username, authUser),
+    queryFn: () => getUserPosts(username, authUser),
   });
 };
 
-export const addProductMutOpts = ({ productToAdd }) => {
+export const addProductMutOpts = () => {
   return mutationOptions({
-    mutationFn: addProductToInventory({ productToAdd }),
+    mutationFn: addProductToInventory,
   });
 };
 
@@ -58,7 +58,7 @@ export const getStatusViewOptions = (
 ) => {
   return queryOptions({
     queryKey: ["view-status", whoseProfileUsername],
-    queryFn: getViewStatus(viewAPI, whoseProfileUsername, authUsername),
+    queryFn: () => getViewStatus(viewAPI, whoseProfileUsername, authUsername),
   });
 };
 
@@ -85,7 +85,7 @@ async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
   }
 }
 
-async function addProductToInventory({ productToAdd }) {
+async function addProductToInventory(productToAdd) {
   const res = await fetch("http://localHost:5555/add-to-inventory-API", {
     method: "POST",
     credentials: "include",
@@ -170,7 +170,7 @@ async function toggleFollow(userID) {
     method: "POST",
     credentials: "include",
   });
-  return await res.json;
+  return await res.json();
 }
 
 async function getUserPosts(username, authUser) {
