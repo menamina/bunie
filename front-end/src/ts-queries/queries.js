@@ -81,7 +81,7 @@ export const deleteAccount = () => {
   });
 };
 
-export const updateDate = () => {
+export const updateData = () => {
   return mutationOptions({
     mutationFn: updateUserData,
   });
@@ -89,30 +89,14 @@ export const updateDate = () => {
 
 export const updateIMGs = () => {
   return mutationOptions({
-    mutationFN: updateIMGS,
-  });
-};
-
-export const updatePassword = () => {
-  return mutationOptions({
-    mutationFn: updatePass,
+    mutationFn: updateIMGS,
   });
 };
 
 // functions //
-async function updatePass(passData) {
-  const res = await fetch(`http://localHost:5555/update-my-password-API`, {
-    method: "POST",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(passData),
-  });
-  return await res.json();
-}
-
 async function updateIMGS(imgs) {
   const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
-    method: "POST",
+    method: "PATCH",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(imgs),
@@ -122,7 +106,7 @@ async function updateIMGS(imgs) {
 
 async function updateUserData(staticProfDataUpdate) {
   const res = await fetch(`http://localHost:5555/update-my-profile-API`, {
-    method: "POST",
+    method: "PATCH",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(staticProfDataUpdate),
@@ -132,7 +116,7 @@ async function updateUserData(staticProfDataUpdate) {
 
 async function deleteMyAcc() {
   const res = await fetch(`http://localHost:5555/delete-my-account-API`, {
-    method: "POST",
+    method: "DELETE",
     credentials: "include",
   });
   return await res.json();

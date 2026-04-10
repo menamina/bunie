@@ -77,7 +77,7 @@ router.patch(
   remote.updateUserIMGS,
 );
 router.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
-router.get(
+router.post(
   "/update-my-password-API/",
   isAuth,
   passwordValidation,
