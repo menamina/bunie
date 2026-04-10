@@ -3,7 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 function Settings() {
   const { user } = useOutletContext();
-  const [settingsView, setSettingsView] = useState("overview");
+  const [settingsView, setSettingsView] = useState(null);
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
 
@@ -30,14 +30,14 @@ function Settings() {
       <div>
         <div>Settings</div>
         <div>
-          <div onChange={() => setSettingsView("overview")}>Overview</div>
+          <div onChange={() => setSettingsView(null)}>Overview</div>
           <div onChange={() => setSettingsView("change password")}>
             Change Password
           </div>
           <div onChange={() => setSettingsView("delete")}>Nuke Account</div>
         </div>
       </div>
-      {settingsView === "overview" && (
+      {settingsView === null && (
         <div>
           <div>
             {!openIconHeader && (
@@ -149,20 +149,54 @@ function Settings() {
         // ability to view passwords too
         <div>
           <div>
-            <label htmlFor="">Current password:</label>
-            <input type="password" />
+            <div>
+              <label htmlFor="">Current password:</label>
+              <input
+                type="password"
+                value={updatePassword.oldPassword}
+                onChange={(e) =>
+                  setUpdatePassword((prev) => ({
+                    ...prev,
+                    oldPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="">New password:</label>
+              <input
+                type="password"
+                value={updatePassword.newPassword}
+                onChange={(e) =>
+                  setUpdatePassword((prev) => ({
+                    ...prev,
+                    newPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
+            <div>
+              <label htmlFor="">Confirm new password:</label>
+              <input
+                type="password"
+                value={updatePassword.confirmNewPassword}
+                onChange={(e) =>
+                  setUpdatePassword((prev) => ({
+                    ...prev,
+                    confirmNewPassword: e.target.value,
+                  }))
+                }
+              />
+            </div>
           </div>
+
           <div>
-            <label htmlFor="">New password:</label>
-            <input type="password" />
-          </div>
-          <div>
-            <label htmlFor="">Confirm new password:</label>
-            <input type="password" />
+            <div onClick={cancelpassworUpdate}>cancel</div>
+            <div onClick={changepassword}>change password</div>
           </div>
         </div>
       )}
-      {settingsView === "delete" && <DeleteAccount/>}
+      {settingsView === "delete" && <DeleteAccount />}
     </div>
   );
 }

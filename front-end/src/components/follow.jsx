@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getFollow, followMutationOptions } from "../ts-queries/queries";
 import { useOutletContext, Link } from "react-router-dom";
 import { useState } from "react";
@@ -6,6 +6,7 @@ import { useState } from "react";
 function Follow({ whoseProfile, view }) {
   const [VIEW, setVIEW] = useState(view);
   const { user } = useOutletContext();
+  const queryClient = useQueryClient();
 
   const {
     data: followData,
@@ -19,6 +20,14 @@ function Follow({ whoseProfile, view }) {
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["profile", whoseProfile.username],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["follow"],
+      });
+    },
   });
 
   return (
@@ -47,9 +56,10 @@ function Follow({ whoseProfile, view }) {
         {VIEW === "followers" && (
           <div>
             {followData?.fullFollowerList.followers.map((follower) => {
-              const isFollowing = authUserFollowing?.fullFollowingList?.following.some(
-                (f) => f.followingAcc.id === follower.followerAcc.id
-              );
+              const isFollowing =
+                authUserFollowing?.fullFollowingList?.following.some(
+                  (f) => f.followingAcc.id === follower.followerAcc.id,
+                );
 
               return (
                 <Link
@@ -65,11 +75,15 @@ function Follow({ whoseProfile, view }) {
                   </div>
                   <div>
                     {isFollowing ? (
-                      <div onClick={() => toggleFollow(follower.followerAcc.id)}>
+                      <div
+                        onClick={() => toggleFollow(follower.followerAcc.id)}
+                      >
                         Following
                       </div>
                     ) : (
-                      <div onClick={() => toggleFollow(follower.followerAcc.id)}>
+                      <div
+                        onClick={() => toggleFollow(follower.followerAcc.id)}
+                      >
                         Follow
                       </div>
                     )}
@@ -82,9 +96,10 @@ function Follow({ whoseProfile, view }) {
         {VIEW === "following" && (
           <div>
             {followData?.fullFollowingList.following.map((following) => {
-              const isFollowing = authUserFollowing?.fullFollowingList?.following.some(
-                (f) => f.followingAcc.id === following.followingAcc.id
-              );
+              const isFollowing =
+                authUserFollowing?.fullFollowingList?.following.some(
+                  (f) => f.followingAcc.id === following.followingAcc.id,
+                );
 
               return (
                 <Link
@@ -100,11 +115,15 @@ function Follow({ whoseProfile, view }) {
                   </div>
                   <div>
                     {isFollowing ? (
-                      <div onClick={() => toggleFollow(following.followingAcc.id)}>
+                      <div
+                        onClick={() => toggleFollow(following.followingAcc.id)}
+                      >
                         Following
                       </div>
                     ) : (
-                      <div onClick={() => toggleFollow(following.followingAcc.id)}>
+                      <div
+                        onClick={() => toggleFollow(following.followingAcc.id)}
+                      >
                         Follow
                       </div>
                     )}

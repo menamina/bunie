@@ -1,6 +1,6 @@
 import { useState, useOutletContext } from "react";
 import { useParams, Link } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getProfileQueryOptions,
   followMutationOptions,
@@ -15,6 +15,7 @@ function Profile() {
   const { username } = useParams();
   const { user } = useOutletContext();
   const [view, setView] = useState("overview");
+  const queryClient = useQueryClient();
 
   const {
     data: userProfile,
@@ -24,6 +25,9 @@ function Profile() {
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile", username] });
+    },
   });
 
   if (!user) {
