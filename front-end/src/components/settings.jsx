@@ -1,11 +1,20 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updatePassword } from "./ts-queries/queries";
 
 function Settings() {
   const { user } = useOutletContext();
   const [settingsView, setSettingsView] = useState(null);
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
+
+  const { mutation: updatePassword } = useMutation({
+    ...updatePassword(),
+    onSuccess: () => {
+      setSettingsView(null);
+    },
+  });
 
   const [iconHeaderData, setIconHeaderData] = useState({
     pfp: "",
@@ -24,6 +33,15 @@ function Settings() {
     newPassword: "",
     confirmNewPassword: "",
   });
+
+  function cancelPassword() {
+    setUpdatePassword({
+      oldPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    });
+    setSettingsView(null);
+  }
 
   return (
     <div className="settingsDIV">
@@ -191,8 +209,10 @@ function Settings() {
           </div>
 
           <div>
-            <div onClick={cancelpassworUpdate}>cancel</div>
-            <div onClick={changepassword}>change password</div>
+            <div onClick={cancelPassword}>cancel</div>
+            <div onClick={() => updatePassword({ updatePassword })}>
+              change password
+            </div>
           </div>
         </div>
       )}

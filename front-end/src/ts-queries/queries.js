@@ -69,6 +69,12 @@ export const getFollow = (username, view) => {
   });
 };
 
+export const updatePassword = () => {
+  return mutationOptions({
+    mutationFn: changePassword,
+  });
+};
+
 // functions //
 async function getUserFollow(username, view) {
   const res = await fetch(
