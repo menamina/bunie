@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePassword } from "./ts-queries/queries";
@@ -17,8 +17,8 @@ function Settings() {
   });
 
   const [iconHeaderData, setIconHeaderData] = useState({
-    pfp: "",
-    header: "",
+    pfp: user.pfp,
+    header: user.header,
   });
 
   const [updateData, setUpdateData] = useState({
@@ -61,17 +61,58 @@ function Settings() {
             {!openIconHeader && (
               <div>
                 <div>
-                  <img src={`http:localhost:5555/${user.header}`} alt="" />
+                  <img
+                    src={`http:localhost:5555/${user.header}`}
+                    alt="your header"
+                  />
                 </div>
                 <div>
-                  <img src={`http:localhost:5555/${user.pfp}`} alt="" />
+                  <img
+                    src={`http:localhost:5555/${user.pfp}`}
+                    alt="your profile img"
+                  />
                 </div>
                 <div onClick={() => setOpenIconHeader(true)}>
                   edit icon + header
                 </div>
               </div>
             )}
-            {openIconHeader && <div></div>}
+            {openIconHeader && (
+              <div>
+                <div>
+                  <img
+                    src={URL.createObjectURL(iconHeaderData.header)}
+                    alt="your updated header"
+                    onClick={(e) => e.target.nextElementSibling.click()}
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) =>
+                      setIconHeaderData((prev) => ({
+                        ...prev,
+                        header: e.target.files[0],
+                      }))
+                    }
+                  />
+                </div>
+                <div>
+                  <img
+                    src={URL.createObjectURL(iconHeaderData.header)}
+                    alt="your updated pfp"
+                    onClick={(e) => e.target.nextElementSibling.click()}
+                  />
+                  <input
+                    type="file"
+                    onChange={(e) =>
+                      setIconHeaderData((prev) => ({
+                        ...prev,
+                        pfp: e.target.files[0],
+                      }))
+                    }
+                  />
+                </div>
+              </div>
+            )}
           </div>
 
           <div>
