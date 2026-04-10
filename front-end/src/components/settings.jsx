@@ -9,39 +9,6 @@ function Settings() {
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
 
-  const queryClient = useQueryClient();
-
-  const { mutation: updatePass, error: updatePassErr } = useMutation({
-    ...updatePassword(),
-    onSuccess: () => {
-      setSettingsView(null);
-    },
-  });
-
-  const {
-    mutation: updateIMGS,
-    error: imgUpdateErr,
-    reset: resetIMG,
-  } = useMutation({
-    ...updateIMGS(),
-    onSuccess: () => {
-      resetIMG();
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
-    },
-  });
-
-  const {
-    mutation: updateUserData,
-    error: dataUpdateErr,
-    reset: resetData,
-  } = useMutation({
-    ...updateData(),
-    onSuccess: () => {
-      resetData();
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
-    },
-  });
-
   const [iconHeaderData, setIconHeaderData] = useState({
     pfp: "",
     header: "",
@@ -58,6 +25,54 @@ function Settings() {
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
+  });
+
+  const queryClient = useQueryClient();
+
+  const { mutation: updatePass, error: updatePassErr } = useMutation({
+    ...updatePassword(),
+    onSuccess: () => {
+      setSettingsView(null);
+      setPasswordData({
+        oldPassword: "",
+        newPassword: "",
+        confirmNewPassword: "",
+      });
+    },
+  });
+
+  const {
+    mutation: updateIMGS,
+    error: imgUpdateErr,
+    reset: resetIMG,
+  } = useMutation({
+    ...updateIMGS(),
+    onSuccess: () => {
+      setIconHeaderData({
+        pfp: "",
+        header: "",
+      });
+      resetIMG();
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+    },
+  });
+
+  const {
+    mutation: updateUserData,
+    error: dataUpdateErr,
+    reset: resetData,
+  } = useMutation({
+    ...updateData(),
+    onSuccess: () => {
+      setUpdateData({
+        name: user.name,
+        username: user.username,
+        email: user.email,
+        bio: user.bio,
+      });
+      resetData();
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+    },
   });
 
   function cancelPassword() {
