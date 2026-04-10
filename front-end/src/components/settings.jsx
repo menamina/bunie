@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updatePassword } from "./ts-queries/queries";
+import {
+  updatePassword,
+  updateIMGs,
+  deleteAccount,
+} from "./ts-queries/queries";
 
 function Settings() {
   const { user } = useOutletContext();
@@ -49,7 +53,7 @@ function Settings() {
     error: imgUpdateErr,
     reset: resetIMG,
   } = useMutation({
-    ...updateIMGS(),
+    ...updateIMGs(),
     onSuccess: () => {
       setIconHeaderData({
         pfp: "",
@@ -396,9 +400,19 @@ function Settings() {
           {deleteClicked && (
             <div
               className="delete account modal"
-              onClick={() => setDeleteClicked(false)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setDeleteClicked(false);
+              }}
             >
-              <div>Permanently delete account</div>
+              {deleteAccErr && (
+                <div className="delete err modal">
+                  <div>
+                    <div>{deleteAccErr}</div>
+                  </div>
+                </div>
+              )}
+              <div onClick={deleteMyAccount}>Permanently delete account</div>
             </div>
           )}
         </div>
