@@ -75,18 +75,76 @@ export const updatePassword = () => {
   });
 };
 
+export const deleteAccount = () => {
+  return mutationOptions({
+    mutationFn: deleteMyAcc,
+  });
+};
+
+export const updateDate = () => {
+  return mutationOptions({
+    mutationFn: updateUserData,
+  });
+};
+
+export const updateIMGs = () => {
+  return mutationOptions({
+    mutationFN: updateIMGS,
+  });
+};
+
+export const updatePassword = () => {
+  return mutationOptions({
+    mutationFn: updatePass,
+  });
+};
+
 // functions //
+async function updatePass(passData) {
+  const res = await fetch(`http://localHost:5555/update-my-password-API`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(passData),
+  });
+  return await res.json();
+}
+
+async function updateIMGS(imgs) {
+  const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(imgs),
+  });
+  return await res.json();
+}
+
+async function updateUserData(staticProfDataUpdate) {
+  const res = await fetch(`http://localHost:5555/update-my-profile-API`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(staticProfDataUpdate),
+  });
+  return await res.json();
+}
+
+async function deleteMyAcc() {
+  const res = await fetch(`http://localHost:5555/delete-my-account-API`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await res.json();
+}
 
 async function changePassword(passwordObj) {
-  const res = await fetch(
-    `http://localHost:5555/get-user-${view}/:${username}`,
-    {
-      method: "GET",
-      credentials: "include",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(passwordObj),
-    },
-  );
+  const res = await fetch(`http://localHost:5555/update-my-password-API`, {
+    method: "POST",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(passwordObj),
+  });
   return await res.json();
 }
 
