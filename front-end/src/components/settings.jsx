@@ -9,7 +9,7 @@ function Settings() {
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
 
-  const { mutation: updatePassword } = useMutation({
+  const { mutation: updatePass, error: updatePassErr } = useMutation({
     ...updatePassword(),
     onSuccess: () => {
       setSettingsView(null);
@@ -28,14 +28,14 @@ function Settings() {
     bio: user.bio,
   });
 
-  const [updatePassword, setUpdatePassword] = useState({
+  const [passwordData, setPasswordData] = useState({
     oldPassword: "",
     newPassword: "",
     confirmNewPassword: "",
   });
 
   function cancelPassword() {
-    setUpdatePassword({
+    setPasswordData({
       oldPassword: "",
       newPassword: "",
       confirmNewPassword: "",
@@ -71,7 +71,7 @@ function Settings() {
                 </div>
               </div>
             )}
-            {openIconHeader && <div>{/* SHOW IMG PREVEIWEWS HERE */}</div>}
+            {openIconHeader && <div></div>}
           </div>
 
           <div>
@@ -166,14 +166,15 @@ function Settings() {
       {settingsView === "change password" && (
         // ability to view passwords too
         <div>
+          {updatePassErr && <div>{updatePassErr}</div>}
           <div>
             <div>
               <label htmlFor="">Current password:</label>
               <input
                 type="password"
-                value={updatePassword.oldPassword}
+                value={passwordData.oldPassword}
                 onChange={(e) =>
-                  setUpdatePassword((prev) => ({
+                  setPasswordData((prev) => ({
                     ...prev,
                     oldPassword: e.target.value,
                   }))
@@ -184,9 +185,9 @@ function Settings() {
               <label htmlFor="">New password:</label>
               <input
                 type="password"
-                value={updatePassword.newPassword}
+                value={passwordData.newPassword}
                 onChange={(e) =>
-                  setUpdatePassword((prev) => ({
+                  setPasswordData((prev) => ({
                     ...prev,
                     newPassword: e.target.value,
                   }))
@@ -197,9 +198,9 @@ function Settings() {
               <label htmlFor="">Confirm new password:</label>
               <input
                 type="password"
-                value={updatePassword.confirmNewPassword}
+                value={passwordData.confirmNewPassword}
                 onChange={(e) =>
-                  setUpdatePassword((prev) => ({
+                  setPasswordData((prev) => ({
                     ...prev,
                     confirmNewPassword: e.target.value,
                   }))
@@ -210,9 +211,7 @@ function Settings() {
 
           <div>
             <div onClick={cancelPassword}>cancel</div>
-            <div onClick={() => updatePassword({ updatePassword })}>
-              change password
-            </div>
+            <div onClick={() => updatePass(passwordData)}>change password</div>
           </div>
         </div>
       )}

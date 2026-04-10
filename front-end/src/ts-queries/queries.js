@@ -76,6 +76,20 @@ export const updatePassword = () => {
 };
 
 // functions //
+
+async function changePassword(passwordObj) {
+  const res = await fetch(
+    `http://localHost:5555/get-user-${view}/:${username}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(passwordObj),
+    },
+  );
+  return await res.json();
+}
+
 async function getUserFollow(username, view) {
   const res = await fetch(
     `http://localHost:5555/get-user-${view}/:${username}`,
