@@ -1,4 +1,4 @@
-import { useState, useTransition } from "react";
+import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePassword } from "./ts-queries/queries";
@@ -9,10 +9,36 @@ function Settings() {
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const { mutation: updatePass, error: updatePassErr } = useMutation({
     ...updatePassword(),
     onSuccess: () => {
       setSettingsView(null);
+    },
+  });
+
+  const {
+    mutation: updateIMGS,
+    error: imgUpdateErr,
+    reset: resetIMG,
+  } = useMutation({
+    ...updateIMGS(),
+    onSuccess: () => {
+      resetIMG();
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+    },
+  });
+
+  const {
+    mutation: updateUserData,
+    error: dataUpdateErr,
+    reset: resetData,
+  } = useMutation({
+    ...updateData(),
+    onSuccess: () => {
+      resetData();
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
     },
   });
 
@@ -62,13 +88,13 @@ function Settings() {
               <div>
                 <div>
                   <img
-                    src={`http:localhost:5555/${user.header}`}
+                    src={`http:localhost:5555/IMGS-API/${user.header}`}
                     alt="your header"
                   />
                 </div>
                 <div>
                   <img
-                    src={`http:localhost:5555/${user.pfp}`}
+                    src={`http:localhost:5555/IMGS-API/${user.pfp}`}
                     alt="your profile img"
                   />
                 </div>
@@ -79,6 +105,13 @@ function Settings() {
             )}
             {openIconHeader && (
               <div>
+                {imgUpdateErr && (
+                  <div className="imgErrModal">
+                    <div>
+                      <div>{imgUpdateErr}</div>
+                    </div>
+                  </div>
+                )}
                 <div>
                   {iconHeaderData.header instanceof File ? (
                     <>
@@ -100,7 +133,7 @@ function Settings() {
                   ) : (
                     <>
                       <img
-                        src={`http://localhost:5555/${user.header}`}
+                        src={`http://localhost:5555/IMGS-API/${user.header}`}
                         alt="your updated header"
                         onClick={(e) => e.target.nextElementSibling.click()}
                       />
@@ -137,7 +170,7 @@ function Settings() {
                   ) : (
                     <>
                       <img
-                        src={`http://localhost:5555/${user.pfp}`}
+                        src={`http://localhost:5555/IMGS-API/${user.pfp}`}
                         alt="your updated pfp"
                         onClick={(e) => e.target.nextElementSibling.click()}
                       />
@@ -157,15 +190,23 @@ function Settings() {
                   <div
                     onClick={() => {
                       setIconHeaderData({
-                        pfp: user.pfp,
-                        header: user.header,
+                        pfp: "",
+                        header: "",
                       });
                       setOpenIconHeader(false);
                     }}
                   >
                     cancel
                   </div>
-                  <div onClick={() => {}}>update</div>
+                  {iconHeaderData && (
+                    <div
+                      onClick={() => {
+                        updateIMGS;
+                      }}
+                    >
+                      update
+                    </div>
+                  )}
                 </div>
               </div>
             )}
@@ -174,6 +215,13 @@ function Settings() {
           <div>
             {editUserData && (
               <div>
+                {dataUpdateErr && (
+                  <div className="imgErrModal">
+                    <div>
+                      <div>{dataUpdateErr}</div>
+                    </div>
+                  </div>
+                )}
                 <div>
                   <div>
                     <label>Name</label>
