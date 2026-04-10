@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePassword } from "./ts-queries/queries";
 
@@ -8,6 +8,9 @@ function Settings() {
   const [settingsView, setSettingsView] = useState(null);
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
+  const [deleteClicked, setDeleteClicked] = useState(false);
+
+  const nav = useNavigate();
 
   const [iconHeaderData, setIconHeaderData] = useState({
     pfp: "",
@@ -72,6 +75,13 @@ function Settings() {
       });
       resetData();
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+    },
+  });
+
+  const { mutation: deleteMyAccount, error: deleteAccErr } = useMutation({
+    ...deleteAccount(),
+    onSuccess: () => {
+      nav("/");
     },
   });
 
@@ -375,7 +385,24 @@ function Settings() {
           </div>
         </div>
       )}
-      {settingsView === "delete" && <DeleteAccount />}
+      {settingsView === "delete" && (
+        <div>
+          <div>Delete account?</div>
+          <div>Your account will be permanently deleted</div>
+          <div>
+            <div onClick={() => settingsView(null)}>cancel</div>
+            <div onClick={() => setDeleteClicked(true)}>delete</div>
+          </div>
+          {deleteClicked && (
+            <div
+              className="delete account modal"
+              onClick={() => setDeleteClicked(false)}
+            >
+              <div>Permanently delete account</div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
