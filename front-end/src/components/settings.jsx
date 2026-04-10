@@ -97,7 +97,7 @@ function Settings() {
                 </div>
                 <div>
                   <img
-                    src={URL.createObjectURL(iconHeaderData.header)}
+                    src={URL.createObjectURL(iconHeaderData.pfp)}
                     alt="your updated pfp"
                     onClick={(e) => e.target.nextElementSibling.click()}
                   />
@@ -110,6 +110,10 @@ function Settings() {
                       }))
                     }
                   />
+                </div>
+                <div>
+                  <div onClick={}>cancel</div>
+                  <div onClick={}>update</div>
                 </div>
               </div>
             )}
