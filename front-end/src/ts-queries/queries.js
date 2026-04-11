@@ -178,13 +178,6 @@ export const getPostOpt = (postID) => {
   });
 };
 
-export const getCommentOpt = (commentID) => {
-  return queryOptions({
-    queryKey: ["comment", commentID],
-    queryFN: () => getComment(commentID),
-  });
-};
-
 // functions //
 async function getPost(postID) {
   const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {

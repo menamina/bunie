@@ -9,9 +9,10 @@ function PostCard({ post }) {
   const { user } = useOutletContext();
   const isThisMyPost = post.username === user.username;
 
-  const [makeAComment, setMakeAComment] = useState(false);
-  const [postDotsClicked, setPostDotsClicked] = useState(false);
-  const [deletePostClicked, setDeletePostClicked] = useState(false);
+  const [makeAComment, setMakeAComment] = useState(null);
+  const [postDotsClicked, setPostDotsClicked] = useState(null);
+  const [deletePostClicked, setDeletePostClicked] = useState(null);
+  const [editPostClick, setEditPostClick] = useState(null);
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
@@ -21,7 +22,7 @@ function PostCard({ post }) {
     nav(`/${post.username}`);
   }
 
-  function openPostSettings(e) {
+  function openPostSettings(e, postID) {
     e.stopPropagation();
     setPostDotsClicked((prev) => !prev);
   }
@@ -67,7 +68,7 @@ function PostCard({ post }) {
 
             {isThisMyPost && (
               <>
-                {deletePostClicked && (
+                {deletePostClicked === post.id && (
                   <div className="confirmDeletePostModal">
                     <div>
                       <div>Delete post?</div>
@@ -80,8 +81,8 @@ function PostCard({ post }) {
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
-                            setPostDotsClicked(false);
-                            setDeletePostClicked(false);
+                            setPostDotsClicked(null);
+                            setDeletePostClicked(null);
                             confirmDelete();
                           }}
                         >
@@ -90,8 +91,8 @@ function PostCard({ post }) {
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
-                            setPostDotsClicked(false);
-                            setDeletePostClicked(false);
+                            setPostDotsClicked(null);
+                            setDeletePostClicked(null);
                           }}
                         >
                           cancel
@@ -100,27 +101,28 @@ function PostCard({ post }) {
                     </div>
                   </div>
                 )}
-                {postDotsClicked && (
+                {postDotsClicked === post.id && (
                   <div
                     className="deleteModal"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setPostDotsClicked(false);
-                      setDeletePostClicked(false);
+                      setPostDotsClicked(null);
+                      setEditPostClick(post.id);
                     }}
                   >
                     <div>edit</div>
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDeletePostClicked(true);
+                        setDeletePostClicked(post.id);
+                        setEditPostClick(null);
                       }}
                     >
                       delete
                     </div>
                   </div>
                 )}
-                <div onClick={openPostSettings}>...</div>
+                <div onClick={() => openPostSettings(post.id)}>...</div>
               </>
             )}
           </div>

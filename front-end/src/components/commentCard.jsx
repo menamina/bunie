@@ -7,8 +7,8 @@ function CommentCard({ comment }) {
   const { user } = useOutletContext();
   const isThisMyComment = comment.commentedBy.username === user.username;
 
-  const [commentDotsClicked, setCommentDotsClicked] = useState(false);
-  const [deleteCommentClicked, setDeleteCommentClicked] = useState(false);
+  const [commentDotsClicked, setCommentDotsClicked] = useState(null);
+  const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
@@ -53,7 +53,7 @@ function CommentCard({ comment }) {
 
           {isThisMyComment && (
             <>
-              {deleteCommentClicked && (
+              {deleteCommentClicked === comment.id && (
                 <div className="confirmDeleteCommentModal">
                   <div>
                     <div>Delete comment?</div>
@@ -84,27 +84,28 @@ function CommentCard({ comment }) {
                   </div>
                 </div>
               )}
-              {commentDotsClicked && (
+              {commentDotsClicked === comment.id && (
                 <div
                   className="deleteModal"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCommentDotsClicked(false);
-                    setDeleteCommentClicked(false);
+                    setCommentDotsClicked(null);
+                    setDeleteCommentClicked(null);
+                    setEditComment(comment.id);
                   }}
                 >
                   <div>edit</div>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      setDeleteCommentClicked(true);
+                      setDeleteCommentClicked(comment.id);
                     }}
                   >
                     delete
                   </div>
                 </div>
               )}
-              <div onClick={openCommentSettings}>...</div>
+              <div onClick={() => setCommentDotsClicked(comment.id)}>...</div>
             </>
           )}
         </div>
