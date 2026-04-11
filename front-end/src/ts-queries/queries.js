@@ -62,7 +62,7 @@ export const getStatusViewOptions = (
   });
 };
 
-export const getFollow = (username, view) => {
+export const getMiniProfile = (username, view) => {
   return queryOptions({
     queryKey: ["follow", username, view],
     queryFn: () => getUserFollow(username, view),
@@ -96,12 +96,20 @@ export const updateIMGs = () => {
 export const search = (query) => {
   return queryOptions({
     queryKey: ["search", query],
-    queryFn: () => search(query),
+    queryFn: () => searchThis(query),
     enabled: !!query,
   });
 };
 
 // functions //
+async function searchThis(query) {
+  const res = await fetch(`http://localhost:5555/search-API?q=${query}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
+}
+
 async function updateIMGS(imgs) {
   const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
     method: "PATCH",

@@ -145,4 +145,8 @@ router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 // following //
 router.post("/follow/:userID", isAuth, remote.toggleFollow);
 
+// search //
+
+router.get("/search-API", isAuth, remote.query);
+
 module.exports = router;

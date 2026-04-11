@@ -125,6 +125,60 @@ async function getMainFeed(req, res) {
   }
 }
 
+async function query(req, res) {
+  const { query } = req.query;
+
+  const usersWithQuery = await prisma.user.findMany({
+    where: {
+      username: {
+        contains: [query],
+        mode: "insensitive",
+      },
+    },
+    select: {
+      id: true,
+      name: true,
+      username: true,
+      profile: {
+        select: {
+          pfp: true,
+          bio: true,
+        },
+      },
+    },
+  });
+
+  const postsWithQuery = await prisma.posts.findMany({
+    where: {
+      OR: [
+        {
+          title: {
+            contains: [query],
+            mode: "insensitive",
+          },
+        },
+        {
+          body: {
+            contains: [query],
+            mode: "insensitive",
+          },
+        },
+      ],
+    },
+    select: {
+      likes: true,
+      comments: true,
+      madeBy: {
+        select: {
+          id: true,
+          name: true,
+          username: true,
+        },
+      },
+    },
+  });
+}
+
 async function getProfile(req, res) {
   try {
     const { username } = req.params;
@@ -979,6 +1033,8 @@ module.exports = {
 
   IMGS,
   getMainFeed,
+
+  query,
 
   getProfile,
   getFollowers,

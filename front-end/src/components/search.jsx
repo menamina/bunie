@@ -11,6 +11,23 @@ function Search() {
     isPending,
     error,
   } = useQuery(search(querySearch));
+
+  return (
+    <div className="searchDIV">
+      <div>Search</div>
+      <div>
+        <input
+          value={querySearch}
+          onChange={(e) => setQuerySearch(e.target.value)}
+        />
+      </div>
+      <div className="queryRes">
+        <div className="topRes"></div>
+        <div className="postRes"></div>
+        <div className="userRes"></div>
+      </div>
+    </div>
+  );
 }
 
 export default Search;
