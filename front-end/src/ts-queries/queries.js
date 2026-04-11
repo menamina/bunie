@@ -93,14 +93,6 @@ export const updateIMGs = () => {
   });
 };
 
-export const search = (query) => {
-  return queryOptions({
-    queryKey: ["search", query],
-    queryFn: () => searchThis(query),
-    enabled: !!query,
-  });
-};
-
 export const getFeedOpt = () => {
   return infiniteQueryOptions({
     queryKey: ["feed"],
@@ -123,7 +115,27 @@ export const getFollowingFeedOpt = () => {
   });
 };
 
-export const
+export const search = (query) => {
+  return queryOptions({
+    queryKey: ["search", query],
+    queryFn: () => searchThis(query),
+    enabled: !!query,
+  });
+};
+
+export const searchInfinite = (query) => {
+  return infiniteQueryOptions({
+    queryKey: ["search", query],
+    queryFn: ({ pageParam = 0 }) => searchThis(query, pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      const hasMoreUsers = lastPage.usersWithQuery?.length === 50;
+      const hasMorePosts = lastPage.postsWithQuery?.length === 50;
+      return hasMoreUsers || hasMorePosts ? allPages.length * 50 : undefined;
+    },
+    initialPageParam: 0,
+    enabled: !!query,
+  });
+}
 
 // functions //
 async function getFollowingFeed(numberOfNextPost) {
@@ -146,8 +158,8 @@ async function getFeed(numberOfNextPost) {
   return await res.json();
 }
 
-async function searchThis(query) {
-  const res = await fetch(`http://localhost:5555/search-API?q=${query}`, {
+async function searchThis(query, offset = 0) {
+  const res = await fetch(`http://localhost:5555/search-API?q=${query}&offset=${offset}`, {
     method: "GET",
     credentials: "include",
   });
