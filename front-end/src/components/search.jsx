@@ -22,27 +22,22 @@ function Search() {
           onChange={(e) => setQuerySearch(e.target.value)}
         />
       </div>
-
-      <div className="queryRes">
-        <div className="top">
-          {queryResults.usersWithQuery.length === 0 &&
-            queryResults.postsWithQuery.length === 0 && (
-              <div className="topResDIV"></div>
-            )}
+      {isPending && <div>Loading</div>}
+      {queryResults && (
+        <div className="resultsReturnedDIV">
+          <div className="tabView">
+            <div className="top" onClick={() => setTabView("top")}>
+              Top
+            </div>
+            <div className="posts" onClick={() => setTabView("posts")}>
+              Posts
+            </div>
+            <div className="users" onClick={() => setTabView("users")}>
+              Users
+            </div>
+          </div>
         </div>
-
-        <div className="posts">
-          {queryResults.postsWithQuery.length > 0 && (
-            <div className="postsresDIV"></div>
-          )}
-        </div>
-
-        <div className="users">
-          {queryResults.postsWithQuery.length > 0 && (
-            <div className="userResDIV"></div>
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }
