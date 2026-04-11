@@ -48,6 +48,16 @@ router.post("/login-API", (req, res, next) => {
   })(req, res, next);
 });
 
+router.get("/log-out", (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+    res.clearCookie("connect.sid");
+    res.status(200).json({ success: true });
+  });
+});
+
 // getting feed //
 
 router.get("/IMGS-API/:IMG", isAuth, remote.IMGS);
