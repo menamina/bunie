@@ -93,6 +93,14 @@ export const updateIMGs = () => {
   });
 };
 
+export const search = (query) => {
+  return queryOptions({
+    queryKey: ["search", query],
+    queryFn: () => search(query),
+    enabled: !!query,
+  });
+};
+
 // functions //
 async function updateIMGS(imgs) {
   const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
