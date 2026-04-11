@@ -5,6 +5,7 @@ import { search } from "./ts-queries/queries";
 
 function Search() {
   const [querySearch, setQuerySearch] = useState("");
+  const [tabView, setTabView] = useState("top");
 
   const {
     data: queryResults,
@@ -21,10 +22,26 @@ function Search() {
           onChange={(e) => setQuerySearch(e.target.value)}
         />
       </div>
+
       <div className="queryRes">
-        <div className="topRes"></div>
-        <div className="postRes"></div>
-        <div className="userRes"></div>
+        <div className="top">
+          {queryResults.usersWithQuery.length === 0 &&
+            queryResults.postsWithQuery.length === 0 && (
+              <div className="topResDIV"></div>
+            )}
+        </div>
+
+        <div className="posts">
+          {queryResults.postsWithQuery.length > 0 && (
+            <div className="postsresDIV"></div>
+          )}
+        </div>
+
+        <div className="users">
+          {queryResults.postsWithQuery.length > 0 && (
+            <div className="userResDIV"></div>
+          )}
+        </div>
       </div>
     </div>
   );
