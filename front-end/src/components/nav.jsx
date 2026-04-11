@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState, useOutletContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
@@ -13,9 +13,7 @@ function Nav() {
   const [utilsOpen, setUtilsOpen] = useState(false);
 
   const nav = useNavigate();
-
-  function logout() {}
-  function refreshFeed() {}
+  const queryClient = useQueryClient();
 
   const { mutate: logout } = useMutation({
     ...logoutMut(),
@@ -23,6 +21,11 @@ function Nav() {
       nav("/");
     },
   });
+
+  function refreshFeed() {
+    queryClient.invalidateQueries({ queryKey: ["feed"] });
+    queryClient.invalidateQueries({ queryKey: ["following-feed"] });
+  }
 
   return (
     <div clasnName="navDIV">
