@@ -153,6 +153,12 @@ export const deletePostOpt = () => {
   });
 };
 
+export const deleteCommentOpt = (commentID) => {
+  return mutationOptions({
+    mutationFn: () => deleteComment(commentID),
+  });
+};
+
 export const togglePostLikeOpt = (postID) => {
   return mutationOptions({
     mutationFn: () => togglePostLike(postID),
@@ -217,6 +223,14 @@ async function toggleCommentLike(commentID) {
 
 async function deletePost(postID) {
   const res = await fetch(`http://localhost:5555/delete-post/${postID}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await res.json();
+}
+
+async function deleteComment(commentID) {
+  const res = await fetch(`http://localhost:5555/delete-comment/${commentID}`, {
     method: "POST",
     credentials: "include",
   });
