@@ -125,7 +125,7 @@ async function getMainFeed(req, res) {
   }
 }
 
-async function getInFollowingFeed(req, res){
+async function getFollowingFeed(req, res){
     const { nextPosts } = req.body;
     const { id } = req.user
 
@@ -140,7 +140,13 @@ async function getInFollowingFeed(req, res){
       },
       select: {
         followings: {
-          select: {followingACC }
+          select: {
+            followingACC: {
+              select: {
+                id: true
+              }
+            }
+          }
         }
       }
     })
@@ -1122,6 +1128,7 @@ module.exports = {
 
   IMGS,
   getMainFeed,
+  getFollowingFeed,
 
   query,
 

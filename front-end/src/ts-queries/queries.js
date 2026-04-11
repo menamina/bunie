@@ -104,11 +104,27 @@ export const search = (query) => {
 export const getFeedOpt = (numberOfNextPost) => {
   return queryOptions({
     queryKey: ["feed"],
-    queryFn: getFeed(numberOfNextPost),
+    queryFn: () => getFeed(numberOfNextPost),
+  });
+};
+
+export const getFollowingFeedOpt = (numberOfNextPost) => {
+  return queryOptions({
+    queryKey: ["feed"],
+    queryFn: () => getFollowingFeed(numberOfNextPost),
   });
 };
 
 // functions //
+async function getFollowingFeed(numberOfNextPost) {
+  const res = await fetch(`http://localhost:5555/following-feed-API`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nextPosts: numberOfNextPost }),
+  });
+  return await res.json();
+}
 
 async function getFeed(numberOfNextPost) {
   const res = await fetch(`http://localhost:5555/main-feed-API`, {

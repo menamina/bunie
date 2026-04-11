@@ -62,6 +62,7 @@ router.get("/log-out", (req, res, next) => {
 
 router.get("/IMGS-API/:IMG", isAuth, remote.IMGS);
 router.get("/main-feed-API", isAuth, remote.getMainFeed);
+router.get("/following-feed-API", isAuth, remote.getFollowingFeed);
 
 // getting user's profile //
 router.get("/my-profile-API/:username", isAuth, remote.getProfile);
