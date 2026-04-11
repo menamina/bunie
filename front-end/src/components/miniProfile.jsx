@@ -1,5 +1,6 @@
-import { useQueryClient } from "@tanstack/react-query";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useOutletContext, Link } from "react-router-dom";
+import { followMutationOptions } from "../ts-queries/queries";
 
 function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
@@ -9,6 +10,11 @@ function MiniProfile({ userProfile }) {
   const isFollowing = authUser.following.some(
     (user) => user.id === userProfile.id,
   );
+
+  const { mutate: toggleFollow } = useMutation({
+    ...followMutationOptions(),
+    onSuccess: () => {},
+  });
 
   return (
     <div className="miniProfileDIV">

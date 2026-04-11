@@ -68,7 +68,14 @@ function Search() {
                         <div onClick={setTabView("users")}>see more </div>
                       )}
                     </div>
-                    <div className="top10POSTS"></div>
+                    <div className="top10POSTS">
+                      {queryResults.postsWithQuery.slice(0, 9).map((post) => {
+                        <PostCard post={post} />;
+                      })}
+                      {queryResults.postsWithQuery.length > 10 && (
+                        <div onClick={setTabView("posts")}>see more </div>
+                      )}
+                    </div>
                   </div>
                 )}
             </div>
