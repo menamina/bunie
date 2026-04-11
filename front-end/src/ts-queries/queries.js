@@ -1,4 +1,4 @@
-import { mutationOptions, queryOptions } from "@tanstack/react-query";
+import { mutationOptions, queryOptions, infiniteQueryOptions } from "@tanstack/react-query";
 
 export const sessionCheckQueryOptions = () => {
   return queryOptions({
@@ -101,19 +101,29 @@ export const search = (query) => {
   });
 };
 
-export const getFeedOpt = (numberOfNextPost) => {
-  return queryOptions({
+export const getFeedOpt = () => {
+  return infiniteQueryOptions({
     queryKey: ["feed"],
-    queryFn: () => getFeed(numberOfNextPost),
+    queryFn: ({ pageParam = 0 }) => getFeed(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 50 ? allPages.length * 50 : undefined;
+    },
+    initialPageParam: 0,
   });
 };
 
-export const getFollowingFeedOpt = (numberOfNextPost) => {
-  return queryOptions({
-    queryKey: ["feed"],
-    queryFn: () => getFollowingFeed(numberOfNextPost),
+export const getFollowingFeedOpt = () => {
+  return infiniteQueryOptions({
+    queryKey: ["following-feed"],
+    queryFn: ({ pageParam = 0 }) => getFollowingFeed(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      return lastPage.length === 50 ? allPages.length * 50 : undefined;
+    },
+    initialPageParam: 0,
   });
 };
+
+export const
 
 // functions //
 async function getFollowingFeed(numberOfNextPost) {
