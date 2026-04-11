@@ -48,7 +48,7 @@ router.post("/login-API", (req, res, next) => {
   })(req, res, next);
 });
 
-router.get("/log-out", (req, res, next) => {
+router.post("/log-out", (req, res, next) => {
   req.logout((error) => {
     if (error) {
       return next(error);

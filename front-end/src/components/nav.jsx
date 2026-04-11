@@ -1,8 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useState, useOutletContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
+
+import logoutMut from "./ts-queries/queries";
 
 function Nav() {
   const { user } = useOutletContext();
@@ -10,8 +12,17 @@ function Nav() {
   const [addToInventory, setAddToInventory] = useState(false);
   const [utilsOpen, setUtilsOpen] = useState(false);
 
+  const nav = useNavigate();
+
   function logout() {}
   function refreshFeed() {}
+
+  const { mutate: logout } = useMutation({
+    ...logoutMut(),
+    onSuccess: () => {
+      nav("/");
+    },
+  });
 
   return (
     <div clasnName="navDIV">

@@ -1,4 +1,8 @@
-import { mutationOptions, queryOptions, infiniteQueryOptions } from "@tanstack/react-query";
+import {
+  mutationOptions,
+  queryOptions,
+  infiniteQueryOptions,
+} from "@tanstack/react-query";
 
 export const sessionCheckQueryOptions = () => {
   return queryOptions({
@@ -135,9 +139,23 @@ export const searchInfinite = (query) => {
     initialPageParam: 0,
     enabled: !!query,
   });
-}
+};
+
+export const logoutMut = () => {
+  return mutationOptions({
+    mutationFn: logout,
+  });
+};
 
 // functions //
+async function logout() {
+  const res = await fetch(`http://localhost:5555/log-out`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await res.json();
+}
+
 async function getFollowingFeed(numberOfNextPost) {
   const res = await fetch(`http://localhost:5555/following-feed-API`, {
     method: "GET",
@@ -159,10 +177,13 @@ async function getFeed(numberOfNextPost) {
 }
 
 async function searchThis(query, offset = 0) {
-  const res = await fetch(`http://localhost:5555/search-API?q=${query}&offset=${offset}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `http://localhost:5555/search-API?q=${query}&offset=${offset}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
   return await res.json();
 }
 
