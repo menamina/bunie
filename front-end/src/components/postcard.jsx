@@ -12,7 +12,6 @@ function PostCard({ post }) {
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
   const [deletePostClicked, setDeletePostClicked] = useState(null);
-  const [editPostClick, setEditPostClick] = useState(null);
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
@@ -22,9 +21,9 @@ function PostCard({ post }) {
     nav(`/${post.username}`);
   }
 
-  function openPostSettings(e, postID) {
+  function openPostSettings(e) {
     e.stopPropagation();
-    setPostDotsClicked((prev) => !prev);
+    setPostDotsClicked(post.id);
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -102,27 +101,26 @@ function PostCard({ post }) {
                   </div>
                 )}
                 {postDotsClicked === post.id && (
-                  <div
-                    className="deleteModal"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setPostDotsClicked(null);
-                      setEditPostClick(post.id);
-                    }}
-                  >
-                    <div>edit</div>
+                  <div className="deleteModal">
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPostDotsClicked(null);
+                      }}
+                    >
+                      edit
+                    </div>
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
                         setDeletePostClicked(post.id);
-                        setEditPostClick(null);
                       }}
                     >
                       delete
                     </div>
                   </div>
                 )}
-                <div onClick={() => openPostSettings(post.id)}>...</div>
+                <div onClick={openPostSettings}>...</div>
               </>
             )}
           </div>

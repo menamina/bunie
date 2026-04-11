@@ -20,7 +20,7 @@ function CommentCard({ comment }) {
 
   function openCommentSettings(e) {
     e.stopPropagation();
-    setCommentDotsClicked((prev) => !prev);
+    setCommentDotsClicked(comment.id);
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -64,8 +64,8 @@ function CommentCard({ comment }) {
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCommentDotsClicked(false);
-                          setDeleteCommentClicked(false);
+                          setCommentDotsClicked(null);
+                          setDeleteCommentClicked(null);
                           confirmDelete();
                         }}
                       >
@@ -74,8 +74,8 @@ function CommentCard({ comment }) {
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCommentDotsClicked(false);
-                          setDeleteCommentClicked(false);
+                          setCommentDotsClicked(null);
+                          setDeleteCommentClicked(null);
                         }}
                       >
                         cancel
@@ -85,16 +85,15 @@ function CommentCard({ comment }) {
                 </div>
               )}
               {commentDotsClicked === comment.id && (
-                <div
-                  className="deleteModal"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCommentDotsClicked(null);
-                    setDeleteCommentClicked(null);
-                    setEditComment(comment.id);
-                  }}
-                >
-                  <div>edit</div>
+                <div className="deleteModal">
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCommentDotsClicked(null);
+                    }}
+                  >
+                    edit
+                  </div>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
@@ -105,7 +104,7 @@ function CommentCard({ comment }) {
                   </div>
                 </div>
               )}
-              <div onClick={() => setCommentDotsClicked(comment.id)}>...</div>
+              <div onClick={openCommentSettings}>...</div>
             </>
           )}
         </div>
