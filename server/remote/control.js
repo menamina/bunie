@@ -126,57 +126,63 @@ async function getMainFeed(req, res) {
 }
 
 async function query(req, res) {
-  const { query } = req.query;
+  try {
+    const { query } = req.query;
 
-  const usersWithQuery = await prisma.user.findMany({
-    where: {
-      username: {
-        contains: [query],
-        mode: "insensitive",
-      },
-    },
-    select: {
-      id: true,
-      name: true,
-      username: true,
-      profile: {
-        select: {
-          pfp: true,
-          bio: true,
+    const usersWithQuery = await prisma.user.findMany({
+      where: {
+        username: {
+          contains: [query],
+          mode: "insensitive",
         },
       },
-    },
-  });
-
-  const postsWithQuery = await prisma.posts.findMany({
-    where: {
-      OR: [
-        {
-          title: {
-            contains: [query],
-            mode: "insensitive",
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        profile: {
+          select: {
+            pfp: true,
+            bio: true,
           },
         },
-        {
-          body: {
-            contains: [query],
-            mode: "insensitive",
+      },
+    });
+
+    const postsWithQuery = await prisma.posts.findMany({
+      where: {
+        OR: [
+          {
+            title: {
+              contains: [query],
+              mode: "insensitive",
+            },
+          },
+          {
+            body: {
+              contains: [query],
+              mode: "insensitive",
+            },
+          },
+        ],
+      },
+      select: {
+        likes: true,
+        comments: true,
+        madeBy: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
           },
         },
-      ],
-    },
-    select: {
-      likes: true,
-      comments: true,
-      madeBy: {
-        select: {
-          id: true,
-          name: true,
-          username: true,
-        },
       },
-    },
-  });
+    });
+
+    return res.status(200).json({ usersWithQuery, postsWithQuery });
+  } catch (error) {
+    return res.status(500).json({ errMsg: "server error", error });
+  }
 }
 
 async function getProfile(req, res) {
