@@ -101,7 +101,24 @@ export const search = (query) => {
   });
 };
 
+export const getFeedOpt = (numberOfNextPost) => {
+  return queryOptions({
+    queryKey: ["feed"],
+    queryFn: getFeed(numberOfNextPost),
+  });
+};
+
 // functions //
+
+async function getFeed(numberOfNextPost) {
+  const res = await fetch(`http://localhost:5555/main-feed-API`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nextPosts: numberOfNextPost }),
+  });
+  return await res.json();
+}
 
 async function searchThis(query) {
   const res = await fetch(`http://localhost:5555/search-API?q=${query}`, {

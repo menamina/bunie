@@ -125,6 +125,89 @@ async function getMainFeed(req, res) {
   }
 }
 
+async function getInFollowingFeed(req, res){
+    const { nextPosts } = req.body;
+    const { id } = req.user
+
+    const userID = Number(id)
+    const numberOfNextPost = Number(nextPosts);
+
+    const thisUsersFollowing = await prisma.user.findUnique({
+      where: {
+        id: {
+          userID
+        }
+      },
+      select: {
+        followings: {
+          select: {followingACC }
+        }
+      }
+    })
+
+    if (numberOfNextPost === 0) {
+      const feed = await prisma.posts.findMany({
+        take: 50,
+        include: {
+          likes: true,
+          comments: true,
+          madeBy: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              profile: {
+                select: {
+                  pfp: true,
+                  header: true,
+                  bio: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!feed) {
+        return res.status(204).json({ databaseEmpty: true });
+      }
+
+      return res.status(200).json({ feed });
+    } else {
+      const feed = await prisma.posts.findMany({
+        skip: numberOfNextPost,
+        take: 50,
+        include: {
+          likes: true,
+          comments: true,
+          madeBy: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+              profile: {
+                select: {
+                  pfp: true,
+                  header: true,
+                  bio: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      if (!feed) {
+        return res.status(204).json({ databaseEmpty: true });
+      }
+      return res.status(200).json({ feed });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+  }
+}
+
 async function query(req, res) {
   try {
     const { query } = req.query;
