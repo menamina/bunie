@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { deletePostOpt } from "./ts-queries/queries";
+
 import MakeAComment from "./makeAComment";
 
 function PostCard({ post }) {
@@ -11,6 +14,7 @@ function PostCard({ post }) {
   const [deletePostClicked, setDeletePostClicked] = useState(false);
 
   const nav = useNavigate();
+  const queryClient = useQueryClient();
 
   function navToProfile(e) {
     e.stopPropagation();
@@ -22,13 +26,13 @@ function PostCard({ post }) {
     setPostDotsClicked((prev) => !prev);
   }
 
-  function togglePostLike() {
-    // Add like logic here
-  }
-
-  function confirmDelete() {
-    // Add delete logic here
-  }
+  const { mutate: confirmDelete } = useQuery({
+    ...deletePostOpt(post.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feed"] });
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+    },
+  });
 
   return (
     <div className="renderingPosts">

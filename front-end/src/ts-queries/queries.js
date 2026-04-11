@@ -147,7 +147,23 @@ export const logoutMut = () => {
   });
 };
 
+export const deletePostOpt = () => {
+  return mutationOptions({
+    mutationFn: deletePost,
+  });
+};
+
+export const togglePostLike = () => {
+  return mutationOptions({
+    mutationFn: toggleLike,
+  });
+};
+
 // functions //
+async function toggleLike(postID) {}
+
+async function deletePost(postID) {}
+
 async function logout() {
   const res = await fetch(`http://localhost:5555/log-out`, {
     method: "POST",
