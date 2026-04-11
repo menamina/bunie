@@ -26,6 +26,7 @@ function Search() {
         />
       </div>
       {isPending && <div>Loading</div>}
+      {error && <div>{error.errMsg}</div>}
       {queryResults && (
         <div className="resultsReturnedDIV">
           <div className="tabView">

@@ -101,6 +101,13 @@ export const search = (query) => {
   });
 };
 
+export const miniUserQuery = (user) => {
+  return queryOptions({
+    queryKey: ["miniProfile", user],
+    queryFn: () => miniUserQuery(user),
+  });
+};
+
 // functions //
 async function searchThis(query) {
   const res = await fetch(`http://localhost:5555/search-API?q=${query}`, {

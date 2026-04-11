@@ -1041,6 +1041,7 @@ module.exports = {
   getMainFeed,
 
   query,
+  getQuerySearchProfile,
 
   getProfile,
   getFollowers,

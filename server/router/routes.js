@@ -125,6 +125,11 @@ router.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
 
 // getting other ppl's profiles //
 router.get("/profile-API/:username", isAuth, remote.getProfile);
+router.get(
+  "/query-profile-API/:username",
+  isAuth,
+  remote.getQuerySearchProfile,
+);
 
 router.get("/get-user-followers/:username", isAuth, remote.getFollowers);
 router.get("/get-user-following/:username", isAuth, remote.getFollowing);
@@ -140,6 +145,7 @@ router.get(
   remote.getUserDecluttered,
 );
 router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
+
 router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 
 // following //
