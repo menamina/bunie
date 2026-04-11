@@ -153,9 +153,15 @@ export const deletePostOpt = () => {
   });
 };
 
-export const togglePostLike = () => {
+export const togglePostLikeOpt = (postID) => {
   return mutationOptions({
-    mutationFn: toggleLike,
+    mutationFn: () => togglePostLike(postID),
+  });
+};
+
+export const toggleCommentLikeOpt = (commentID) => {
+  return mutationOptions({
+    mutationFn: () => toggleCommentLike(commentID),
   });
 };
 
@@ -166,12 +172,48 @@ export const getPostOpt = (postID) => {
   });
 };
 
+export const getCommentOpt = (commentID) => {
+  return queryOptions({
+    queryKey: ["comment", commentID],
+    queryFN: () => getComment(commentID),
+  });
+};
+
 // functions //
-async function getPost(postID) {}
+async function getPost(postID) {
+  const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
+}
 
-async function toggleLike(postID) {}
+async function getComment(commentID) {
+  const res = await fetch(
+    `http://localhost:5555/get-this-comment/${commentID}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  return await res.json();
+}
 
-async function deletePost(postID) {}
+async function togglePostLike(postID) {
+  const res = await fetch(`http://localhost:5555/get-this-post/${commentID}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
+}
+
+async function deletePost(postID) {
+  const res = await fetch(`http://localhost:5555/delete-post/${postID}`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return await res.json();
+}
 
 async function logout() {
   const res = await fetch(`http://localhost:5555/log-out`, {

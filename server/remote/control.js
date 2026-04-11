@@ -618,7 +618,6 @@ async function getComment(req, res){
               id: true,
               name: true,
               username: true,
-
             }
           }
         }
@@ -633,15 +632,14 @@ async function getComment(req, res){
     }
   })
 
-  if (post){
-    return res.status(200).json({post})
+  if (comment){
+    return res.status(200).json({comment})
   }
   return res.status(204).json({ success: false })
 } catch(error){
      console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
 }
-
 }
 
 async function addProduct(req, res) {
