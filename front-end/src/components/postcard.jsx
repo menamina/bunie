@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePostOpt } from "./ts-queries/queries";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deletePostOpt, togglePostLikeOpt } from "./ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 
@@ -26,11 +26,21 @@ function PostCard({ post }) {
     setPostDotsClicked((prev) => !prev);
   }
 
-  const { mutate: confirmDelete } = useQuery({
+  const { mutate: confirmDelete } = useMutation({
     ...deletePostOpt(post.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      queryClient.invalidateQueries({ queryKey: ["post"] });
+    },
+  });
+
+  const { mutate: togglePostLike } = useMutation({
+    ...togglePostLikeOpt(post.id),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feed"] });
+      queryClient.invalidateQueries({ queryKey: ["following"] });
+      queryClient.invalidateQueries({ queryKey: ["post"] });
     },
   });
 
@@ -99,6 +109,7 @@ function PostCard({ post }) {
                       setDeletePostClicked(false);
                     }}
                   >
+                    <div>edit</div>
                     <div
                       onClick={(e) => {
                         e.stopPropagation();

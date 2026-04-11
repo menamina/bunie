@@ -1,3 +1,4 @@
+const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/client");
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");
@@ -568,6 +569,79 @@ async function getUserLikes(req, res) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
   }
+}
+
+async function getPost(req, res){
+  try {
+  const { id } = req.params
+  const postID = Number(id)
+
+  const post = await prisma.posts.findUnique({
+    where: {
+      id: postID
+    },
+    include: {
+      madeby: {
+        select: {
+          id: true,
+          name: true,
+          username: true
+        }
+      }
+    }
+  })
+
+  if (post){
+    return res.status(200).json({post})
+  }
+  return res.status(204).json({ success: false })
+} catch(error){
+     console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+}
+}
+
+async function getComment(req, res){
+  try {
+  const { id } = req.params
+  const commentID = Number(id)
+
+  const comment = await prisma.posts.findUnique({
+    where: {
+      id: commentID
+    },
+    include: {
+      post: {
+        include: {
+          madeby: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+
+            }
+          }
+        }
+      },
+      commenter: {
+        select: {
+          id: true,
+          name: true,
+          username: true
+        }
+      }
+    }
+  })
+
+  if (post){
+    return res.status(200).json({post})
+  }
+  return res.status(204).json({ success: false })
+} catch(error){
+     console.log(error);
+    return res.status(500).json({ errMsg: "server error", error });
+}
+
 }
 
 async function addProduct(req, res) {
@@ -1142,6 +1216,9 @@ module.exports = {
   getUserDecluttered,
   getUserFinished,
   getUserLikes,
+
+  getPost,
+  getComment,
 
   addProduct,
   updateInventory,

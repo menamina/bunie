@@ -159,7 +159,16 @@ export const togglePostLike = () => {
   });
 };
 
+export const getPostOpt = (postID) => {
+  return queryOptions({
+    queryKey: ["post", postID],
+    queryFN: () => getPost(postID),
+  });
+};
+
 // functions //
+async function getPost(postID) {}
+
 async function toggleLike(postID) {}
 
 async function deletePost(postID) {}
