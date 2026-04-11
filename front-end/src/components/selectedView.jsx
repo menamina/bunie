@@ -5,6 +5,7 @@ import {
 } from "../ts-queries/queries";
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
+import EditProduct from "./editProduct";
 
 function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();

@@ -200,7 +200,15 @@ async function getComment(commentID) {
 }
 
 async function togglePostLike(postID) {
-  const res = await fetch(`http://localhost:5555/get-this-post/${commentID}`, {
+  const res = await fetch(`http://localhost:5555/like-post/${postID}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  return await res.json();
+}
+
+async function toggleCommentLike(commentID) {
+  const res = await fetch(`http://localhost:5555/like-post/${commentID}`, {
     method: "GET",
     credentials: "include",
   });
