@@ -62,7 +62,7 @@ export const getStatusViewOptions = (
   });
 };
 
-export const getMiniProfile = (username, view) => {
+export const getFollow = (username, view) => {
   return queryOptions({
     queryKey: ["follow", username, view],
     queryFn: () => getUserFollow(username, view),
