@@ -1,7 +1,11 @@
 import { useState } from "react";
 
-function MakeAPost({ closePostModal }) {
-  const [postData, setPostData] = useState({});
+function MakeAPost({ closeModal }) {
+  const [postData, setPostData] = useState({
+    title: "",
+    body: "",
+    img: "",
+  });
 
   function makeAPost(e) {
     e.preventDefault;
@@ -12,7 +16,7 @@ function MakeAPost({ closePostModal }) {
       className="makeAPostModal"
       onClick={(e) => {
         e.stopPropagation();
-        closePostModal(false);
+        closeModal();
       }}
     >
       <form onSubmit={makeAPost}></form>

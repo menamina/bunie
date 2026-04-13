@@ -922,7 +922,7 @@ async function makeAPost(req, res) {
     const userID = Number(id);
 
     const { title, body } = req.body;
-    const imgs = req.files;
+    const imgs = req.file;
 
     const fileNames = imgs.map((img) => img.filename)
 
@@ -931,10 +931,10 @@ async function makeAPost(req, res) {
           madeBy: userID,
           title,
           ...(body && {body}),
-          ...(imgs && {fileNames})
+          ...(imgs && {img: fileNames})
         },
       });
-      
+
     return res.status(201).json({ post });
 
   } catch (error) {
