@@ -1,4 +1,3 @@
-const { dmmfToRuntimeDataModel } = require("@prisma/client/runtime/client");
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");

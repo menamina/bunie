@@ -31,19 +31,18 @@ function SelectedView({ view, whoseProfile }) {
     isPending: viewingProdsPending,
     error: viewProdsError,
   } = useQuery(
-    getStatusViewOptions(config.endpoint, whoseProfile.username, user.username),
+    getStatusViewOptions(config.endpoint, whoseProfile, user.username),
   );
 
   const {
     mutate: deleteProductMutation,
     isPending: deletePending,
-    error: deleteError,
     reset: resetDelete,
   } = useMutation({
     ...deleteProductMutOpts(),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["view-status", whoseProfile.username],
+        queryKey: ["view-status", whoseProfile],
       });
       setProductToDelete(null);
       setOpenProductDots(false);
@@ -51,22 +50,6 @@ function SelectedView({ view, whoseProfile }) {
       resetDelete();
     },
   });
-
-  if (viewingProdsPending) {
-    return <div>Loading {config.status}...</div>;
-  }
-
-  if (viewProdsError) {
-    return <div>Error: {viewProdsError.message}</div>;
-  }
-
-  if (!products || products.length === 0) {
-    return (
-      <div>
-        No items in {whoseProfile.username}'s {config.status}
-      </div>
-    );
-  }
 
   function cancelProductOptions(e) {
     e.stopPropagation();
@@ -89,95 +72,102 @@ function SelectedView({ view, whoseProfile }) {
 
   return (
     <div className="productViewDIV">
-      {openProductOptions === "edit" && (
-        <EditProduct product={productToEdit} cancel={cancelEdit} />
-      )}
-
-      {openProductOptions === null && (
+      {viewingProdsPending && <div>Loading...</div>}
+      {viewProdsError && <div>Error: {viewProdsError.message}</div>}
+      {products?.length === 0 && <div>Nothing to see here</div>}
+      {products?.length > 0 && (
         <>
-          <h2>{config.status}</h2>
-          <div>{products.length} items</div>
-          <div className="productsGrid">
-            {products.map((product) => (
-              <div key={product.id} className="productCard">
-                {whoseProfile === user.username && (
-                  <div>
-                    <div onClick={() => setOpenProductDots(true)}>...</div>
-                    {openProductDots && (
-                      <div onClick={cancelProductOptions}>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setProductToEdit(product);
-                            setOpenProductOptions("edit");
-                          }}
-                        >
-                          edit
+          {openProductOptions === "edit" && (
+            <EditProduct product={productToEdit} cancel={cancelEdit} />
+          )}
+
+          {openProductOptions === null && (
+            <>
+              <h2>{config.status}</h2>
+              <div>{products.length} items</div>
+              <div className="productsGrid">
+                {products.map((product) => (
+                  <div key={product.id} className="productCard">
+                    {whoseProfile === user.username && (
+                      <div>
+                        <div onClick={() => setOpenProductDots(true)}>...</div>
+                        {openProductDots && (
+                          <div onClick={cancelProductOptions}>
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setProductToEdit(product);
+                                setOpenProductOptions("edit");
+                              }}
+                            >
+                              edit
+                            </div>
+                            <div
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setOpenProductOptions("delete");
+                                setProductToDelete(product.id);
+                              }}
+                            >
+                              delete
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div>
+                      <div>
+                        <div>
+                          <div>{product.product} by</div>
+                          <div>{product.brand}</div>
                         </div>
+                        <div>
+                          <div>{product.category}</div>
+                          <div>${product.price}</div>
+                        </div>
+                      </div>
+
+                      {product.img && (
+                        <img src={product.img} alt={product.product} />
+                      )}
+                      <div>
+                        {product.rating && <div>Rating: {product.rating}</div>}
+                        {product.notes && <div>Notes: {product.notes}</div>}
+                        {product.wouldBuyAgain && (
+                          <div>Repurchase status: {product.wouldBuyAgain}</div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+                {openProductOptions === "delete" && (
+                  <div className="deleteModal" onClick={cancelProductOptions}>
+                    <div>Delete this item?</div>
+                    <div>Once you delete this item it cannot be undone </div>
+                    {!deletePending ? (
+                      <div>
+                        <div onClick={cancelProductOptions}>cancel</div>
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
-                            setOpenProductOptions("delete");
-                            setProductToDelete(product.id);
+                            deleteProduct(productToDelete);
                           }}
                         >
                           delete
                         </div>
                       </div>
+                    ) : (
+                      <div>
+                        <div className="cantClick">cancel</div>
+                        <div className="cantClick">delete</div>
+                      </div>
                     )}
                   </div>
                 )}
-
-                <div>
-                  <div>
-                    <div>
-                      <div>{product.product} by</div>
-                      <div>{product.brand}</div>
-                    </div>
-                    <div>
-                      <div>{product.category}</div>
-                      <div>${product.price}</div>
-                    </div>
-                  </div>
-
-                  {product.img && (
-                    <img src={product.img} alt={product.product} />
-                  )}
-                  <div>
-                    {product.rating && <div>Rating: {product.rating}</div>}
-                    {product.notes && <div>Notes: {product.notes}</div>}
-                    {product.wouldBuyAgain && (
-                      <div>Repurchase status: {product.wouldBuyAgain}</div>
-                    )}
-                  </div>
-                </div>
               </div>
-            ))}
-            {openProductOptions === "delete" && (
-              <div className="deleteModal" onClick={cancelProductOptions}>
-                <div>Delete this item?</div>
-                <div>Once you delete this item it cannot be undone </div>
-                {!deletePending ? (
-                  <div>
-                    <div onClick={cancelProductOptions}>cancel</div>
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        deleteProduct(productToDelete);
-                      }}
-                    >
-                      delete
-                    </div>
-                  </div>
-                ) : (
-                  <div>
-                    <div className="cantClick">cancel</div>
-                    <div className="cantClick">delete</div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
+            </>
+          )}
         </>
       )}
     </div>
