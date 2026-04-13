@@ -20,8 +20,18 @@ function Likes({ whoseProfile }) {
     <div className="likesDIV">
       {likesPending && <div>Loading..</div>}
       {likesErr && <div>{likesErr}</div>}
-      {userLikes.length > 0 && <div></div>}
-      {userLikes.length === 0 && <div>Nothing to see here</div>}
+      {userLikes?.likesOrdered?.length > 0 && (
+        <div className="likesFlex">
+          {userLikes.likesOrdered.map((like) => {
+            if (like.type === "post") {
+              return <PostCard key={like.id} post={like.post} />;
+            } else {
+              return <CommentCard key={like.id} comment={like.comment} />;
+            }
+          })}
+        </div>
+      )}
+      {userLikes?.likesOrdered?.length === 0 && <div>Nothing to see here</div>}
     </div>
   );
 }

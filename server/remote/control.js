@@ -595,7 +595,7 @@ async function getUserLikes(req, res) {
 
     const likesOrdered = [...postsFilter, ...commentsFiltered].sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
 
-    return res.status(200).json({ thisUsersLikes });
+    return res.status(200).json({ likesOrdered });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
