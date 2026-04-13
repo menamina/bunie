@@ -562,6 +562,9 @@ async function getUserLikes(req, res) {
                 username: true,
               }
             }
+          },
+          orderBy: {
+            dateLiked: "desc"
           }
         },
         commentLikesByThisUser: {
@@ -579,10 +582,18 @@ async function getUserLikes(req, res) {
 
                 }
               }
+          },
+           orderBy: {
+            dateLiked: "desc"
           }
         }
       },
     });
+
+    const postsFilter = thisUsersLikes.postsThisUserLikes.map((like) => ({type: "post", ...like}))
+    const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map((like) => ({type: "comment", ...like}))
+
+    const likesOrdered = [...postsFilter, ...commentsFiltered].sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
 
     return res.status(200).json({ thisUsersLikes });
   } catch (error) {
