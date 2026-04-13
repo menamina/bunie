@@ -13,14 +13,14 @@ function Likes({ whoseProfile }) {
     error: likesErr,
     isPending: likesPending,
   } = useQuery({
-    ...getLikeOpts(whoseProfile.name, user.username),
+    ...getLikeOpts(whoseProfile, user.username),
   });
 
   return (
     <div className="likesDIV">
       {likesPending && <div>Loading..</div>}
       {likesErr && <div>{likesErr}</div>}
-      {userLikes?.likesOrdered?.length > 0 && (
+      {userLikes?.likesOrdered && (
         <div className="likesFlex">
           {userLikes.likesOrdered.map((like) => {
             if (like.type === "post") {
@@ -31,7 +31,7 @@ function Likes({ whoseProfile }) {
           })}
         </div>
       )}
-      {userLikes?.likesOrdered?.length === 0 && <div>Nothing to see here</div>}
+      {userLikes?.noLikes && <div>Nothing to see here</div>}
     </div>
   );
 }

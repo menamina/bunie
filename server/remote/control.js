@@ -371,7 +371,7 @@ async function getFollowing(req, res) {
         },
       },
     });
-    if (fullFollowingList.following.length === 0) {
+    if (fullFollowingList.followings.length === 0) {
       return res.status(204).json({ noFollowing: true });
     }
     return res.status(200).json({ fullFollowingList });
@@ -547,19 +547,22 @@ async function getUserLikes(req, res) {
   try {
     const { username } = req.params;
 
-    const thisUsersLikes = await prisma.user.findMany({
+    const thisUsersLikes = await prisma.user.findUnique({
       where: {
         username,
       },
       select: {
         postsThisUserLikes: {
           include: {
-            post: true, 
-            madeBy: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
+            post: {
+              include: {
+                madeBy: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  }
+                }
               }
             }
           },
@@ -572,14 +575,13 @@ async function getUserLikes(req, res) {
               comment: {
                 include: {
                   post: true,
-                  madeBy: {
+                  commentedBy: {
                     select: {
                       id: true,
                       name: true,
                       username: true
                     }
                   }
-
                 }
               }
           },
@@ -594,6 +596,10 @@ async function getUserLikes(req, res) {
     const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map((like) => ({type: "comment", ...like}))
 
     const likesOrdered = [...postsFilter, ...commentsFiltered].sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
+
+    if (likesOrdered.length === 0) {
+      return res.status(204).json({ noLikes: true });
+    }
 
     return res.status(200).json({ likesOrdered });
   } catch (error) {
