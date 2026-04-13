@@ -21,11 +21,24 @@ function MakeAPost({ closeModal }) {
         </div>
         <div>
           <div className="stickyorwhatever">add an image</div>
+          <input
+            type="files"
+            accept="image/*"
+            onChange={(e) => {
+              const imgFiles = Array.from(e.target.files);
+              setPostData((prev) => ({
+                ...prev,
+                img: [...prev.img, imgFiles],
+              }));
+            }}
+            hidden
+          />
         </div>
         <div>
           <div className="">
             <textarea
               placeholder="got more to say?"
+              value={postData.body}
               onChange={(e) =>
                 setPostData((prev) => ({ ...prev, body: e.target.value }))
               }
@@ -54,6 +67,15 @@ function MakeAPost({ closeModal }) {
               })}
             </div>
           )}
+        </div>
+        <div>post</div>
+        <div
+          onClick={(e) => {
+            e.stopPropagation();
+            closeModal();
+          }}
+        >
+          cancel
         </div>
       </form>
     </div>
