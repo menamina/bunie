@@ -923,29 +923,20 @@ async function makeAPost(req, res) {
 
     const { title, body } = req.body;
     const imgs = req.files;
-    if (!imgs || imgs.length === 0) {
-      const post = await prisma.posts.create({
+
+    const fileNames = imgs.map((img) => img.filename)
+
+    const post = await prisma.posts.create({
         data: {
           madeBy: userID,
           title,
-          body,
+          ...(body && {body}),
+          ...(imgs && {fileNames})
         },
       });
-      return res.status(201).json({ post });
-    }
-
-    const fileNames = imgs.map((img) => img.filename);
-
-    const post = await prisma.posts.create({
-      data: {
-        madeBy: userID,
-        title,
-        body,
-        img: fileNames,
-      },
-    });
-
+      
     return res.status(201).json({ post });
+
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
