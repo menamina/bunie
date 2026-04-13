@@ -133,28 +133,28 @@ function Profile() {
 
       {/* render comps below w fetch to diff api */}
       <div className="renderViewHere">
-        {view === "overview" && <Overview whoseProfile={userProfile} />}
+        {view === "overview" && <Overview whoseProfile={username} />}
         {view === "inventory" && (
-          <SelectedView view="inventory" whoseProfile={userProfile} />
+          <SelectedView view="inventory" whoseProfile={username} />
         )}
         {view === "inprogress" && (
-          <SelectedView view="inprogress" whoseProfile={userProfile} />
+          <SelectedView view="inprogress" whoseProfile={username} />
         )}
         {view === "limbo" && (
-          <SelectedView view="limbo" whoseProfile={userProfile} />
+          <SelectedView view="limbo" whoseProfile={username} />
         )}
         {view === "decluttered" && (
-          <SelectedView view="decluttered" whoseProfile={userProfile} />
+          <SelectedView view="decluttered" whoseProfile={username} />
         )}
         {view === "finished" && (
-          <SelectedView view="finished" whoseProfile={userProfile} />
+          <SelectedView view="finished" whoseProfile={username} />
         )}
-        {view === "likes" && <Likes whoseProfile={userProfile} />}
+        {view === "likes" && <Likes whoseProfile={username} />}
         {view === "followers" && (
-          <Follow whoseProfile={userProfile} view="followers" />
+          <Follow whoseProfile={username} view="followers" />
         )}
         {view === "following" && (
-          <Follow whoseProfile={userProfile} view="following" />
+          <Follow whoseProfile={username} view="following" />
         )}
       </div>
     </div>
