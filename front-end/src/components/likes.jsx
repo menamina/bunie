@@ -20,13 +20,9 @@ function Likes({ whoseProfile }) {
       {likesErr && <div>{likesErr}</div>}
       {userLikes?.likesOrdered && (
         <div className="likesFlex">
-          {userLikes.likesOrdered.map((like) => {
-            if (like.type === "post") {
-              return <LikedCard key={like.id} liked={like} type="post" />;
-            } else {
-              return <likedCard key={like.id} liked={like} type="post" />;
-            }
-          })}
+          {userLikes.likesOrdered.map((like) => (
+            <LikedCard key={like.id} like={like} />
+          ))}
         </div>
       )}
       {userLikes?.noLikes && <div>Nothing to see here</div>}
