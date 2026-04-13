@@ -113,6 +113,7 @@ model PostLikes {
   id Int @id @default(autoincrement())
   idOfPost Int
   userWhoLiked Int
+  dateCreated DateTime @default(now())
 
   post Posts @relation(fields: [idOfPost], references: [id])
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
@@ -140,6 +141,7 @@ model CommentLikes {
   id Int @id @default(autoincrement())
   idOfComment Int
   userWhoLiked Int
+  dateCreated DateTime @default(now())
 
   comment Comments @relation(fields: [idOfComment], references: [id])
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)

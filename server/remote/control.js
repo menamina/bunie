@@ -554,29 +554,36 @@ async function getUserLikes(req, res) {
       select: {
         postsThisUserLikes: {
           include: {
-            madeBy: true,
-          },
-        },
-        commentLikesByThisUser: {
-          include: {
-            post: true,
-            include: {
-              madeBy: {
-                select: {
-                  id: true,
-                  name: true,
-                  username: true
-                }
+            post: true, 
+            madeBy: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
               }
             }
+          }
+        },
+        commentLikesByThisUser: {
+            include: {
+              comment: {
+                include: {
+                  post: true,
+                  madeBy: {
+                    select: {
+                      id: true,
+                      name: true,
+                      username: true
+                    }
+                  }
+
+                }
+              }
           }
         }
       },
     });
 
-    if (thisUsersLikes.postsThisUserLikes.length === 0) {
-      return res.status(204).json({ noLikes: true });
-    }
     return res.status(200).json({ thisUsersLikes });
   } catch (error) {
     console.log(error);
