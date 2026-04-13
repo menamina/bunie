@@ -547,7 +547,7 @@ async function getUserLikes(req, res) {
   try {
     const { username } = req.params;
 
-    const thisUsersLikes = await prisma.user.findUnique({
+    const thisUsersLikes = await prisma.user.findMany({
       where: {
         username,
       },
@@ -557,6 +557,20 @@ async function getUserLikes(req, res) {
             madeBy: true,
           },
         },
+        commentLikesByThisUser: {
+          include: {
+            post: true,
+            include: {
+              madeBy: {
+                select: {
+                  id: true,
+                  name: true,
+                  username: true
+                }
+              }
+            }
+          }
+        }
       },
     });
 

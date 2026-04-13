@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getLikeOpts } from "./ts-queries/queries";
+import PostCard from "./postcard";
+import CommentCard from "./commentCard";
 
 function Likes({ whoseProfile }) {
   const { user } = useOutletContext();
