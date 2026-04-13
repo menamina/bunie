@@ -1,9 +1,7 @@
-import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useOutletContext } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { getLikeOpts } from "./ts-queries/queries";
-import PostCard from "./postcard";
-import CommentCard from "./commentCard";
+import LikedCard from "./likedCard";
 
 function Likes({ whoseProfile }) {
   const { user } = useOutletContext();
@@ -24,9 +22,9 @@ function Likes({ whoseProfile }) {
         <div className="likesFlex">
           {userLikes.likesOrdered.map((like) => {
             if (like.type === "post") {
-              return <PostCard key={like.id} post={like.post} />;
+              return <LikedCard key={like.id} liked={like} type="post" />;
             } else {
-              return <CommentCard key={like.id} comment={like.comment} />;
+              return <likedCard key={like.id} liked={like} type="post" />;
             }
           })}
         </div>
