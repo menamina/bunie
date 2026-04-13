@@ -922,7 +922,7 @@ async function makeAPost(req, res) {
     const userID = Number(id);
 
     const { title, body } = req.body;
-    const imgs = req.file;
+    const imgs = req.files;
 
     const fileNames = imgs.map((img) => img.filename)
 
