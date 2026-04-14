@@ -6,11 +6,12 @@ import { useOutletContext } from "react-router-dom";
 
 function MakeAComment({ postToCommentOn, closeModal }) {
   const [commentData, setCommentData] = useState({
-    pID: "",
+    pID: postToCommentOn.id,
     body: "",
   });
 
   const { user } = useOutletContext();
+  const queryClient = useQueryClient();
 
   const {
     mutate: makeAComment,
@@ -26,6 +27,7 @@ function MakeAComment({ postToCommentOn, closeModal }) {
         pID: "",
         body: "",
       });
+      queryClient.invalidateQueries({ queryKey: ["post", postToCommentOn.id] });
     },
   });
 
@@ -52,7 +54,17 @@ function MakeAComment({ postToCommentOn, closeModal }) {
             <textarea placeholder="post your reply" />
           </div>
         </div>
+        {isPending && <div className="cannotClick">post</div>}
+        {!isPending && commentData.body && (
+          <button className="canClick">post</button>
+        )}
       </form>
+      {error && (
+        <div className="errorDiv">
+          <div>{error}</div>
+          <div onClick={resetComment}>try again</div>
+        </div>
+      )}
     </div>
   );
 }

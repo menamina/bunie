@@ -178,15 +178,31 @@ export const getPostOpt = (postID) => {
   });
 };
 
-export const makePostMut = (postData) => {
+export const makePostMut = () => {
   return mutationOptions({
     mutationFn: makePost,
   });
 };
 
+export const makeCommentMut = () => {
+  return mutationOptions({
+    mutationFn: makeComment,
+  });
+};
+
 // functions //
+async function makeComment(commentData) {
+  const res = await fetch(`http://localhost:5555/make-comment-API`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ commentData }),
+  });
+  return await res.json();
+}
+
 async function makePost(postData) {
-  const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
+  const res = await fetch(`http://localhost:5555/make-post-API`, {
     method: "GET",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -196,7 +212,7 @@ async function makePost(postData) {
 }
 
 async function getPost(postID) {
-  const res = await fetch(`http://localhost:5555/make-post-API`, {
+  const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
     method: "POST",
     credentials: "include",
   });

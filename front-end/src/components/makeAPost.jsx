@@ -97,7 +97,7 @@ function MakeAPost({ closeModal }) {
         {postData.title && (postData.body || postData.images.length > 0) && (
           <div>
             {postPending && <div className="cannotPost">post</div>}
-            {<button className="canPost">post</button>}
+            {!postPending && <button className="canPost">post</button>}
           </div>
         )}
         {!postData.title &&
