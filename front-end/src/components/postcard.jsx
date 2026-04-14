@@ -164,7 +164,9 @@ function PostCard({ post }) {
         </div>
       </div>
 
-      {makeAComment && <MakeAComment postToCommentOn={post} />}
+      {makeAComment && (
+        <MakeAComment postToCommentOn={post} closeModal={setMakeAComment} />
+      )}
     </div>
   );
 }
