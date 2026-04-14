@@ -62,63 +62,34 @@ async function getMainFeed(req, res) {
     const { nextPosts } = req.body;
     const numberOfNextPost = Number(nextPosts);
 
-    if (numberOfNextPost === 0) {
-      const feed = await prisma.posts.findMany({
-        take: 50,
-        include: {
-          likes: true,
-          comments: true,
-          madeBy: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-              profile: {
-                select: {
-                  pfp: true,
-                  header: true,
-                  bio: true,
-                },
+    const feed = await prisma.posts.findMany({
+      ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
+      take: 50,
+      include: {
+        likes: true,
+        comments: true,
+        madeBy: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            profile: {
+              select: {
+                pfp: true,
+                header: true,
+                bio: true,
               },
             },
           },
         },
-      });
+      },
+    });
 
-      if (!feed) {
-        return res.status(204).json({ databaseEmpty: true });
-      }
-
-      return res.status(200).json({ feed });
-    } else {
-      const feed = await prisma.posts.findMany({
-        skip: numberOfNextPost,
-        take: 50,
-        include: {
-          likes: true,
-          comments: true,
-          madeBy: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-              profile: {
-                select: {
-                  pfp: true,
-                  header: true,
-                  bio: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      if (!feed) {
-        return res.status(204).json({ databaseEmpty: true });
-      }
-      return res.status(200).json({ feed });
+    if (!feed || feed.length === 0) {
+      return res.status(204).json({ databaseEmpty: true });
     }
+
+    return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -392,13 +363,19 @@ async function getUserPosts(req, res) {
         id: true,
         name: true,
         username: true,
-        posts: true,
+        posts: {
+          include: {
+            likes: true,
+            comments: true,
+          }
+        },
       },
     });
 
-    if (thisUsersPosts.posts.length === 0) {
+    if (user.posts.length === 0) {
       return res.status(204).json({ noPosts: true });
     }
+
     return res.status(200).json({ thisUsersPosts });
   } catch (error) {
     console.log(error);

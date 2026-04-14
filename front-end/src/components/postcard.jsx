@@ -7,18 +7,20 @@ import MakeAComment from "./makeAComment";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisMyPost = post.username === user.username;
+  const isThisMyPost = post.madeBy.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
   const [deletePostClicked, setDeletePostClicked] = useState(null);
+
+  const [editPostClicked, setEditPostClicked] = useState(false);
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
   function navToProfile(e) {
     e.stopPropagation();
-    nav(`/${post.username}`);
+    nav(`/${post.madeBy.username}`);
   }
 
   function openPostSettings(e) {
@@ -61,8 +63,8 @@ function PostCard({ post }) {
         <div>
           <div>
             <div>
-              <div>{post.name}</div>
-              <div>{post.username}</div>
+              <div>{post.madeBy.name}</div>
+              <div>{post.madeBy.username}</div>
             </div>
 
             {isThisMyPost && (
@@ -106,6 +108,7 @@ function PostCard({ post }) {
                       onClick={(e) => {
                         e.stopPropagation();
                         setPostDotsClicked(null);
+                        setEditPostClicked(true);
                       }}
                     >
                       edit
@@ -166,6 +169,13 @@ function PostCard({ post }) {
 
       {makeAComment && (
         <MakeAComment postToCommentOn={post} closeModal={setMakeAComment} />
+      )}
+      {editPostClicked && (
+        <EditPost
+          postToEdit={post}
+          closeModal={setEditPostClicked}
+          closeDots={setPostDotsClicked}
+        />
       )}
     </div>
   );

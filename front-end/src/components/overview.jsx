@@ -27,7 +27,7 @@ function Overview({ whoseProfile }) {
 
   return (
     <div className="userPostsDIV">
-      {userPosts.thisUsersPosts.length === 0 && <div>Nothing to see here</div>}
+      {userPosts.noPosts && <div>Nothing to see here</div>}
       {userPosts.thisUsersPosts.length > 0 &&
         userPosts.thisUsersPosts.map((post) => {
           <PostCard post={post} />;
