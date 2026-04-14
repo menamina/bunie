@@ -35,7 +35,13 @@ function MakeAPost({ closeModal }) {
     >
       <form onSubmit={makeAPost}>
         <div>
-          <input placeholder="Title" />
+          <input
+            placeholder="Title"
+            value={postData.title}
+            onChange={(e) => {
+              setPostData((prev) => ({ ...prev, title: e.target.value }));
+            }}
+          />
         </div>
         <div>
           <div

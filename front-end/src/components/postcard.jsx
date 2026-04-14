@@ -7,7 +7,7 @@ import MakeAComment from "./makeAComment";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisMyPost = post.madeBy.username === user.username;
+  const isThisMyPost = post.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
@@ -25,11 +25,11 @@ function PostCard({ post }) {
 
   function openPostSettings(e) {
     e.stopPropagation();
-    setPostDotsClicked(post.id);
+    setPostDotsClicked(post.posts.id);
   }
 
   const { mutate: confirmDelete } = useMutation({
-    ...deletePostOpt(post.id),
+    ...deletePostOpt(post.posts.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
@@ -38,7 +38,7 @@ function PostCard({ post }) {
   });
 
   const { mutate: togglePostLike } = useMutation({
-    ...togglePostLikeOpt(post.id),
+    ...togglePostLikeOpt(post.posts.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["following"] });
@@ -50,8 +50,8 @@ function PostCard({ post }) {
     <div className="renderingPosts">
       <div
         className="postDIV"
-        id={post.id}
-        key={post.id}
+        id={post.posts.id}
+        key={post.posts.id}
         onClick={(e) => {
           e.stopPropagation();
           nav(`/post/${post.id}`);
@@ -63,13 +63,13 @@ function PostCard({ post }) {
         <div>
           <div>
             <div>
-              <div>{post.madeBy.name}</div>
-              <div>{post.madeBy.username}</div>
+              <div>{post.name}</div>
+              <div>{post.username}</div>
             </div>
 
             {isThisMyPost && (
               <>
-                {deletePostClicked === post.id && (
+                {deletePostClicked === post.posts.id && (
                   <div className="confirmDeletePostModal">
                     <div>
                       <div>Delete post?</div>
@@ -102,7 +102,7 @@ function PostCard({ post }) {
                     </div>
                   </div>
                 )}
-                {postDotsClicked === post.id && (
+                {postDotsClicked === post.posts.id && (
                   <div className="deleteModal">
                     <div
                       onClick={(e) => {
@@ -116,7 +116,7 @@ function PostCard({ post }) {
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDeletePostClicked(post.id);
+                        setDeletePostClicked(post.posts.id);
                       }}
                     >
                       delete
