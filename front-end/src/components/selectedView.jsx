@@ -10,7 +10,7 @@ import EditProduct from "./editProduct";
 function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
-  const [openProductDots, setOpenProductDots] = useState(false);
+  const [openProductDots, setOpenProductDots] = useState(null);
   const [openProductOptions, setOpenProductOptions] = useState(null);
 
   const [productToEdit, setProductToEdit] = useState(null);
@@ -45,7 +45,7 @@ function SelectedView({ view, whoseProfile }) {
         queryKey: ["view-status", whoseProfile],
       });
       setProductToDelete(null);
-      setOpenProductDots(false);
+      setOpenProductDots(null);
       setOpenProductOptions(null);
       resetDelete();
     },
@@ -53,7 +53,7 @@ function SelectedView({ view, whoseProfile }) {
 
   function cancelProductOptions(e) {
     e.stopPropagation();
-    setOpenProductDots(false);
+    setOpenProductDots(null);
     setOpenProductOptions(null);
     setProductToDelete(null);
   }
@@ -77,9 +77,6 @@ function SelectedView({ view, whoseProfile }) {
       {products?.length === 0 && <div>Nothing to see here</div>}
       {products?.length > 0 && (
         <>
-          {openProductOptions === "edit" && (
-            <EditProduct product={productToEdit} cancel={cancelEdit} />
-          )}
 
           {openProductOptions === null && (
             <>
@@ -87,29 +84,32 @@ function SelectedView({ view, whoseProfile }) {
               <div>{products.length} items</div>
               <div className="productsGrid">
                 {products.map((product) => (
+
                   <div key={product.id} className="productCard">
                     {whoseProfile === user.username && (
                       <div>
-                        <div onClick={() => setOpenProductDots(true)}>...</div>
-                        {openProductDots && (
+                        <div onClick={() => setOpenProductDots(product.id)}>...</div>
+                        {openProductDots === product.id && (
                           <div onClick={cancelProductOptions}>
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setProductToEdit(product);
-                                setOpenProductOptions("edit");
-                              }}
-                            >
-                              edit
-                            </div>
-                            <div
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setOpenProductOptions("delete");
-                                setProductToDelete(product.id);
-                              }}
-                            >
-                              delete
+                            <div>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setProductToEdit(product.id);
+                                  setOpenProductOptions("edit");
+                                }}
+                              >
+                                edit
+                              </div>
+                              <div
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setOpenProductOptions("delete");
+                                  setProductToDelete(product.id);
+                                }}
+                              >
+                                delete
+                              </div>
                             </div>
                           </div>
                         )}
@@ -140,8 +140,7 @@ function SelectedView({ view, whoseProfile }) {
                       </div>
                     </div>
                   </div>
-                ))}
-                {openProductOptions === "delete" && (
+                  {openProductOptions === "delete" && productToDelete === product.id && (
                   <div className="deleteModal" onClick={cancelProductOptions}>
                     <div>Delete this item?</div>
                     <div>Once you delete this item it cannot be undone </div>
@@ -165,6 +164,8 @@ function SelectedView({ view, whoseProfile }) {
                     )}
                   </div>
                 )}
+                ))}
+                
               </div>
             </>
           )}
