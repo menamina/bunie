@@ -19,6 +19,7 @@ function MakeAPost({ closeModal }) {
   } = useMutation({
     ...makePostMut(postData),
     onSuccess: () => {
+      closeModal(false);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
       resetPostErr;
     },
