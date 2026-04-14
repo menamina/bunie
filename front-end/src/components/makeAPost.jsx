@@ -1,13 +1,21 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { makePostMut } from "./ts-queries/queries";
+import { makePostMut, updatePostMut } from "./ts-queries/queries";
 
-function MakeAPost({ closeModal }) {
-  const [postData, setPostData] = useState({
-    title: "",
-    body: "",
-    images: [],
-  });
+function MakeAPost({ closeModal, post = null }) {
+  const [postData, setPostData] = useState(
+    post
+      ? {
+          title: post.title,
+          body: post.body || "",
+          images: post.img || "",
+        }
+      : {
+          title: "",
+          body: "",
+          images: [],
+        },
+  );
 
   const queryClient = useQueryClient();
 
@@ -15,25 +23,61 @@ function MakeAPost({ closeModal }) {
     mutate: makeAPost,
     error: postErr,
     isPending: postPending,
-    reset: resetPostErr,
+    reset: resetPost,
   } = useMutation({
-    ...makePostMut(postData),
+    ...makePostMut(),
     onSuccess: () => {
       closeModal(false);
       queryClient.invalidateQueries({ queryKey: ["posts"] });
-      resetPostErr;
     },
   });
 
+  const {
+    mutate: updatePost,
+    error: updateErr,
+    isPending: updatePending,
+    reset: resetUpdate,
+  } = useMutation({
+    ...updatePostMut(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryFN: ["post", post.id] });
+      queryClient.invalidateQueries({
+        queryFN: ["profile", post.madeBy.username],
+      });
+      closeModal(false);
+    },
+  });
+
+  function submit(e) {
+    e.preventDefault();
+    post ? updatePost(postData, post.id) : makeAPost(postData);
+  }
+
   return (
     <div
-      className="makeAPostModal"
+      className="make edit APostModal"
       onClick={(e) => {
         e.stopPropagation();
         closeModal();
       }}
     >
-      <form onSubmit={makeAPost}>
+      {updateErr && (
+        <div onClick={resetUpdate}>
+          <div>
+            <div>Oops something went wrong</div>
+            <div>{updateErr}</div>
+          </div>
+        </div>
+      )}
+      {postErr && (
+        <div onClick={resetPost}>
+          <div>
+            <div>Oops something went wrong</div>
+            <div>{updateErr}</div>
+          </div>
+        </div>
+      )}
+      <form onSubmit={submit}>
         <div>
           <input
             placeholder="Title"
