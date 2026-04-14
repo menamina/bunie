@@ -100,16 +100,15 @@ function MakeAPost({ closeModal }) {
             </div>
           )}
         </div>
-        {postData.title && (postData.body || postData.images.length > 0) && (
+        {postData.title && (postData.body || postData.images.length > 0) ? (
           <div>
             {postPending && <div className="cannotPost">post</div>}
             {!postPending && <button className="canPost">post</button>}
           </div>
+        ) : (
+          <div className="cannotPost">post</div>
         )}
-        {!postData.title &&
-          (!postData.body || postData.images.length === 0) && (
-            <div className="cannotPost">post</div>
-          )}
+
         <div
           onClick={(e) => {
             e.stopPropagation();

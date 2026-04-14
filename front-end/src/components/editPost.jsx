@@ -6,8 +6,8 @@ import { updatePostMut } from "./ts-queries/queries";
 function EditPost({ postToEdit, closeModal, closeDots }) {
   const [postData, setPostData] = useState({
     title: postToEdit?.posts?.title,
-    body: postToEdit?.posts?.body,
-    images: [postToEdit?.posts?.img],
+    body: postToEdit?.posts?.body ? postToEdit?.posts?.body : "",
+    images: postToEdit?.posts?.img ? [postToEdit?.posts?.img] : "",
   });
 
   const queryClient = useQueryClient();
@@ -98,16 +98,14 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
             </div>
           )}
         </div>
-        {postData.title && (postData.body || postData.images.length > 0) && (
+        {postData.title && (postData.body || postData.images.length > 0) ? (
           <div>
-            {postPending && <div className="cannotPost">post</div>}
-            {!postPending && <button className="canPost">post</button>}
+            {updatePending && <div className="cannotPost">post</div>}
+            {!updatePending && <button className="canPost">post</button>}
           </div>
+        ) : (
+          <div className="cannotPost">post</div>
         )}
-        {!postData.title &&
-          (!postData.body || postData.images.length === 0) && (
-            <div className="cannotPost">post</div>
-          )}
         <div
           onClick={(e) => {
             e.stopPropagation();
@@ -122,10 +120,10 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
           cancel
         </div>
       </form>
-      {postErr && (
+      {updateErr && (
         <div>
-          <div>{postErr}</div>
-          <div onClick={resetPostErr}>try again</div>
+          <div>{updateErr}</div>
+          <div onClick={resetUpdate}>try again</div>
         </div>
       )}
     </div>
