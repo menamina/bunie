@@ -4,9 +4,9 @@ import { updatePostMut } from "./ts-queries/queries";
 
 function EditPost({ postToEdit, closeModal, closeDots }) {
   const [postData, setPostData] = useState({
-    title: postToEdit?.posts?.title,
-    body: postToEdit?.posts?.body ? postToEdit?.posts?.body : "",
-    images: postToEdit?.posts?.img ? [postToEdit?.posts?.img] : "",
+    title: postToEdit?.title,
+    body: postToEdit?.body || "",
+    images: postToEdit?.img || [],
   });
 
   const queryClient = useQueryClient();
@@ -17,11 +17,11 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
     isPending: updatePending,
     reset: resetUpdate,
   } = useMutation({
-    ...updatePostMut(postData, postToEdit.posts.id),
+    ...updatePostMut(postData, postToEdit.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryFN: ["post", postToEdit.posts.id] });
+      queryClient.invalidateQueries({ queryFN: ["post", postToEdit.id] });
       queryClient.invalidateQueries({
-        queryFN: ["profile", postToEdit.username],
+        queryFN: ["profile", postToEdit.madeBy.username],
       });
       closeDots();
     },
@@ -61,7 +61,7 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
               const imgFiles = Array.from(e.target.files);
               setPostData((prev) => ({
                 ...prev,
-                images: [...prev.images, imgFiles],
+                images: [...prev.images, ...imgFiles],
               }));
             }}
             hidden

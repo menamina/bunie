@@ -7,7 +7,7 @@ import MakeAComment from "./makeAComment";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisMyPost = post.username === user.username;
+  const isThisMyPost = post.madeBy.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
@@ -25,11 +25,11 @@ function PostCard({ post }) {
 
   function openPostSettings(e) {
     e.stopPropagation();
-    setPostDotsClicked(post.posts.id);
+    setPostDotsClicked(post.id);
   }
 
   const { mutate: confirmDelete } = useMutation({
-    ...deletePostOpt(post.posts.id),
+    ...deletePostOpt(post.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
@@ -38,7 +38,7 @@ function PostCard({ post }) {
   });
 
   const { mutate: togglePostLike } = useMutation({
-    ...togglePostLikeOpt(post.posts.id),
+    ...togglePostLikeOpt(post.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["following"] });
@@ -50,8 +50,8 @@ function PostCard({ post }) {
     <div className="renderingPosts">
       <div
         className="postDIV"
-        id={post.posts.id}
-        key={post.posts.id}
+        id={post.id}
+        key={post.id}
         onClick={(e) => {
           e.stopPropagation();
           nav(`/post/${post.id}`);
@@ -63,13 +63,13 @@ function PostCard({ post }) {
         <div>
           <div>
             <div>
-              <div>{post.name}</div>
-              <div>{post.username}</div>
+              <div>{post.madeBy.name}</div>
+              <div>{post.madeBy.username}</div>
             </div>
 
             {isThisMyPost && (
               <>
-                {deletePostClicked === post.posts.id && (
+                {deletePostClicked === post.id && (
                   <div className="confirmDeletePostModal">
                     <div>
                       <div>Delete post?</div>
@@ -102,7 +102,7 @@ function PostCard({ post }) {
                     </div>
                   </div>
                 )}
-                {postDotsClicked === post.posts.id && (
+                {postDotsClicked === post.id && (
                   <div className="deleteModal">
                     <div
                       onClick={(e) => {
@@ -116,7 +116,7 @@ function PostCard({ post }) {
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDeletePostClicked(post.posts.id);
+                        setDeletePostClicked(post.id);
                       }}
                     >
                       delete
@@ -129,12 +129,12 @@ function PostCard({ post }) {
           </div>
 
           <div>
-            <h3>{post.posts.title}</h3>
+            <h3>{post.title}</h3>
           </div>
-          {post.posts.body && <div>{post.posts.body}</div>}
-          {post.posts.img && (
+          {post.body && <div>{post.body}</div>}
+          {post.img && (
             <div>
-              {post.posts.img.map((img, index) => (
+              {post.img.map((img, index) => (
                 <img
                   key={index}
                   className="postIMG"
@@ -152,7 +152,7 @@ function PostCard({ post }) {
               }}
             >
               <img></img>
-              <div>{post.posts.likes.length}</div>
+              <div>{post.likes.length}</div>
             </div>
             <div
               onClick={(e) => {
@@ -161,7 +161,7 @@ function PostCard({ post }) {
               }}
             >
               <img></img>
-              <div>{post.posts.comments.length}</div>
+              <div>{post.comments.length}</div>
             </div>
           </div>
         </div>

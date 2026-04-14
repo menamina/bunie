@@ -96,89 +96,59 @@ async function getMainFeed(req, res) {
   }
 }
 
-async function getFollowingFeed(req, res){
+async function getFollowingFeed(req, res) {
+  try {
     const { nextPosts } = req.body;
-    const { id } = req.user
+    const { id } = req.user;
 
-    const userID = Number(id)
+    const userID = Number(id);
     const numberOfNextPost = Number(nextPosts);
 
     const thisUsersFollowing = await prisma.user.findUnique({
       where: {
-        id: {
-          userID
-        }
+        id: userID,
       },
       select: {
         followings: {
           select: {
-            followingACC: {
+            followingAcc: {
               select: {
-                id: true
-              }
-            }
-          }
-        }
-      }
-    })
-
-    if (numberOfNextPost === 0) {
-      const feed = await prisma.posts.findMany({
-        take: 50,
-        include: {
-          likes: true,
-          comments: true,
-          madeBy: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-              profile: {
-                select: {
-                  pfp: true,
-                  header: true,
-                  bio: true,
-                },
+                id: true,
               },
             },
           },
         },
-      });
+      },
+    });
 
-      if (!feed) {
-        return res.status(204).json({ databaseEmpty: true });
-      }
-
-      return res.status(200).json({ feed });
-    } else {
-      const feed = await prisma.posts.findMany({
-        skip: numberOfNextPost,
-        take: 50,
-        include: {
-          likes: true,
-          comments: true,
-          madeBy: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-              profile: {
-                select: {
-                  pfp: true,
-                  header: true,
-                  bio: true,
-                },
+    const feed = await prisma.posts.findMany({
+      ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
+      take: 50,
+      include: {
+        likes: true,
+        comments: true,
+        madeBy: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+            profile: {
+              select: {
+                pfp: true,
+                header: true,
+                bio: true,
               },
             },
           },
         },
-      });
+      },
+    });
 
-      if (!feed) {
-        return res.status(204).json({ databaseEmpty: true });
-      }
-      return res.status(200).json({ feed });
+    if (!feed || feed.length === 0) {
+      return res.status(204).json({ databaseEmpty: true });
     }
+
+    return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -355,7 +325,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const thisUsersPosts = await prisma.user.findUnique({
+    const user = await prisma.user.findUnique({
       where: {
         username,
       },
@@ -367,7 +337,7 @@ async function getUserPosts(req, res) {
           include: {
             likes: true,
             comments: true,
-          }
+          },
         },
       },
     });
@@ -376,7 +346,16 @@ async function getUserPosts(req, res) {
       return res.status(204).json({ noPosts: true });
     }
 
-    return res.status(200).json({ thisUsersPosts });
+    const feed = user.posts.map((post) => ({
+      ...post,
+      madeBy: {
+        id: user.id,
+        name: user.name,
+        username: user.username,
+      },
+    }));
+
+    return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -538,41 +517,48 @@ async function getUserLikes(req, res) {
                     id: true,
                     name: true,
                     username: true,
-                  }
-                }
-              }
-            }
+                  },
+                },
+              },
+            },
           },
           orderBy: {
-            dateLiked: "desc"
-          }
+            dateLiked: "desc",
+          },
         },
         commentLikesByThisUser: {
-            include: {
-              comment: {
-                include: {
-                  post: true,
-                  commentedBy: {
-                    select: {
-                      id: true,
-                      name: true,
-                      username: true
-                    }
-                  }
-                }
-              }
+          include: {
+            comment: {
+              include: {
+                post: true,
+                commentedBy: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  },
+                },
+              },
+            },
           },
-           orderBy: {
-            dateLiked: "desc"
-          }
-        }
+          orderBy: {
+            dateLiked: "desc",
+          },
+        },
       },
     });
 
-    const postsFilter = thisUsersLikes.postsThisUserLikes.map((like) => ({type: "post", ...like}))
-    const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map((like) => ({type: "comment", ...like}))
+    const postsFilter = thisUsersLikes.postsThisUserLikes.map((like) => ({
+      type: "post",
+      ...like,
+    }));
+    const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map(
+      (like) => ({ type: "comment", ...like }),
+    );
 
-    const likesOrdered = [...postsFilter, ...commentsFiltered].sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
+    const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
+      (a, b) => new Date(b.dateLiked) - new Date(a.dateLiked),
+    );
 
     if (likesOrdered.length === 0) {
       return res.status(204).json({ noLikes: true });
@@ -585,86 +571,86 @@ async function getUserLikes(req, res) {
   }
 }
 
-async function getPost(req, res){
+async function getPost(req, res) {
   try {
-  const { id } = req.params
-  const postID = Number(id)
+    const { id } = req.params;
+    const postID = Number(id);
 
-  const post = await prisma.posts.findUnique({
-    where: {
-      id: postID
-    },
-    include: {
-      madeby: {
-        select: {
-          id: true,
-          name: true,
-          username: true
-        }
+    const post = await prisma.posts.findUnique({
+      where: {
+        id: postID,
       },
-      comments: {
-        include: {
-          commentedBy: {
-            select: {
-              id: true,
-              name: true,
-              username: true
-            }
-          }
-        }
-      }
+      include: {
+        madeby: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+          },
+        },
+        comments: {
+          include: {
+            commentedBy: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (post) {
+      return res.status(200).json({ post });
     }
-  })
-
-  if (post){
-    return res.status(200).json({post})
-  }
-  return res.status(204).json({ success: false })
-} catch(error){
-     console.log(error);
+    return res.status(204).json({ success: false });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
-}
+  }
 }
 
-async function getComment(req, res){
+async function getComment(req, res) {
   try {
-  const { id } = req.params
-  const commentID = Number(id)
+    const { id } = req.params;
+    const commentID = Number(id);
 
-  const comment = await prisma.posts.findUnique({
-    where: {
-      id: commentID
-    },
-    include: {
-      post: {
-        include: {
-          madeby: {
-            select: {
-              id: true,
-              name: true,
-              username: true,
-            }
-          }
-        }
+    const comment = await prisma.posts.findUnique({
+      where: {
+        id: commentID,
       },
-      commenter: {
-        select: {
-          id: true,
-          name: true,
-          username: true
-        }
-      }
-    }
-  })
+      include: {
+        post: {
+          include: {
+            madeby: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+              },
+            },
+          },
+        },
+        commenter: {
+          select: {
+            id: true,
+            name: true,
+            username: true,
+          },
+        },
+      },
+    });
 
-  if (comment){
-    return res.status(200).json({comment})
-  }
-  return res.status(204).json({ success: false })
-} catch(error){
-     console.log(error);
+    if (comment) {
+      return res.status(200).json({ comment });
+    }
+    return res.status(204).json({ success: false });
+  } catch (error) {
+    console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
-}
+  }
 }
 
 async function addProduct(req, res) {
@@ -904,16 +890,15 @@ async function makeAPost(req, res) {
     const fileNames = imgs?.length > 0 ? imgs.map((img) => img.filename) : null;
 
     const post = await prisma.posts.create({
-        data: {
-          madeBy: userID,
-          title,
-          ...(body && {body}),
-          ...(fileNames && {img: fileNames})
-        },
-      });
+      data: {
+        madeBy: userID,
+        title,
+        ...(body && { body }),
+        ...(fileNames && { img: fileNames }),
+      },
+    });
 
     return res.status(201).json({ post });
-
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error", error });
@@ -930,7 +915,7 @@ async function updatePost(req, res) {
 
     const imgs = req.files;
 
-    const fileNames = imgs.length > 0 ? imgs.map((img) => img.filename) : null
+    const fileNames = imgs.length > 0 ? imgs.map((img) => img.filename) : null;
 
     const updatedPost = await prisma.user.update({
       where: {
@@ -944,7 +929,7 @@ async function updatePost(req, res) {
             },
             data: {
               title,
-              ...(fileNames && {img: fileNames}),
+              ...(fileNames && { img: fileNames }),
               ...(body && { body }),
             },
           },

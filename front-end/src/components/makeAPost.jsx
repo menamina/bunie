@@ -60,7 +60,7 @@ function MakeAPost({ closeModal }) {
               const imgFiles = Array.from(e.target.files);
               setPostData((prev) => ({
                 ...prev,
-                images: [...prev.images, imgFiles],
+                images: [...prev.images, ...imgFiles],
               }));
             }}
             hidden
