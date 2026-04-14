@@ -1,10 +1,25 @@
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { makePostMut } from "./ts-queries/queries";
 
 function MakeAPost({ closeModal }) {
   const [postData, setPostData] = useState({
     title: "",
     body: "",
-    img: "",
+    img: [],
+  });
+
+  const queryClient = useQueryClient();
+
+  const {
+    mutate: makeAPost,
+    error: postErr,
+    isPending: postPending,
+  } = useMutation({
+    ...makePostMut(postData),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["posts"] });
+    },
   });
 
   return (
@@ -68,11 +83,24 @@ function MakeAPost({ closeModal }) {
             </div>
           )}
         </div>
-        <div>post</div>
+        {postData.title && (postData.body || postData.img.length > 0) && (
+          <div>
+            {postPending && <div className="cannotPost">post</div>}
+            {<button className="canPost">post</button>}
+          </div>
+        )}
+        {!postData.title && (!postData.body || postData.img.length === 0) && (
+          <div className="cannotPost">post</div>
+        )}
         <div
           onClick={(e) => {
             e.stopPropagation();
             closeModal();
+            setPostData({
+              title: "",
+              body: "",
+              img: "",
+            });
           }}
         >
           cancel

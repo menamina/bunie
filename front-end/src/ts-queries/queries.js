@@ -178,10 +178,26 @@ export const getPostOpt = (postID) => {
   });
 };
 
+export const makePostMut = (postData) => {
+  return mutationOptions({
+    mutationFn: makePost,
+  });
+};
+
 // functions //
-async function getPost(postID) {
+async function makePost(postData) {
   const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
     method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ postData }),
+  });
+  return await res.json();
+}
+
+async function getPost(postID) {
+  const res = await fetch(`http://localhost:5555/make-post-API`, {
+    method: "POST",
     credentials: "include",
   });
   return await res.json();
