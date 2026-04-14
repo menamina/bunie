@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { addProductMutOpts } from "../ts-queries/queries";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { addProductMutOpts, updateProductMut } from "../ts-queries/queries";
 
 function AddToInventory({ closeInventoryModal, product = null }) {
   const editMode = product ? true : false;
+  const queryClient = useQueryClient();
 
   const {
     mutate: addProduct,
@@ -19,17 +20,15 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   });
 
   const {
-          mutate: updateProduct,
-          error: updateErr,
-          isPending: updatePending,
-          reset: resetUpdate
-      } = useMutation({
-          ...updateProductMut();
-          onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["view-status", ] })
-          }
-  
-  })
+    mutate: updateProduct,
+    isPending: updatePending,
+  } = useMutation({
+    ...updateProductMut(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["view-status"] });
+      closeInventoryModal();
+    },
+  });
 
   const [inventoryINFO, setInventoryINFO] = useState(
     !product
@@ -360,23 +359,6 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             <>
              <div className="cannot click">add</div>
               <div className="cannot click" onClick={closeInventoryModal}>cancel</div>
-            </>
-          )}
-
-
-
-          {isPending && (
-            <>
-              <div className="cannot click">add</div>
-              <div className="cannot click">cancel</div>
-            </>
-          )}
-          {!isPending && (
-            <>
-              <button className="">add</button>
-              <div className="" onClick={clearInventoryINFO}>
-                cancel
-              </div>
             </>
           )}
         </div>

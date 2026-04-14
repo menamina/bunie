@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePostOpt, togglePostLikeOpt } from "./ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
+import MakeAPost from "./makeAPost";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
@@ -45,6 +46,10 @@ function PostCard({ post }) {
       queryClient.invalidateQueries({ queryKey: ["post"] });
     },
   });
+
+  function cancelUpdate() {
+    (editPostClicked(null), setPostDotsClicked(false));
+  }
 
   return (
     <div className="renderingPosts">
@@ -108,7 +113,7 @@ function PostCard({ post }) {
                       onClick={(e) => {
                         e.stopPropagation();
                         setPostDotsClicked(null);
-                        setEditPostClicked(true);
+                        setEditPostClicked(post.id);
                       }}
                     >
                       edit
@@ -171,11 +176,7 @@ function PostCard({ post }) {
         <MakeAComment postToCommentOn={post} closeModal={setMakeAComment} />
       )}
       {editPostClicked && (
-        <EditPost
-          postToEdit={post}
-          closeModal={setEditPostClicked}
-          closeDots={setPostDotsClicked}
-        />
+        <MakeAPost postToEdit={post} closeModal={cancelUpdate} />
       )}
     </div>
   );
