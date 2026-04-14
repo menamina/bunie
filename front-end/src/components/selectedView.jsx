@@ -5,7 +5,7 @@ import {
 } from "../ts-queries/queries";
 import { useOutletContext } from "react-router-dom";
 import { useState } from "react";
-import EditProduct from "./editProduct";
+import AddToInventory from "./addToInventory";
 
 function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();
@@ -51,24 +51,12 @@ function SelectedView({ view, whoseProfile }) {
     },
   });
 
-  const {
-          mutate: updateProduct,
-          error: updateErr,
-          isPending: updatePending,
-          reset: resetUpdate
-      } = useMutation({
-          ...updateProductMut();
-          onSuccess: () => {
-              queryClient.invalidateQueries({ queryKey: ["view-status", ] })
-          }
-  
-  })
-
   function cancelProductOptions(e) {
     e.stopPropagation();
     setOpenProductDots(null);
     setOpenProductOptions(null);
     setProductToDelete(null);
+    setProductToEdit(null);
   }
 
   return (
@@ -169,10 +157,9 @@ function SelectedView({ view, whoseProfile }) {
 
                 {openProductOptions === "edit" &&
                   productToEdit === product.id && (
-                    <EditProduct
+                    <AddToInventory
+                      closeInventoryModal={cancelProductOptions}
                       product={product}
-                      closeEdit={setProductToEdit}
-                      closeProdOpts={setOpenProductOptions}
                     />
                   )}
               </>

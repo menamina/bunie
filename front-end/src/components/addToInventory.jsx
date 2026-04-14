@@ -7,7 +7,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
 
   const {
     mutate: addProduct,
-    isPending,
+    isPending: pendingProductAdd,
     error: errorAddingProduct,
     reset: resetAddProduct,
   } = useMutation({
@@ -17,6 +17,19 @@ function AddToInventory({ closeInventoryModal, product = null }) {
       resetAddProduct();
     },
   });
+
+  const {
+          mutate: updateProduct,
+          error: updateErr,
+          isPending: updatePending,
+          reset: resetUpdate
+      } = useMutation({
+          ...updateProductMut();
+          onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ["view-status", ] })
+          }
+  
+  })
 
   const [inventoryINFO, setInventoryINFO] = useState(
     !product
@@ -66,13 +79,17 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     });
   }
 
+  function submit(){
+    editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO)
+  }
+
   return (
     <div className="addToInventoryModal" onClick={clearInventoryINFO}>
       {errorAddingProduct && <div>{errorAddingProduct}</div>}
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          addProduct(inventoryINFO);
+          submit()
         }}
       >
         <div>
@@ -321,6 +338,33 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           </div>
         </div>
         <div>
+          {editMode && !updatePending && (
+            <>
+             <button className="can click">update</button>
+              <div className="can click" onClick={closeInventoryModal}>cancel</div>
+            </>
+          )}
+                    {editMode && updatePending && (
+            <>
+             <div className="cannot click">update</div>
+              <div className="cannot click" onClick={closeInventoryModal}>cancel</div>
+            </>
+          )}
+          {!editMode && !pendingProductAdd && (
+            <>
+             <button className="can click">add</button>
+              <div className="can click" onClick={closeInventoryModal}>cancel</div>
+            </>
+          )}
+                    {!editMode && pendingProductAdd && (
+            <>
+             <div className="cannot click">add</div>
+              <div className="cannot click" onClick={closeInventoryModal}>cancel</div>
+            </>
+          )}
+
+
+
           {isPending && (
             <>
               <div className="cannot click">add</div>
