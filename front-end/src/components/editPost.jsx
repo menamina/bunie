@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updatePostMut } from "./ts-queries/queries";
 
@@ -18,18 +17,22 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
     isPending: updatePending,
     reset: resetUpdate,
   } = useMutation({
-    ...updatePostMut(postData),
+    ...updatePostMut(postData, postToEdit.posts.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryFN: ["post", postToEdit.posts.id] });
+      queryClient.invalidateQueries({
+        queryFN: ["profile", postToEdit.username],
+      });
+      closeDots();
     },
   });
 
   return (
     <div
-      className="makeAPostModal"
+      className="editPostModal"
       onClick={(e) => {
         e.stopPropagation();
-        closeModal();
+        closeDots();
       }}
     >
       <form onSubmit={updatePost}>
@@ -110,11 +113,6 @@ function EditPost({ postToEdit, closeModal, closeDots }) {
           onClick={(e) => {
             e.stopPropagation();
             closeModal();
-            setPostData({
-              title: "",
-              body: "",
-              images: [],
-            });
           }}
         >
           cancel

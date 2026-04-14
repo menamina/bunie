@@ -190,7 +190,23 @@ export const makeCommentMut = () => {
   });
 };
 
+export const updatePostMut = () => {
+  return mutationOptions({
+    mutationFn: updatePost,
+  });
+};
+
 // functions //
+async function updatePost(postData, postID) {
+  const res = await fetch(`http://update-post/${postID}`, {
+    method: "GET",
+    credentials: "include",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ postData }),
+  });
+  return await res.json();
+}
+
 async function makeComment(commentData) {
   const res = await fetch(`http://localhost:5555/make-comment-API`, {
     method: "GET",
