@@ -6,7 +6,7 @@ function MakeAPost({ closeModal }) {
   const [postData, setPostData] = useState({
     title: "",
     body: "",
-    img: [],
+    images: [],
   });
 
   const queryClient = useQueryClient();
@@ -15,10 +15,12 @@ function MakeAPost({ closeModal }) {
     mutate: makeAPost,
     error: postErr,
     isPending: postPending,
+    reset: resetPostErr,
   } = useMutation({
     ...makePostMut(postData),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["posts"] });
+      resetPostErr;
     },
   });
 
@@ -35,7 +37,15 @@ function MakeAPost({ closeModal }) {
           <input placeholder="Title" />
         </div>
         <div>
-          <div className="stickyorwhatever">add an image</div>
+          <div
+            className="stickyorwhatever"
+            onClick={(e) => {
+              e.target.nextElementSibling.click();
+            }}
+          >
+            add an image
+          </div>
+          {/* ^^upload image here actually */}
           <input
             type="files"
             accept="image/*"
@@ -43,7 +53,7 @@ function MakeAPost({ closeModal }) {
               const imgFiles = Array.from(e.target.files);
               setPostData((prev) => ({
                 ...prev,
-                img: [...prev.img, imgFiles],
+                images: [...prev.images, imgFiles],
               }));
             }}
             hidden
@@ -59,15 +69,15 @@ function MakeAPost({ closeModal }) {
               }
             />
           </div>
-          {postData.img && (
+          {postData.images && (
             <div className="imgs if any sticky or whatever">
-              {postData.img.map((thisImg, index) => {
+              {postData.images.map((thisImg, index) => {
                 <div>
                   <div
                     onClick={() =>
                       setPostData((prev) => ({
                         ...prev,
-                        img: prev.img.filter((img) => img !== thisImg),
+                        images: prev.images.filter((img) => img !== thisImg),
                       }))
                     }
                   >
@@ -83,15 +93,16 @@ function MakeAPost({ closeModal }) {
             </div>
           )}
         </div>
-        {postData.title && (postData.body || postData.img.length > 0) && (
+        {postData.title && (postData.body || postData.images.length > 0) && (
           <div>
             {postPending && <div className="cannotPost">post</div>}
             {<button className="canPost">post</button>}
           </div>
         )}
-        {!postData.title && (!postData.body || postData.img.length === 0) && (
-          <div className="cannotPost">post</div>
-        )}
+        {!postData.title &&
+          (!postData.body || postData.images.length === 0) && (
+            <div className="cannotPost">post</div>
+          )}
         <div
           onClick={(e) => {
             e.stopPropagation();
@@ -99,13 +110,19 @@ function MakeAPost({ closeModal }) {
             setPostData({
               title: "",
               body: "",
-              img: "",
+              images: [],
             });
           }}
         >
           cancel
         </div>
       </form>
+      {postErr && (
+        <div>
+          <div>{postErr}</div>
+          <div onClick={resetPostErr}>try again</div>
+        </div>
+      )}
     </div>
   );
 }
