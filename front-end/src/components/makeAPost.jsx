@@ -144,35 +144,31 @@ function MakeAPost({ closeModal, post = null }) {
             </div>
           )}
         </div>
-        {postData.title && (postData.body || postData.images.length > 0) ? (
+        {!post && (
           <div>
-            {postPending && <div className="cannotPost">post</div>}
-            {!postPending && <button className="canPost">post</button>}
+            {postData.title && (postData.body || postData.images.length > 0) ? (
+              <div>
+                {postPending && <div className="cannot click">post</div>}
+                {!postPending && <button className="can click">post</button>}
+              </div>
+            ) : (
+              <div className="cannot click">post</div>
+            )}
           </div>
-        ) : (
-          <div className="cannotPost">post</div>
         )}
-
-        <div
-          onClick={(e) => {
-            e.stopPropagation();
-            closeModal();
-            setPostData({
-              title: "",
-              body: "",
-              images: [],
-            });
-          }}
-        >
-          cancel
-        </div>
+        {post && (
+          <div>
+            {postData.title && (postData.body || postData.images.length > 0) ? (
+              <div>
+                {postPending && <div className="cannot click">update</div>}
+                {!postPending && <button className="can click">post</button>}
+              </div>
+            ) : (
+              <div className="cannotPost">post</div>
+            )}
+          </div>
+        )}
       </form>
-      {postErr && (
-        <div>
-          <div>{postErr}</div>
-          <div onClick={resetPostErr}>try again</div>
-        </div>
-      )}
     </div>
   );
 }
