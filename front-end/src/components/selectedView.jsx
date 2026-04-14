@@ -51,6 +51,19 @@ function SelectedView({ view, whoseProfile }) {
     },
   });
 
+  const {
+          mutate: updateProduct,
+          error: updateErr,
+          isPending: updatePending,
+          reset: resetUpdate
+      } = useMutation({
+          ...updateProductMut();
+          onSuccess: () => {
+              queryClient.invalidateQueries({ queryKey: ["view-status", ] })
+          }
+  
+  })
+
   function cancelProductOptions(e) {
     e.stopPropagation();
     setOpenProductDots(null);

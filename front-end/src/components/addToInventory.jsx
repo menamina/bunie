@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { addProductMutOpts } from "../ts-queries/queries";
 
-function AddToInventory({ closeInventoryModal }) {
+function AddToInventory({ closeInventoryModal, product = null }) {
+  const editMode = product ? true : false;
+
   const {
     mutate: addProduct,
     isPending,
@@ -16,19 +18,35 @@ function AddToInventory({ closeInventoryModal }) {
     },
   });
 
-  const [inventoryINFO, setInventoryINFO] = useState({
-    brand: "",
-    product: "",
-    category: "",
-    price: "",
-    img: "",
-    status: "",
-    backup: "",
-    purchaseDate: "",
-    rating: "",
-    notes: "",
-    wouldBuyAgain: "",
-  });
+  const [inventoryINFO, setInventoryINFO] = useState(
+    !product
+      ? {
+          brand: "",
+          product: "",
+          category: "",
+          price: "",
+          img: "",
+          status: "",
+          backup: "",
+          purchaseDate: "",
+          rating: "",
+          notes: "",
+          wouldBuyAgain: "",
+        }
+      : {
+          brand: product.brand,
+          product: product.product,
+          category: product.category,
+          price: product.price,
+          img: product.img,
+          status: product.status,
+          backup: product.backup || "",
+          purchaseDate: product.purchaseDate || "",
+          rating: product.rating || "",
+          notes: product.notes || "",
+          wouldBuyAgain: product.wouldBuyAgain || "",
+        },
+  );
 
   function clearInventoryINFO(e) {
     e.preventDefault();
