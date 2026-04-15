@@ -160,8 +160,8 @@ function MakeAPost({ closeModal, post = null }) {
           <div>
             {postData.title && (postData.body || postData.images.length > 0) ? (
               <div>
-                {postPending && <div className="cannot click">update</div>}
-                {!postPending && <button className="can click">post</button>}
+                {updatePending && <div className="cannot click">update</div>}
+                {!updatePending && <button className="can click">post</button>}
               </div>
             ) : (
               <div className="cannotPost">post</div>

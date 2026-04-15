@@ -184,19 +184,38 @@ export const makePostMut = () => {
   });
 };
 
-export const makeCommentMut = () => {
-  return mutationOptions({
-    mutationFn: makeComment,
-  });
-};
-
 export const updatePostMut = () => {
   return mutationOptions({
     mutationFn: updatePost,
   });
 };
 
+export const makeCommentMut = () => {
+  return mutationOptions({
+    mutationFn: makeComment,
+  });
+};
+
+export const updateCommentMut = () => {
+  return mutationOptions({
+    mutationFn: updateComment,
+  });
+};
+
 // functions //
+async function updateComment(commentData) {
+  const res = await fetch(
+    `http://localhost:5555/update-comment/${commentData.pID}`,
+    {
+      method: "GET",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ commentData }),
+    },
+  );
+  return await res.json();
+}
+
 async function updatePost(postData, postID) {
   const res = await fetch(`http://update-post/${postID}`, {
     method: "GET",
