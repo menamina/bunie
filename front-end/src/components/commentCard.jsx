@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCommentOpt, toggleCommentLikeOpt } from "./ts-queries/queries";
+import MakeAComment from "./makeAComment";
 
 function CommentCard({ comment }) {
   const { user } = useOutletContext();
   const isThisMyComment = comment.commentedBy.username === user.username;
 
-  const [commentDotsClicked, setCommentDotsClicked] = useState(null);
+  const [dotsClicked, setDotsClicked] = useState(null);
+
+  const [editComment, setEditComment] = useState(null);
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
 
   const nav = useNavigate();
@@ -18,26 +21,24 @@ function CommentCard({ comment }) {
     nav(`/${comment.commentedBy.username}`);
   }
 
-  function openCommentSettings(e) {
-    e.stopPropagation();
-    setCommentDotsClicked(comment.id);
-  }
-
   const { mutate: confirmDelete } = useMutation({
-    ...deleteCommentOpt(comment.id),
+    ...deleteCommentOpt(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post"] });
-      queryClient.invalidateQueries({ queryKey: ["comment"] });
+      queryClient.invalidateQueries({ queryKey: ["post", comment.idOfPost] });
     },
   });
 
   const { mutate: toggleCommentLike } = useMutation({
-    ...toggleCommentLikeOpt(comment.id),
+    ...toggleCommentLikeOpt(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post"] });
-      queryClient.invalidateQueries({ queryKey: ["comment"] });
     },
   });
+
+  function closeEditModal() {
+    setDotsClicked(null);
+    setEditComment(false);
+  }
 
   return (
     <div className="commentCard">
@@ -53,6 +54,14 @@ function CommentCard({ comment }) {
 
           {isThisMyComment && (
             <>
+              {editComment && (
+                <MakeAComment
+                  postToCommentOn={comment.idOfPost}
+                  closeModal={closeEditModal}
+                  edit={true}
+                  comment={comment}
+                />
+              )}
               {deleteCommentClicked === comment.id && (
                 <div className="confirmDeleteCommentModal">
                   <div>
@@ -64,9 +73,8 @@ function CommentCard({ comment }) {
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCommentDotsClicked(null);
                           setDeleteCommentClicked(null);
-                          confirmDelete();
+                          confirmDelete(comment.id);
                         }}
                       >
                         delete
@@ -74,8 +82,7 @@ function CommentCard({ comment }) {
                       <div
                         onClick={(e) => {
                           e.stopPropagation();
-                          setCommentDotsClicked(null);
-                          setDeleteCommentClicked(null);
+                          setDotsClicked(null);
                         }}
                       >
                         cancel
@@ -84,12 +91,18 @@ function CommentCard({ comment }) {
                   </div>
                 </div>
               )}
-              {commentDotsClicked === comment.id && (
-                <div className="deleteModal">
+              {dotsClicked === comment.id && (
+                <div
+                  className="optionsModal"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDotsClicked(null);
+                  }}
+                >
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCommentDotsClicked(null);
+                      setEditComment(comment.id);
                     }}
                   >
                     edit
@@ -104,7 +117,7 @@ function CommentCard({ comment }) {
                   </div>
                 </div>
               )}
-              <div onClick={openCommentSettings}>...</div>
+              <div onClick={() => setDotsClicked(comment.id)}>...</div>
             </>
           )}
         </div>
@@ -115,7 +128,7 @@ function CommentCard({ comment }) {
           <div
             onClick={(e) => {
               e.stopPropagation();
-              toggleCommentLike();
+              toggleCommentLike(comment.id);
             }}
           >
             <img></img>

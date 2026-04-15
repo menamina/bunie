@@ -3,12 +3,27 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeCommentMut } from "./ts-queries/queries";
 import PostCard from "./postcard";
 import { useOutletContext } from "react-router-dom";
+import { updateComment } from "../../../server/remote/control";
 
-function MakeAComment({ postToCommentOn, closeModal }) {
-  const [commentData, setCommentData] = useState({
-    pID: postToCommentOn.id,
-    body: "",
-  });
+function MakeAComment({
+  closeModal,
+  postObj = null,
+  edit = false,
+  comment = null,
+}) {
+  const [commentData, setCommentData] = useState(
+    edit
+      ? {
+          pID: postID,
+          body: comment.body,
+        }
+      : {
+          pID: postObj.id,
+          body: "",
+        },
+  );
+
+  const postID = postObj ? postObj.id : comment.idOfPost;
 
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
@@ -16,8 +31,8 @@ function MakeAComment({ postToCommentOn, closeModal }) {
   const {
     mutate: makeAComment,
     reset: resetComment,
-    isPending,
-    error,
+    isPending: addPending,
+    error: addErr,
   } = useMutation({
     ...makeCommentMut(commentData),
     onSuccess: () => {
@@ -27,7 +42,19 @@ function MakeAComment({ postToCommentOn, closeModal }) {
         pID: "",
         body: "",
       });
-      queryClient.invalidateQueries({ queryKey: ["post", postToCommentOn.id] });
+      queryClient.invalidateQueries({ queryKey: ["post", postObj.id] });
+    },
+  });
+
+  const {
+    mutate: updateComment,
+    error: updateErr,
+    isPending: updatePend,
+    reset: resetComment,
+  } = useMutation({
+    ...updateCommentMut(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["post", postID] });
     },
   });
 
@@ -41,7 +68,8 @@ function MakeAComment({ postToCommentOn, closeModal }) {
     >
       <form onSubmit={makeAComment}>
         <div>
-          <PostCard post={postToCommentOn} />
+          {!edit && <PostCard post={postObj} />}
+          {edit && <PostCard post={updatedFetch} />}
         </div>
         <div className="yourReply">
           <div>

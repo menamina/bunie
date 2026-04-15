@@ -997,6 +997,10 @@ async function updateComment(req, res) {
       include: { comments: true },
     });
 
+    if (!updatedComment) {
+      return res.status(404).json({ noComment: "no comment found" });
+    }
+
     return res.status(200).json({ updatedComment });
   } catch (error) {
     console.log(error);
