@@ -27,11 +27,11 @@ function PostOpen() {
           <div className="commentsUnderPost">
             {openedPost.post.comments.length > 0 && (
               <div className="commentHolder">
-                {openedPost.post.comments.map((comment) => {
+                {openedPost.post.comments.map((comment) => (
                   <div className="commentLoaded" key={comment.commentedBy.id}>
                     <CommentCard comment={comment} />
-                  </div>;
-                })}
+                  </div>
+                ))}
               </div>
             )}
           </div>
