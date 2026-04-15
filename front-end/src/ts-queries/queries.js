@@ -217,7 +217,7 @@ async function updateComment(commentData) {
 }
 
 async function updatePost(postData, postID) {
-  const res = await fetch(`http://update-post/${postID}`, {
+  const res = await fetch(`http://localhost:5555/update-post/${postID}`, {
     method: "GET",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
