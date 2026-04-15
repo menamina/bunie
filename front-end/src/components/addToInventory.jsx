@@ -19,10 +19,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     },
   });
 
-  const {
-    mutate: updateProduct,
-    isPending: updatePending,
-  } = useMutation({
+  const { mutate: updateProduct, isPending: updatePending } = useMutation({
     ...updateProductMut(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["view-status"] });
@@ -78,8 +75,8 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     });
   }
 
-  function submit(){
-    editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO)
+  function submit() {
+    editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
   }
 
   return (
@@ -88,7 +85,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          submit()
+          submit();
         }}
       >
         <div>
@@ -104,6 +101,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   brand: e.target.value,
                 }));
               }}
+              required
             />
           </div>
           <div className="product">
@@ -118,6 +116,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   product: e.target.value,
                 }));
               }}
+              required
             />
           </div>
           <div className="category">
@@ -132,6 +131,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   category: e.target.value,
                 }));
               }}
+              required
             />
           </div>
           <div className="price">
@@ -146,6 +146,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   price: e.target.value,
                 }));
               }}
+              required
             />
           </div>
           <div className="img">
@@ -157,7 +158,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                     e.preventDefault();
                     setInventoryINFO((prev) => ({ ...prev, img: "" }));
                   }}
-                ></div>
+                >
+                  X
+                </div>
                 <img
                   src={URL.createObjectURL(inventoryINFO.img)}
                   alt="preview"
@@ -167,13 +170,13 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             <input
               name="file"
               type="file"
-              value={inventoryINFO.img}
               onChange={(e) => {
                 setInventoryINFO((prev) => ({
                   ...prev,
-                  img: e.target.file,
+                  img: e.target.files[0],
                 }));
               }}
+              required
             />
           </div>
           <div className="status">
@@ -294,6 +297,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                       rating: e.target.value,
                     }));
                   }}
+                  required
                 />
                 <label>n/a</label>
               </div>
@@ -301,7 +305,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           </div>
           <div className="notes">
             <label htmlFor="notes">Notes?</label>
-            <input
+            <textarea
               name="notes"
               type="text"
               value={inventoryINFO.notes}
@@ -327,6 +331,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   wouldBuyAgain: e.target.value,
                 }));
               }}
+              required
             >
               <option value="null">n/a</option>
               <option value="yes">yes</option>
@@ -339,26 +344,34 @@ function AddToInventory({ closeInventoryModal, product = null }) {
         <div>
           {editMode && !updatePending && (
             <>
-             <button className="can click">update</button>
-              <div className="can click" onClick={closeInventoryModal}>cancel</div>
+              <button className="can click">update</button>
+              <div className="can click" onClick={closeInventoryModal}>
+                cancel
+              </div>
             </>
           )}
-                    {editMode && updatePending && (
+          {editMode && updatePending && (
             <>
-             <div className="cannot click">update</div>
-              <div className="cannot click" onClick={closeInventoryModal}>cancel</div>
+              <div className="cannot click">update</div>
+              <div className="cannot click" onClick={closeInventoryModal}>
+                cancel
+              </div>
             </>
           )}
           {!editMode && !pendingProductAdd && (
             <>
-             <button className="can click">add</button>
-              <div className="can click" onClick={closeInventoryModal}>cancel</div>
+              <button className="can click">add</button>
+              <div className="can click" onClick={closeInventoryModal}>
+                cancel
+              </div>
             </>
           )}
-                    {!editMode && pendingProductAdd && (
+          {!editMode && pendingProductAdd && (
             <>
-             <div className="cannot click">add</div>
-              <div className="cannot click" onClick={closeInventoryModal}>cancel</div>
+              <div className="cannot click">add</div>
+              <div className="cannot click" onClick={closeInventoryModal}>
+                cancel
+              </div>
             </>
           )}
         </div>

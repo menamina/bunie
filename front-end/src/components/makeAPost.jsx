@@ -8,12 +8,12 @@ function MakeAPost({ closeModal, post = null }) {
       ? {
           title: post.title,
           body: post.body || "",
-          images: post.img || "",
+          image: post.img || "",
         }
       : {
           title: "",
           body: "",
-          images: [],
+          image: [],
         },
   );
 
@@ -98,13 +98,14 @@ function MakeAPost({ closeModal, post = null }) {
           </div>
           {/* ^^upload image here actually */}
           <input
-            type="files"
+            type="file"
+            name="image"
             accept="image/*"
             onChange={(e) => {
               const imgFiles = Array.from(e.target.files);
               setPostData((prev) => ({
                 ...prev,
-                images: [...prev.images, ...imgFiles],
+                image: [...prev.image, ...imgFiles],
               }));
             }}
             hidden
@@ -120,33 +121,35 @@ function MakeAPost({ closeModal, post = null }) {
               }
             />
           </div>
-          {postData.images && (
+          {postData.image.length > 0 && (
             <div className="imgs if any sticky or whatever">
-              {postData.images.map((thisImg, index) => {
-                <div>
-                  <div
-                    onClick={() =>
-                      setPostData((prev) => ({
-                        ...prev,
-                        images: prev.images.filter((img) => img !== thisImg),
-                      }))
-                    }
-                  >
-                    X
+              {postData.image.map((thisImg, index) => {
+                return (
+                  <div>
+                    <div
+                      onClick={() =>
+                        setPostData((prev) => ({
+                          ...prev,
+                          image: prev.image.filter((img) => img !== thisImg),
+                        }))
+                      }
+                    >
+                      X
+                    </div>
+                    <img
+                      src={URL.createObjectURL(thisImg)}
+                      key={index}
+                      alt={`image #${thisImg.index}`}
+                    />
                   </div>
-                  <img
-                    src={URL.createObjectURL(thisImg)}
-                    key={index}
-                    alt={`image #${thisImg.index}`}
-                  />
-                </div>;
+                );
               })}
             </div>
           )}
         </div>
         {!post && (
           <div>
-            {postData.title && (postData.body || postData.images.length > 0) ? (
+            {postData.title && (postData.body || postData.image.length > 0) ? (
               <div>
                 {postPending && <div className="cannot click">post</div>}
                 {!postPending && <button className="can click">post</button>}
@@ -158,7 +161,7 @@ function MakeAPost({ closeModal, post = null }) {
         )}
         {post && (
           <div>
-            {postData.title && (postData.body || postData.images.length > 0) ? (
+            {postData.title && (postData.body || postData.image.length > 0) ? (
               <div>
                 {updatePending && <div className="cannot click">update</div>}
                 {!updatePending && <button className="can click">post</button>}
