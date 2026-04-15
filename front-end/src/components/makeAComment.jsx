@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { makeCommentMut } from "./ts-queries/queries";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  makeCommentMut,
+  updateCommentMut,
+  getPostOpt,
+} from "./ts-queries/queries";
 import PostCard from "./postcard";
 import { useOutletContext } from "react-router-dom";
-import { updateComment } from "../../../server/remote/control";
 
 function MakeAComment({
   closeModal,
@@ -29,15 +32,24 @@ function MakeAComment({
   const queryClient = useQueryClient();
 
   const {
+    data: fetchedPost,
+    isLoading,
+    error: fetchErr,
+    reset: resetFetch,
+  } = useQuery({
+    ...getPostOpt(comment?.idOfPost),
+    enabled: edit && !postObj,
+  });
+
+  const {
     mutate: makeAComment,
-    reset: resetComment,
+    reset: resetAddComment,
     isPending: addPending,
     error: addErr,
   } = useMutation({
     ...makeCommentMut(commentData),
     onSuccess: () => {
       closeModal(false);
-      resetComment();
       setCommentData({
         pID: "",
         body: "",
@@ -50,13 +62,20 @@ function MakeAComment({
     mutate: updateComment,
     error: updateErr,
     isPending: updatePend,
-    reset: resetComment,
+    reset: resetUpdate,
   } = useMutation({
     ...updateCommentMut(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post", postID] });
     },
   });
+
+  function submit() {
+    if (edit && comment && !postObj) {
+      return updateComment(commentData);
+    }
+    return makeAComment(commentData);
+  }
 
   return (
     <div
@@ -66,10 +85,29 @@ function MakeAComment({
         closeModal(false);
       }}
     >
-      <form onSubmit={makeAComment}>
+      {fetchErr && (
+        <div>
+          <div>Oops something went wrong</div>
+          <div onClick={resetFetch}>{fetchErr}</div>
+        </div>
+      )}
+      {updateErr && (
+        <div>
+          <div>Oops something went wrong</div>
+          <div onClick={resetUpdate}>{fetchErr}</div>
+        </div>
+      )}
+      {addErr && (
+        <div>
+          <div>Oops something went wrong</div>
+          <div onClick={resetAddComment}>{addErr}</div>
+        </div>
+      )}
+      <form onSubmit={submit}>
         <div>
           {!edit && <PostCard post={postObj} />}
-          {edit && <PostCard post={updatedFetch} />}
+          {edit && <PostCard post={fetchedPost} />}
+          {edit && isLoading(<div>Loading..</div>)}
         </div>
         <div className="yourReply">
           <div>
@@ -79,20 +117,58 @@ function MakeAComment({
             />
           </div>
           <div>
-            <textarea placeholder="post your reply" />
+            <textarea
+              placeholder="post your reply"
+              value={commentData.body}
+              onChange={(e) =>
+                setCommentData((prev) => ({ ...prev, body: e.target.value }))
+              }
+            />
           </div>
         </div>
-        {isPending && <div className="cannotClick">post</div>}
-        {!isPending && commentData.body && (
-          <button className="canClick">post</button>
+        {edit && !postObj && (
+          <div>
+            {updatePend && (
+              <div>
+                <div className="cannot click">update</div>
+                <div className="cannot click">cancel</div>
+              </div>
+            )}
+
+            {!updatePend && (
+              <div>
+                <button type="submit" className="can click">
+                  update
+                </button>
+                <div className="can click" onClick={closeModal}>
+                  cancel
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+        {!edit && postObj && (
+          <div>
+            {addPending && (
+              <div>
+                <div className="cannot click">post</div>
+                <div className="cannot click">cancel</div>
+              </div>
+            )}
+
+            {!addPending && (
+              <div>
+                <button type="submit" className="can click">
+                  post
+                </button>
+                <div className="can click" onClick={closeModal}>
+                  cancel
+                </div>
+              </div>
+            )}
+          </div>
         )}
       </form>
-      {error && (
-        <div className="errorDiv">
-          <div>{error}</div>
-          <div onClick={resetComment}>try again</div>
-        </div>
-      )}
     </div>
   );
 }
