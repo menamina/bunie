@@ -102,6 +102,7 @@ router.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 router.post(
   "/add-to-inventory-API",
   isAuth,
+  zoddie.addToInvenZod,
   multer.single("image"),
   remote.addProduct,
 );
@@ -124,6 +125,7 @@ router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
 router.post(
   "/make-post-API",
   isAuth,
+  zoddie.makePostZod,
   multer.array("image", 5),
   remote.makeAPost,
 );
