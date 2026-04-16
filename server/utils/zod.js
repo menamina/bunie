@@ -62,7 +62,7 @@ function updateProfZod(req, res, next) {
   const schema = z.object({
     name: z.coerce.string().optional(),
     username: z.coerce.string().optional(),
-    email: z.string().email({ message: "Invalid email" }).optional(),
+    email: z.string().or(email()).optional(),
     bio: z.coerce.string().optional(),
   });
   try {
