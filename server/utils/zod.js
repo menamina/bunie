@@ -14,7 +14,7 @@ function searchZod(req, res, next) {
 
 function makeOrUpdatePostZod(req, res, next) {
   const schema = z.object({
-    title: z.string().or(z.number()),
+    title: z.coerce.string(),
     body: z.string().optional(),
   });
   try {
@@ -26,8 +26,12 @@ function makeOrUpdatePostZod(req, res, next) {
 }
 
 function makeOrUpdateCommentZod(req, res, next) {
+  const schema = z.object({
+    body: z.string(),
+    pID: z.coerce.number(),
+  });
   try {
-    z.string().parse(req.body);
+    schema.parse(req.body);
     next();
   } catch (error) {
     return res.status(400).json({ error: error.issues });
@@ -39,9 +43,9 @@ function addOrUpdateInventoryZod(req, res, next) {
     brand: z.string().optional(),
     product: z.string().optional(),
     category: z.string().optional(),
-    price: z.number().optional(),
+    price: z.coerce.number().optional(),
     status: z.string().optional(),
-    dateOpurchase: z.string().datetime().optional(),
+    dateOpurchase: z.coerce.date().optional(),
     rating: z.string().optional(),
     notes: z.string().optional(),
     wouldBuyAgain: z.string().or(z.null()).optional(),
@@ -56,10 +60,10 @@ function addOrUpdateInventoryZod(req, res, next) {
 
 function updateProfZod(req, res, next) {
   const schema = z.object({
-    name: z.string().or(z.number()),
-    username: z.string().or(z.number()),
-    email: z.string().email(),
-    bio: z.string().or(z.number()).or(z.url()),
+    name: z.coerce.string().optional(),
+    username: z.coerce.string().optional(),
+    email: z.string().email({ message: "Invalid email" }).optional(),
+    bio: z.coerce.string().optional(),
   });
   try {
     schema.parse(req.body);
@@ -71,11 +75,16 @@ function updateProfZod(req, res, next) {
 
 function imgSearch(req, res, next) {
   const { IMG } = req.params;
-  if (IMG.startsWith("../")) {
-    return res.status(400).json({ success: false });
-  } else {
-    return next();
+
+  if (IMG.includes("..") || IMG.includes("/") || IMG.includes("\\")) {
+    return res.status(400).json({ error: "Invalid file name" });
   }
+
+  if (!/^[a-zA-Z0-9_\-\.]+$/.test(IMG)) {
+    return res.status(400).json({ error: "Invalid file name" });
+  }
+
+  next();
 }
 
 export default {
