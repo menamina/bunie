@@ -80,12 +80,12 @@ function Welcome() {
 
   function signupSugmit(e) {
     e.preventDefault();
+    validateUsername(signupINFO.username)
     signUp(signupINFO);
   }
 
-  function validateName(name) {}
 
-  function validateUSername(username) {
+  function validateUsername(username) {
     if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
@@ -136,12 +136,6 @@ function Welcome() {
 
 
   }
-
-  function validateEmail(email) {}
-
-  function validatePassword(password) {}
-
-  function checkIfPasswordsAreTheSame(password, confirmPassword) {}
 
   return (
     <div>
@@ -360,7 +354,7 @@ function Welcome() {
                 <button>SIGNUP</button>
               </div>
             )}
-            {!signupINFO && (
+            {!signupINFO.name && !signupINFO.username && !signupINFO.email && !signupINFO.password && !signupINFO.confirmPassword && (
               <div classname="cannot-click-btn">
                 <div>SIGNUP</div>
               </div>
