@@ -9,6 +9,13 @@ function Welcome() {
   const [viewPassword, setViewPassword] = useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
 
+  const [invalidUsername, setInvalidUsername] = useState({
+    invalidChars: false,
+    cannotBegin: false,
+    cannotEnd: false,
+    lengthTooShortOrLong: false,
+  });
+
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
@@ -77,7 +84,21 @@ function Welcome() {
 
   function validateName(name) {}
 
-  function validateUSername(username) {}
+  function validateUSername(username) {
+    if (/^[a-zA-Z0-9._-]+$/.test(username)) {
+      setInvalidUsername((prev) => ({
+        ...prev,
+        invalidChars: "Username can only contain letters, numbers, . _ or -",
+      }));
+    }
+
+    if (/^[._-]/.test(username)) {
+      setInvalidUsername((prev) => ({
+        ...prev,
+        cannotBegin: "Username can only contain letters, numbers, . _ or -",
+      }));
+    }
+  }
 
   function validateEmail(email) {}
 
