@@ -88,7 +88,12 @@ router.patch(
   ]),
   remote.updateUserIMGS,
 );
-router.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
+router.patch(
+  "/update-my-profile-API/",
+  isAuth,
+  zoddie.updateProfZod,
+  remote.updateUserProfile,
+);
 router.post(
   "/update-my-password-API/",
   isAuth,
@@ -102,13 +107,14 @@ router.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 router.post(
   "/add-to-inventory-API",
   isAuth,
-  zoddie.addToInvenZod,
+  zoddie.addOrUpdateInventoryZod,
   multer.single("image"),
   remote.addProduct,
 );
 router.patch(
   "/update-inventory-status/:productID",
   isAuth,
+  zoddie.addOrUpdateInventoryZod,
   remote.updateInventory,
 );
 
@@ -125,14 +131,29 @@ router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
 router.post(
   "/make-post-API",
   isAuth,
-  zoddie.makePostZod,
+  zoddie.makeOrUpdatePostZod,
   multer.array("image", 5),
   remote.makeAPost,
 );
-router.post("/make-comment-API", isAuth, remote.makeAComment);
+router.post(
+  "/make-comment-API",
+  isAuth,
+  zoddie.makeOrUpdateCommentZod,
+  remote.makeAComment,
+);
 
-router.patch("/update-post/:postToUpdate", isAuth, remote.updatePost);
-router.patch("/update-comment/:commentToUpdate", isAuth, remote.updateComment);
+router.patch(
+  "/update-post/:postToUpdate",
+  isAuth,
+  zoddie.makeOrUpdatePostZod,
+  remote.updatePost,
+);
+router.patch(
+  "/update-comment/:commentToUpdate",
+  isAuth,
+  zoddie.makeOrUpdateCommentZod,
+  remote.updateComment,
+);
 
 router.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
 router.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
