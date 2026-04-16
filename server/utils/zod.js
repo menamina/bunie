@@ -12,15 +12,6 @@ function searchZod(req, res, next) {
   }
 }
 
-function makeOrUpdateCommentZod(req, res, next) {
-  try {
-    z.string().parse(req.body);
-    next();
-  } catch (error) {
-    return res.status(400).json({ error: error.issues });
-  }
-}
-
 function makeOrUpdatePostZod(req, res, next) {
   const schema = z.object({
     title: z.string().or(z.number()),
@@ -28,6 +19,15 @@ function makeOrUpdatePostZod(req, res, next) {
   });
   try {
     schema.parse(req.body);
+    next();
+  } catch (error) {
+    return res.status(400).json({ error: error.issues });
+  }
+}
+
+function makeOrUpdateCommentZod(req, res, next) {
+  try {
+    z.string().parse(req.body);
     next();
   } catch (error) {
     return res.status(400).json({ error: error.issues });
@@ -69,10 +69,20 @@ function updateProfZod(req, res, next) {
   }
 }
 
+function imgSearch(req, res, next) {
+  const { IMG } = req.params;
+  if (IMG.startsWith("../")) {
+    return res.status(400).json({ success: false });
+  } else {
+    return next();
+  }
+}
+
 export default {
   searchZod,
-  makeOrUpdateCommentZod,
   makeOrUpdatePostZod,
+  makeOrUpdateCommentZod,
   addOrUpdateInventoryZod,
   updateProfZod,
+  imgSearch,
 };

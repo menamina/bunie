@@ -61,7 +61,7 @@ router.post("/log-out", (req, res, next) => {
 
 // getting feed //
 
-router.get("/IMGS-API/:IMG", isAuth, remote.IMGS);
+router.get("/IMGS-API/:IMG", isAuth, zoddie.imgSearch, remote.IMGS);
 router.get("/main-feed-API", isAuth, remote.getMainFeed);
 router.get("/following-feed-API", isAuth, remote.getFollowingFeed);
 

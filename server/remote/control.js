@@ -184,13 +184,13 @@ async function query(req, res) {
         OR: [
           {
             title: {
-              contains: [query],
+              contains: query,
               mode: "insensitive",
             },
           },
           {
             body: {
-              contains: [query],
+              contains: query,
               mode: "insensitive",
             },
           },

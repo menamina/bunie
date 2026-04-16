@@ -16,7 +16,6 @@ function Welcome() {
     lengthTooShortOrLong: false,
   });
 
-
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
@@ -80,10 +79,8 @@ function Welcome() {
 
   function signupSugmit(e) {
     e.preventDefault();
-    validateUsername(signupINFO.username);
     signUp(signupINFO);
   }
-
 
   function validateUsername(username) {
     if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
@@ -92,7 +89,7 @@ function Welcome() {
         invalidChars: "Username can only contain letters, numbers, . _ or -",
       }));
     } else {
-       setInvalidUsername((prev) => ({
+      setInvalidUsername((prev) => ({
         ...prev,
         invalidChars: false,
       }));
@@ -104,32 +101,31 @@ function Welcome() {
         cannotBegin: "Username cannot begin with . _ or -",
       }));
     } else {
-       setInvalidUsername((prev) => ({
+      setInvalidUsername((prev) => ({
         ...prev,
         cannotBegin: false,
       }));
     }
 
-     if (/[._-]$/.test(username)) {
+    if (/[._-]$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
         cannotEnd: "Username cannot end with . _ or -",
       }));
     } else {
-       setInvalidUsername((prev) => ({
+      setInvalidUsername((prev) => ({
         ...prev,
         cannotEnd: false,
       }));
     }
 
-    if (username.length < 3 || username.length > 30){
-
-       setInvalidUsername((prev) => ({
+    if (username.length < 3 || username.length > 30) {
+      setInvalidUsername((prev) => ({
         ...prev,
         lengthTooShortOrLong: "Username has to be between 3 and 30 characters",
       }));
     } else {
-       setInvalidUsername((prev) => ({
+      setInvalidUsername((prev) => ({
         ...prev,
         lengthTooShortOrLong: false,
       }));
@@ -238,23 +234,38 @@ function Welcome() {
               ></input>
             </div>
             <div>
-              {invalidUsername && <div className="invalidusername">
-                {invalidUsername.map(err => (
-                  <div>
-                    {err}
-                  </div>
-                ))}
-                <div>}
+              {(invalidUsername.invalidChars ||
+                invalidUsername.cannotBegin ||
+                invalidUsername.cannotEnd ||
+                invalidUsername.lengthTooShortOrLong) && (
+                <div className="invalidusername">
+                  {invalidUsername.invalidChars && (
+                    <div>{invalidUsername.invalidChars}</div>
+                  )}
+                  {invalidUsername.cannotBegin && (
+                    <div>{invalidUsername.cannotBegin}</div>
+                  )}
+                  {invalidUsername.cannotEnd && (
+                    <div>{invalidUsername.cannotEnd}</div>
+                  )}
+                  {invalidUsername.lengthTooShortOrLong && (
+                    <div>{invalidUsername.lengthTooShortOrLong}</div>
+                  )}
+                </div>
+              )}
               <label for="username"></label>
               <input
                 name="username"
                 value={signupINFO.username}
-                onChange={(e) =>
-                  setSignupINFO((prev) => ({
-                    ...prev,
-                    username: e.target.value,
-                  }))
-                }
+                onChange={(e) => {
+                  setSignupINFO(
+                    (prev) => ({
+                      ...prev,
+                      username: e.target.value,
+                    }),
+                    validateUsername(signupINFO.username),
+                  );
+                }}
               ></input>
             </div>
             <div>
@@ -360,11 +371,15 @@ function Welcome() {
                 <button>SIGNUP</button>
               </div>
             )}
-            {!signupINFO.name && !signupINFO.username && !signupINFO.email && !signupINFO.password && !signupINFO.confirmPassword && (
-              <div classname="cannot-click-btn">
-                <div>SIGNUP</div>
-              </div>
-            )}
+            {!signupINFO.name &&
+              !signupINFO.username &&
+              !signupINFO.email &&
+              !signupINFO.password &&
+              !signupINFO.confirmPassword && (
+                <div classname="cannot-click-btn">
+                  <div>SIGNUP</div>
+                </div>
+              )}
           </form>
           <div>
             <div>Already have an account?</div>
