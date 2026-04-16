@@ -16,6 +16,7 @@ function Welcome() {
     lengthTooShortOrLong: false,
   });
 
+
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
@@ -85,7 +86,7 @@ function Welcome() {
   function validateName(name) {}
 
   function validateUSername(username) {
-    if (/^[a-zA-Z0-9._-]+$/.test(username)) {
+    if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
         invalidChars: "Username can only contain letters, numbers, . _ or -",
