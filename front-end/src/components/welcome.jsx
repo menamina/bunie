@@ -45,6 +45,7 @@ function Welcome() {
       setViewConfirmPassword(false);
     },
   });
+
   const {
     mutate: logIn,
     error: logInError,
@@ -73,6 +74,16 @@ function Welcome() {
     e.preventDefault();
     signUp(signupINFO);
   }
+
+  function sanitizeName(username) {}
+
+  function sanitizeUsername(username) {}
+
+  function sanitizeEmail(username) {}
+
+  function sanitizePassword(username) {}
+
+  function checkIfPasswordsAreTheSame(username) {}
 
   return (
     <div>
