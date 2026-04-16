@@ -75,15 +75,15 @@ function Welcome() {
     signUp(signupINFO);
   }
 
-  function sanitizeName(username) {}
+  function validateName(name) {}
 
-  function sanitizeUsername(username) {}
+  function validateUSername(username) {}
 
-  function sanitizeEmail(username) {}
+  function validateEmail(email) {}
 
-  function sanitizePassword(username) {}
+  function validatePassword(password) {}
 
-  function checkIfPasswordsAreTheSame(username) {}
+  function checkIfPasswordsAreTheSame(password, confirmPassword) {}
 
   return (
     <div>
