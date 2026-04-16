@@ -162,7 +162,7 @@ async function query(req, res) {
     const usersWithQuery = await prisma.user.findMany({
       where: {
         username: {
-          contains: [query],
+          contains: query,
           mode: "insensitive",
         },
       },

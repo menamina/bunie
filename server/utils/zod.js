@@ -1,47 +1,47 @@
 import * as z from "zod";
 
-router.get("/my-profile-API/:username", isAuth, remote.getProfile);
-router.get("/profile-API/:username", isAuth, remote.getProfile);
-export const uNameParamVali = () => (req, res, next) => {
-    const schema = z.string();
-    const {username} = req.params
-    const valid = schema.parse(username);
-    if (!valid){
-        return res.status(204).json({message: "not a valid username"})
-    }
+export const searchZod = (req, res, next) => {
+  const schema = z.string();
+  const { query } = req.query;
+  try {
+    schema.parse(query);
     next();
-}
+  } catch (error) {
+    return res.status(400).json({ error: error.issues });
+  }
+};
 
+router.post("/make-comment-API", isAuth, remote.makeAComment);
 
-router.get("/get-my-posts/:username", isAuth, remote.getUserPosts);
-
-
-
-router.get("/get-my-inventory/:username", isAuth, remote.getUserInventory);
-router.get("/get-my-in-progress/:username", isAuth, remote.getUserInProgress);
-router.get("/get-my-limbo/:username", isAuth, remote.getUserLimbo);
-router.get("/get-my-decluttered/:username", isAuth, remote.getUserDecluttered);
-router.get("/get-my-finished/:username", isAuth, remote.getUserFinished);
-router.get("/get-my-likes/:username", isAuth, remote.getUserLikes);
-
-router.patch(
-  "/update-inventory-status/:productID",
+router.post(
+  "/make-post-API",
   isAuth,
-  remote.updateInventory,
+  multer.array("image", 5),
+  remote.makeAPost,
 );
 
-router.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
+router.post(
+  "/add-to-inventory-API",
+  isAuth,
+  multer.single("image"),
+  remote.addProduct,
+);
 
-router.get("/get-this-post/:id", isAuth, remote.getPost);
-router.get("/get-this-comment/:id", isAuth, remote.getComment);
+router.patch("/update-my-profile-API/", isAuth, remote.updateUserProfile);
+router.post(
+  "/update-my-password-API/",
+  isAuth,
+  passwordValidation,
+  remote.updateUserPassword,
+);
+router.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
 
-router.post("/like-post/:postID", isAuth, remote.togglePostLike);
-router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
-
-router.patch("/update-post/:postToUpdate", isAuth, remote.updatePost);
-router.patch("/update-comment/:commentToUpdate", isAuth, remote.updateComment);
-
- + other ppls profiles 
-
-
- 
+router.patch(
+  "/update-my-IMGS-API/",
+  isAuth,
+  multer.fields([
+    { name: "pfp", maxCount: 1 },
+    { name: "header", maxCount: 1 },
+  ]),
+  remote.updateUserIMGS,
+);

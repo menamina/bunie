@@ -6,7 +6,7 @@ const validator = require("../utils/validator");
 const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
 const multer = require("../utils/multer");
-import { validateUserZod } from "../utils/zod";
+import { searchZod } from "../utils/zod";
 
 router.post("/sign-up-API", validator, remote.signUpUser);
 
@@ -159,6 +159,6 @@ router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
 router.post("/follow/:userID", isAuth, remote.toggleFollow);
 
 // search //
-router.get("/search-API", isAuth, remote.query);
+router.get("/search-API", isAuth, searchZod, remote.query);
 
 module.exports = router;
