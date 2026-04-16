@@ -80,7 +80,7 @@ function Welcome() {
 
   function signupSugmit(e) {
     e.preventDefault();
-    validateUsername(signupINFO.username)
+    validateUsername(signupINFO.username);
     signUp(signupINFO);
   }
 
@@ -122,7 +122,7 @@ function Welcome() {
       }));
     }
 
-    if (username.length < 3 || username.value > 30){
+    if (username.length < 3 || username.length > 30){
 
        setInvalidUsername((prev) => ({
         ...prev,
@@ -133,8 +133,7 @@ function Welcome() {
         ...prev,
         lengthTooShortOrLong: false,
       }));
-
-
+    }
   }
 
   return (
@@ -239,6 +238,13 @@ function Welcome() {
               ></input>
             </div>
             <div>
+              {invalidUsername && <div className="invalidusername">
+                {invalidUsername.map(err => (
+                  <div>
+                    {err}
+                  </div>
+                ))}
+                <div>}
               <label for="username"></label>
               <input
                 name="username"
