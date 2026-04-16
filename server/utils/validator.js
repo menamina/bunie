@@ -2,7 +2,14 @@ const { body, validationResult } = require("express-validator");
 
 const validation = [
   body("name").notEmpty().withMessage("Name required"),
-  body("username").trim().notEmpty().withMessage("Username required"),
+  body("username")
+    .trim()
+    .notEmpty()
+    .withMessage("Username required")
+    .matches(/^[a-zA-Z0-9._-]+$/)
+    .withMessage("Username can only contain letters, numbers, . _ or -")
+    .isLength({ min: 3, max: 30 })
+    .withMessage("Username must be between 3 and 30 characters"),
   body("email")
     .trim()
     .notEmpty()
