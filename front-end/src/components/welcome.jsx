@@ -90,14 +90,50 @@ function Welcome() {
         ...prev,
         invalidChars: "Username can only contain letters, numbers, . _ or -",
       }));
+    } else {
+       setInvalidUsername((prev) => ({
+        ...prev,
+        invalidChars: false,
+      }));
     }
 
     if (/^[._-]/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
-        cannotBegin: "Username can only contain letters, numbers, . _ or -",
+        cannotBegin: "Username cannot begin with . _ or -",
+      }));
+    } else {
+       setInvalidUsername((prev) => ({
+        ...prev,
+        cannotBegin: false,
       }));
     }
+
+     if (/[._-]$/.test(username)) {
+      setInvalidUsername((prev) => ({
+        ...prev,
+        cannotEnd: "Username cannot end with . _ or -",
+      }));
+    } else {
+       setInvalidUsername((prev) => ({
+        ...prev,
+        cannotEnd: false,
+      }));
+    }
+
+    if (username.length < 3 || username.value > 30){
+
+       setInvalidUsername((prev) => ({
+        ...prev,
+        lengthTooShortOrLong: "Username has to be between 3 and 30 characters",
+      }));
+    } else {
+       setInvalidUsername((prev) => ({
+        ...prev,
+        lengthTooShortOrLong: false,
+      }));
+
+
   }
 
   function validateEmail(email) {}
