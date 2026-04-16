@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const searchZod = (req, res, next) => {
+function searchZod(req, res, next) {
   const schema = z.string();
   const { query } = req.query;
   try {
@@ -9,16 +9,63 @@ export const searchZod = (req, res, next) => {
   } catch (error) {
     return res.status(400).json({ error: error.issues });
   }
-};
+}
 
 router.post("/make-comment-API", isAuth, remote.makeAComment);
 
-router.post(
-  "/make-post-API",
-  isAuth,
-  multer.array("image", 5),
-  remote.makeAPost,
-);
+function makeCommentZod(req, res, next) {
+  const schema = z.string();
+  const { body } = req.body;
+  try {
+    schema.parse(body);
+    next();
+  } catch (error) {
+    return res.status(400).json({ error: error.issues });
+  }
+}
+
+function makePostZod(req, res, next) {
+  const schema = z.object({
+    title: z.string().or(z.number()),
+    body: z.string().optional(),
+  });
+  const { body } = req.body;
+  try {
+    schema.parse(body);
+    next();
+  } catch (error) {
+    return res.status(400).json({ error: error.issues });
+  }
+}
+
+function addToInvenZod(req, res, next) {
+  const schema = z.object({
+    brand,
+    product,
+    category,
+    price,
+    status,
+    dateOpurchase,
+    rating,
+    notes,
+    wouldBuyAgain,
+  });
+  try {
+    const {
+      brand,
+      product,
+      category,
+      price,
+      status,
+      dateOpurchase,
+      rating,
+      notes,
+      wouldBuyAgain,
+    } = req.body;
+  } catch (error) {
+    return res.status(400).json({ error: error.issues });
+  }
+}
 
 router.post(
   "/add-to-inventory-API",
