@@ -208,7 +208,16 @@ export const updateCommentMut = () => {
   });
 };
 
+export const getLikeOpts = (username) => {
+  return queryOptions({
+    queryKey: ["profileLikes", username],
+    queryFN: () => getLikeOpts(username),
+  });
+};
+
 // functions //
+async function getLikeOpts(username) {}
+
 async function updateProduct(productID, productData) {
   const res = await fetch(
     `http://localhost:5555/update-inventory-status/${productID}`,
