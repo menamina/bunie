@@ -16,8 +16,8 @@ function App() {
       {!data && <Welcome />}
       {data && (
         <>
-          <Nav />
-          <Outlet context={{ user: data }}></Outlet>
+          <Nav user={data} />
+          <Outlet context={{ user: data.user }}></Outlet>
         </>
       )}
     </div>

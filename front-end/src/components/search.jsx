@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useOutletContext, useNavigate } from "react-router-dom";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { search } from "../ts-queries/queries";
 
 import MiniProfile from "./miniProfile";
@@ -91,7 +90,7 @@ function Search() {
           {tabView === "users" && (
             <div>
               {queryResults.usersWithQuery.map((user) => (
-                <MiniProfile userProfile={user} />;
+                <MiniProfile userProfile={user} />
               ))}
             </div>
           )}

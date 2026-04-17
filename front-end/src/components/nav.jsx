@@ -1,13 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState, useOutletContext } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link, useOutletContext } from "react-router-dom";
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
 
 import { logoutMut } from "../ts-queries/queries";
 
 function Nav() {
-  const { user } = useOutletContext();
+  const user = useOutletContext();
   const [makePost, setMakePost] = useState(false);
   const [addToInventory, setAddToInventory] = useState(false);
   const [utilsOpen, setUtilsOpen] = useState(false);

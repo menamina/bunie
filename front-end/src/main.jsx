@@ -1,12 +1,14 @@
-import { React } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 import App from "./index";
 import Profile from "./components/profile";
 import Feed from "./components/feed";
 import PostOpen from "./components/postOpen";
 import Search from "./components/search";
+import Settings from "./components/settings";
 
 const queryClient = new QueryClient();
 
