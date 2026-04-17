@@ -49,6 +49,12 @@ export const addProductMutOpts = () => {
   });
 };
 
+export const updateProdMut = () => {
+  return mutationOptions({
+    mutationFn: updateProduct,
+  });
+};
+
 export const deleteProductMutOpts = () => {
   return mutationOptions({
     mutationFn: deleteProduct,
@@ -203,6 +209,19 @@ export const updateCommentMut = () => {
 };
 
 // functions //
+async function updateProduct(productID, productData) {
+  const res = await fetch(
+    `http://localhost:5555/update-inventory-status/${productID}`,
+    {
+      method: "PATCH",
+      credentials: "include",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productData),
+    },
+  );
+  return await res.json();
+}
+
 async function updateComment(commentData) {
   const res = await fetch(
     `http://localhost:5555/update-comment/${commentData.pID}`,

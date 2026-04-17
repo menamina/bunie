@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePostOpt, togglePostLikeOpt } from "./ts-queries/queries";
+import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";

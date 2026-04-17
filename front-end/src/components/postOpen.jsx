@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getPostOpt } from "./ts-queries/queries";
+import { getPostOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 

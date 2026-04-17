@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCommentOpt, toggleCommentLikeOpt } from "./ts-queries/queries";
+import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
 import MakeAComment from "./makeAComment";
 
 function CommentCard({ comment }) {

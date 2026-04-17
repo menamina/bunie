@@ -5,7 +5,7 @@ import {
   updatePassword,
   updateIMGs,
   deleteAccount,
-} from "./ts-queries/queries";
+} from "../ts-queries/queries";
 
 function Settings() {
   const { user } = useOutletContext();

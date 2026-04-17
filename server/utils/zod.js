@@ -1,4 +1,4 @@
-import * as z from "zod";
+const z = require("zod");
 
 function searchZod(req, res, next) {
   const schema = z.object({

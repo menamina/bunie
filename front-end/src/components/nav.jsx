@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
 
-import logoutMut from "./ts-queries/queries";
+import logoutMut from "../ts-queries/queries";
 
 function Nav() {
   const { user } = useOutletContext();

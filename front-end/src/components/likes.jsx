@@ -1,6 +1,6 @@
 import { useOutletContext } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getLikeOpts } from "./ts-queries/queries";
+import { getLikeOpts } from "../ts-queries/queries";
 import LikedCard from "./likedCard";
 
 function Likes({ whoseProfile }) {

@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { signUpMutationOptions, loginMutationOptions } from "./mutations";
+import {
+  signUpMutationOptions,
+  loginMutationOptions,
+} from "../ts-queries/queries";
 import { useNavigate } from "react-router-dom";
 
 function Welcome() {

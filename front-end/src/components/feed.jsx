@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getFeedOpt, getFollowingFeedOpt } from "./ts-queries/queries";
+import { getFeedOpt, getFollowingFeedOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 
 function Feed() {
@@ -43,7 +43,7 @@ function Feed() {
         <div>
           {isMainPending && <div>Loading...</div>}
           {mainFeedData?.pages.map((page) =>
-            page.map((post) => <PostCard key={post.id} post={post} />)
+            page.map((post) => <PostCard key={post.id} post={post} />),
           )}
           {hasNextMainPage && (
             <button
@@ -60,7 +60,7 @@ function Feed() {
         <div>
           {isFollowingPending && <div>Loading...</div>}
           {followingFeedData?.pages.map((page) =>
-            page.map((post) => <PostCard key={post.id} post={post} />)
+            page.map((post) => <PostCard key={post.id} post={post} />),
           )}
           {hasNextFollowingPage && (
             <button

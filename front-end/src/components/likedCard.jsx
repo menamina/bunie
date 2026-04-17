@@ -6,7 +6,7 @@ import {
   deleteCommentOpt,
   togglePostLikeOpt,
   toggleCommentLikeOpt,
-} from "./ts-queries/queries";
+} from "../ts-queries/queries";
 import MakeAComment from "./makeAComment";
 
 function LikedCard({ like }) {

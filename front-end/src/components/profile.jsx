@@ -4,7 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getProfileQueryOptions,
   followMutationOptions,
-} from "./ts-queries/queries";
+} from "../ts-queries/queries";
 
 import Overview from "./overview";
 import Likes from "./likes";

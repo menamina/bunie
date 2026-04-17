@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { search } from "./ts-queries/queries";
+import { search } from "../ts-queries/queries";
 
 import MiniProfile from "./miniProfile";
 import PostCard from "./postcard";

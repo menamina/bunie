@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { makePostMut, updatePostMut } from "./ts-queries/queries";
+import { makePostMut, updatePostMut } from "../ts-queries/queries";
 
 function MakeAPost({ closeModal, post = null }) {
   const [postData, setPostData] = useState(

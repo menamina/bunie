@@ -4,7 +4,7 @@ import {
   makeCommentMut,
   updateCommentMut,
   getPostOpt,
-} from "./ts-queries/queries";
+} from "../ts-queries/queries";
 import PostCard from "./postcard";
 import { useOutletContext } from "react-router-dom";
 
