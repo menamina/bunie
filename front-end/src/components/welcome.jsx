@@ -297,7 +297,10 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(true)}>
-                  <img alt="click to view password"></img>
+                  <img
+                    src="https://www.flaticon.com/free-icons/show-password"
+                    alt="click to view password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -318,7 +321,10 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(false)}>
-                  <img alt="click to view password"></img>
+                  <img
+                    src="https://www.flaticon.com/free-icons/show-password"
+                    alt="click to view password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -339,7 +345,10 @@ function Welcome() {
                     }
                   ></input>
                   <div onClick={() => setViewConfirmPassword(true)}>
-                    <img alt="click to view confirm password"></img>
+                    <img
+                      src="https://www.flaticon.com/free-icons/show-password"
+                      alt="click to view confirm password"
+                    ></img>
                   </div>
                 </div>
               </div>
@@ -360,7 +369,10 @@ function Welcome() {
                     }
                   ></input>
                   <div onClick={() => setViewConfirmPassword(false)}>
-                    <img alt="click to view password"></img>
+                    <img
+                      src="https://www.flaticon.com/free-icons/show-password"
+                      alt="click to view password"
+                    ></img>
                   </div>
                 </div>
               </div>
