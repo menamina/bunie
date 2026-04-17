@@ -87,7 +87,7 @@ function imgSearch(req, res, next) {
   next();
 }
 
-export default {
+module.exports = {
   searchZod,
   makeOrUpdatePostZod,
   makeOrUpdateCommentZod,

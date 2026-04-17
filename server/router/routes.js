@@ -6,7 +6,7 @@ const validator = require("../utils/validator");
 const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
 const multer = require("../utils/multer");
-import zoddie from "../utils/zod";
+const zoddie = require("../utils/zod");
 
 router.post("/sign-up-API", validator, remote.signUpUser);
 
