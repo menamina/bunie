@@ -338,9 +338,9 @@ function Welcome() {
                       }))
                     }
                   ></input>
-                </div>
-                <div onClick={() => setViewConfirmPassword(true)}>
-                  <img alt="click to view confirm password"></img>
+                  <div onClick={() => setViewConfirmPassword(true)}>
+                    <img alt="click to view confirm password"></img>
+                  </div>
                 </div>
               </div>
             )}
@@ -359,9 +359,9 @@ function Welcome() {
                       }))
                     }
                   ></input>
-                </div>
-                <div onClick={() => setViewConfirmPassword(false)}>
-                  <img alt="click to view password"></img>
+                  <div onClick={() => setViewConfirmPassword(false)}>
+                    <img alt="click to view password"></img>
+                  </div>
                 </div>
               </div>
             )}

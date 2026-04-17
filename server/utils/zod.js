@@ -46,7 +46,7 @@ function addOrUpdateInventoryZod(req, res, next) {
     price: z.coerce.number().optional(),
     status: z.string().optional(),
     dateOpurchase: z.coerce.date().optional(),
-    rating: z.string().optional(),
+    rating: z.string().or(z.number()).optional(),
     notes: z.string().optional(),
     wouldBuyAgain: z.string().or(z.null()).optional(),
   });
