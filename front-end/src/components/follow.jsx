@@ -1,5 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { getMiniProfile, followMutationOptions } from "../ts-queries/queries";
+import {
+  getMiniProfileOpts,
+  followMutationOptions,
+} from "../ts-queries/queries";
 import { useOutletContext, Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,10 +15,10 @@ function Follow({ whoseProfile, view }) {
     data: followData,
     error: followError,
     isPending,
-  } = useQuery(getMiniProfile(whoseProfile.username, VIEW));
+  } = useQuery(getMiniProfileOpts(whoseProfile.username, VIEW));
 
   const { data: authUserFollowing } = useQuery(
-    getMiniProfile(user.username, "following"),
+    getMiniProfileOpts(user.username, "following"),
   );
 
   const { mutate: toggleFollow } = useMutation({

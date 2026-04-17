@@ -211,12 +211,33 @@ export const updateCommentMut = () => {
 export const getLikeOpts = (username) => {
   return queryOptions({
     queryKey: ["profileLikes", username],
-    queryFN: () => getLikeOpts(username),
+    queryFN: () => getLikes(username),
+  });
+};
+
+export const getMiniProfileOpts = (username, view) => {
+  return queryOptions({
+    queryKey: ["miniProfile", username],
+    queryFN: () => getMiniProfile(username, view),
   });
 };
 
 // functions //
-async function getLikeOpts(username) {}
+async function getMiniProfile(username, view) {
+  const endPoint =
+    view === "following"
+      ? `http://localhost:5555/get-user-following/${username}`
+      : `http://localhost:5555/get-user-followers/${username}`;
+}
+
+async function getLikes(username) {
+  const res = await fetch(`http://localhost:5555/get-user-likes/${username}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  return await res.json();
+}
 
 async function updateProduct(productID, productData) {
   const res = await fetch(
