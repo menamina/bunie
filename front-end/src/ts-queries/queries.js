@@ -49,7 +49,7 @@ export const addProductMutOpts = () => {
   });
 };
 
-export const updateProdMut = () => {
+export const updateProductMut = () => {
   return mutationOptions({
     mutationFn: updateProduct,
   });
