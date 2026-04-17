@@ -33,7 +33,15 @@ function Nav() {
         <img />
       </div>
       <div className="make-post" onClick={() => setMakePost(true)}></div>
-      <div className="make-post" onClick={() => setAddToInventory(true)}></div>
+      <div
+        className="add to inven"
+        onClick={() => setAddToInventory(true)}
+      ></div>
+      <div>
+        <Link to="/search">
+          <img />
+        </Link>
+      </div>
       <Link to={`/${user.username}`} className="profile">
         <img />
       </Link>

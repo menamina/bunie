@@ -228,6 +228,13 @@ async function getMiniProfile(username, view) {
     view === "following"
       ? `http://localhost:5555/get-user-following/${username}`
       : `http://localhost:5555/get-user-followers/${username}`;
+
+  const res = await fetch(endPoint, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  return await res.json();
 }
 
 async function getLikes(username) {

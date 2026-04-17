@@ -62,7 +62,7 @@ function Search() {
                   <div className="topRES">
                     <div className="top10USERS">
                       {queryResults.usersWithQuery.slice(0, 9).map((user) => (
-                        <MiniProfile userProfile={user} />;
+                        <MiniProfile userProfile={user} />
                       ))}
                       {queryResults.usersWithQuery.length > 10 && (
                         <div onClick={setTabView("users")}>see more </div>
@@ -70,7 +70,7 @@ function Search() {
                     </div>
                     <div className="top10POSTS">
                       {queryResults.postsWithQuery.slice(0, 9).map((post) => (
-                        <PostCard post={post} />;
+                        <PostCard post={post} />
                       ))}
                       {queryResults.postsWithQuery.length > 10 && (
                         <div onClick={setTabView("posts")}>see more </div>
