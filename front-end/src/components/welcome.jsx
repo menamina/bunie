@@ -201,18 +201,18 @@ function Welcome() {
                 }
               ></input>
             </div>
-            {loginINFO && (
+            {loginINFO.email && loginINFO.password && (
               <div className="clickableLoginBTN curs0rclick">
-                <button>LOGIN</button>
+                <button type="submit">LOGIN</button>
               </div>
             )}
-            {!loginINFO && (
+            {!loginINFO.email && !loginINFO.password && (
               <div classname="cannot-click-btn">
-                <button>LOGIN</button>
+                <button type="button">LOGIN</button>
               </div>
             )}
           </form>
-          <div>
+          <div classaName="needToSignUpOrLogIn">
             <div>Need an account?</div>
             <div
               className="curs0rclick"
