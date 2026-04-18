@@ -146,7 +146,8 @@ function Welcome() {
             <div>Bunie</div>
           </div>
           <div>
-            <div>
+            <div>your digital cosmetics inventory + project pan tracker</div>
+            <div className="login signup">
               <div
                 className="curs0rclick"
                 onClick={() => {
