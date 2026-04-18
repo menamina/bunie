@@ -27,22 +27,22 @@
     transform: translateX(-100%) translateY(100%);
   }
   15% {
-    transform: translateX(-85%) translateY(100%);
+    transform: translateX(0%) translateY(0%);
   }
   30% {
-    transform: translateX(-70%) translateY(100%);
+    transform: translateX(10%) translateY(10%);
   }
   45% {
-    transform: translateX(-55%) translateY(100%);
+    transform: translateX(25%) translateY(25%);
   }
   60% {
-    transform: translateX(-35%) translateY(100%);
+    transform: translateX(50%) translateY(50%);
   }
   75% {
-    transform: translateX(-20%) translateY(100%);
+    transform: translateX(70%) translateY(70%);
   }
   90% {
-    transform: translateX(-10%) translateY(100%);
+    transform: translateX(85%) translateY(85%);
   }
   to {
     transform: translateX(100%) translateY(100%);
@@ -51,6 +51,13 @@
 
 .welcome-text {
   animation: rolling 5s linear infinite;
+}
+
+.logoIMG {
+  height: auto;
+  width: 260px;
+  object-fit: contain;
+  animation: jumping-bunnies 4s linear infinite;
 }
 
 .pre-login-signup {
@@ -108,13 +115,6 @@
 .imgDivHolder {
   display: flex;
   justify-content: center;
-}
-
-.logoIMG {
-  height: auto;
-  width: 260px;
-  object-fit: contain;
-  animation: jumping-bunnies 4s linear 0 2 infinite;
 }
 
 .loginDIV,
