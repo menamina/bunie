@@ -143,10 +143,12 @@ function Welcome() {
         <div className="pre-login-signup">
           <div className="welcome">Welcome to Bunie</div>
           <div className="info">
-            <div>a digital cosmetics inventory + project pan tracker</div>
+            <div className="blur">
+              a digital cosmetics inventory + project pan tracker
+            </div>
             <div className="login signup">
               <div
-                className="curs0rclick"
+                className="curs0rclick blur"
                 onClick={() => {
                   setMainWelcome(false);
                   setView("login");
@@ -155,7 +157,7 @@ function Welcome() {
                 login
               </div>
               <div
-                className="curs0rclick"
+                className="curs0rclick blur"
                 onClick={() => {
                   setMainWelcome(false);
                   setView("signup");
@@ -173,8 +175,9 @@ function Welcome() {
           {logInError && <div>{logInError}</div>}
           <form onSubmit={loginSubmit}>
             <div>
-              <label for="email"></label>
+              <label for="email" hidden></label>
               <input
+                placeholder="Email"
                 name="email"
                 type="email"
                 value={loginINFO.email}
@@ -184,8 +187,9 @@ function Welcome() {
               ></input>
             </div>
             <div>
-              <label for="password"></label>
+              <label for="password" hidden></label>
               <input
+                placeholder="Password"
                 name="password"
                 type="password"
                 value={loginINFO.password}
@@ -229,7 +233,7 @@ function Welcome() {
       )}
 
       {view === "signup" && (
-        <div className="loginDIV">
+        <div className="signupDIV">
           {signUpError && <div>{signUpError}</div>}
           <form onSubmit={signupSugmit}>
             <div>

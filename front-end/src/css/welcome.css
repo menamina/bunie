@@ -44,3 +44,24 @@
   display: flex;
   gap: 2em;
 }
+
+.blur {
+  backdrop-filter: blur(2px);
+}
+
+.loginDIV,
+.signupDIV {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 90vw;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginDIV > form,
+.signupDIV > form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
