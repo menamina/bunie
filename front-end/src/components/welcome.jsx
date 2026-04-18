@@ -141,7 +141,10 @@ function Welcome() {
     <div className="welcomeDIV">
       {mainWelcome && (
         <div className="pre-login-signup">
-          <div className="applogo"></div>
+          <div className="applogo">
+            <div>Welcome to</div>
+            <div>Bunie</div>
+          </div>
           <div>
             <div>
               <div
