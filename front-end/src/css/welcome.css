@@ -24,24 +24,28 @@
 
 @keyframes jumping-bunnies {
   from {
-    transform: translateX(-100%);
-    transform: translateY(100%);
+    transform: translateX(-100%) translateY(100%);
   }
   15% {
+    transform: translateX(-85%) translateY(100%);
   }
   30% {
+    transform: translateX(-70%) translateY(100%);
   }
   45% {
+    transform: translateX(-55%) translateY(100%);
   }
   60% {
+    transform: translateX(-35%) translateY(100%);
   }
   75% {
+    transform: translateX(-20%) translateY(100%);
   }
   90% {
+    transform: translateX(-10%) translateY(100%);
   }
   to {
-    transform: translateX(100%);
-    transform: translateY(-100%);
+    transform: translateX(100%) translateY(100%);
   }
 }
 
@@ -110,6 +114,7 @@
   height: auto;
   width: 260px;
   object-fit: contain;
+  animation: jumping-bunnies 4s linear 0 2 infinite;
 }
 
 .loginDIV,
