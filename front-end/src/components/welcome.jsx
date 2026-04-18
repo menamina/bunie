@@ -6,6 +6,8 @@ import {
 } from "../ts-queries/queries";
 import { useNavigate } from "react-router-dom";
 
+import "../css/welcome.css";
+
 function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
   const [view, setView] = useState(false);
@@ -136,13 +138,14 @@ function Welcome() {
   }
 
   return (
-    <div>
+    <div className="welcomeDIV">
       {mainWelcome && (
         <div className="pre-login-signup">
-          <div></div>
+          <div className="applogo"></div>
           <div>
             <div>
               <div
+                className="curs0rclick"
                 onClick={() => {
                   setMainWelcome(false);
                   setView("login");
@@ -151,6 +154,7 @@ function Welcome() {
                 login
               </div>
               <div
+                className="curs0rclick"
                 onClick={() => {
                   setMainWelcome(false);
                   setView("signup");
@@ -193,7 +197,7 @@ function Welcome() {
               ></input>
             </div>
             {loginINFO && (
-              <div className="clickableLoginBTN">
+              <div className="clickableLoginBTN curs0rclick">
                 <button>LOGIN</button>
               </div>
             )}
@@ -206,6 +210,7 @@ function Welcome() {
           <div>
             <div>Need an account?</div>
             <div
+              className="curs0rclick"
               onClick={() => {
                 setView("signup");
                 setLoginINFO({
@@ -383,7 +388,7 @@ function Welcome() {
 
             {signupINFO && (
               <div className="clickableSignupBTN">
-                <button>SIGNUP</button>
+                <button className="curs0rclick">SIGNUP</button>
               </div>
             )}
             {!signupINFO.name &&
@@ -399,6 +404,7 @@ function Welcome() {
           <div>
             <div>Already have an account?</div>
             <div
+              className="curs0rclick"
               onClick={() => {
                 setView("login");
                 setSignupINFO({

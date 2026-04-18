@@ -4,6 +4,8 @@ import Welcome from "./components/welcome";
 import Nav from "./components/nav";
 import { sessionCheckQueryOptions } from "./ts-queries/queries";
 
+import "./css/global.css";
+
 function App() {
   const { data, isPending } = useQuery(sessionCheckQueryOptions());
 
