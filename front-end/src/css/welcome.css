@@ -49,11 +49,37 @@
   backdrop-filter: blur(2px);
 }
 
+.welcomeBack,
+.imgDivHolder {
+  min-width: 100%;
+}
+
+.welcomeBack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.welcomeBack > div:first-child {
+  font-size: 1.5rem;
+}
+
+.imgDivHolder {
+  display: flex;
+  justify-content: center;
+}
+
+.logoIMG {
+  height: auto;
+  width: 250px;
+  object-fit: contain;
+}
+
 .loginDIV,
 .signupDIV {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  height: 100;
   width: 90vw;
   justify-content: center;
   align-items: center;

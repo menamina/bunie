@@ -7,6 +7,7 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import "../css/welcome.css";
+import Bunnies from "../imgs/pngbunny.png";
 
 function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
@@ -172,6 +173,16 @@ function Welcome() {
 
       {view === "login" && (
         <div className="loginDIV">
+          <div className="welcomeBack">
+            <div>Welcome back!</div>
+            <div className="imgDivHolder">
+              <img
+                className="logoIMG"
+                src={Bunnies}
+                alt="two bunnies - app logo"
+              />
+            </div>
+          </div>
           {logInError && <div>{logInError}</div>}
           <form onSubmit={loginSubmit}>
             <div>
@@ -207,7 +218,7 @@ function Welcome() {
               </div>
             )}
             {!loginINFO.email && !loginINFO.password && (
-              <div classname="cannot-click-btn">
+              <div className="cannot-click-btn">
                 <button type="button">LOGIN</button>
               </div>
             )}
