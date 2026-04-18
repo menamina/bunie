@@ -174,7 +174,7 @@ function Welcome() {
       {view === "login" && (
         <div className="loginDIV">
           <div className="welcomeBack">
-            <div>Welcome back!</div>
+            <div className="welcome-text">Welcome back!</div>
             <div className="imgDivHolder">
               <img
                 className="logoIMG"
@@ -230,7 +230,7 @@ function Welcome() {
               </div>
             )}
           </form>
-          <div classaName="needToSignUpOrLogIn">
+          <div className="needToSignUpOrLogIn">
             <div>Need an account?</div>
             <div
               className="curs0rclick"

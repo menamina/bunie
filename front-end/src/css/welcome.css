@@ -124,11 +124,13 @@
 }
 
 .loginDIV > div:last-child {
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .needToSignUpOrLogIn > div {
-  font-size: 2rem;
+  text-align: center;
+  font-size: 1.2rem;
+  backdrop-filter: blur(1.2px);
 }
 
 .welcomeDIV,
