@@ -14,7 +14,7 @@
 
 @keyframes rolling {
   from {
-    transform: translateX(0%);
+    transform: translateX(-100%);
   }
 
   to {
@@ -22,8 +22,31 @@
   }
 }
 
+@keyframes jumping-bunnies {
+  from {
+    transform: translateX(-100%);
+    transform: translateY(100%);
+  }
+  15% {
+  }
+  30% {
+  }
+  45% {
+  }
+  60% {
+  }
+  75% {
+  }
+  90% {
+  }
+  to {
+    transform: translateX(100%);
+    transform: translateY(-100%);
+  }
+}
+
 .welcome-text {
-  animation: rolling 4s infinite;
+  animation: rolling 5s linear infinite;
 }
 
 .pre-login-signup {
