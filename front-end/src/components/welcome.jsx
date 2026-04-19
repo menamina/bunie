@@ -189,7 +189,7 @@ function Welcome() {
           {logInError && <div>{logInError}</div>}
           <form onSubmit={loginSubmit}>
             <div>
-              <label for="email" hidden></label>
+              <label htmlFor="email" hidden></label>
               <input
                 placeholder="Email"
                 name="email"
@@ -201,7 +201,7 @@ function Welcome() {
               ></input>
             </div>
             <div>
-              <label for="password" hidden></label>
+              <label htmlFor="password" hidden></label>
               <input
                 placeholder="Password"
                 name="password"
@@ -258,7 +258,7 @@ function Welcome() {
           {signUpError && <div>{signUpError}</div>}
           <form onSubmit={signupSugmit}>
             <div>
-              <label for="name"></label>
+              <label htmlFor="name"></label>
               <input
                 placeholder="Name"
                 name="name"
@@ -289,7 +289,7 @@ function Welcome() {
                     )}
                   </div>
                 )}
-              <label for="username"></label>
+              <label htmlFor="username"></label>
               <input
                 name="username"
                 placeholder="Username"
@@ -306,7 +306,7 @@ function Welcome() {
               ></input>
             </div>
             <div>
-              <label for="email"></label>
+              <label htmlFor="email"></label>
               <input
                 name="email"
                 type="email"
@@ -321,7 +321,7 @@ function Welcome() {
             {!viewPassword && (
               <div className="passwordFlex">
                 <div>
-                  <label for="password"></label>
+                  <label htmlFor="password"></label>
                   <input
                     name="password"
                     type="password"
@@ -336,7 +336,11 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(true)}>
-                  <img src={Show} alt="click to view password"></img>
+                  <img
+                    className="eyeIcons"
+                    src={Show}
+                    alt="click to view password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -344,7 +348,7 @@ function Welcome() {
             {viewPassword && (
               <div className="passwordFlex">
                 <div>
-                  <label for="password"></label>
+                  <label htmlFor="password"></label>
                   <input
                     name="password"
                     value={signupINFO.password}
@@ -358,7 +362,11 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(false)}>
-                  <img src={DontShow} alt="click to view password"></img>
+                  <img
+                    className="eyeIcons"
+                    src={DontShow}
+                    alt="click to view password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -366,7 +374,7 @@ function Welcome() {
             {!viewConfirmPassword && (
               <div className="passwordFlex">
                 <div>
-                  <label for="confirmPassword"></label>
+                  <label htmlFor="confirmPassword"></label>
                   <input
                     name="confirmPassword"
                     type="password"
@@ -379,9 +387,13 @@ function Welcome() {
                       }))
                     }
                   ></input>
-                  <div onClick={() => setViewConfirmPassword(true)}>
-                    <img src={Show} alt="click to view confirm password"></img>
-                  </div>
+                </div>
+                <div onClick={() => setViewConfirmPassword(true)}>
+                  <img
+                    className="eyeIcons"
+                    src={Show}
+                    alt="click to view confirm password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -389,7 +401,7 @@ function Welcome() {
             {viewConfirmPassword && (
               <div className="passwordFlex">
                 <div>
-                  <label for="confirmPassword"></label>
+                  <label htmlFor="confirmPassword"></label>
                   <input
                     name="confirmPassword"
                     value={signupINFO.confirmPassword}
@@ -401,9 +413,13 @@ function Welcome() {
                       }))
                     }
                   ></input>
-                  <div onClick={() => setViewConfirmPassword(false)}>
-                    <img src={DontShow} alt="click to view password"></img>
-                  </div>
+                </div>
+                <div onClick={() => setViewConfirmPassword(false)}>
+                  <img
+                    className="eyeIcons"
+                    src={DontShow}
+                    alt="click to view password"
+                  ></img>
                 </div>
               </div>
             )}
@@ -414,22 +430,25 @@ function Welcome() {
               signupINFO.password &&
               signupINFO.confirmPassword && (
                 <div className="signupDivBtn">
-                  <button className="curs0rclick clickableSignupBTN">
+                  <button
+                    type="submit"
+                    className="curs0rclick clickableSignupBTN"
+                  >
                     SIGNUP
                   </button>
                 </div>
               )}
-            {!signupINFO.name &&
-              !signupINFO.username &&
-              !signupINFO.email &&
-              !signupINFO.password &&
-              !signupINFO.confirmPassword && (
-                <div className="signupDivBtn">
-                  <div className="cannot-click-btn">SIGNUP</div>
-                </div>
-              )}
+            {(!signupINFO.name ||
+              !signupINFO.username ||
+              !signupINFO.email ||
+              !signupINFO.password ||
+              !signupINFO.confirmPassword) && (
+              <div className="signupDivBtn">
+                <div className="cannot-click-btn">SIGNUP</div>
+              </div>
+            )}
           </form>
-          <div>
+          <div className="needToSignUpOrLogIn">
             <div>Already have an account?</div>
             <div
               className="curs0rclick"

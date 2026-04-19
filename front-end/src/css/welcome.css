@@ -94,7 +94,7 @@
   display: flex;
   flex-direction: column;
   height: 100;
-  width: 90vw;
+  width: 80vw;
   justify-content: center;
   align-items: center;
 }
@@ -145,10 +145,16 @@
 
 .passwordFlex {
   display: flex;
-  background-color: antiquewhite;
+  justify-content: space-between;
+}
+/* change how imgs are^ */
+
+.eyeIcons {
+  width: 40px;
 }
 
-.loginDIV > div:last-child {
+.loginDIV > div:last-child,
+.signupDIV > div:last-child {
   padding-top: 20px;
 }
 
