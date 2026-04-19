@@ -120,23 +120,32 @@
 }
 
 .loginDIV > form > div > input:focus,
-.signupDIV > form > div > input:focus {
-  box-shadow: 0 0 0 3.3px black;
+.signupDIV > form > div > input:focus,
+.loginDIV > form > div > div > input:focus,
+.signupDIV > form > div > div > input:focus {
+  box-shadow: 0 0 0 3.3px rgb(241, 160, 88);
   outline: none;
 }
 
 .clickableLoginBTN,
-.cannot-click-btn {
+.cannot-click-btn,
+.signupDivBtn {
   align-self: center;
 }
 
-.loginBTN {
+.loginBTN,
+.clickableSignupBTN {
   width: 12em;
   height: 2.5em;
   border-radius: 50px;
   font-size: 1rem;
   border: none;
   box-shadow: -3px 3px 20px 5px rgba(34, 20, 20, 0.709);
+}
+
+.passwordFlex {
+  display: flex;
+  background-color: antiquewhite;
 }
 
 .loginDIV > div:last-child {

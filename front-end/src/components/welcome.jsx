@@ -7,7 +7,10 @@ import {
 import { useNavigate } from "react-router-dom";
 
 import "../css/welcome.css";
+
 import Bunnies from "../imgs/pngbunny.png";
+import Show from "../imgs/view.png";
+import DontShow from "../imgs/eye.png";
 
 function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
@@ -266,25 +269,26 @@ function Welcome() {
               ></input>
             </div>
             <div>
-              {(invalidUsername.invalidChars ||
-                invalidUsername.cannotBegin ||
-                invalidUsername.cannotEnd ||
-                invalidUsername.lengthTooShortOrLong) && (
-                <div className="invalidusername">
-                  {invalidUsername.invalidChars && (
-                    <div>{invalidUsername.invalidChars}</div>
-                  )}
-                  {invalidUsername.cannotBegin && (
-                    <div>{invalidUsername.cannotBegin}</div>
-                  )}
-                  {invalidUsername.cannotEnd && (
-                    <div>{invalidUsername.cannotEnd}</div>
-                  )}
-                  {invalidUsername.lengthTooShortOrLong && (
-                    <div>{invalidUsername.lengthTooShortOrLong}</div>
-                  )}
-                </div>
-              )}
+              {signupINFO.username &&
+                (invalidUsername.invalidChars ||
+                  invalidUsername.cannotBegin ||
+                  invalidUsername.cannotEnd ||
+                  invalidUsername.lengthTooShortOrLong) && (
+                  <div className="invalidusername">
+                    {invalidUsername.invalidChars && (
+                      <div>{invalidUsername.invalidChars}</div>
+                    )}
+                    {invalidUsername.cannotBegin && (
+                      <div>{invalidUsername.cannotBegin}</div>
+                    )}
+                    {invalidUsername.cannotEnd && (
+                      <div>{invalidUsername.cannotEnd}</div>
+                    )}
+                    {invalidUsername.lengthTooShortOrLong && (
+                      <div>{invalidUsername.lengthTooShortOrLong}</div>
+                    )}
+                  </div>
+                )}
               <label for="username"></label>
               <input
                 name="username"
@@ -315,7 +319,7 @@ function Welcome() {
             </div>
 
             {!viewPassword && (
-              <div>
+              <div className="passwordFlex">
                 <div>
                   <label for="password"></label>
                   <input
@@ -332,16 +336,13 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(true)}>
-                  <img
-                    src="https://www.flaticon.com/free-icons/show-password"
-                    alt="click to view password"
-                  ></img>
+                  <img src={Show} alt="click to view password"></img>
                 </div>
               </div>
             )}
 
             {viewPassword && (
-              <div>
+              <div className="passwordFlex">
                 <div>
                   <label for="password"></label>
                   <input
@@ -357,16 +358,13 @@ function Welcome() {
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(false)}>
-                  <img
-                    src="https://www.flaticon.com/free-icons/show-password"
-                    alt="click to view password"
-                  ></img>
+                  <img src={DontShow} alt="click to view password"></img>
                 </div>
               </div>
             )}
 
             {!viewConfirmPassword && (
-              <div>
+              <div className="passwordFlex">
                 <div>
                   <label for="confirmPassword"></label>
                   <input
@@ -382,17 +380,14 @@ function Welcome() {
                     }
                   ></input>
                   <div onClick={() => setViewConfirmPassword(true)}>
-                    <img
-                      src="https://www.flaticon.com/free-icons/show-password"
-                      alt="click to view confirm password"
-                    ></img>
+                    <img src={Show} alt="click to view confirm password"></img>
                   </div>
                 </div>
               </div>
             )}
 
             {viewConfirmPassword && (
-              <div>
+              <div className="passwordFlex">
                 <div>
                   <label for="confirmPassword"></label>
                   <input
@@ -407,27 +402,30 @@ function Welcome() {
                     }
                   ></input>
                   <div onClick={() => setViewConfirmPassword(false)}>
-                    <img
-                      src="https://www.flaticon.com/free-icons/show-password"
-                      alt="click to view password"
-                    ></img>
+                    <img src={DontShow} alt="click to view password"></img>
                   </div>
                 </div>
               </div>
             )}
 
-            {signupINFO && (
-              <div className="clickableSignupBTN">
-                <button className="curs0rclick">SIGNUP</button>
-              </div>
-            )}
+            {signupINFO.name &&
+              signupINFO.username &&
+              signupINFO.email &&
+              signupINFO.password &&
+              signupINFO.confirmPassword && (
+                <div className="signupDivBtn">
+                  <button className="curs0rclick clickableSignupBTN">
+                    SIGNUP
+                  </button>
+                </div>
+              )}
             {!signupINFO.name &&
               !signupINFO.username &&
               !signupINFO.email &&
               !signupINFO.password &&
               !signupINFO.confirmPassword && (
-                <div classname="cannot-click-btn">
-                  <div>SIGNUP</div>
+                <div className="signupDivBtn">
+                  <div className="cannot-click-btn">SIGNUP</div>
                 </div>
               )}
           </form>
