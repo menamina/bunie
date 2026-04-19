@@ -257,6 +257,7 @@ function Welcome() {
             <div>
               <label for="name"></label>
               <input
+                placeholder="Name"
                 name="name"
                 value={signupINFO.name}
                 onChange={(e) =>
@@ -287,6 +288,7 @@ function Welcome() {
               <label for="username"></label>
               <input
                 name="username"
+                placeholder="Username"
                 value={signupINFO.username}
                 onChange={(e) => {
                   setSignupINFO(
@@ -304,6 +306,7 @@ function Welcome() {
               <input
                 name="email"
                 type="email"
+                placeholder="Email"
                 value={signupINFO.email}
                 onChange={(e) =>
                   setSignupINFO((prev) => ({ ...prev, email: e.target.value }))
@@ -318,6 +321,7 @@ function Welcome() {
                   <input
                     name="password"
                     type="password"
+                    placeholder="password"
                     value={signupINFO.password}
                     onChange={(e) =>
                       setSignupINFO((prev) => ({
@@ -343,6 +347,7 @@ function Welcome() {
                   <input
                     name="password"
                     value={signupINFO.password}
+                    placeholder="password"
                     onChange={(e) =>
                       setSignupINFO((prev) => ({
                         ...prev,
@@ -367,6 +372,7 @@ function Welcome() {
                   <input
                     name="confirmPassword"
                     type="password"
+                    placeholder="Confirm password"
                     value={signupINFO.confirmPassword}
                     onChange={(e) =>
                       setSignupINFO((prev) => ({
@@ -392,6 +398,7 @@ function Welcome() {
                   <input
                     name="confirmPassword"
                     value={signupINFO.confirmPassword}
+                    placeholder="Confirm password"
                     onChange={(e) =>
                       setSignupINFO((prev) => ({
                         ...prev,
