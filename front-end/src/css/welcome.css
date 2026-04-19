@@ -143,6 +143,18 @@
   box-shadow: -3px 3px 20px 5px rgba(34, 20, 20, 0.709);
 }
 
+.cannot-click-btn {
+  width: 12em;
+  height: 2.5em;
+  border-radius: 50px;
+  font-size: 1rem;
+  border: none;
+  box-shadow: -3px 3px 20px 5px rgba(34, 20, 20, 0.709);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .passwordFlex {
   display: flex;
   justify-content: space-between;

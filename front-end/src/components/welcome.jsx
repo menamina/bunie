@@ -444,7 +444,7 @@ function Welcome() {
               !signupINFO.password ||
               !signupINFO.confirmPassword) && (
               <div className="signupDivBtn">
-                <div className="cannot-click-btn">SIGNUP</div>
+                <div className="cannot-click-btn curs0rclick">SIGNUP</div>
               </div>
             )}
           </form>
