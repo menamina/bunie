@@ -93,7 +93,7 @@
 .signupDIV {
   display: flex;
   flex-direction: column;
-  height: 100;
+  height: 100%;
   width: 80vw;
   justify-content: center;
   align-items: center;
@@ -107,11 +107,19 @@
   width: 100%;
 }
 
+.loginDIV > form > div > div,
+.loginDIV > form > div,
+.signupDIV > form > div > div,
+.signupDIV > form > div {
+  display: flex;
+  justify-content: center;
+}
+
 .loginDIV > form > div > input,
 .signupDIV > form > div > input,
 .loginDIV > form > div > div > input,
 .signupDIV > form > div > div > input {
-  width: 100%;
+  width: 95%;
   height: 3em;
   border: none;
   padding-left: 12px;
@@ -141,6 +149,7 @@
   font-size: 1rem;
   border: none;
   box-shadow: -3px 3px 20px 5px rgba(34, 20, 20, 0.709);
+  backdrop-filter: blur(3px);
 }
 
 .cannot-click-btn {
@@ -153,15 +162,21 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: default;
+  backdrop-filter: blur(3px);
 }
 
 .passwordFlex {
   position: relative;
+  width: 100%;
+}
+.passwordFlex > div:first-child {
+  width: 100%;
 }
 
 .passwordFlex > div:last-child {
   position: absolute;
-  right: 10px;
+  right: 20px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
