@@ -236,7 +236,7 @@ function Welcome() {
           <div className="needToSignUpOrLogIn">
             <div>Need an account?</div>
             <div
-              className="curs0rclick"
+              className="curs0rclick signup"
               onClick={() => {
                 setView("signup");
                 setLoginINFO({
@@ -247,7 +247,7 @@ function Welcome() {
                 setViewPassword(false);
               }}
             >
-              signup
+              SIGNUP
             </div>
           </div>
         </div>
@@ -455,7 +455,7 @@ function Welcome() {
           <div className="needToSignUpOrLogIn">
             <div>Already have an account?</div>
             <div
-              className="curs0rclick"
+              className="curs0rclick login"
               onClick={() => {
                 setView("login");
                 setSignupINFO({
@@ -469,7 +469,7 @@ function Welcome() {
                 setViewPassword(false);
               }}
             >
-              login
+              LOGIN
             </div>
           </div>
         </div>

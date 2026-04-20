@@ -217,6 +217,13 @@
   backdrop-filter: blur(1.2px);
 }
 
+.curs0rclick.login,
+.curs0rclick.signup {
+  text-decoration: underline;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
 .welcomeDIV,
 .loginDIV,
 .signupDIV {
