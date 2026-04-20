@@ -125,14 +125,24 @@
   padding-left: 12px;
   border-radius: 7px;
   font-size: 1.1rem;
+  background-color: rgba(128, 128, 128, 0.355);
+  border: 2px solid rgb(29, 48, 18);
+}
+
+.loginDIV > form > div > input::placeholder,
+.signupDIV > form > div > input::placeholder,
+.loginDIV > form > div > div > input::placeholder,
+.signupDIV > form > div > div > input::placeholder {
+  color: black;
 }
 
 .loginDIV > form > div > input:focus,
 .signupDIV > form > div > input:focus,
 .loginDIV > form > div > div > input:focus,
 .signupDIV > form > div > div > input:focus {
-  box-shadow: 0 0 0 3.3px rgb(241, 160, 88);
+  box-shadow: 0 0 0 3.3px rgb(205, 138, 214);
   outline: none;
+  border: none;
 }
 
 .signupDIV > form > div:nth-child(2) {

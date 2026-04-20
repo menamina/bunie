@@ -18,6 +18,11 @@ function Welcome() {
   const [viewPassword, setViewPassword] = useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
 
+  const [passwordInvalid, setPasswordInvalid] = useState({
+    notLongEnough: false,
+    notTheSame: false,
+  });
+
   const [invalidUsername, setInvalidUsername] = useState({
     invalidChars: false,
     cannotBegin: false,
@@ -89,6 +94,26 @@ function Welcome() {
   function signupSugmit(e) {
     e.preventDefault();
     signUp(signupINFO);
+  }
+
+  function validatePassword(password) {
+    if (password.length > 8) {
+      setPasswordInvalid((prev) => ({
+        ...prev,
+        notLongEnough: "Password must be 8 characters or more",
+      }));
+    } else {
+      setPasswordInvalid((prev) => ({ ...prev, notLongEnough: false }));
+    }
+  }
+
+  function validatateBothPass(password, confirmPassword) {
+    if (signupINFO.confirmPassword !== signupINFO.password) {
+      setPasswordInvalid((prev) => ({
+        ...prev,
+        notTheSame: "Passwords must match",
+      }));
+    }
   }
 
   function validateUsername(username) {
@@ -325,14 +350,15 @@ function Welcome() {
                   <input
                     name="password"
                     type="password"
-                    placeholder="password"
+                    placeholder="Password"
                     value={signupINFO.password}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setSignupINFO((prev) => ({
                         ...prev,
                         password: e.target.value,
-                      }))
-                    }
+                      }));
+                      validatePassword(e.target.value);
+                    }}
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(true)}>
@@ -352,13 +378,14 @@ function Welcome() {
                   <input
                     name="password"
                     value={signupINFO.password}
-                    placeholder="password"
-                    onChange={(e) =>
+                    placeholder="Password"
+                    onChange={(e) => {
                       setSignupINFO((prev) => ({
                         ...prev,
                         password: e.target.value,
-                      }))
-                    }
+                      }));
+                      validatePassword(e.target.value);
+                    }}
                   ></input>
                 </div>
                 <div onClick={() => setViewPassword(false)}>
@@ -380,12 +407,13 @@ function Welcome() {
                     type="password"
                     placeholder="Confirm password"
                     value={signupINFO.confirmPassword}
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setSignupINFO((prev) => ({
                         ...prev,
                         confirmPassword: e.target.value,
-                      }))
-                    }
+                      }));
+                      validatateBothPass(e.target.value, signupINFO.password);
+                    }}
                   ></input>
                 </div>
                 <div onClick={() => setViewConfirmPassword(true)}>
@@ -406,12 +434,13 @@ function Welcome() {
                     name="confirmPassword"
                     value={signupINFO.confirmPassword}
                     placeholder="Confirm password"
-                    onChange={(e) =>
+                    onChange={(e) => {
                       setSignupINFO((prev) => ({
                         ...prev,
                         confirmPassword: e.target.value,
-                      }))
-                    }
+                      }));
+                      validatateBothPass(e.target.value, signupINFO.password);
+                    }}
                   ></input>
                 </div>
                 <div onClick={() => setViewConfirmPassword(false)}>
@@ -429,10 +458,12 @@ function Welcome() {
               signupINFO.email &&
               signupINFO.password &&
               signupINFO.confirmPassword &&
-              (!invalidUsername.invalidChars ||
-                !invalidUsername.cannotBegin ||
-                !invalidUsername.cannotEnd ||
-                !invalidUsername.lengthTooShortOrLong) && (
+              !invalidUsername.invalidChars &&
+              !invalidUsername.cannotBegin &&
+              !invalidUsername.cannotEnd &&
+              !invalidUsername.lengthTooShortOrLong &&
+              !passwordInvalid.notLongEnough &&
+              !passwordInvalid.notTheSame && (
                 <div className="signupDivBtn">
                   <button
                     type="submit"
@@ -442,6 +473,7 @@ function Welcome() {
                   </button>
                 </div>
               )}
+
             {(!signupINFO.name ||
               !signupINFO.username ||
               !signupINFO.email ||
