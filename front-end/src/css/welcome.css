@@ -156,13 +156,26 @@
 }
 
 .passwordFlex {
-  display: flex;
-  justify-content: space-between;
+  position: relative;
 }
-/* change how imgs are^ */
+
+.passwordFlex > div:last-child {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.passwordFlex input {
+  padding-right: 50px !important;
+}
 
 .eyeIcons {
-  width: 40px;
+  width: 30px;
+  height: 30px;
 }
 
 .loginDIV > div:last-child,
