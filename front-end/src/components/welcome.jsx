@@ -276,16 +276,16 @@ function Welcome() {
                   invalidUsername.lengthTooShortOrLong) && (
                   <div className="invalidusername">
                     {invalidUsername.invalidChars && (
-                      <div>{invalidUsername.invalidChars}</div>
+                      <div>• {invalidUsername.invalidChars}</div>
                     )}
                     {invalidUsername.cannotBegin && (
-                      <div>{invalidUsername.cannotBegin}</div>
+                      <div>• {invalidUsername.cannotBegin}</div>
                     )}
                     {invalidUsername.cannotEnd && (
-                      <div>{invalidUsername.cannotEnd}</div>
+                      <div>• {invalidUsername.cannotEnd}</div>
                     )}
                     {invalidUsername.lengthTooShortOrLong && (
-                      <div>{invalidUsername.lengthTooShortOrLong}</div>
+                      <div>• {invalidUsername.lengthTooShortOrLong}</div>
                     )}
                   </div>
                 )}
@@ -300,7 +300,7 @@ function Welcome() {
                       ...prev,
                       username: e.target.value,
                     }),
-                    validateUsername(signupINFO.username),
+                    validateUsername(e.target.value),
                   );
                 }}
               ></input>
