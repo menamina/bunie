@@ -428,7 +428,11 @@ function Welcome() {
               signupINFO.username &&
               signupINFO.email &&
               signupINFO.password &&
-              signupINFO.confirmPassword && (
+              signupINFO.confirmPassword &&
+              (!invalidUsername.invalidChars ||
+                !invalidUsername.cannotBegin ||
+                !invalidUsername.cannotEnd ||
+                !invalidUsername.lengthTooShortOrLong) && (
                 <div className="signupDivBtn">
                   <button
                     type="submit"

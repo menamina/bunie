@@ -135,6 +135,12 @@
   outline: none;
 }
 
+.signupDIV > form > div:nth-child(2) {
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
 .clickableLoginBTN,
 .cannot-click-btn,
 .signupDivBtn {
