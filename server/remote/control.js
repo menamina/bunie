@@ -899,6 +899,9 @@ async function toggleFollow(req, res) {
     }
   } catch (error) {
     console.log(error);
+    if (error.code === P2025 || error.code === P2003) {
+      return res.status(404).json({ message: "Account does not exist" });
+    }
     return res.status(500).json({ errMsg: "server error" });
   }
 }
