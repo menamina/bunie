@@ -1116,6 +1116,11 @@ async function updateUserIMGS(req, res) {
 
     return res.status(200).json({ updatedIMGS });
   } catch (error) {
+    if (error.code === P2025) {
+      return res
+        .status(404)
+        .json({ message: "User not found or not your account" });
+    }
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
   }
@@ -1134,7 +1139,7 @@ async function updateUserProfile(req, res) {
         },
       });
       if (isEmailInUse) {
-        return res.status(403).json({ emailInUse: true });
+        return res.status(403).json({ message: "Email in use" });
       }
       return;
     }
@@ -1146,7 +1151,7 @@ async function updateUserProfile(req, res) {
         },
       });
       if (isUsernameInUse) {
-        return res.status(403).json({ usernameInUse: true });
+        return res.status(403).json({ message: "Username in use" });
       }
       return;
     }
@@ -1170,6 +1175,11 @@ async function updateUserProfile(req, res) {
     return res.status(200).json({ updatedUser });
   } catch (error) {
     console.log(error);
+    if (error.code === P2025) {
+      return res
+        .status(404)
+        .json({ message: "Account not found or not yours" });
+    }
     return res.status(500).json({ errMsg: "server error" });
   }
 }
@@ -1188,6 +1198,10 @@ async function updateUserPassword(req, res) {
         saltedHash: true,
       },
     });
+
+    if (!user) {
+      return res.status(404).json({ message: "No account found" });
+    }
 
     const passwordMatch = await checkPassword(oldPassword, user.saltedHash);
 

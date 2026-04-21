@@ -307,6 +307,16 @@ async function updateComment(commentData) {
       body: JSON.stringify({ commentData }),
     },
   );
+
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 404) {
+      error.commentNotFound = "Comment not found or not yours";
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+    }
+  }
   return await res.json();
 }
 
@@ -447,6 +457,17 @@ async function updateIMGS(imgs) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(imgs),
   });
+
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 404) {
+      error.userNotFound = "User not found or not your account";
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+    }
+  }
+
   return await res.json();
 }
 
@@ -457,7 +478,21 @@ async function updateUserData(staticProfDataUpdate) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(staticProfDataUpdate),
   });
-  return await res.json();
+
+  if (!res.ok) {
+    const error = new Error();
+    const data = await res.json();
+
+    if (res.status === 404) {
+      error.noPostFound = "Account not found or not yours";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
+    } else if (res.status === 403) {
+      error.otherMessage === data.message;
+    }
+  }
 }
 
 async function deleteMyAcc() {
@@ -475,6 +510,18 @@ async function changePassword(passwordObj) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(passwordObj),
   });
+
+  if (!res.ok) {
+    const error = new Error();
+    if (res.status === 400) {
+      error.noUserFound = "No account found";
+      throw error;
+    } else if (res.status === 204) {
+      error.PasswordsDontMatch = "Current password is incorrect";
+      throw error;
+    }
+  }
+
   return await res.json();
 }
 
