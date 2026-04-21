@@ -543,7 +543,11 @@ async function getProfile(username, authUser) {
     credentials: "include",
   });
 
-  if (!res.ok) throw new Error("Failed to fetch profile");
+  const error = new Error("error");
+
+  if (res.status === 404) {
+    return (error.noProfileFound = "No user found");
+  }
   return await res.json();
 }
 
@@ -566,6 +570,15 @@ async function getUserPosts(username, authUser) {
     method: "GET",
     credentials: "include",
   });
+  const error = new Error("error");
+
+  if (res.status === 204) {
+    return (error.zeroposts = "Nothing to see here");
+    // zero posts from the user
+  } else if (res.status === 500) {
+    return (error.serverError = "Server error, try again");
+  }
+
   return await res.json();
 }
 

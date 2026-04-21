@@ -42,7 +42,7 @@ async function signUpUser(req, res) {
     return res.status(201).json({ success: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -53,7 +53,7 @@ async function IMGS(req, res) {
     return res.sendFile(img);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -92,7 +92,7 @@ async function getMainFeed(req, res) {
     return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -151,7 +151,7 @@ async function getFollowingFeed(req, res) {
     return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -211,7 +211,7 @@ async function query(req, res) {
 
     return res.status(200).json({ usersWithQuery, postsWithQuery });
   } catch (error) {
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -246,7 +246,7 @@ async function getProfile(req, res) {
     return res.status(200).json({ userProfile });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -282,7 +282,7 @@ async function getFollowers(req, res) {
     return res.status(200).json({ fullFollowerList });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -318,7 +318,7 @@ async function getFollowing(req, res) {
     return res.status(200).json({ fullFollowingList });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -358,7 +358,8 @@ async function getUserPosts(req, res) {
     return res.status(200).json({ feed });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    console.log(error);
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -387,7 +388,7 @@ async function getUserInventory(req, res) {
     return res.status(200).json({ thisUsersInventory });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -414,7 +415,7 @@ async function getUserInProgress(req, res) {
     return res.status(200).json({ thisUsersInProgress });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -441,7 +442,7 @@ async function getUserLimbo(req, res) {
     return res.status(200).json({ thisUsersLimbo });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -468,7 +469,7 @@ async function getUserDecluttered(req, res) {
     return res.status(200).json({ thisUsersDecluttered });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -495,7 +496,7 @@ async function getUserFinished(req, res) {
     return res.status(200).json({ thisUsersFinished });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -567,7 +568,7 @@ async function getUserLikes(req, res) {
     return res.status(200).json({ likesOrdered });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -608,7 +609,7 @@ async function getPost(req, res) {
     return res.status(204).json({ success: false });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -649,7 +650,7 @@ async function getComment(req, res) {
     return res.status(204).json({ success: false });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -690,7 +691,7 @@ async function addProduct(req, res) {
     return res.status(201).json({ addedProduct });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -730,7 +731,7 @@ async function updateInventory(req, res) {
     return res.status(201).json({ updatedProduct });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -751,7 +752,7 @@ async function deleteProduct(req, res) {
     return res.status(200).json({ succes: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -792,7 +793,7 @@ async function togglePostLike(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -833,7 +834,7 @@ async function toggleCommentLike(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -875,7 +876,7 @@ async function toggleFollow(req, res) {
     }
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -901,7 +902,7 @@ async function makeAPost(req, res) {
     return res.status(201).json({ post });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -941,7 +942,7 @@ async function updatePost(req, res) {
     return res.status(200).json({ updatedPost });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -965,7 +966,7 @@ async function makeAComment(req, res) {
     return res.status(201).json({ comment });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1004,7 +1005,7 @@ async function updateComment(req, res) {
     return res.status(200).json({ updatedComment });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1025,7 +1026,7 @@ async function deletePost(req, res) {
     return res.status(200).json({ postDeleted: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1046,7 +1047,7 @@ async function deleteComment(req, res) {
     return res.status(200).json({ commentDeleted: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1067,7 +1068,7 @@ async function getMyProfileSettings(req, res) {
     return res.status(200).json({ userProfSettings });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1092,7 +1093,7 @@ async function updateUserIMGS(req, res) {
     return res.status(200).json({ updatedIMGS });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1145,7 +1146,7 @@ async function updateUserProfile(req, res) {
     return res.status(200).json({ updatedUser });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1183,7 +1184,7 @@ async function updateUserPassword(req, res) {
     return res.status(200).json({ success: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
@@ -1201,7 +1202,7 @@ async function deleteUserAccount(req, res) {
     return res.status(200).json({ userDeleted: true });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error", error });
+    return res.status(500).json({ errMsg: "server error" });
   }
 }
 
