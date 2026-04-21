@@ -278,11 +278,9 @@ async function getFollowers(req, res) {
       },
     });
 
-
-    if (!fullFollowerList){
-      return res.status(403).json({ message: "no user found"})
+    if (!fullFollowerList) {
+      return res.status(403).json({ message: "no user found" });
     }
-
 
     if (fullFollowerList.followers.length === 0) {
       return res.status(204).json({ noFollowers: true });
@@ -321,8 +319,8 @@ async function getFollowing(req, res) {
       },
     });
 
-    if (!fullFollowingList){
-      return res.status(403).json({ message: "no user found"})
+    if (!fullFollowingList) {
+      return res.status(403).json({ message: "no user found" });
     }
 
     if (fullFollowingList.followings.length === 0) {
@@ -563,10 +561,13 @@ async function getUserLikes(req, res) {
     });
 
     if (!thisUsersLikes) {
-      return res.status(404).jsons({noUser: "No user found"})
+      return res.status(404).jsons({ noUser: "No user found" });
     }
 
-    if (thisUsersLikes.postsThisUserLikes === 0 && thisUsersLikes.commentLikesByThisUser.length === 0) {
+    if (
+      thisUsersLikes.postsThisUserLikes === 0 &&
+      thisUsersLikes.commentLikesByThisUser.length === 0
+    ) {
       return res.status(204).json({ noLikes: true });
     }
 
@@ -746,15 +747,14 @@ async function updateInventory(req, res) {
       },
     });
 
-    if (!updatedProduct){
-      return res.status(403).json({doesntExit = true})
-
-    }
-
     return res.status(201).json({ updatedProduct });
   } catch (error) {
-    console.log(error);
-    return res.status(500).json({ errMsg: "server error" });
+    if (error.code === "P2025") {
+      // Record doesn't exist
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    return res.status(500).json({ errMsg: "Server error" });
   }
 }
 
@@ -965,7 +965,10 @@ async function updatePost(req, res) {
     return res.status(200).json({ updatedPost });
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error" });
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Post not found or not yours" });
+    }
+    return res.status(500).json({ errMsg: "Server error" });
   }
 }
 
@@ -992,6 +995,9 @@ async function makeAComment(req, res) {
     return res.status(500).json({ errMsg: "server error" });
   }
 }
+
+async function updateComment(res, res) {
+  try {
     const { commentToUpdate } = req.params;
     const { body } = req.body;
     const userID = Number(id);
@@ -1017,13 +1023,12 @@ async function makeAComment(req, res) {
       include: { comments: true },
     });
 
-    if (!updatedComment) {
-      return res.status(404).json({ noComment: "no comment found" });
-    }
-
     return res.status(200).json({ updatedComment });
   } catch (error) {
     console.log(error);
+    if (error.code === P2025) {
+      return res.status(404).json({ message: "Post not found or not yours" });
+    }
     return res.status(500).json({ errMsg: "server error" });
   }
 }
