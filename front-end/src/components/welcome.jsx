@@ -97,7 +97,7 @@ function Welcome() {
   }
 
   function validatePassword(password) {
-    if (password.length > 8) {
+    if (password.length < 8) {
       setPasswordInvalid((prev) => ({
         ...prev,
         notLongEnough: "Password must be 8 characters or more",
@@ -107,11 +107,16 @@ function Welcome() {
     }
   }
 
-  function validatateBothPass(password, confirmPassword) {
-    if (signupINFO.confirmPassword !== signupINFO.password) {
+  function validatateBothPass(confirmPassword, password) {
+    if (confirmPassword !== password) {
       setPasswordInvalid((prev) => ({
         ...prev,
         notTheSame: "Passwords must match",
+      }));
+    } else {
+      setPasswordInvalid((prev) => ({
+        ...prev,
+        notTheSame: false,
       }));
     }
   }
@@ -345,6 +350,9 @@ function Welcome() {
 
             {!viewPassword && (
               <div className="passwordFlex">
+                {passwordInvalid.notLongEnough && (
+                  <div>{passwordInvalid.notLongEnough}</div>
+                )}
                 <div>
                   <label htmlFor="password"></label>
                   <input
@@ -373,6 +381,9 @@ function Welcome() {
 
             {viewPassword && (
               <div className="passwordFlex">
+                {passwordInvalid.notLongEnough && (
+                  <div>{passwordInvalid.notLongEnough}</div>
+                )}
                 <div>
                   <label htmlFor="password"></label>
                   <input
@@ -400,6 +411,9 @@ function Welcome() {
 
             {!viewConfirmPassword && (
               <div className="passwordFlex">
+                {passwordInvalid.notTheSame && (
+                  <div>{passwordInvalid.notTheSame}</div>
+                )}
                 <div>
                   <label htmlFor="confirmPassword"></label>
                   <input
@@ -428,6 +442,9 @@ function Welcome() {
 
             {viewConfirmPassword && (
               <div className="passwordFlex">
+                {passwordInvalid.notTheSame && (
+                  <div>{passwordInvalid.notTheSame}</div>
+                )}
                 <div>
                   <label htmlFor="confirmPassword"></label>
                   <input
