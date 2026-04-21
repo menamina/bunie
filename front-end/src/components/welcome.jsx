@@ -61,7 +61,6 @@ function Welcome() {
         password: "",
         confirmPassword: "",
       });
-      resetSignUp();
       setViewPassword(false);
       setViewConfirmPassword(false);
     },
@@ -79,7 +78,6 @@ function Welcome() {
         email: "",
         password: "",
       });
-      resetLogIn();
       setViewPassword(false);
       setViewConfirmPassword(false);
       nav("/");
@@ -216,14 +214,13 @@ function Welcome() {
               />
             </div>
           </div>
-          {logInError && <div>{logInError}</div>}
+          {logInError && <div>{logInError.data}</div>}
           <form onSubmit={loginSubmit}>
             <div>
               <label htmlFor="email" hidden></label>
               <input
                 placeholder="Email"
                 name="email"
-                type="email"
                 value={loginINFO.email}
                 onChange={(e) =>
                   setLoginINFO((prev) => ({ ...prev, email: e.target.value }))
@@ -254,10 +251,7 @@ function Welcome() {
             )}
             {!loginINFO.email && !loginINFO.password && (
               <div className="cannot-click-btn">
-                <button
-                  type="button"
-                  className="cannotClick curs0rclick loginBTN"
-                >
+                <button type="button" className="cannotClick-loginBTN">
                   LOGIN
                 </button>
               </div>

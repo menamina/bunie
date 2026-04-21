@@ -519,9 +519,9 @@ async function signupUser(signupINFO) {
     const err = new Error("Signup failed");
 
     if (res.status === 500) {
-      err.data = { serverError: true };
-    } else if (res.status === 422) {
-      err.data = { validationErrors: errData.errors };
+      err.data = errData.errMsg;
+    } else if (res.status === 400) {
+      err.data = errData.validationErrors;
     } else if (res.status === 403) {
       err.data = errData.message;
     }

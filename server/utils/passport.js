@@ -9,17 +9,31 @@ async function verify(email, password, done) {
       where: {
         email,
       },
+      select: {
+        id: true,
+        name: true,
+        username: true,
+        email: true,
+        saltedHash: true,
+        profile: {
+          select: {
+            pfp: true,
+            header: true,
+            bio: true,
+          },
+        },
+      },
     });
 
     if (!user) {
-      done(null, false, { message: "no user found with that email" });
+      done(null, false, { message: "No user found with that email" });
       return;
     }
 
     if (user) {
       const match = await checkPassword(password, user.saltedHash);
       if (!match) {
-        done(null, false, { message: "incorrect password" });
+        done(null, false, { message: "Incorrect password" });
         return;
       }
       done(null, user);

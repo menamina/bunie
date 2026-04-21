@@ -30,7 +30,7 @@ function Nav() {
   return (
     <div clasnName="navDIV">
       <div className="home" onClick={refreshFeed}>
-        <img />
+        {/* <img /> */}
       </div>
       <div className="make-post" onClick={() => setMakePost(true)}></div>
       <div
@@ -38,12 +38,10 @@ function Nav() {
         onClick={() => setAddToInventory(true)}
       ></div>
       <div>
-        <Link to="/search">
-          <img />
-        </Link>
+        <Link to="/search">{/* <img /> */}</Link>
       </div>
-      <Link to={`/${user.username}`} className="profile">
-        <img />
+      <Link to={`/${user?.username}`} className="profile">
+        <img src={``} />
       </Link>
       <div clasName="utils-div">
         {utilsOpen && (

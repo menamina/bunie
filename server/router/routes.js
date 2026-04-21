@@ -38,7 +38,7 @@ router.post("/login-API", (req, res, next) => {
         user: {
           id: user.id,
           name: user.name,
-          username: user.name,
+          username: user.username,
           email: user.email,
           pfp: user.profile.pfp,
           header: user.profile.header,
