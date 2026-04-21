@@ -495,7 +495,9 @@ function Welcome() {
               !signupINFO.username ||
               !signupINFO.email ||
               !signupINFO.password ||
-              !signupINFO.confirmPassword) && (
+              !signupINFO.confirmPassword ||
+              passwordInvalid.notLongEnough ||
+              passwordInvalid.notTheSame) && (
               <div className="signupDivBtn">
                 <div className="cannot-click-btn curs0rclick">SIGNUP</div>
               </div>
