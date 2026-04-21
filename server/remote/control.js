@@ -992,6 +992,9 @@ async function makeAComment(req, res) {
     return res.status(201).json({ comment });
   } catch (error) {
     console.log(error);
+    if (error.code === P2003) {
+      return res.status(404).json({ message: "post does not exist" });
+    }
     return res.status(500).json({ errMsg: "server error" });
   }
 }

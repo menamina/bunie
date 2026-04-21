@@ -357,6 +357,18 @@ async function makePost(postData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ postData }),
   });
+
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 404) {
+      error.noPostFoundToCommentOn = "This post no longer exists";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+    }
+  }
+
   return await res.json();
 }
 
@@ -365,17 +377,6 @@ async function getPost(postID) {
     method: "POST",
     credentials: "include",
   });
-  return await res.json();
-}
-
-async function getComment(commentID) {
-  const res = await fetch(
-    `http://localhost:5555/get-this-comment/${commentID}`,
-    {
-      method: "GET",
-      credentials: "include",
-    },
-  );
   return await res.json();
 }
 
