@@ -253,6 +253,7 @@ async function getProfile(req, res) {
 async function getFollowers(req, res) {
   try {
     const { username } = req.params;
+
     const fullFollowerList = await prisma.user.findUnique({
       where: {
         username,
@@ -276,6 +277,13 @@ async function getFollowers(req, res) {
         },
       },
     });
+
+
+    if (!fullFollowerList){
+      return res.status(403).json({ message: "no user found"})
+    }
+
+
     if (fullFollowerList.followers.length === 0) {
       return res.status(204).json({ noFollowers: true });
     }
@@ -312,6 +320,11 @@ async function getFollowing(req, res) {
         },
       },
     });
+
+    if (!fullFollowingList){
+      return res.status(403).json({ message: "no user found"})
+    }
+
     if (fullFollowingList.followings.length === 0) {
       return res.status(204).json({ noFollowing: true });
     }
@@ -549,10 +562,19 @@ async function getUserLikes(req, res) {
       },
     });
 
+    if (!thisUsersLikes) {
+      return res.status(404).jsons({noUser: "No user found"})
+    }
+
+    if (thisUsersLikes.postsThisUserLikes === 0 && thisUsersLikes.commentLikesByThisUser.length === 0) {
+      return res.status(204).json({ noLikes: true });
+    }
+
     const postsFilter = thisUsersLikes.postsThisUserLikes.map((like) => ({
       type: "post",
       ...like,
     }));
+
     const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map(
       (like) => ({ type: "comment", ...like }),
     );
@@ -560,10 +582,6 @@ async function getUserLikes(req, res) {
     const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
       (a, b) => new Date(b.dateLiked) - new Date(a.dateLiked),
     );
-
-    if (likesOrdered.length === 0) {
-      return res.status(204).json({ noLikes: true });
-    }
 
     return res.status(200).json({ likesOrdered });
   } catch (error) {
@@ -727,6 +745,11 @@ async function updateInventory(req, res) {
         ...(purchaseDate && { purchaseDate }),
       },
     });
+
+    if (!updatedProduct){
+      return res.status(403).json({doesntExit = true})
+
+    }
 
     return res.status(201).json({ updatedProduct });
   } catch (error) {
@@ -969,10 +992,6 @@ async function makeAComment(req, res) {
     return res.status(500).json({ errMsg: "server error" });
   }
 }
-
-async function updateComment(req, res) {
-  try {
-    const { id } = req.user;
     const { commentToUpdate } = req.params;
     const { body } = req.body;
     const userID = Number(id);

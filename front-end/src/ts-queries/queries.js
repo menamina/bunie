@@ -234,6 +234,20 @@ async function getMiniProfile(username, view) {
     credentials: "include",
   });
 
+  if (!res.ok) {
+    const error = new Error("error");
+    if (res.status === 204) {
+      view === "followers"
+        ? (error.noFollowers = "This user has 0 followers")
+        : (error.noFollowers = "This user has 0 followings");
+      throw error;
+    } else if (res.status === 403) {
+      error.noUser === "No user found";
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
+    }
+  }
   return await res.json();
 }
 
@@ -242,6 +256,18 @@ async function getLikes(username) {
     method: "GET",
     credentials: "include",
   });
+
+  if (!res.ok) {
+    const error = new Error("error");
+    if (res.status === 204) {
+      error.noUserLikes = "0 likes by this user";
+      throw error;
+    } else if (res.status === 404) {
+      error.noUserFound = "0 likes by this user";
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+    }
+  }
 
   return await res.json();
 }
@@ -256,6 +282,17 @@ async function updateProduct(productID, productData) {
       body: JSON.stringify(productData),
     },
   );
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 403) {
+      error.noProductFound = "No product found";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError === "Server error, try ain";
+    }
+  }
+
   return await res.json();
 }
 
@@ -519,7 +556,7 @@ async function signupUser(signupINFO) {
     const err = new Error("Signup failed");
 
     if (res.status === 500) {
-      err.data = errData.errMsg;
+      err.serverError = "Server error";
     } else if (res.status === 400) {
       err.data = errData.validationErrors;
     } else if (res.status === 403) {
@@ -546,7 +583,8 @@ async function getProfile(username, authUser) {
   const error = new Error("error");
 
   if (res.status === 404) {
-    return (error.noProfileFound = "No user found");
+    error.noProfileFound = "No user found";
+    throw error;
   }
   return await res.json();
 }
@@ -573,10 +611,12 @@ async function getUserPosts(username, authUser) {
   const error = new Error("error");
 
   if (res.status === 204) {
-    return (error.zeroposts = "Nothing to see here");
+    error.zeroposts = "Nothing to see here";
+    throw error;
     // zero posts from the user
   } else if (res.status === 500) {
-    return (error.serverError = "Server error, try again");
+    error.serverError = "Server error, try again";
+    throw error;
   }
 
   return await res.json();
