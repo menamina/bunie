@@ -29,7 +29,7 @@ function Feed() {
           className={view === "main" ? "selectedView" : "main"}
           onClick={() => setView("main")}
         >
-          Main
+          Feed
         </div>
         <div
           className={view === "following" ? "selectedView" : "following"}

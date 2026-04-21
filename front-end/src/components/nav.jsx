@@ -36,45 +36,47 @@ function Nav() {
 
   return (
     <div clasnName="navDIV">
-      <div className="home" onClick={refreshFeed}>
-        <img src={Logo} alt="app logo" />
-      </div>
-      <div className="make-post" onClick={() => setMakePost(true)}>
-        <img src={Post} alt="make a post" />
-      </div>
-      <div className="add to inven" onClick={() => setAddToInventory(true)}>
-        <img src={Add} alt="add to inventory" />
-      </div>
-      <div>
-        <Link to="/search">
-          <img src={Search} alt="search" />
-        </Link>
-      </div>
-      <div clasName="utils-div">
-        {utilsOpen && (
-          <div className="utilsModelBackground" onClick={setUtilsOpen(false)}>
-            <Link
-              to="/settings"
-              className="go-to-settings"
-              onClick={() => setUtilsOpen(false)}
-            >
-              Settings
-            </Link>
-            <div className="logout" onClick={logout}>
-              Logout
-            </div>
-          </div>
-        )}
-        <div
-          className="open-utils"
-          onClick={() => setUtilsOpen((prev) => !prev)}
-        >
-          <img src={Settings} alt="settingd" />
+      <div className="nav options minus profile">
+        <div className="home" onClick={refreshFeed}>
+          <img src={Logo} alt="app logo" />
         </div>
-        <Link to={`/${user?.username}`} className="profile">
-          {/* <img src={`http://localhost:5555/IMGS-API/${user?.pfp}`} alt="search" /> */}
-        </Link>
+        <div className="make-post" onClick={() => setMakePost(true)}>
+          <img src={Post} alt="make a post" />
+        </div>
+        <div className="add to inven" onClick={() => setAddToInventory(true)}>
+          <img src={Add} alt="add to inventory" />
+        </div>
+        <div>
+          <Link to="/search">
+            <img src={Search} alt="search" />
+          </Link>
+        </div>
+        <div clasName="utils-div">
+          {utilsOpen && (
+            <div className="utilsModelBackground" onClick={setUtilsOpen(false)}>
+              <Link
+                to="/settings"
+                className="go-to-settings"
+                onClick={() => setUtilsOpen(false)}
+              >
+                Settings
+              </Link>
+              <div className="logout" onClick={logout}>
+                Logout
+              </div>
+            </div>
+          )}
+          <div
+            className="open-utils"
+            onClick={() => setUtilsOpen((prev) => !prev)}
+          >
+            <img src={Settings} alt="settingd" />
+          </div>
+        </div>
       </div>
+      <Link to={`/${user?.username}`} className="profile">
+        {/* <img src={`http://localhost:5555/IMGS-API/${user?.pfp}`} alt="search" /> */}
+      </Link>
       {makePost && <MakeAPost closeModal={setMakePost} />}
       {addToInventory && <AddToInventory closeModal={setAddToInventory} />}
     </div>
