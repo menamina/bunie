@@ -577,6 +577,11 @@ async function deleteProduct(productId) {
       credentials: "include",
     },
   );
-  if (!res.ok) throw new Error("Failed to delete product");
-  return await res.json();
+  const data = await res.json();
+  if (!res.ok) {
+    const error = new Error("error");
+    error.backEndError = data.errMsg;
+    throw error;
+  }
+  return data;
 }
