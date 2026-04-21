@@ -35,19 +35,18 @@ function MakeAComment({
     data: fetchedPost,
     isLoading,
     error: fetchErr,
-    reset: resetFetch,
+    refetch: refetchPost,
   } = useQuery({
     ...getPostOpt(comment?.idOfPost),
-    enabled: edit && !postObj,
+    enabled: edit && comment && !postObj,
   });
 
   const {
     mutate: makeAComment,
-    reset: resetAddComment,
     isPending: addPending,
     error: addErr,
   } = useMutation({
-    ...makeCommentMut(commentData),
+    ...makeCommentMut(),
     onSuccess: () => {
       closeModal(false);
       setCommentData({
@@ -62,7 +61,6 @@ function MakeAComment({
     mutate: updateComment,
     error: updateErr,
     isPending: updatePend,
-    reset: resetUpdate,
   } = useMutation({
     ...updateCommentMut(),
     onSuccess: () => {
@@ -77,6 +75,11 @@ function MakeAComment({
     return makeAComment(commentData);
   }
 
+  function closeStop(e) {
+    e.stopPropagation();
+    closeModal(false);
+  }
+
   return (
     <div
       className="makeACommentModal"
@@ -85,22 +88,49 @@ function MakeAComment({
         closeModal(false);
       }}
     >
-      {fetchErr && (
-        <div>
-          <div>Oops something went wrong</div>
-          <div onClick={resetFetch}>{fetchErr}</div>
+      {fetchErr.serverError && (
+        <div className="errorModal" onClick={closeStop}>
+          <div>
+            <div>Oops something went wrong fetching the post</div>
+            <div onClick={refetchPost}>try again</div>
+          </div>
         </div>
       )}
-      {updateErr && (
-        <div>
-          <div>Oops something went wrong</div>
-          <div onClick={resetUpdate}>{fetchErr}</div>
+      {fetchErr.postNotFound && (
+        <div className="errorModal" onClick={closeStop}>
+          <div>
+            <div>{fetchErr.postNotFound}</div>
+            <div onClick={() => closeModal(false)}>ok</div>
+          </div>
         </div>
       )}
-      {addErr && (
-        <div>
-          <div>Oops something went wrong</div>
-          <div onClick={resetAddComment}>{addErr}</div>
+      {updateErr.commentNotFound && (
+        <div className="errorModal" onClick={closeStop}>
+          <div>
+            <div>{updateErr.commentNotFound}</div>
+            <div onClick={() => closeModal(false)}>ok</div>
+          </div>
+        </div>
+      )}
+      {addErr.postNotExisting && (
+        <div className="errorModal" onClick={closeStop}>
+          <div>
+            <div>{addErr.postNotExisting}</div>
+            <div onClick={() => closeModal(false)}>ok</div>
+          </div>
+        </div>
+      )}
+      {addErr.serverError && (
+        <div className="errorModal" onClick={closeStop}>
+          <div>
+            <div>{addErr.serverError}</div>
+            <div>
+              <div onClick={() => closeModal(false)}>cancel</div>
+              <div onClick={() => makeAComment.mutate(commentData)}>
+                try again
+              </div>
+            </div>
+          </div>
         </div>
       )}
       <form onSubmit={submit}>
@@ -140,7 +170,7 @@ function MakeAComment({
                 <button type="submit" className="can click">
                   update
                 </button>
-                <div className="can click" onClick={closeModal}>
+                <div className="can click" onClick={() => closeModal(false)}>
                   cancel
                 </div>
               </div>
@@ -158,12 +188,12 @@ function MakeAComment({
 
             {!addPending && (
               <div>
+                <div className="can click" onClick={() => closeModal(false)}>
+                  cancel
+                </div>
                 <button type="submit" className="can click">
                   post
                 </button>
-                <div className="can click" onClick={closeModal}>
-                  cancel
-                </div>
               </div>
             )}
           </div>

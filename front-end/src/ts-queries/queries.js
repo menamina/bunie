@@ -347,6 +347,18 @@ async function makeComment(commentData) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ commentData }),
   });
+
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 404) {
+      error.postNotExisting = "This post no longer exists";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error,";
+    }
+  }
+
   return await res.json();
 }
 
@@ -378,6 +390,19 @@ async function getPost(postID) {
     method: "POST",
     credentials: "include",
   });
+
+  if (!res.ok) {
+    const error = new Error();
+
+    if (res.status === 404) {
+      error.postNotFound = "Post not found";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
+    }
+  }
+
   return await res.json();
 }
 
