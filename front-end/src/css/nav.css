@@ -9,7 +9,6 @@
   width: 100%;
   padding-bottom: 10px;
   padding-top: 10px;
-  transform: translateX(-10px);
   border-top: 1px solid rgba(177, 171, 171, 0.581);
 }
 
@@ -34,6 +33,22 @@
 
 .feedDIV {
   flex-grow: 1;
-  background-color: yellow;
+
   padding: 20px;
+}
+
+.feedOpts {
+  display: flex;
+  font-size: 1rem;
+  justify-content: space-around;
+  height: 2rem;
+}
+
+.feedOpts > div {
+  width: 20%;
+  text-align: center;
+}
+
+.selectedView {
+  border-bottom: 1px solid rgb(81, 81, 81);
 }

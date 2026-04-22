@@ -1,30 +1,30 @@
 import { useState } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
-import { getFeedOpt, getFollowingFeedOpt } from "../ts-queries/queries";
-import PostCard from "./postcard";
+// import { useInfiniteQuery } from "@tanstack/react-query";
+// import { getFeedOpt, getFollowingFeedOpt } from "../ts-queries/queries";
+// import PostCard from "./postcard";
 
 function Feed() {
   const [view, setView] = useState("main");
 
-  const {
-    data: mainFeedData,
-    fetchNextPage: fetchNextMainPage,
-    hasNextPage: hasNextMainPage,
-    isFetchingNextPage: isFetchingNextMain,
-    isPending: isMainPending,
-  } = useInfiniteQuery(getFeedOpt());
+  // const {
+  //   data: mainFeedData,
+  //   fetchNextPage: fetchNextMainPage,
+  //   hasNextPage: hasNextMainPage,
+  //   isFetchingNextPage: isFetchingNextMain,
+  //   isPending: isMainPending,
+  // } = useInfiniteQuery(getFeedOpt());
 
-  const {
-    data: followingFeedData,
-    fetchNextPage: fetchNextFollowingPage,
-    hasNextPage: hasNextFollowingPage,
-    isFetchingNextPage: isFetchingNextFollowing,
-    isPending: isFollowingPending,
-  } = useInfiniteQuery(getFollowingFeedOpt());
+  // const {
+  //   data: followingFeedData,
+  //   fetchNextPage: fetchNextFollowingPage,
+  //   hasNextPage: hasNextFollowingPage,
+  //   isFetchingNextPage: isFetchingNextFollowing,
+  //   isPending: isFollowingPending,
+  // } = useInfiniteQuery(getFollowingFeedOpt());
 
   return (
     <div className="feedDIV">
-      <div>
+      <div className="feedOpts">
         <div
           className={view === "main" ? "selectedView" : "main"}
           onClick={() => setView("main")}
@@ -39,7 +39,7 @@ function Feed() {
         </div>
       </div>
 
-      {view === "main" && (
+      {/* {view === "main" && (
         <div>
           {isMainPending && <div>Loading...</div>}
           {mainFeedData?.pages.map((page) =>
@@ -71,7 +71,7 @@ function Feed() {
             </button>
           )}
         </div>
-      )}
+      )} */}
     </div>
   );
 }
