@@ -64,7 +64,7 @@ function MakeAPost({ closeModal, post = null }) {
       }}
     >
       {updateErr && (
-        <div onClick={resetUpdate}>
+        <div onClick={resetUpdate} className="errorModal">
           <div>
             <div>Oops something went wrong</div>
             <div>{updateErr}</div>
@@ -72,7 +72,7 @@ function MakeAPost({ closeModal, post = null }) {
         </div>
       )}
       {postErr && (
-        <div onClick={resetPost}>
+        <div onClick={resetPost} className="errorModal">
           <div>
             <div>Oops something went wrong</div>
             <div>{updateErr}</div>

@@ -59,7 +59,8 @@
 
 .make.edit.post,
 .makeACommentModal,
-.addToInventoryModal {
+.addToInventoryModal,
+.errorModal {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -75,7 +76,8 @@
 /* FORMS */
 
 .makePostForm,
-.addToInvenForm {
+.addToInvenForm,
+.errorModal > div {
   display: flex;
   flex-direction: column;
   background-color: white;
@@ -84,6 +86,9 @@
 }
 
 /*  when on larger devices switch like computer make it a legit modal + smooof edges */
+.errorModal {
+  z-index: 2;
+}
 
 .makePostForm > div {
   width: 100%;
