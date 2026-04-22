@@ -85,6 +85,52 @@ function MakeAPost({ closeModal, post = null }) {
         onSubmit={submit}
       >
         <div>
+          {!post && (
+            <div className="topOfPostModal">
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeModal(false);
+                }}
+              >
+                X
+              </div>
+              {postData.title &&
+              (postData.body || postData.image.length > 0) ? (
+                <div>
+                  {postPending && (
+                    <button type="button" className="cannot click">
+                      Post
+                    </button>
+                  )}
+                  {!postPending && (
+                    <button type="submit" className="can click">
+                      Post
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <button type="button" className="cannot click">
+                  Post
+                </button>
+              )}
+            </div>
+          )}
+          {post && (
+            <div>
+              {postData.title &&
+              (postData.body || postData.image.length > 0) ? (
+                <div>
+                  {updatePending && <div className="cannot click">update</div>}
+                  {!updatePending && (
+                    <button className="can click">post</button>
+                  )}
+                </div>
+              ) : (
+                <div className="cannotPost">post</div>
+              )}
+            </div>
+          )}
           <input
             placeholder="Title"
             value={postData.title}

@@ -86,7 +86,6 @@
 /*  when on larger devices switch like computer make it a legit modal + smooof edges */
 
 .makePostForm > div {
-  background-color: rgb(227, 202, 147);
   width: 100%;
   height: 100%;
 }
@@ -94,4 +93,28 @@
 .makePostForm > div > input,
 .makePostForm > div > textarea {
   width: 100%;
+}
+
+.topOfPostModal {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 20%;
+}
+
+.cannot.click,
+.can.click {
+  border: none;
+  border-radius: 20px;
+  width: 5em;
+  height: 3em;
+}
+
+.cannot.click {
+  color: rgba(96, 96, 96, 0.583);
+}
+
+.can.click {
+  color: white;
+  background-color: rgba(213, 155, 54, 0.757);
 }
