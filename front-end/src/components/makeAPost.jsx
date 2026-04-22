@@ -92,6 +92,7 @@ function MakeAPost({ closeModal, post = null }) {
                   e.stopPropagation();
                   closeModal(false);
                 }}
+                className="X"
               >
                 X
               </div>
@@ -132,6 +133,7 @@ function MakeAPost({ closeModal, post = null }) {
             </div>
           )}
           <input
+            className="title"
             placeholder="Title"
             value={postData.title}
             onChange={(e) => {
