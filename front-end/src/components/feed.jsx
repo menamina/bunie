@@ -26,13 +26,19 @@ function Feed() {
     <div className="feedDIV">
       <div className="feedOpts">
         <div
-          className={view === "main" ? "selectedView" : "main"}
+          className={
+            view === "main" ? "selectedView curs0rclick" : "main curs0rclick"
+          }
           onClick={() => setView("main")}
         >
           Feed
         </div>
         <div
-          className={view === "following" ? "selectedView" : "following"}
+          className={
+            view === "following"
+              ? "selectedView curs0rclick"
+              : "following curs0rclick"
+          }
           onClick={() => setView("following")}
         >
           Following

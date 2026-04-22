@@ -39,9 +39,9 @@ function Nav() {
   return (
     <div className="navDIV">
       <div className="nav options minus profile">
-        <div className="home" onClick={refreshFeed}>
+        <Link to="/" className="home" onClick={refreshFeed}>
           <img className="logo navIMG" src={Logo} alt="app logo" />
-        </div>
+        </Link>
         <div className="make-post" onClick={() => setMakePost(true)}>
           <img className="navIMG" src={Post} alt="make a post" />
         </div>
