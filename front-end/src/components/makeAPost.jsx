@@ -79,7 +79,11 @@ function MakeAPost({ closeModal, post = null }) {
           </div>
         </div>
       )}
-      <form onSubmit={submit}>
+      <form
+        onClick={(e) => e.stopPropagation()}
+        className="makePostForm"
+        onSubmit={submit}
+      >
         <div>
           <input
             placeholder="Title"

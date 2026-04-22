@@ -58,7 +58,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   );
 
   function clearInventoryINFO(e) {
-    e.preventDefault();
+    e.stopPropogation();
     closeInventoryModal(false);
     setInventoryINFO({
       brand: "",
@@ -75,7 +75,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     });
   }
 
-  function submit() {
+  function submit(e) {
+    e.stopPropogation();
+    e.preventDefault();
     editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
   }
 
@@ -83,10 +85,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     <div className="addToInventoryModal" onClick={clearInventoryINFO}>
       {errorAddingProduct && <div>{errorAddingProduct}</div>}
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          submit();
-        }}
+        onClick={(e) => e.stopPropagation()}
+        className="addToInvenForm"
+        onSubmit={submit}
       >
         <div>
           <div className="brand">
