@@ -53,9 +53,12 @@ function Nav() {
             <img className="navIMG" src={Search} alt="search" />
           </Link>
         </div>
-        <div clasName="utils-div">
+        <div clasName="utils-div" onClick={() => setUtilsOpen((prev) => !prev)}>
           {utilsOpen && (
-            <div className="utilsModelBackground" onClick={setUtilsOpen(false)}>
+            <div
+              className="utilsModelBackground"
+              onClick={() => setUtilsOpen(false)}
+            >
               <Link
                 to="/settings"
                 className="go-to-settings"
@@ -68,11 +71,8 @@ function Nav() {
               </div>
             </div>
           )}
-          <div
-            className="open-utils"
-            onClick={() => setUtilsOpen((prev) => !prev)}
-          >
-            <img className="navIMG" src={Settings} alt="settingd" />
+          <div className="open-utils">
+            <img className="navIMG" src={Settings} alt="settings" />
           </div>
         </div>
       </div>

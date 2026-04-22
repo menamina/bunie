@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makePostMut, updatePostMut } from "../ts-queries/queries";
 
+import "../css/nav.css";
+
 function MakeAPost({ closeModal, post = null }) {
   const [postData, setPostData] = useState(
     post
@@ -55,10 +57,10 @@ function MakeAPost({ closeModal, post = null }) {
 
   return (
     <div
-      className="make edit APostModal"
+      className="make edit post"
       onClick={(e) => {
         e.stopPropagation();
-        closeModal();
+        closeModal(false);
       }}
     >
       {updateErr && (
