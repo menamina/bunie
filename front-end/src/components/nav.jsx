@@ -80,7 +80,9 @@ function Nav() {
         {/* <img src={`http://localhost:5555/IMGS-API/${user?.pfp}`} alt="search" /> */}
       </Link>
       {makePost && <MakeAPost closeModal={setMakePost} />}
-      {addToInventory && <AddToInventory closeModal={setAddToInventory} />}
+      {addToInventory && (
+        <AddToInventory closeInventoryModal={setAddToInventory} />
+      )}
     </div>
   );
 }

@@ -58,7 +58,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   );
 
   function clearInventoryINFO(e) {
-    e.stopPropogation();
+    e.stopPropagation();
     closeInventoryModal(false);
     setInventoryINFO({
       brand: "",
