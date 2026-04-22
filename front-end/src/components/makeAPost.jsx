@@ -118,15 +118,14 @@ function MakeAPost({ closeModal, post = null }) {
           />
         </div>
         <div>
-          <div className="">
-            <textarea
-              placeholder="got more to say?"
-              value={postData.body}
-              onChange={(e) =>
-                setPostData((prev) => ({ ...prev, body: e.target.value }))
-              }
-            />
-          </div>
+          <textarea
+            placeholder="got more to say?"
+            value={postData.body}
+            onChange={(e) =>
+              setPostData((prev) => ({ ...prev, body: e.target.value }))
+            }
+          />
+
           {postData.image.length > 0 && (
             <div className="imgs if any sticky or whatever">
               {postData.image.map((thisImg, index) => {
@@ -153,30 +152,6 @@ function MakeAPost({ closeModal, post = null }) {
             </div>
           )}
         </div>
-        {!post && (
-          <div>
-            {postData.title && (postData.body || postData.image.length > 0) ? (
-              <div>
-                {postPending && <div className="cannot click">post</div>}
-                {!postPending && <button className="can click">post</button>}
-              </div>
-            ) : (
-              <div className="cannot click">post</div>
-            )}
-          </div>
-        )}
-        {post && (
-          <div>
-            {postData.title && (postData.body || postData.image.length > 0) ? (
-              <div>
-                {updatePending && <div className="cannot click">update</div>}
-                {!updatePending && <button className="can click">post</button>}
-              </div>
-            ) : (
-              <div className="cannotPost">post</div>
-            )}
-          </div>
-        )}
       </form>
     </div>
   );
