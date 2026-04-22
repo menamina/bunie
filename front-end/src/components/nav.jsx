@@ -13,6 +13,8 @@ import Post from "../imgs/post.svg";
 import Search from "../imgs/search.svg";
 import Settings from "../imgs/settings.svg";
 
+import "../css/nav.css";
+
 function Nav() {
   const user = useOutletContext();
   const [makePost, setMakePost] = useState(false);
@@ -35,20 +37,20 @@ function Nav() {
   }
 
   return (
-    <div clasnName="navDIV">
+    <div className="navDIV">
       <div className="nav options minus profile">
         <div className="home" onClick={refreshFeed}>
-          <img src={Logo} alt="app logo" />
+          <img className="logo navIMG" src={Logo} alt="app logo" />
         </div>
         <div className="make-post" onClick={() => setMakePost(true)}>
-          <img src={Post} alt="make a post" />
+          <img className="navIMG" src={Post} alt="make a post" />
         </div>
         <div className="add to inven" onClick={() => setAddToInventory(true)}>
-          <img src={Add} alt="add to inventory" />
+          <img className="navIMG" src={Add} alt="add to inventory" />
         </div>
         <div>
           <Link to="/search">
-            <img src={Search} alt="search" />
+            <img className="navIMG" src={Search} alt="search" />
           </Link>
         </div>
         <div clasName="utils-div">
@@ -70,7 +72,7 @@ function Nav() {
             className="open-utils"
             onClick={() => setUtilsOpen((prev) => !prev)}
           >
-            <img src={Settings} alt="settingd" />
+            <img className="navIMG" src={Settings} alt="settingd" />
           </div>
         </div>
       </div>

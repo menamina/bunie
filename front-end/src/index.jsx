@@ -17,10 +17,10 @@ function App() {
     <div className="mainDIV">
       {!data && <Welcome />}
       {data && (
-        <>
+        <div className="outlet">
           <Nav user={data} />
           <Outlet context={{ user: data.user }}></Outlet>
-        </>
+        </div>
       )}
     </div>
   );
