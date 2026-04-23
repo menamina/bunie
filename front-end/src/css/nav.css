@@ -163,7 +163,10 @@
 
 .postIMGContain {
   width: 100%;
-
 }
 
-.post
+.picToPost {
+  width: 100%;
+  object-fit: contain;
+  overflow: scroll;
+}
