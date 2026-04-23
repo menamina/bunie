@@ -148,14 +148,50 @@ function MakeAPost({ closeModal, post = null }) {
               )}
             </div>
           )}
-          <input
-            className="title"
-            placeholder="Title"
-            value={postData.title}
-            onChange={(e) => {
-              setPostData((prev) => ({ ...prev, title: e.target.value }));
-            }}
+        </div>
+        <input
+          className="title"
+          placeholder="Title"
+          value={postData.title}
+          onChange={(e) => {
+            setPostData((prev) => ({ ...prev, title: e.target.value }));
+          }}
+        />
+        <div className="post-body-imgs">
+          <textarea
+            className={postData.image.length > 0 ? "bodyText" : "bodyTextHALF"}
+            placeholder="got more to say?"
+            value={postData.body}
+            onChange={(e) =>
+              setPostData((prev) => ({ ...prev, body: e.target.value }))
+            }
           />
+          {postData.image.length > 0 && (
+            <div className="imgs if any sticky or whatever">
+              {postData.image.map((thisImg, index) => {
+                return (
+                  <div class="postIMGContain">
+                    <div
+                      onClick={() =>
+                        setPostData((prev) => ({
+                          ...prev,
+                          image: prev.image.filter((img) => img !== thisImg),
+                        }))
+                      }
+                    >
+                      X
+                    </div>
+                    <img
+                      className="picToPost"
+                      src={URL.createObjectURL(thisImg)}
+                      key={index}
+                      alt={`image #${thisImg.index}`}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
         <div>
           <div
@@ -180,41 +216,6 @@ function MakeAPost({ closeModal, post = null }) {
             }}
             hidden
           />
-        </div>
-        <div>
-          <textarea
-            placeholder="got more to say?"
-            value={postData.body}
-            onChange={(e) =>
-              setPostData((prev) => ({ ...prev, body: e.target.value }))
-            }
-          />
-
-          {postData.image.length > 0 && (
-            <div className="imgs if any sticky or whatever">
-              {postData.image.map((thisImg, index) => {
-                return (
-                  <div>
-                    <div
-                      onClick={() =>
-                        setPostData((prev) => ({
-                          ...prev,
-                          image: prev.image.filter((img) => img !== thisImg),
-                        }))
-                      }
-                    >
-                      X
-                    </div>
-                    <img
-                      src={URL.createObjectURL(thisImg)}
-                      key={index}
-                      alt={`image #${thisImg.index}`}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          )}
         </div>
       </form>
     </div>
