@@ -110,6 +110,7 @@
 .X {
   font-size: 1.4rem;
   color: rgba(56, 56, 56, 0.759);
+  cursor: pointer;
 }
 
 .cannot.click,
@@ -127,6 +128,7 @@
 .can.click {
   color: white;
   background-color: rgba(213, 155, 54, 0.757);
+  cursor: pointer;
 }
 
 .title {

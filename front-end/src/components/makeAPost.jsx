@@ -67,7 +67,15 @@ function MakeAPost({ closeModal, post = null }) {
         <div onClick={resetUpdate} className="errorModal">
           <div>
             <div>Oops something went wrong</div>
-            <div>{updateErr}</div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                resetUpdate;
+              }}
+            >
+              {updateErr}
+            </button>
           </div>
         </div>
       )}
@@ -75,7 +83,15 @@ function MakeAPost({ closeModal, post = null }) {
         <div onClick={resetPost} className="errorModal">
           <div>
             <div>Oops something went wrong</div>
-            <div>{updateErr}</div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                resetPost;
+              }}
+            >
+              {postErr}
+            </button>
           </div>
         </div>
       )}
