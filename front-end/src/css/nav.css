@@ -162,10 +162,15 @@
   gap: 30px;
   width: 40%;
   height: 100%;
+  overflow: scroll;
 }
 
 .postIMGContain {
   width: auto;
+}
+
+.postIMGContain > div {
+  text-align: end;
 }
 
 .picToPost {

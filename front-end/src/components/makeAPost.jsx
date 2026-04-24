@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makePostMut, updatePostMut } from "../ts-queries/queries";
+import Picture from "../imgs/uploadPic.svg";
 
 import "../css/nav.css";
 
@@ -170,7 +171,7 @@ function MakeAPost({ closeModal, post = null }) {
             <div className="imgs if any sticky or whatever">
               {postData.image.map((thisImg, index) => {
                 return (
-                  <div class="postIMGContain">
+                  <div className="postIMGContain">
                     <div
                       onClick={() =>
                         setPostData((prev) => ({
@@ -194,15 +195,14 @@ function MakeAPost({ closeModal, post = null }) {
           )}
         </div>
         <div>
-          <div
+          <img
+            src={Picture}
+            alt="images upload"
             className="stickyorwhatever"
             onClick={(e) => {
               e.target.nextElementSibling.click();
             }}
-          >
-            add an image
-          </div>
-          {/* ^^upload image here actually */}
+          />
           <input
             type="file"
             name="image"
