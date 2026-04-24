@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addProductMutOpts, updateProductMut } from "../ts-queries/queries";
 
+import UploadIMG from "../imgs/uploadPic.svg";
+
 function AddToInventory({ closeInventoryModal, product = null }) {
   const editMode = product ? true : false;
   const queryClient = useQueryClient();
@@ -164,9 +166,16 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               <img src={URL.createObjectURL(inventoryINFO.img)} alt="preview" />
             </div>
           )}
+          <img
+            src={UploadIMG}
+            alt="upload image icon"
+            onClick={(e) => e.target.nextElementSibling.click()}
+            className="curs0r upload img"
+          />
           <input
             name="file"
             type="file"
+            hidden
             onChange={(e) => {
               setInventoryINFO((prev) => ({
                 ...prev,
