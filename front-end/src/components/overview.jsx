@@ -1,4 +1,4 @@
-import { useOutletContext } from "react";
+import { useOutletContext } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
