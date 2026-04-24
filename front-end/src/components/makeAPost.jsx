@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makePostMut, updatePostMut } from "../ts-queries/queries";
 import Picture from "../imgs/uploadPic.svg";
@@ -59,12 +59,17 @@ function MakeAPost({ closeModal, post = null }) {
   const [maxImgTotal, setMaxImgTotal] = useState(false);
 
   function checkImgTotal() {
-    if (postData.img.length > 4) {
+    if (postData.image.length > 4) {
       setMaxImgTotal(true);
+      console.log(postData.image.length, "ran");
       return;
     }
     return;
   }
+
+  useEffect(() => {
+    checkImgTotal();
+  }, [postData.image]);
 
   return (
     <div
@@ -101,7 +106,7 @@ function MakeAPost({ closeModal, post = null }) {
                 resetUpdate;
               }}
             >
-              {updateErr}
+              {updateErr.message}
             </button>
           </div>
         </div>
@@ -117,7 +122,7 @@ function MakeAPost({ closeModal, post = null }) {
                 resetPost;
               }}
             >
-              {postErr}
+              {postErr.message}
             </button>
           </div>
         </div>
@@ -140,7 +145,8 @@ function MakeAPost({ closeModal, post = null }) {
                 X
               </div>
               {postData.title &&
-              (postData.body || postData.image.length > 0) ? (
+              (postData.body ||
+                (postData.image.length > 0 && postData.image.length <= 4)) ? (
                 <div>
                   {postPending && (
                     <button type="button" className="cannot click">
@@ -199,6 +205,7 @@ function MakeAPost({ closeModal, post = null }) {
                 return (
                   <div className="postIMGContain">
                     <button
+                      type="button"
                       onClick={() =>
                         setPostData((prev) => ({
                           ...prev,
@@ -226,8 +233,8 @@ function MakeAPost({ closeModal, post = null }) {
             alt="images upload"
             className="stickyorwhatever"
             onClick={(e) => {
+              e.stopPropagation();
               e.target.nextElementSibling.click();
-              checkImgTotal();
             }}
           />
           <input
@@ -240,6 +247,7 @@ function MakeAPost({ closeModal, post = null }) {
                 ...prev,
                 image: [...prev.image, ...imgFiles],
               }));
+              checkImgTotal();
             }}
             hidden
           />

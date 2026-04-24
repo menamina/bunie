@@ -53,7 +53,10 @@ function Nav() {
             <img className="navIMG" src={Search} alt="search" />
           </Link>
         </div>
-        <div clasName="utils-div" onClick={() => setUtilsOpen((prev) => !prev)}>
+        <div
+          className="utils-div"
+          onClick={() => setUtilsOpen((prev) => !prev)}
+        >
           {utilsOpen && (
             <div
               className="utilsModelBackground"
