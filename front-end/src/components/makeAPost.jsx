@@ -58,19 +58,6 @@ function MakeAPost({ closeModal, post = null }) {
 
   const [maxImgTotal, setMaxImgTotal] = useState(false);
 
-  function checkImgTotal() {
-    if (postData.image.length > 4) {
-      setMaxImgTotal(true);
-      console.log(postData.image.length, "ran");
-    } else {
-      setMaxImgTotal(false);
-    }
-  }
-
-  useEffect(() => {
-    checkImgTotal();
-  }, [postData.image]);
-
   return (
     <div
       className="make edit post"
