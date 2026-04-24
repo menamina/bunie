@@ -339,26 +339,60 @@ function AddToInventory({ closeInventoryModal, product = null }) {
         </div>
 
         <div>
-          {editMode && !updatePending && (
-            <div>
-              <button
-                type="button"
-                className="can click"
-                onClick={closeInventoryModal}
-              >
-                cancel
-              </button>
-              <button type="submit" className="can click">
-                update
-              </button>
-            </div>
-          )}
+          {editMode &&
+            !updatePending &&
+            inventoryINFO.brand &&
+            inventoryINFO.product &&
+            inventoryINFO.category &&
+            inventoryINFO.price &&
+            inventoryINFO.img &&
+            inventoryINFO.label &&
+            inventoryINFO.rating &&
+            inventoryINFO.wouldBuyAgain && (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeInventoryModal(false)}
+                >
+                  cancel
+                </button>
+                <button type="submit" className="can click">
+                  update
+                </button>
+              </div>
+            )}
+          {editMode &&
+            !pendingProductAdd &&
+            (inventoryINFO.brand ||
+              inventoryINFO.product ||
+              inventoryINFO.category ||
+              inventoryINFO.price ||
+              inventoryINFO.img ||
+              inventoryINFO.label ||
+              inventoryINFO.rating ||
+              inventoryINFO.wouldBuyAgain ||
+              inventoryINFO.notes) && (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeInventoryModal(false)}
+                >
+                  cancel
+                </button>
+                <button type="button" className="cannot click">
+                  add
+                </button>
+              </div>
+            )}
+
           {editMode && updatePending && (
             <div>
               <button
                 type="button"
                 className="cannot click"
-                onClick={closeInventoryModal}
+                onClick={() => closeInventoryModal(false)}
               >
                 cancel
               </button>
@@ -367,26 +401,59 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               </button>
             </div>
           )}
-          {!editMode && !pendingProductAdd && (
-            <div>
-              <button
-                type="button"
-                className="can click"
-                onClick={closeInventoryModal}
-              >
-                cancel
-              </button>
-              <button type="submit" className="can click">
-                add
-              </button>
-            </div>
-          )}
+          {!editMode &&
+            !pendingProductAdd &&
+            inventoryINFO.brand &&
+            inventoryINFO.product &&
+            inventoryINFO.category &&
+            inventoryINFO.price &&
+            inventoryINFO.img &&
+            inventoryINFO.label &&
+            inventoryINFO.rating &&
+            inventoryINFO.wouldBuyAgain && (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeInventoryModal(false)}
+                >
+                  cancel
+                </button>
+                <button type="submit" className="can click">
+                  add
+                </button>
+              </div>
+            )}
+          {!editMode &&
+            !pendingProductAdd &&
+            (!inventoryINFO.brand ||
+              !inventoryINFO.product ||
+              !inventoryINFO.category ||
+              !inventoryINFO.price ||
+              !inventoryINFO.img ||
+              !inventoryINFO.label ||
+              !inventoryINFO.rating ||
+              !inventoryINFO.wouldBuyAgain ||
+              !inventoryINFO.notes) && (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeInventoryModal(false)}
+                >
+                  cancel
+                </button>
+                <button type="button" className="cannot click">
+                  add
+                </button>
+              </div>
+            )}
           {!editMode && pendingProductAdd && (
             <div>
               <button
                 type="button"
                 className="cannot click"
-                onClick={closeInventoryModal}
+                onClick={() => closeInventoryModal(false)}
               >
                 cancel
               </button>
