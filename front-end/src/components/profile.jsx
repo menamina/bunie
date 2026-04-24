@@ -49,23 +49,17 @@ function Profile() {
   }
 
   if (error) {
-    {
-      error.notAuth && <div>Error loading profile: {error.notAuth}</div>;
-    }
-    {
-      error.noProfileFound && (
-        <div>Error loading profile: {error.noProfileFound}</div>
-      );
-    }
-    {
-      error.serverError && (
-        <div>Error loading profile: {error.serverError}</div>
-      );
-    }
-  }
-
-  if (error.notAuth) {
-    return <div></div>;
+    return (
+      <div>
+        {error.notAuth && <div>Error loading profile: {error.notAuth}</div>}
+        {error.noProfileFound && (
+          <div>Error loading profile: {error.noProfileFound}</div>
+        )}
+        {error.serverError && (
+          <div>Error loading profile: {error.serverError}</div>
+        )}
+      </div>
+    );
   }
 
   function follow(idToFollow) {

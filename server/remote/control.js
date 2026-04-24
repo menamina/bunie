@@ -235,7 +235,7 @@ async function getProfile(req, res) {
           },
         },
         followers: true,
-        following: true,
+        followings: true,
         posts: true,
       },
     });
@@ -336,7 +336,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const user = await prisma.user.findUnique({
+    const userPosts = await prisma.user.findUnique({
       where: {
         username,
       },
@@ -353,11 +353,11 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (user.posts.length === 0) {
+    if (!userPosts) {
       return res.status(204).json({ noPosts: true });
     }
 
-    const feed = user.posts.map((post) => ({
+    const feed = userPosts.posts.map((post) => ({
       ...post,
       madeBy: {
         id: user.id,
@@ -368,7 +368,6 @@ async function getUserPosts(req, res) {
 
     return res.status(200).json({ feed });
   } catch (error) {
-    console.log(error);
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
   }

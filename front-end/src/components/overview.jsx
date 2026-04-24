@@ -26,14 +26,11 @@ function Overview({ whoseProfile }) {
   return (
     <div className="userPostsDIV">
       {error && (
-        <div>
-          {error.serverError && <div>{error.serverError}</div>}
-          {error.zeroposts && <div>{error.zeroposts}</div>}
-        </div>
+        <div>{error.serverError && <div>{error.serverError}</div>}</div>
       )}
-      {userPosts.zeroposts && <div>Nothing to see here</div>}
-      {userPosts.thisUsersPosts.length > 0 &&
-        userPosts.thisUsersPosts.map((post) => <PostCard post={post} />)}
+      {error.zeroposts && <div>{error.zeroposts}</div>}
+      {userPosts?.thisUsersPosts?.length > 0 &&
+        userPosts?.thisUsersPosts?.map((post) => <PostCard post={post} />)}
     </div>
   );
 }
