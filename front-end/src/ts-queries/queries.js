@@ -704,8 +704,8 @@ async function toggleFollow(userID) {
   return await res.json();
 }
 
-async function getUserPosts(username, authUser) {
-  const isOwnProfile = authUser?.username === username;
+async function getUserPosts(username, authUsername) {
+  const isOwnProfile = authUsername === username;
 
   const endpoint = isOwnProfile
     ? `http://localhost:5555/my-my-posts/${username}`
@@ -723,6 +723,9 @@ async function getUserPosts(username, authUser) {
     // zero posts from the user
   } else if (res.status === 500) {
     error.serverError = "Server error, try again";
+    throw error;
+  } else if (res.status === 403) {
+    error.notAuth = "Please sign in";
     throw error;
   }
 
