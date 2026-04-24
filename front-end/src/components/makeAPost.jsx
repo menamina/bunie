@@ -62,9 +62,9 @@ function MakeAPost({ closeModal, post = null }) {
     if (postData.image.length > 4) {
       setMaxImgTotal(true);
       console.log(postData.image.length, "ran");
-      return;
+    } else {
+      setMaxImgTotal(false);
     }
-    return;
   }
 
   useEffect(() => {
@@ -243,11 +243,17 @@ function MakeAPost({ closeModal, post = null }) {
             accept="image/*"
             onChange={(e) => {
               const imgFiles = Array.from(e.target.files);
+              const total = postData.image.length + imgFiles.length;
+
+              if (total > 4) {
+                setMaxImgTotal(true);
+                return;
+              }
+
               setPostData((prev) => ({
                 ...prev,
                 image: [...prev.image, ...imgFiles],
               }));
-              checkImgTotal();
             }}
             hidden
           />
