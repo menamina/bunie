@@ -56,6 +56,16 @@ function MakeAPost({ closeModal, post = null }) {
     post ? updatePost(postData, post.id) : makeAPost(postData);
   }
 
+  const [maxImgTotal, setMaxImgTotal] = useState(false);
+
+  function checkImgTotal() {
+    if (postData.img.length > 4) {
+      setMaxImgTotal(true);
+      return;
+    }
+    return;
+  }
+
   return (
     <div
       className="make edit post"
@@ -64,6 +74,22 @@ function MakeAPost({ closeModal, post = null }) {
         closeModal(false);
       }}
     >
+      {maxImgTotal && (
+        <div className="imgModal">
+          <div>
+            <div>Max 4 images per post</div>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setMaxImgTotal(false);
+              }}
+            >
+              go back
+            </button>
+          </div>
+        </div>
+      )}
       {updateErr && (
         <div onClick={resetUpdate} className="errorModal">
           <div>
@@ -172,7 +198,7 @@ function MakeAPost({ closeModal, post = null }) {
               {postData.image.map((thisImg, index) => {
                 return (
                   <div className="postIMGContain">
-                    <div
+                    <button
                       onClick={() =>
                         setPostData((prev) => ({
                           ...prev,
@@ -181,7 +207,7 @@ function MakeAPost({ closeModal, post = null }) {
                       }
                     >
                       X
-                    </div>
+                    </button>
                     <img
                       className="picToPost"
                       src={URL.createObjectURL(thisImg)}
@@ -201,6 +227,7 @@ function MakeAPost({ closeModal, post = null }) {
             className="stickyorwhatever"
             onClick={(e) => {
               e.target.nextElementSibling.click();
+              checkImgTotal();
             }}
           />
           <input
