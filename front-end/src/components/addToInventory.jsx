@@ -36,7 +36,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           product: "",
           category: "",
           price: "",
-          img: "",
+          img: [],
           status: "",
           backup: "",
           purchaseDate: "",
@@ -153,19 +153,21 @@ function AddToInventory({ closeInventoryModal, product = null }) {
         </div>
         <div className="img">
           <label htmlFor="img">Image:</label>
-          {inventoryINFO.img.length > 0 && (
-            <div>
-              <div
-                onClick={(e) => {
-                  e.preventDefault();
-                  setInventoryINFO((prev) => ({ ...prev, img: "" }));
-                }}
-              >
-                X
+          {inventoryINFO.img.length > 0 &&
+            inventoryINFO.img.map((img) => (
+              <div>
+                <div
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setInventoryINFO((prev) => ({ ...prev, img: [] }));
+                  }}
+                >
+                  X
+                </div>
+                <img src={URL.createObjectURL(img)} alt="preview" />
               </div>
-              <img src={URL.createObjectURL(inventoryINFO.img)} alt="preview" />
-            </div>
-          )}
+            ))}
+
           <img
             src={UploadIMG}
             alt="upload image icon"
@@ -175,6 +177,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           <input
             name="file"
             type="file"
+            accept="image/*"
             hidden
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -386,7 +389,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 <button
                   type="button"
                   className="can click"
-                  onClick={() => closeInventoryModal(false)}
+                  onClick={clearInventoryINFO}
                 >
                   cancel
                 </button>
@@ -401,7 +404,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               <button
                 type="button"
                 className="cannot click"
-                onClick={() => closeInventoryModal(false)}
+                onClick={clearInventoryINFO}
               >
                 cancel
               </button>
@@ -424,7 +427,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 <button
                   type="button"
                   className="can click"
-                  onClick={() => closeInventoryModal(false)}
+                  onClick={clearInventoryINFO}
                 >
                   cancel
                 </button>
@@ -448,7 +451,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 <button
                   type="button"
                   className="can click"
-                  onClick={() => closeInventoryModal(false)}
+                  onClick={clearInventoryINFO}
                 >
                   cancel
                 </button>
@@ -462,7 +465,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               <button
                 type="button"
                 className="cannot click"
-                onClick={() => closeInventoryModal(false)}
+                onClick={clearInventoryINFO}
               >
                 cancel
               </button>
