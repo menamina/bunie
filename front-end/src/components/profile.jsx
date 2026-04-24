@@ -1,4 +1,5 @@
-import { useState, useOutletContext } from "react";
+import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -21,7 +22,7 @@ function Profile() {
     data: userProfile,
     isPending,
     error,
-  } = useQuery(getProfileQueryOptions(username, user));
+  } = useQuery(getProfileQueryOptions(username, user.username));
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
@@ -50,9 +51,19 @@ function Profile() {
   if (error) {
     return (
       <div>
-        <div>Error loading profile: {error.message}</div>
+        {error.notAuth && <div>Error loading profile: {error.notAuth}</div>}
+        {error.noProfileFound && (
+          <div>Error loading profile: {error.noProfileFound}</div>
+        )}
+        {error.serverError && (
+          <div>Error loading profile: {error.serverError}</div>
+        )}
       </div>
     );
+  }
+
+  if (error.notAuth) {
+    return <div></div>;
   }
 
   function follow(idToFollow) {

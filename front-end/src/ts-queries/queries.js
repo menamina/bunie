@@ -23,10 +23,10 @@ export const signUpMutationOptions = () => {
   });
 };
 
-export const getProfileQueryOptions = (username, authUser) => {
+export const getProfileQueryOptions = (username, authUsername) => {
   return queryOptions({
     queryKey: ["profile", username],
-    queryFn: () => getProfile(username, authUser),
+    queryFn: () => getProfile(username, authUsername),
   });
 };
 
@@ -653,25 +653,35 @@ async function signupUser(signupINFO) {
   return await res.json();
 }
 
-async function getProfile(username, authUser) {
-  const isOwnProfile = authUser?.username === username;
+async function getProfile(username, authUsername) {
+  const isOwnProfile = authUsername === username;
 
   const endpoint = isOwnProfile
     ? `http://localhost:5555/my-profile-API/${username}`
     : `http://localhost:5555/profile-API/${username}`;
 
   const res = await fetch(endpoint, {
-    method: "POST",
+    method: "GET",
     credentials: "include",
   });
 
-  const error = new Error("error");
+  const data = await res.json();
 
-  if (res.status === 404) {
-    error.noProfileFound = "No user found";
-    throw error;
+  if (!res.ok) {
+    const error = new Error("error");
+    if (res.status === 404) {
+      error.notAuth = "No user found";
+      console.log(data);
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError("Server error, try again");
+      throw error;
+    } else if (res.status === 403) {
+      error.notAuth("You must be logged in");
+      throw error;
+    }
   }
-  return await res.json();
+  return data;
 }
 
 async function toggleFollow(userID) {
