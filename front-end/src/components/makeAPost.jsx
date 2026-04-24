@@ -67,7 +67,7 @@ function MakeAPost({ closeModal, post = null }) {
       }}
     >
       {maxImgTotal && (
-        <div className="imgModal">
+        <div className="errorModal">
           <div>
             <div>Max 4 images per post</div>
             <button
@@ -179,7 +179,7 @@ function MakeAPost({ closeModal, post = null }) {
         />
         <div className="post-body-imgs">
           <textarea
-            className={postData.image.length > 0 ? "bodyText" : "bodyTextHALF"}
+            className={postData.image.length > 0 ? "bodyText" : "bodyText HALF"}
             placeholder="got more to say?"
             value={postData.body}
             onChange={(e) =>
@@ -242,6 +242,7 @@ function MakeAPost({ closeModal, post = null }) {
                 image: [...prev.image, ...imgFiles],
               }));
             }}
+            className="hidden"
             hidden
           />
         </div>

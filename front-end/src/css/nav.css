@@ -95,8 +95,10 @@
   width: 100%;
 }
 
-/* .makePostForm > div :first-child {
-} */
+.makePostForm > div:last-child {
+  display: flex;
+  justify-content: center;
+}
 
 .makePostForm > div > input,
 .makePostForm > div > textarea {
@@ -146,12 +148,13 @@
 }
 
 .bodyText {
-  height: 100%;
+  max-height: 100%;
   padding-left: 10px;
   font-size: 1rem;
+  overflow: scroll;
 }
 
-.bodyTextHALF {
+.bodyText.HALF {
   width: 60%;
 }
 
@@ -186,6 +189,10 @@
 .picToPost {
   width: 100%;
   object-fit: contain;
+}
+
+.hidden {
+  display: none;
 }
 
 /* WHEN THIS IMAGE GETS CLICKED MAKE IT A LARGE MODAL FOR ACCESSIBILITY */
