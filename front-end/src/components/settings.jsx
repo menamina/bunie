@@ -69,7 +69,7 @@ function Settings() {
     error: dataUpdateErr,
     reset: resetData,
   } = useMutation({
-    ...updateData(),
+    ...update(),
     onSuccess: () => {
       setUpdateData({
         name: user.name,
