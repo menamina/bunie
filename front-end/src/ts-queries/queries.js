@@ -674,10 +674,10 @@ async function getProfile(username, authUsername) {
       console.log(data);
       throw error;
     } else if (res.status === 500) {
-      error.serverError("Server error, try again");
+      error.serverError = "Server error, try again";
       throw error;
     } else if (res.status === 403) {
-      error.notAuth("You must be logged in");
+      error.notAuth = "You must be logged in";
       throw error;
     }
   }

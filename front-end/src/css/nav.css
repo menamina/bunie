@@ -206,3 +206,27 @@
 }
 
 /* WHEN THIS IMAGE GETS CLICKED MAKE IT A LARGE MODAL FOR ACCESSIBILITY */
+
+.addToInvenForm {
+  gap: 15px;
+}
+
+.addToInvenForm > div {
+  display: flex;
+  max-width: 100%;
+}
+
+.addToInvenForm > div:nth-child(-n + 7) {
+  justify-content: space-between;
+  height: auto;
+}
+
+.addToInvenForm > div > input {
+  width: 70%;
+  height: 2.3rem;
+}
+
+.notes > textarea {
+  max-width: 100%;
+  object-fit: contain;
+}
