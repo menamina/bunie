@@ -156,14 +156,16 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           {inventoryINFO.img.length > 0 &&
             inventoryINFO.img.map((img, index) => (
               <div key={index} className="previewIvenPhoto">
-                <div
+                <button
+                  className="dltPicX"
                   onClick={(e) => {
                     e.preventDefault();
                     setInventoryINFO((prev) => ({ ...prev, img: [] }));
                   }}
+                  type="button"
                 >
                   X
-                </div>
+                </button>
                 <img
                   src={URL.createObjectURL(img)}
                   alt="preview"
