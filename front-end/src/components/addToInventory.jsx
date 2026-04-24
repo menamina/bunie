@@ -340,36 +340,60 @@ function AddToInventory({ closeInventoryModal, product = null }) {
 
         <div>
           {editMode && !updatePending && (
-            <>
-              <div className="can click" onClick={closeInventoryModal}>
+            <div>
+              <button
+                type="button"
+                className="can click"
+                onClick={closeInventoryModal}
+              >
                 cancel
-              </div>
-              <button className="can click">update</button>
-            </>
+              </button>
+              <button type="submit" className="can click">
+                update
+              </button>
+            </div>
           )}
           {editMode && updatePending && (
-            <>
-              <div className="cannot click" onClick={closeInventoryModal}>
+            <div>
+              <button
+                type="button"
+                className="cannot click"
+                onClick={closeInventoryModal}
+              >
                 cancel
-              </div>
-              <div className="cannot click">update</div>
-            </>
+              </button>
+              <button type="button" className="cannot click">
+                update
+              </button>
+            </div>
           )}
           {!editMode && !pendingProductAdd && (
-            <>
-              <div className="can click" onClick={closeInventoryModal}>
+            <div>
+              <button
+                type="button"
+                className="can click"
+                onClick={closeInventoryModal}
+              >
                 cancel
-              </div>
-              <div className="cannot click">add</div>
-            </>
+              </button>
+              <button type="submit" className="can click">
+                add
+              </button>
+            </div>
           )}
           {!editMode && pendingProductAdd && (
-            <>
-              <div className="cannot click" onClick={closeInventoryModal}>
+            <div>
+              <button
+                type="button"
+                className="cannot click"
+                onClick={closeInventoryModal}
+              >
                 cancel
-              </div>
-              <div className="cannot click">add</div>
-            </>
+              </button>
+              <button type="button" className="cannot click">
+                add
+              </button>
+            </div>
           )}
         </div>
       </form>

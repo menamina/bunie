@@ -124,6 +124,7 @@
   border-radius: 20px;
   width: 5em;
   height: 3em;
+  text-align: center;
 }
 
 .cannot.click {
@@ -230,4 +231,8 @@
   width: 100%;
   resize: vertical;
   flex-grow: 1;
+}
+
+.addToInvenForm > div:last-child > div {
+  display: flex;
 }
