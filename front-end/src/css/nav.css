@@ -236,3 +236,17 @@
   display: flex;
   justify-content: space-evenly;
 }
+
+.upload.img {
+  width: 3.5rem;
+}
+
+.previewIvenPhoto {
+  max-width: 100%;
+}
+
+.preview {
+  object-fit: contain;
+  width: 90vw;
+  height: 50vh;
+}

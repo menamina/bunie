@@ -154,8 +154,8 @@ function AddToInventory({ closeInventoryModal, product = null }) {
         <div className="img">
           <label htmlFor="img">Image:</label>
           {inventoryINFO.img.length > 0 &&
-            inventoryINFO.img.map((img) => (
-              <div>
+            inventoryINFO.img.map((img, index) => (
+              <div key={index} className="previewIvenPhoto">
                 <div
                   onClick={(e) => {
                     e.preventDefault();
@@ -164,29 +164,36 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 >
                   X
                 </div>
-                <img src={URL.createObjectURL(img)} alt="preview" />
+                <img
+                  src={URL.createObjectURL(img)}
+                  alt="preview"
+                  className="preview"
+                />
               </div>
             ))}
-
-          <img
-            src={UploadIMG}
-            alt="upload image icon"
-            onClick={(e) => e.target.nextElementSibling.click()}
-            className="curs0r upload img"
-          />
-          <input
-            name="file"
-            type="file"
-            accept="image/*"
-            hidden
-            onChange={(e) => {
-              setInventoryINFO((prev) => ({
-                ...prev,
-                img: e.target.files[0],
-              }));
-            }}
-            required
-          />
+          {inventoryINFO.img.length === 0 ? (
+            <div>
+              <img
+                src={UploadIMG}
+                alt="upload image icon"
+                onClick={(e) => e.target.nextElementSibling.click()}
+                className="curs0r upload img"
+              />
+              <input
+                name="file"
+                type="file"
+                accept="image/*"
+                hidden
+                onChange={(e) => {
+                  setInventoryINFO((prev) => ({
+                    ...prev,
+                    img: [e.target.files[0]],
+                  }));
+                }}
+                required
+              />
+            </div>
+          ) : null}
         </div>
         <div className="status">
           <label htmlFor="status">Label:</label>
