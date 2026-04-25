@@ -52,8 +52,14 @@
   font-size: 1rem;
 }
 
-.editAcc.togglefollow {
-  text-align: end;
+.userContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.follow-info > div:first-child,
+.follow-info > div:last-child {
+  display: flex;
 }
 
 @media (max-width: 750px) {

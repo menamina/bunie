@@ -104,7 +104,7 @@ function Profile() {
               alt={`pfp for ${userProfile?.username}`}
             ></img>
           </div>
-          <div>
+          <div className="userContent">
             <div className="username and follow-info">
               <div className="">
                 <div>{userProfile?.name}</div>
