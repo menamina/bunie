@@ -36,6 +36,10 @@
   flex-direction: column;
 }
 
+.z-index.user.content {
+  gap: 20px;
+}
+
 .userINFO > div:first-child {
   display: flex;
   height: 100px;

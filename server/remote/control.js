@@ -89,7 +89,7 @@ async function getMainFeed(req, res) {
       return res.status(204).json({ databaseEmpty: true });
     }
 
-    return res.status(200).json({ feed });
+    return res.status(200).json(feed);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -148,7 +148,7 @@ async function getFollowingFeed(req, res) {
       return res.status(204).json({ databaseEmpty: true });
     }
 
-    return res.status(200).json({ feed });
+    return res.status(200).json(feed);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -209,7 +209,7 @@ async function query(req, res) {
       },
     });
 
-    return res.status(200).json({ usersWithQuery, postsWithQuery });
+    return res.status(200).json(usersWithQuery, postsWithQuery);
   } catch (error) {
     return res.status(500).json({ errMsg: "server error" });
   }
@@ -243,7 +243,8 @@ async function getProfile(req, res) {
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
     }
-    return res.status(200).json({ userProfile });
+    console.log(userProfile);
+    return res.status(200).json(userProfile);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -285,7 +286,7 @@ async function getFollowers(req, res) {
     if (fullFollowerList.followers.length === 0) {
       return res.status(204).json({ noFollowers: true });
     }
-    return res.status(200).json({ fullFollowerList });
+    return res.status(200).json(fullFollowerList);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -326,7 +327,7 @@ async function getFollowing(req, res) {
     if (fullFollowingList.followings.length === 0) {
       return res.status(204).json({ noFollowing: true });
     }
-    return res.status(200).json({ fullFollowingList });
+    return res.status(200).json(fullFollowingList);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
