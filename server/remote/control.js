@@ -504,7 +504,7 @@ async function getUserFinished(req, res) {
     if (!thisUsersFinished) {
       return res.status(204).json({ noFinished: true });
     }
-    return res.status(200).json({ thisUsersFinished });
+    return res.status(200).json(thisUsersFinished);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });

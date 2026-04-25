@@ -566,12 +566,13 @@ async function getUserFollow(username, view) {
 async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
   if (whoseProfileUsername === authUsername) {
     const res = await fetch(
-      `http://localHost:5555/get-my-${viewAPI}/:${authUsername}`,
+      `http://localHost:5555/get-my-${viewAPI}/${authUsername}`,
       {
         method: "GET",
         credentials: "include",
       },
     );
+
     return await res.json();
   } else {
     const res = await fetch(
