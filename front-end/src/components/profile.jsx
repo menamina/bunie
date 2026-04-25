@@ -14,6 +14,9 @@ import SelectedView from "./selectedView";
 
 import "../css/profile.css";
 
+import TempHeader from "../imgs/image.jpg";
+import TempIcon from "../imgs/cafe.jpeg";
+
 function Profile() {
   const { username } = useParams();
   const { user } = useOutletContext();
@@ -85,14 +88,11 @@ function Profile() {
     <div className="profileDIV">
       {/* div below will stretch view heighgt view width for header */}
       <div className="headerDIV">
-        <div classname="headerDIV">
-          <img
-            className="header"
-            src={userProfile?.profile?.header || ""}
-            alt={`header for ${userProfile?.username}`}
-          ></img>
-        </div>
-        <div className="whiteSpace"></div>
+        <img
+          className="headerIMG"
+          src={userProfile?.profile?.header || TempHeader}
+          alt={`header for ${userProfile?.username}`}
+        />
       </div>
       {/* div below will be a position absolute and cover header a bit and also be not fulll vh vw */}
 
@@ -100,7 +100,7 @@ function Profile() {
         <div className="userINFO">
           <div>
             <img
-              src={userProfile?.profile?.pfp || ""}
+              src={userProfile?.profile?.pfp || TempIcon}
               alt={`pfp for ${userProfile?.username}`}
             ></img>
           </div>

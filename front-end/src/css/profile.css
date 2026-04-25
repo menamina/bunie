@@ -10,17 +10,23 @@
 }
 
 .headerDIV {
-  height: 150px;
-  background-color: rgba(253, 165, 77, 0.605);
+  height: 200px;
+  width: 100vw;
+}
+
+.headerIMG {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  overflow: hidden;
 }
 
 .profileDIV > div:last-child {
   align-self: center;
-  background-color: palevioletred;
   width: 70vw;
   position: absolute;
   z-index: 1;
-  transform: translateY(100px);
+  transform: translateY(150px);
   height: 100%;
 }
 
@@ -31,5 +37,10 @@
 }
 
 .userINFO > div:first-child {
-  margin-bottom: 100px;
+  display: flex;
+  height: 100px;
+}
+
+.userINFO > div > img {
+  height: 100%;
 }
