@@ -105,7 +105,7 @@ function Profile() {
             ></img>
           </div>
           <div>
-            <div>
+            <div className="username and follow-info">
               <div className="">
                 <div>{userProfile?.name}</div>
                 <div>@{userProfile?.username}</div>
@@ -123,7 +123,7 @@ function Profile() {
               </div>
             </div>
 
-            <div>
+            <div className="editAcc togglefollow">
               {/* follow / unfollow */}
               {user?.username === username && (
                 <Link to="/settings">Edit Profile</Link>

@@ -52,6 +52,10 @@
   font-size: 1rem;
 }
 
+.editAcc.togglefollow {
+  text-align: end;
+}
+
 @media (max-width: 750px) {
   .nav-DIV {
     width: 100vw;
