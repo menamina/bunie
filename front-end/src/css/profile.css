@@ -1,0 +1,35 @@
+.profileDIV {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow-y: scroll;
+  height: 100%;
+  width: 100vw;
+  max-width: 100vh;
+  position: relative;
+}
+
+.headerDIV {
+  height: 150px;
+  background-color: rgba(253, 165, 77, 0.605);
+}
+
+.profileDIV > div:last-child {
+  align-self: center;
+  background-color: palevioletred;
+  width: 70vw;
+  position: absolute;
+  z-index: 1;
+  transform: translateY(100px);
+  height: 100%;
+}
+
+.z-index.user.content,
+.z-index.user.content > div {
+  display: flex;
+  flex-direction: column;
+}
+
+.userINFO > div:first-child {
+  margin-bottom: 100px;
+}

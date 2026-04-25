@@ -32,7 +32,7 @@ model Profile {
   id Int @id @default(autoincrement()) 
   userID Int @unique
   pfp String @default("default-icon.png")
-  header String?
+  header String @default("white")
   bio String?
 
   user User @relation(fields: [userID], references: [id], onDelete: Cascade)
