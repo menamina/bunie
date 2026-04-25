@@ -542,17 +542,31 @@ async function getUserLikes(req, res) {
           include: {
             comment: {
               include: {
-                post: true,
+                post: {
+                  include: {
+                    madeby: {
+                    select: {
+                      id: true,
+                      name: true,
+                      username: true,
+                      profile: {
+                        select: {
+                          pfp: true,
+                          header: true,
+                      },
+                      }
+                    }
+                  }
+                },
                 commenter: {
                   select: {
                     id: true,
                     name: true,
                     username: true,
-                    peofile: {
+                    profile: {
                       select: {
                         pfp: true,
                         header: true,
-                      },
                     },
                   },
                 },
