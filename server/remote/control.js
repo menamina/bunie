@@ -524,7 +524,7 @@ async function getUserLikes(req, res) {
           include: {
             post: {
               include: {
-                madeBy: {
+                madeby: {
                   select: {
                     id: true,
                     name: true,
@@ -543,11 +543,17 @@ async function getUserLikes(req, res) {
             comment: {
               include: {
                 post: true,
-                commentedBy: {
+                commenter: {
                   select: {
                     id: true,
                     name: true,
                     username: true,
+                    peofile: {
+                      select: {
+                        pfp: true,
+                        header: true,
+                      },
+                    },
                   },
                 },
               },
