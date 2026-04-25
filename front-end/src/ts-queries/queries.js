@@ -180,7 +180,7 @@ export const toggleCommentLikeOpt = (commentID) => {
 export const getPostOpt = (postID) => {
   return queryOptions({
     queryKey: ["post", postID],
-    queryFN: () => getPost(postID),
+    queryFn: () => getPost(postID),
   });
 };
 
@@ -211,14 +211,14 @@ export const updateCommentMut = () => {
 export const getLikeOpts = (username) => {
   return queryOptions({
     queryKey: ["profileLikes", username],
-    queryFN: () => getLikes(username),
+    queryFn: () => getLikes(username),
   });
 };
 
 export const getMiniProfileOpts = (username, view) => {
   return queryOptions({
     queryKey: ["miniProfile", username],
-    queryFN: () => getMiniProfile(username, view),
+    queryFn: () => getMiniProfile(username, view),
   });
 };
 
