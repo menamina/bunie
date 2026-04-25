@@ -141,7 +141,13 @@ function Profile() {
           </div>
         </div>
 
-        <div className="opts-rendering">
+        <div className="opts-rendering mobile">
+          <div onClick={() => setView("overview")}>Overview</div>
+          <div onClick={() => setView("inventory")}>Inventory</div>
+        </div>
+
+        {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
+        <div className="opts-rendering desktop">
           <div onClick={() => setView("overview")}>Overview</div>
           <div onClick={() => setView("inventory")}>Inventory</div>
           <div onClick={() => setView("inprogress")}>In Progress</div>

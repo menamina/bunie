@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-x: scroll;
   height: 100%;
   width: 100vw;
   max-width: 100vh;
@@ -10,13 +10,13 @@
 }
 
 .headerDIV {
-  height: 200px;
+  height: 150px;
   width: 100vw;
 }
 
 .headerIMG {
   height: 100%;
-  width: 100%;
+  width: 100vw;
   object-fit: cover;
   overflow: hidden;
 }
@@ -26,12 +26,12 @@
   width: 70vw;
   position: absolute;
   z-index: 1;
-  transform: translateY(150px);
+  transform: translateY(100px);
   height: 100%;
 }
 
 .z-index.user.content,
-.z-index.user.content > div {
+.z-index.user.content > div:not(.opts-rendering) {
   display: flex;
   flex-direction: column;
 }
@@ -43,4 +43,22 @@
 
 .userINFO > div > img {
   height: 100%;
+}
+
+.opts-rendering {
+  display: flex;
+  overflow-y: hidden;
+  justify-content: space-between;
+}
+
+@media (max-width: 600px) {
+  .opts-rendering.desktop {
+    display: none;
+  }
+}
+
+@media (min-width: 601px) {
+  .opts-rendering.mobile {
+    display: none;
+  }
 }
