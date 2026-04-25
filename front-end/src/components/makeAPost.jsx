@@ -58,6 +58,13 @@ function MakeAPost({ closeModal, post = null }) {
 
   const [maxImgTotal, setMaxImgTotal] = useState(false);
 
+  const errModals = document.querySelectorAll(".errorModal");
+  errModals.forEach((modal) => {
+    modal.addEventListener("click", (e) => {
+      e.stopPropagation();
+    });
+  });
+
   return (
     <div
       className="make edit post"

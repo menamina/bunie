@@ -35,7 +35,7 @@ function Profile() {
 
   if (!user) {
     return (
-      <div>
+      <div className="errorModal">
         <div>Sorry, you must be logged in to view {username}'s profile</div>
         <Link to="/">login or sign up here</Link>
       </div>
@@ -53,12 +53,21 @@ function Profile() {
   if (error) {
     return (
       <div>
-        {error.notAuth && <div>Error loading profile: {error.notAuth}</div>}
+        {error.notAuth && (
+          <div className="errorModal">
+            <div>Sorry, you must be logged in to view {username}'s profile</div>
+            <Link to="/">login or sign up here</Link>
+          </div>
+        )}
         {error.noProfileFound && (
-          <div>Error loading profile: {error.noProfileFound}</div>
+          <div className="errorModal">
+            Error loading profile: {error.noProfileFound}
+          </div>
         )}
         {error.serverError && (
-          <div>Error loading profile: {error.serverError}</div>
+          <div className="errorModal">
+            Error loading profile: {error.serverError}
+          </div>
         )}
       </div>
     );
