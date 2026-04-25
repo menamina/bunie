@@ -514,13 +514,52 @@ async function getUserFinished(req, res) {
 async function getUserLikes(req, res) {
   try {
     const { username } = req.params;
+    const { limit = 50, offset = 0 } = req.query;
+    const limitNum = Math.min(Number(limit), 100);
+    const offsetNum = Number(offset);
 
-    const thisUsersLikes = await prisma.user.findUnique({
-      where: {
-        username,
+    const user = await prisma.user.findUnique({
+      where: { username },
+      select: { id: true },
+    });
+
+    if (!user) {
+      return res.status(404).json({ noUser: "No user found" });
+    }
+
+    const postLikes = await prisma.postLikes.findMany({
+      where: { userWhoLiked: user.id },
+      take: limitNum,
+      skip: offsetNum,
+      orderBy: { dateLiked: "desc" },
+      include: {
+        post: {
+          include: {
+            madeby: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                profile: {
+                  select: {
+                    pfp: true,
+                    header: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
-      select: {
-        postsThisUserLikes: {
+    });
+
+    const commentLikes = await prisma.commentLikes.findMany({
+      where: { userWhoLiked: user.id },
+      take: limitNum,
+      skip: offsetNum,
+      orderBy: { dateLiked: "desc" },
+      include: {
+        comment: {
           include: {
             post: {
               include: {
@@ -529,86 +568,55 @@ async function getUserLikes(req, res) {
                     id: true,
                     name: true,
                     username: true,
-                  },
-                },
-              },
-            },
-          },
-          orderBy: {
-            dateLiked: "desc",
-          },
-        },
-        commentLikesByThisUser: {
-          include: {
-            comment: {
-              include: {
-                post: {
-                  include: {
-                    madeby: {
-                      select: {
-                        id: true,
-                        name: true,
-                        username: true,
-                        profile: {
-                          select: {
-                            pfp: true,
-                            header: true,
-                            bio: true,
-                          },
-                        },
-                      },
-                    },
-                  },
-                },
-                commenter: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
                     profile: {
                       select: {
                         pfp: true,
                         header: true,
-                        bio: true,
                       },
                     },
                   },
                 },
               },
             },
-          },
-          orderBy: {
-            dateLiked: "desc",
+            commenter: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                profile: {
+                  select: {
+                    pfp: true,
+                    header: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
     });
 
-    if (!thisUsersLikes) {
-      return res.status(404).json({ noUser: "No user found" });
-    }
-
-    if (
-      thisUsersLikes.postsThisUserLikes.length === 0 &&
-      thisUsersLikes.commentLikesByThisUser.length === 0
-    ) {
+    if (postLikes.length === 0 && commentLikes.length === 0) {
       return res.status(204).json({ noLikes: true });
     }
 
-    const postsFilter = thisUsersLikes.postsThisUserLikes.map((like) => ({
+    const postsFilter = postLikes.map((like) => ({
       type: "post",
       ...like,
     }));
 
-    const commentsFiltered = thisUsersLikes.commentLikesByThisUser.map(
-      (like) => ({ type: "comment", ...like }),
-    );
+    const commentsFiltered = commentLikes.map((like) => ({
+      type: "comment",
+      ...like,
+    }));
 
-    const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
-      (a, b) => new Date(b.dateLiked) - new Date(a.dateLiked),
-    );
+    const likesOrdered = [...postsFilter, ...commentsFiltered]
+      .sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
+      .slice(0, limitNum);
 
-    return res.status(200).json({ likesOrdered });
+    return res
+      .status(200)
+      .json({ likesOrdered, hasMore: likesOrdered.length === limitNum });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -1058,7 +1066,9 @@ async function updateComment(req, res) {
   } catch (error) {
     console.log(error);
     if (error.code === "P2025") {
-      return res.status(404).json({ message: "Comment not found or not yours" });
+      return res
+        .status(404)
+        .json({ message: "Comment not found or not yours" });
     }
     return res.status(500).json({ errMsg: "server error" });
   }
