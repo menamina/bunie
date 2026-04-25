@@ -84,6 +84,7 @@
   background-color: white;
   width: 100vw;
   height: 100vh;
+  padding: 10px;
   overflow-y: scroll;
   box-shadow: 0px 0px 30px 0px rgba(34, 20, 20, 0.709);
 }
@@ -230,7 +231,7 @@
 }
 
 .notes > textarea {
-  height: 700px;
+  height: 250px;
   max-height: auto;
   max-width: 100%;
   width: 100%;
