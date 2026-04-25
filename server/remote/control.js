@@ -361,9 +361,9 @@ async function getUserPosts(req, res) {
     const feed = userPosts.posts.map((post) => ({
       ...post,
       madeBy: {
-        id: user.id,
-        name: user.name,
-        username: user.username,
+        id: userPosts.id,
+        name: userPosts.name,
+        username: userPosts.username,
       },
     }));
 
@@ -545,18 +545,20 @@ async function getUserLikes(req, res) {
                 post: {
                   include: {
                     madeby: {
-                    select: {
-                      id: true,
-                      name: true,
-                      username: true,
-                      profile: {
-                        select: {
-                          pfp: true,
-                          header: true,
+                      select: {
+                        id: true,
+                        name: true,
+                        username: true,
+                        profile: {
+                          select: {
+                            pfp: true,
+                            header: true,
+                            bio: true,
+                          },
+                        },
                       },
-                      }
-                    }
-                  }
+                    },
+                  },
                 },
                 commenter: {
                   select: {
@@ -567,6 +569,8 @@ async function getUserLikes(req, res) {
                       select: {
                         pfp: true,
                         header: true,
+                        bio: true,
+                      },
                     },
                   },
                 },
@@ -581,11 +585,11 @@ async function getUserLikes(req, res) {
     });
 
     if (!thisUsersLikes) {
-      return res.status(404).jsons({ noUser: "No user found" });
+      return res.status(404).json({ noUser: "No user found" });
     }
 
     if (
-      thisUsersLikes.postsThisUserLikes === 0 &&
+      thisUsersLikes.postsThisUserLikes.length === 0 &&
       thisUsersLikes.commentLikesByThisUser.length === 0
     ) {
       return res.status(204).json({ noLikes: true });
@@ -919,7 +923,7 @@ async function toggleFollow(req, res) {
     }
   } catch (error) {
     console.log(error);
-    if (error.code === P2025 || error.code === P2003) {
+    if (error.code === "P2025" || error.code === "P2003") {
       return res.status(404).json({ message: "Account does not exist" });
     }
     return res.status(500).json({ errMsg: "server error" });
@@ -1015,17 +1019,18 @@ async function makeAComment(req, res) {
     return res.status(201).json({ comment });
   } catch (error) {
     console.log(error);
-    if (error.code === P2003) {
+    if (error.code === "P2003") {
       return res.status(404).json({ message: "post does not exist" });
     }
     return res.status(500).json({ errMsg: "server error" });
   }
 }
 
-async function updateComment(res, res) {
+async function updateComment(req, res) {
   try {
     const { commentToUpdate } = req.params;
     const { body } = req.body;
+    const { id } = req.user;
     const userID = Number(id);
     const commentID = Number(commentToUpdate);
 
@@ -1052,8 +1057,8 @@ async function updateComment(res, res) {
     return res.status(200).json({ updatedComment });
   } catch (error) {
     console.log(error);
-    if (error.code === P2025) {
-      return res.status(404).json({ message: "Post not found or not yours" });
+    if (error.code === "P2025") {
+      return res.status(404).json({ message: "Comment not found or not yours" });
     }
     return res.status(500).json({ errMsg: "server error" });
   }
@@ -1142,7 +1147,7 @@ async function updateUserIMGS(req, res) {
 
     return res.status(200).json({ updatedIMGS });
   } catch (error) {
-    if (error.code === P2025) {
+    if (error.code === "P2025") {
       return res
         .status(404)
         .json({ message: "User not found or not your account" });
@@ -1184,7 +1189,7 @@ async function updateUserProfile(req, res) {
 
     const updatedUser = await prisma.user.update({
       where: {
-        userID,
+        id: userID,
       },
       data: {
         ...(name && { name }),
@@ -1201,7 +1206,7 @@ async function updateUserProfile(req, res) {
     return res.status(200).json({ updatedUser });
   } catch (error) {
     console.log(error);
-    if (error.code === P2025) {
+    if (error.code === "P2025") {
       return res
         .status(404)
         .json({ message: "Account not found or not yours" });
@@ -1259,7 +1264,7 @@ async function deleteUserAccount(req, res) {
 
     await prisma.user.delete({
       where: {
-        userID,
+        id: userID,
       },
     });
 
