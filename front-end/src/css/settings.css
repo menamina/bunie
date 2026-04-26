@@ -156,7 +156,7 @@
   flex-direction: column;
   gap: 30px;
   align-self: center;
-  width: 70%;
+  width: 100%;
 }
 
 .changePasswordForm > div {
@@ -164,10 +164,14 @@
   justify-content: space-between;
 }
 
+.changePasswordForm > div > label {
+  width: 40%;
+}
+
 .changePasswordForm > div > input {
   border: none;
   border-bottom: 1px solid gray;
-  width: 67%;
+  flex-grow: 1;
 }
 
 .openedEditForStaticData > .editForReal > div > input:focus,
@@ -234,4 +238,9 @@
 
 .dltAccBtns > button:last-child {
   background-color: rgb(238, 22, 15);
+}
+
+.passwordViewImgs {
+  width: 30px;
+  cursor: pointer;
 }

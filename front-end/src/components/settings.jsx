@@ -420,7 +420,7 @@ function Settings() {
                     setViewCurrentPass(false);
                   }}
                 >
-                  <img src="" alt="dont show password" />
+                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
                 </div>
               ) : (
                 <div
@@ -429,7 +429,7 @@ function Settings() {
                     setViewCurrentPass(true);
                   }}
                 >
-                  <img src="" alt=" show password" />
+                  <img className="passwordViewImgs" src={View} alt=" show password" />
                 </div>
               )}
             </div>
@@ -452,7 +452,7 @@ function Settings() {
                     setViewNewPass(false);
                   }}
                 >
-                  <img src="" alt="dont show password" />
+                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
                 </div>
               ) : (
                 <div
@@ -461,7 +461,7 @@ function Settings() {
                     setViewNewPass(true);
                   }}
                 >
-                  <img src="" alt=" show password" />
+                  <img className="passwordViewImgs" src={View} alt=" show password" />
                 </div>
               )}
             </div>
@@ -484,7 +484,7 @@ function Settings() {
                     setViewConfirmPass(false);
                   }}
                 >
-                  <img src="" alt="dont show password" />
+                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
                 </div>
               ) : (
                 <div
@@ -493,7 +493,7 @@ function Settings() {
                     setViewConfirmPass(true);
                   }}
                 >
-                  <img src="" alt=" show password" />
+                  <img className="passwordViewImgs" src={View} alt=" show password" />
                 </div>
               )}
             </div>
