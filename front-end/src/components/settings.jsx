@@ -169,7 +169,7 @@ function Settings() {
                   </div>
                 )}
                 <div>
-                  {iconHeaderData.header instanceof File ? (
+                  {iconHeaderData.header && (
                     <>
                       <img
                         className="wantedHeader"
@@ -179,24 +179,7 @@ function Settings() {
                       />
                       <input
                         type="file"
-                        onChange={(e) =>
-                          setIconHeaderData((prev) => ({
-                            ...prev,
-                            header: e.target.files[0],
-                          }))
-                        }
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <img
-                        className="wanbtedIcon"
-                        src={`http://localhost:5555/IMGS-API/${user.header}`}
-                        alt="your updated header"
-                        onClick={(e) => e.target.nextElementSibling.click()}
-                      />
-                      <input
-                        type="file"
+                        accept="image/*"
                         onChange={(e) =>
                           setIconHeaderData((prev) => ({
                             ...prev,
@@ -208,7 +191,7 @@ function Settings() {
                   )}
                 </div>
                 <div>
-                  {iconHeaderData.pfp instanceof File ? (
+                  {iconHeaderData.pfp && (
                     <>
                       <img
                         src={URL.createObjectURL(iconHeaderData.pfp)}
@@ -217,23 +200,7 @@ function Settings() {
                       />
                       <input
                         type="file"
-                        onChange={(e) =>
-                          setIconHeaderData((prev) => ({
-                            ...prev,
-                            pfp: e.target.files[0],
-                          }))
-                        }
-                      />
-                    </>
-                  ) : (
-                    <>
-                      <img
-                        src={`http://localhost:5555/IMGS-API/${user.pfp}`}
-                        alt="your updated pfp"
-                        onClick={(e) => e.target.nextElementSibling.click()}
-                      />
-                      <input
-                        type="file"
+                        accept="image/*"
                         onChange={(e) =>
                           setIconHeaderData((prev) => ({
                             ...prev,
