@@ -129,7 +129,7 @@ function Settings() {
         </div>
       </div>
       {settingsView === null && (
-        <div className="rightOfSettings">
+        <div className="rightOfSettings updateIMGS">
           <div>
             {!openIconHeader && (
               <div>
@@ -357,8 +357,9 @@ function Settings() {
       )}
       {settingsView === "change password" && (
         // ability to view passwords too
-        <div className="rightOfSettings">
+        <div className="rightOfSettings changePass">
           {updatePassErr && <div>{updatePassErr}</div>}
+          <div>Change password</div>
           <div>
             <div>
               <label htmlFor="">Current password:</label>
@@ -408,9 +409,13 @@ function Settings() {
         </div>
       )}
       {settingsView === "delete" && (
-        <div className="rightOfSettings">
+        <div className="rightOfSettings dltAcc">
           <div>Delete account?</div>
-          <div>Your account will be permanently deleted</div>
+          <div>
+            Your account will be permanently deleted and everything associated
+            with it will no longer be available to other users or yourself; once
+            you delete your account there is no recovering it.
+          </div>
           <div>
             <div onClick={() => settingsView(null)}>cancel</div>
             <div onClick={() => setDeleteClicked(true)}>delete</div>

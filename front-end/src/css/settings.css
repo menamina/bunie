@@ -13,7 +13,7 @@
 }
 
 .rightOfSettings {
-  flex-grow: 1;
+  max-width: 75%;
   padding: 20px;
 }
 
@@ -43,4 +43,14 @@
 .selectedSView {
   background-color: rgba(225, 225, 225, 0.386);
   border-right: 2px solid rgb(231, 206, 125);
+}
+
+.changePass {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.changePass > div:first-child {
+  font-size: 2rem;
 }
