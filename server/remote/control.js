@@ -227,6 +227,7 @@ async function getProfile(req, res) {
         id: true,
         name: true,
         username: true,
+        joined: true,
         profile: {
           select: {
             pfp: true,

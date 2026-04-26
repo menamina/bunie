@@ -27,7 +27,7 @@ function Nav() {
   const { mutate: logout } = useMutation({
     ...logoutMut(),
     onSuccess: () => {
-      nav("/");
+      (queryClient.invalidateQueries({ queryKey: ["checkSession"] }), nav("/"));
     },
   });
 

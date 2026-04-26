@@ -9,6 +9,7 @@ import Feed from "./components/feed";
 import PostOpen from "./components/postOpen";
 import Search from "./components/search";
 import Settings from "./components/settings";
+import Welcome from "./components/welcome";
 
 const queryClient = new QueryClient();
 
@@ -17,7 +18,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <App />,
     children: [
-      { index: true, element: <Feed /> },
+      { index: true, element: <Welcome /> },
+      { path: "/home", element: <Feed /> },
       { path: "/search", element: <Search /> },
       { path: "/post/:id", element: <PostOpen /> },
       { path: "/settings", element: <Settings /> },

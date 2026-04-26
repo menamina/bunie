@@ -74,16 +74,25 @@
 }
 
 .iconHolder {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
   justify-self: center;
+  position: absolute;
   transform: translateY(-50%);
 }
 
 .currentIcon {
   width: 100px;
   object-fit: contain;
+}
+
+.clickEdit {
+  margin-top: 70px;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+}
+
+.editStatic {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
 }

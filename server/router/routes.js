@@ -19,6 +19,7 @@ router.get("/session-check-API", isAuth, (req, res) => {
       pfp: req.user.profile.pfp,
       header: req.user.profile.header,
       bio: req.user.profile.bio,
+      joined: req.user.profile.joined,
     },
   });
 });

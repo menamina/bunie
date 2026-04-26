@@ -145,16 +145,17 @@ function Settings() {
                   />
                 </div>
                 <div className="iconHolder">
-                  <div>
-                    <img
-                      className="currentIcon"
-                      src={Icon}
-                      // src={`http:localhost:5555/IMGS-API/${user.pfp}`}
-                      alt="your profile img"
-                    />
-                  </div>
+                  <img
+                    className="currentIcon"
+                    src={Icon}
+                    // src={`http:localhost:5555/IMGS-API/${user.pfp}`}
+                    alt="your profile img"
+                  />
                 </div>
-                <div onClick={() => setOpenIconHeader(true)}>
+                <div
+                  onClick={() => setOpenIconHeader(true)}
+                  className="clickEdit"
+                >
                   edit icon + header
                 </div>
               </div>
@@ -238,7 +239,7 @@ function Settings() {
             )}
           </div>
 
-          <div>
+          <div className="editStatic">
             {editUserData && (
               <div>
                 {dataUpdateErr && (
@@ -252,7 +253,7 @@ function Settings() {
                   <div>
                     <label>Name</label>
                     <input
-                      placeholder=""
+                      placeholder="Name"
                       value={updateData.name}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -265,6 +266,7 @@ function Settings() {
                   <div>
                     <label>Username</label>
                     <input
+                      placeholder="Username"
                       value={updateData.username}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -277,6 +279,7 @@ function Settings() {
                   <div>
                     <label>Email</label>
                     <input
+                      placeholder="Email"
                       value={updateData.email}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -289,6 +292,7 @@ function Settings() {
                   <div>
                     <label>Bio</label>
                     <input
+                      placeholder="Bio"
                       value={updateData.bio}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -328,7 +332,12 @@ function Settings() {
                   <div>{user.bio}</div>
                   <div>cake day: {user.joined}</div>
                 </div>
-                <div onClick={() => setEditUserData(true)}>edit user data</div>
+                <div
+                  className="clickEdit"
+                  onClick={() => setEditUserData(true)}
+                >
+                  edit user data
+                </div>
               </div>
             )}
           </div>

@@ -60,6 +60,8 @@ passport.deserializeUser(async (id, done) => {
         id: true,
         name: true,
         username: true,
+        email: true,
+        joined: true,
         profile: {
           select: {
             pfp: true,
