@@ -135,6 +135,7 @@
   display: flex;
   flex-direction: column;
   gap: 30px;
+  justify-content: space-between;
 }
 
 .openedEditForStaticData > .editForReal > div {
@@ -150,8 +151,28 @@
   width: 70%;
 }
 
+.changePasswordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  align-self: center;
+  width: 70%;
+}
+
+.changePasswordForm > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.changePasswordForm > div > input {
+  border: none;
+  border-bottom: 1px solid gray;
+  width: 67%;
+}
+
 .openedEditForStaticData > .editForReal > div > input:focus,
-.editBio:focus {
+.editBio:focus,
+.changePasswordForm > div > input:focus {
   box-shadow: 0 0 0 3.3px rgb(214, 165, 138);
   outline: none;
   border: none;
@@ -204,7 +225,8 @@
   background-color: rgb(238, 22, 15);
 }
 
-.dltAccBtns {
+.dltAccBtns,
+.changePassBtns {
   margin-top: 100px;
   display: flex;
   justify-content: space-around;

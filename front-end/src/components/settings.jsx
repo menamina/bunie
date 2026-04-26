@@ -331,7 +331,10 @@ function Settings() {
                       }
                     />
                   </div>
-                  <div>cake day: {user.joined.split("T")[0]}</div>
+                  <div>
+                    <div>cake day</div>
+                    <div>{user.joined.split("T")[0]}</div>
+                  </div>
                 </div>
                 <div className="editOrCancelStaticUpdate">
                   <button
@@ -433,7 +436,7 @@ function Settings() {
             </div>
           </div>
 
-          <div>
+          <div className="changePassBtns">
             <button
               type="button"
               className="settingsButtons"
@@ -446,7 +449,7 @@ function Settings() {
               className="settingsButtons"
               onClick={() => updatePass(passwordData)}
             >
-              change password
+              update
             </button>
           </div>
         </div>
