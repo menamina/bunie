@@ -153,9 +153,9 @@ function Settings() {
                       alt="your profile img"
                     />
                   </div>
-                  <div onClick={() => setOpenIconHeader(true)}>
-                    edit icon + header
-                  </div>
+                </div>
+                <div onClick={() => setOpenIconHeader(true)}>
+                  edit icon + header
                 </div>
               </div>
             )}

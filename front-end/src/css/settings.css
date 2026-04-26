@@ -73,11 +73,17 @@
   height: auto;
 }
 
+.iconHolder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  justify-self: center;
+  transform: translateY(-50%);
+}
+
 .currentIcon {
   width: 100px;
   object-fit: contain;
-}
-
-.iconHolder {
-  position: absolute;
 }
