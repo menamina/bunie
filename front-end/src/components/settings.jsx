@@ -168,49 +168,50 @@ function Settings() {
                     </div>
                   </div>
                 )}
-                <div>
-                  {iconHeaderData.header && (
-                    <>
-                      <img
-                        className="wantedHeader"
-                        src={URL.createObjectURL(iconHeaderData.header)}
-                        alt="your updated header"
-                        onClick={(e) => e.target.nextElementSibling.click()}
-                      />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) =>
-                          setIconHeaderData((prev) => ({
-                            ...prev,
-                            header: e.target.files[0],
-                          }))
-                        }
-                      />
-                    </>
-                  )}
-                </div>
-                <div>
-                  {iconHeaderData.pfp && (
-                    <>
-                      <img
-                        src={URL.createObjectURL(iconHeaderData.pfp)}
-                        alt="your updated pfp"
-                        onClick={(e) => e.target.nextElementSibling.click()}
-                      />
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) =>
-                          setIconHeaderData((prev) => ({
-                            ...prev,
-                            pfp: e.target.files[0],
-                          }))
-                        }
-                      />
-                    </>
-                  )}
-                </div>
+
+                {iconHeaderData.header && (
+                  <div>
+                    <img
+                      className="wantedHeader"
+                      src={URL.createObjectURL(iconHeaderData.header)}
+                      alt="your updated header"
+                      onClick={(e) => e.target.nextElementSibling.click()}
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(e) =>
+                        setIconHeaderData((prev) => ({
+                          ...prev,
+                          header: e.target.files[0],
+                        }))
+                      }
+                    />
+                  </div>
+                )}
+
+                {iconHeaderData.pfp && (
+                  <div>
+                    <img
+                      src={URL.createObjectURL(iconHeaderData.pfp)}
+                      alt="your updated pfp"
+                      onClick={(e) => e.target.nextElementSibling.click()}
+                    />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      hidden
+                      onChange={(e) =>
+                        setIconHeaderData((prev) => ({
+                          ...prev,
+                          pfp: e.target.files[0],
+                        }))
+                      }
+                    />
+                  </div>
+                )}
+
                 <div>
                   <div
                     onClick={() => {
