@@ -73,8 +73,8 @@ function Welcome() {
   } = useMutation({
     ...loginMutationOptions(),
     onSuccess: () => {
-      nav("/home");
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
+      nav("/home");
       setLoginINFO({
         email: "",
         password: "",

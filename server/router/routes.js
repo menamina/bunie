@@ -16,10 +16,11 @@ router.get("/session-check-API", isAuth, (req, res) => {
       id: req.user.id,
       name: req.user.name,
       username: req.user.username,
+      email: req.user.email,
+      joined: req.user.joined,
       pfp: req.user.profile.pfp,
       header: req.user.profile.header,
       bio: req.user.profile.bio,
-      joined: req.user.profile.joined,
     },
   });
 });

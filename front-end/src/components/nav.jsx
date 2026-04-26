@@ -39,7 +39,7 @@ function Nav() {
   return (
     <div className="navDIV">
       <div className="nav options minus profile">
-        <Link to="/" className="home" onClick={refreshFeed}>
+        <Link to="/home" className="home" onClick={refreshFeed}>
           <img className="logo navIMG" src={Logo} alt="app logo" />
         </Link>
         <div className="make-post" onClick={() => setMakePost(true)}>
@@ -58,18 +58,31 @@ function Nav() {
           onClick={() => setUtilsOpen((prev) => !prev)}
         >
           {utilsOpen && (
-            <div
-              className="utilsModelBackground"
-              onClick={() => setUtilsOpen(false)}
-            >
+            <div>
+              <div
+                className="utilsModelBackground"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUtilsOpen(false);
+                }}
+              ></div>
               <Link
                 to="/settings"
-                className="go-to-settings"
-                onClick={() => setUtilsOpen(false)}
+                className="cursorPoint"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setUtilsOpen(false);
+                }}
               >
                 Settings
               </Link>
-              <div className="logout" onClick={logout}>
+              <div
+                className="cursorPoint"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  logout();
+                }}
+              >
                 Logout
               </div>
             </div>

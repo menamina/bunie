@@ -1131,7 +1131,7 @@ async function getMyProfileSettings(req, res) {
       return res.status(204).json({ noProfile: true });
     }
 
-    return res.status(200).json({ userProfSettings });
+    return res.status(200).json(userProfSettings);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
