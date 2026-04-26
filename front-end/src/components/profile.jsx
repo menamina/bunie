@@ -136,15 +136,22 @@ function Profile() {
                   Edit Profile
                 </button>
               )}
-              {user.username !== username && (
-                <div>
-                  {userProfile.followers.has(user.id) ? (
-                    <div onClick={() => unfollow(userProfile.id)}>Unfollow</div>
-                  ) : (
-                    <div onClick={() => follow(userProfile.id)}>Follow</div>
-                  )}
-                </div>
-              )}
+              {user.username !== username &&
+                (userProfile.followers.has(user.id) ? (
+                  <button
+                    className="followBTN unfollow"
+                    onClick={() => unfollow(userProfile.id)}
+                  >
+                    Following
+                  </button>
+                ) : (
+                  <button
+                    className="followBTN follow"
+                    onClick={() => follow(userProfile.id)}
+                  >
+                    Follow
+                  </button>
+                ))}
             </div>
           </div>
         </div>
