@@ -1,7 +1,6 @@
 .settingsDIV {
   width: 100%;
   border-left: 1px solid rgba(168, 168, 168, 0.598);
-  padding: 20px;
   display: flex;
 }
 
@@ -9,12 +8,18 @@
   height: 100%;
 }
 
-.settingsDIV > div:first-child {
+.leftOfSettings {
   width: 35%;
+}
+
+.rightOfSettings {
+  flex-grow: 1;
+  padding: 20px;
 }
 
 .settingsDIV > div:first-child > div:first-child {
   font-size: 2rem;
+  padding: 20px;
 }
 
 .leftOfSettings,
@@ -24,21 +29,18 @@
 }
 
 .leftOfSettings {
-  height: auto;
-}
-
-.options-set {
-  height:;
-}
-
-.leftOfSettings {
   gap: 30px;
 }
 
-.options-set > div:first-child {
-  background-color: yellow;
+.options-set {
+  display: flex;
 }
 
 .options-set > div {
-  height: 60px;
+  padding: 20px;
+}
+
+.selectedSView {
+  background-color: rgba(225, 225, 225, 0.386);
+  border-right: 2px solid rgb(231, 206, 125);
 }

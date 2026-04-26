@@ -106,15 +106,30 @@ function Settings() {
       <div className="leftOfSettings">
         <div>Settings</div>
         <div className="options-set">
-          <div onChange={() => setSettingsView(null)}>Overview</div>
-          <div onChange={() => setSettingsView("change password")}>
+          <div
+            className={settingsView === null ? "selectedSView" : "viewOpt"}
+            onClick={() => setSettingsView(null)}
+          >
+            Overview
+          </div>
+          <div
+            className={
+              settingsView === "change password" ? "selectedSView" : "viewOpt"
+            }
+            onClick={() => setSettingsView("change password")}
+          >
             Change Password
           </div>
-          <div onChange={() => setSettingsView("delete")}>Nuke Account</div>
+          <div
+            className={settingsView === "delete" ? "selectedSView" : "viewOpt"}
+            onClick={() => setSettingsView("delete")}
+          >
+            Nuke Account
+          </div>
         </div>
       </div>
       {settingsView === null && (
-        <div>
+        <div className="rightOfSettings">
           <div>
             {!openIconHeader && (
               <div>
@@ -342,7 +357,7 @@ function Settings() {
       )}
       {settingsView === "change password" && (
         // ability to view passwords too
-        <div>
+        <div className="rightOfSettings">
           {updatePassErr && <div>{updatePassErr}</div>}
           <div>
             <div>
@@ -393,7 +408,7 @@ function Settings() {
         </div>
       )}
       {settingsView === "delete" && (
-        <div>
+        <div className="rightOfSettings">
           <div>Delete account?</div>
           <div>Your account will be permanently deleted</div>
           <div>
