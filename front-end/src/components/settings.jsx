@@ -304,7 +304,8 @@ function Settings() {
                   </div>
                   <div>
                     <label>Bio</label>
-                    <input
+                    <textarea
+                      className="editBio"
                       value={updateData.bio}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -314,9 +315,9 @@ function Settings() {
                       }
                     />
                   </div>
-                  <div>cake day: </div>
+                  <div>cake day: {user.joined.split("T")[0]}</div>
                 </div>
-                <div>
+                <div className="editOrCancelStaticUpdate">
                   <div
                     onClick={() => {
                       setEditUserData(false);
@@ -336,13 +337,13 @@ function Settings() {
             )}
 
             {!editUserData && !openIconHeader && (
-              <div>
+              <div className="userInfoSettings">
                 <div>
                   <div>{user.name}</div>
                   <div>{user.username}</div>
                   <div>{user.email}</div>
                   <div>{user.bio}</div>
-                  <div>cake day: {user.joined}</div>
+                  <div>cake day: {user.joined.split("T")[0]}</div>
                 </div>
                 <div
                   className="clickEdit"

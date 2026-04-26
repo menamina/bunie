@@ -100,6 +100,16 @@
   margin-top: 300px;
 }
 
+.userInfoSettings {
+  margin-top: 30px;
+}
+
+.userInfoSettings > div {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
 .editStatic {
   margin-top: 30px;
   display: flex;
@@ -132,7 +142,29 @@
   justify-content: space-between;
 }
 
-.openedEditForStaticData > .editForReal > div > input {
+.openedEditForStaticData > .editForReal > div > input,
+.editBio {
   border: none;
   border-bottom: 1px solid gray;
+  width: 70%;
+}
+
+.openedEditForStaticData > .editForReal > div > input:focus,
+.editBio:focus {
+  box-shadow: 0 0 0 3.3px rgb(214, 165, 138);
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.editBio {
+  height: 100px;
+  resize: none;
+}
+
+.editOrCancelStaticUpdate {
+  display: flex;
+  justify-content: space-evenly;
+  margin-top: 70px;
+  cursor: pointer;
 }
