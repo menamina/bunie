@@ -10,5 +10,35 @@
 }
 
 .settingsDIV > div:first-child {
-  width: 30%;
+  width: 35%;
+}
+
+.settingsDIV > div:first-child > div:first-child {
+  font-size: 2rem;
+}
+
+.leftOfSettings,
+.options-set {
+  display: flex;
+  flex-direction: column;
+}
+
+.leftOfSettings {
+  height: auto;
+}
+
+.options-set {
+  height:;
+}
+
+.leftOfSettings {
+  gap: 30px;
+}
+
+.options-set > div:first-child {
+  background-color: yellow;
+}
+
+.options-set > div {
+  height: 60px;
 }

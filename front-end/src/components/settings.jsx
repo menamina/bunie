@@ -103,9 +103,9 @@ function Settings() {
 
   return (
     <div className="settingsDIV">
-      <div>
+      <div className="leftOfSettings">
         <div>Settings</div>
-        <div>
+        <div className="options-set">
           <div onChange={() => setSettingsView(null)}>Overview</div>
           <div onChange={() => setSettingsView("change password")}>
             Change Password
