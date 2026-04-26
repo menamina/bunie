@@ -73,13 +73,15 @@
   height: auto;
 }
 
-.iconHolder {
+.iconHolder,
+.wantedIcon {
   justify-self: center;
   position: absolute;
   transform: translateY(-50%);
 }
 
-.currentIcon {
+.currentIcon,
+.editImgsOpen {
   width: 100px;
   object-fit: contain;
 }
@@ -96,4 +98,15 @@
   margin-top: 30px;
   display: flex;
   justify-content: center;
+}
+
+.editImgsOpen {
+  display: flex;
+  flex-direction: column;
+}
+
+.updateCancelIMGS {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
 }
