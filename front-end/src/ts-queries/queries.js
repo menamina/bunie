@@ -724,18 +724,20 @@ async function getUserPosts(username, authUsername) {
     method: "GET",
     credentials: "include",
   });
-  const error = new Error("error");
 
-  if (res.status === 204) {
-    error.zeroposts = "Nothing to see here";
-    throw error;
-    // zero posts from the user
-  } else if (res.status === 500) {
-    error.serverError = "Server error, try again";
-    throw error;
-  } else if (res.status === 403) {
-    error.notAuth = "Please sign in";
-    throw error;
+  if (!res.ok) {
+    const error = new Error("error");
+
+    if (res.status === 204) {
+      error.zeroposts = "Nothing to see here";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
+    } else if (res.status === 403) {
+      error.notAuth = "Please sign in";
+      throw error;
+    }
   }
 
   return await res.json();

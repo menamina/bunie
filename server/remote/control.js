@@ -338,7 +338,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const userPosts = await prisma.user.findUnique({
+    const userPosts = await prisma.user.findMany({
       where: {
         username,
       },
@@ -355,7 +355,7 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (!userPosts) {
+    if (userPosts.length === 0) {
       return res.status(204).json({ noPosts: true });
     }
 
@@ -365,6 +365,7 @@ async function getUserPosts(req, res) {
         id: userPosts.id,
         name: userPosts.name,
         username: userPosts.username,
+        pfp: userPosts.profile.pfp,
       },
     }));
 
@@ -945,7 +946,6 @@ async function makeAPost(req, res) {
     const userID = Number(id);
 
     const { title, body } = req.body;
-    console.log(title);
     const imgs = req.files;
 
     const fileNames = imgs?.length > 0 ? imgs.map((img) => img.filename) : null;

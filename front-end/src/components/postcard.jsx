@@ -63,7 +63,7 @@ function PostCard({ post }) {
         }}
       >
         <div onClick={navToProfile}>
-          <img />
+          <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} />
         </div>
         <div>
           <div>
@@ -134,7 +134,7 @@ function PostCard({ post }) {
           </div>
 
           <div>
-            <h3>{post.title}</h3>
+            <div>{post.title}</div>
           </div>
           {post.body && <div>{post.body}</div>}
           {post.img && (
