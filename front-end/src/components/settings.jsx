@@ -77,14 +77,15 @@ function Settings() {
   } = useMutation({
     ...updateUData(),
     onSuccess: () => {
+      console.log("updated user profile static ish");
+      resetData();
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       setUpdateData({
         name: user.name,
         username: user.username,
         email: user.email,
         bio: user.bio,
       });
-      resetData();
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
     },
   });
 
@@ -251,7 +252,7 @@ function Settings() {
                     <button
                       type="button"
                       onClick={() => {
-                        updateIMGS;
+                        updateIMGS(iconHeaderData);
                       }}
                       className="canUpdate settingsButtons"
                     >
@@ -354,7 +355,10 @@ function Settings() {
                   <button
                     type="button"
                     className="settingsButtons"
-                    onClick={updateUserData}
+                    onClick={() => {
+                      updateUserData(updateData);
+                      console.log("i was clicked");
+                    }}
                   >
                     update
                   </button>
@@ -366,7 +370,7 @@ function Settings() {
               <div className="userInfoSettings">
                 <div>
                   <div>{user.name}</div>
-                  <div>{user.username}</div>
+                  <div>@{user.username}</div>
                   <div>{user.email}</div>
                   <div>{user.bio}</div>
                   <div>cake day: {user.joined.split("T")[0]}</div>
@@ -455,7 +459,7 @@ function Settings() {
             with it will no longer be available to other users or yourself; once
             you delete your account there is no recovering it.
           </div>
-          <div>
+          <div class="dltAccBtns">
             <button
               type="button"
               className="settingsButtons"
@@ -486,7 +490,31 @@ function Settings() {
                   </div>
                 </div>
               )}
-              <div onClick={deleteMyAccount}>Permanently delete account</div>
+              <div
+                className="areYouSureDLT"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <div>Are you sure you want to delete your account?</div>
+                <div>
+                  <button
+                    type="button"
+                    className="settingsButtons"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="settingsButtons"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      deleteMyAccount;
+                    }}
+                  >
+                    delete account
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
