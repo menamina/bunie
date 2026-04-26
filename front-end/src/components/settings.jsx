@@ -2,10 +2,13 @@ import { useState } from "react";
 import { useOutletContext, useNavigate } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  updatePassword,
+  updateUData,
   updateIMGs,
+  updatePassword,
   deleteAccount,
 } from "../ts-queries/queries";
+
+import "../css/settings.css";
 
 function Settings() {
   const { user } = useOutletContext();
@@ -69,7 +72,7 @@ function Settings() {
     error: dataUpdateErr,
     reset: resetData,
   } = useMutation({
-    ...update(),
+    ...updateUData(),
     onSuccess: () => {
       setUpdateData({
         name: user.name,

@@ -91,7 +91,7 @@ export const deleteAccount = () => {
   });
 };
 
-export const updateData = () => {
+export const updateUData = () => {
   return mutationOptions({
     mutationFn: updateUserData,
   });

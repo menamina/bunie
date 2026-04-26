@@ -1,0 +1,14 @@
+.settingsDIV {
+  width: 100%;
+  border-left: 1px solid rgba(168, 168, 168, 0.598);
+  padding: 20px;
+  display: flex;
+}
+
+.settingsDIV > div {
+  height: 100%;
+}
+
+.settingsDIV > div:first-child {
+  width: 30%;
+}
