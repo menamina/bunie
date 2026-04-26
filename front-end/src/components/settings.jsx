@@ -10,6 +10,9 @@ import {
 
 import "../css/settings.css";
 
+import Icon from "../imgs/cake.jpeg";
+import Header from "../imgs/image.jpg";
+
 function Settings() {
   const { user } = useOutletContext();
   const [settingsView, setSettingsView] = useState(null);
@@ -132,15 +135,19 @@ function Settings() {
         <div className="rightOfSettings updateIMGS">
           <div>
             {!openIconHeader && (
-              <div>
+              <div className="currentIconHeader">
                 <div>
                   <img
+                    className="currentHeader"
+                    src={`http:localhost:5555/IMGS-API/${user.header}`}
                     src={`http:localhost:5555/IMGS-API/${user.header}`}
                     alt="your header"
                   />
                 </div>
                 <div>
                   <img
+                    className="currentIcon"
+                    src={`http:localhost:5555/IMGS-API/${user.pfp}`}
                     src={`http:localhost:5555/IMGS-API/${user.pfp}`}
                     alt="your profile img"
                   />
@@ -360,7 +367,7 @@ function Settings() {
         <div className="rightOfSettings changePass">
           {updatePassErr && <div>{updatePassErr}</div>}
           <div>Change password</div>
-          <div>
+          <div className="changePasswordForm">
             <div>
               <label htmlFor="">Current password:</label>
               <input
