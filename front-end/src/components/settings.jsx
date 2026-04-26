@@ -12,6 +12,8 @@ import "../css/settings.css";
 
 import Icon from "../imgs/cafe.jpeg";
 import Header from "../imgs/image.jpg";
+import Close from "../imgs/eye.png";
+import View from "../imgs/view.png";
 
 function Settings() {
   const { user } = useOutletContext();
@@ -19,6 +21,10 @@ function Settings() {
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
   const [deleteClicked, setDeleteClicked] = useState(false);
+
+  const [viewCurrentPass, setViewCurrentPass] = useState(false);
+  const [viewNewPass, setViewNewPass] = useState(false);
+  const [viewConfirmPass, setViewConfirmPass] = useState(false);
 
   const nav = useNavigate();
 
@@ -398,7 +404,7 @@ function Settings() {
             <div>
               <label htmlFor="">Current password:</label>
               <input
-                type="password"
+                type={viewCurrentPass ? "text" : "password"}
                 value={passwordData.oldPassword}
                 onChange={(e) =>
                   setPasswordData((prev) => ({
@@ -407,11 +413,30 @@ function Settings() {
                   }))
                 }
               />
+              {viewCurrentPass ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewCurrentPass(false);
+                  }}
+                >
+                  <img src="" alt="dont show password" />
+                </div>
+              ) : (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewCurrentPass(true);
+                  }}
+                >
+                  <img src="" alt=" show password" />
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="">New password:</label>
               <input
-                type="password"
+                type={viewNewPass ? "text" : "password"}
                 value={passwordData.newPassword}
                 onChange={(e) =>
                   setPasswordData((prev) => ({
@@ -420,11 +445,30 @@ function Settings() {
                   }))
                 }
               />
+              {viewNewPass ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewNewPass(false);
+                  }}
+                >
+                  <img src="" alt="dont show password" />
+                </div>
+              ) : (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewNewPass(true);
+                  }}
+                >
+                  <img src="" alt=" show password" />
+                </div>
+              )}
             </div>
             <div>
               <label htmlFor="">Confirm new password:</label>
               <input
-                type="password"
+                type={viewConfirmPass ? "text" : "password"}
                 value={passwordData.confirmNewPassword}
                 onChange={(e) =>
                   setPasswordData((prev) => ({
@@ -433,6 +477,25 @@ function Settings() {
                   }))
                 }
               />
+              {viewConfirmPass ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewConfirmPass(false);
+                  }}
+                >
+                  <img src="" alt="dont show password" />
+                </div>
+              ) : (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setViewConfirmPass(true);
+                  }}
+                >
+                  <img src="" alt=" show password" />
+                </div>
+              )}
             </div>
           </div>
 
@@ -466,7 +529,7 @@ function Settings() {
             <button
               type="button"
               className="settingsButtons"
-              onClick={() => settingsView(null)}
+              onClick={() => setSettingsView(null)}
             >
               cancel
             </button>
@@ -502,7 +565,10 @@ function Settings() {
                   <button
                     type="button"
                     className="settingsButtons"
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setDeleteClicked(false);
+                    }}
                   >
                     cancel
                   </button>
@@ -511,7 +577,7 @@ function Settings() {
                     className="settingsButtons"
                     onClick={(e) => {
                       e.stopPropagation();
-                      deleteMyAccount;
+                      deleteMyAccount();
                     }}
                   >
                     delete account
