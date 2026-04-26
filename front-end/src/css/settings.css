@@ -62,36 +62,42 @@
   font-size: 1.5rem;
 }
 
-.currentIconHeader {
+.currentIconHeader,
+.editImgsOpen {
   position: relative;
+}
+
+.editImgsOpen > div:first-child,
+.currentIconHeader > div:first-child {
+  overflow: hidden;
 }
 
 .currentHeader,
 .wantedHeader {
-  width: 100%;
-  overflow: hidden;
-  height: auto;
+  width: 100vw;
+  object-fit: cover;
+  height: 300px;
 }
 
-.iconHolder,
-.wantedIcon {
+.iconHolder {
   justify-self: center;
   position: absolute;
   transform: translateY(-50%);
 }
 
 .currentIcon,
-.editImgsOpen {
-  width: 100px;
+.wantedIcon {
+  width: 130px;
+  height: 130px;
   object-fit: contain;
 }
 
-.clickEdit {
-  margin-top: 70px;
-  text-align: center;
-  text-decoration: underline;
-  text-underline-offset: 10px;
+.updateCancelIMGS {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
   cursor: pointer;
+  margin-top: 300px;
 }
 
 .editStatic {
@@ -100,13 +106,10 @@
   justify-content: center;
 }
 
-.editImgsOpen {
-  display: flex;
-  flex-direction: column;
-}
-
-.updateCancelIMGS {
-  display: flex;
-  width: 100%;
-  justify-content: space-evenly;
+.clickEdit {
+  margin-top: 70px;
+  text-align: center;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  cursor: pointer;
 }

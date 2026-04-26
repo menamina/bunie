@@ -172,7 +172,11 @@ function Settings() {
 
                 <div>
                   <img
-                    className="wantedHeader"
+                    className={
+                      iconHeaderData.header
+                        ? "wantedHeader noHeaderOverlay"
+                        : "wantedHeader overlay"
+                    }
                     src={
                       !iconHeaderData.header
                         ? Header
@@ -194,9 +198,13 @@ function Settings() {
                   />
                 </div>
 
-                <div>
+                <div className="iconHolder">
                   <img
-                    className="wantedIcon"
+                    className={
+                      iconHeaderData.header
+                        ? "wantedIcon noIconOverlay"
+                        : "wantedIcon overlay"
+                    }
                     src={
                       !iconHeaderData.pfp
                         ? Icon
@@ -230,14 +238,17 @@ function Settings() {
                   >
                     cancel
                   </div>
-                  {iconHeaderData && (
+                  {iconHeaderData.pfp || iconHeaderData.header ? (
                     <div
                       onClick={() => {
                         updateIMGS;
                       }}
+                      classNAme="canUpdate"
                     >
                       update
                     </div>
+                  ) : (
+                    <div className="cannotUpdate">update</div>
                   )}
                 </div>
               </div>
