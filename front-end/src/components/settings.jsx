@@ -10,7 +10,7 @@ import {
 
 import "../css/settings.css";
 
-import Icon from "../imgs/cake.jpeg";
+import Icon from "../imgs/cafe.jpeg";
 import Header from "../imgs/image.jpg";
 
 function Settings() {
@@ -139,21 +139,23 @@ function Settings() {
                 <div>
                   <img
                     className="currentHeader"
-                    src={`http:localhost:5555/IMGS-API/${user.header}`}
-                    src={`http:localhost:5555/IMGS-API/${user.header}`}
+                    src={Header}
+                    // src={`http:localhost:5555/IMGS-API/${user.header}`}
                     alt="your header"
                   />
                 </div>
-                <div>
-                  <img
-                    className="currentIcon"
-                    src={`http:localhost:5555/IMGS-API/${user.pfp}`}
-                    src={`http:localhost:5555/IMGS-API/${user.pfp}`}
-                    alt="your profile img"
-                  />
-                </div>
-                <div onClick={() => setOpenIconHeader(true)}>
-                  edit icon + header
+                <div className="iconHolder">
+                  <div>
+                    <img
+                      className="currentIcon"
+                      src={Icon}
+                      // src={`http:localhost:5555/IMGS-API/${user.pfp}`}
+                      alt="your profile img"
+                    />
+                  </div>
+                  <div onClick={() => setOpenIconHeader(true)}>
+                    edit icon + header
+                  </div>
                 </div>
               </div>
             )}
@@ -170,6 +172,7 @@ function Settings() {
                   {iconHeaderData.header instanceof File ? (
                     <>
                       <img
+                        className="wantedHeader"
                         src={URL.createObjectURL(iconHeaderData.header)}
                         alt="your updated header"
                         onClick={(e) => e.target.nextElementSibling.click()}
@@ -187,6 +190,7 @@ function Settings() {
                   ) : (
                     <>
                       <img
+                        className="wanbtedIcon"
                         src={`http://localhost:5555/IMGS-API/${user.header}`}
                         alt="your updated header"
                         onClick={(e) => e.target.nextElementSibling.click()}

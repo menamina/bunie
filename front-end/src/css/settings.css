@@ -63,5 +63,21 @@
 }
 
 .currentIconHeader {
-  background-color: pink;
+  position: relative;
+}
+
+.currentHeader,
+.wantedHeader {
+  width: 100%;
+  overflow: hidden;
+  height: auto;
+}
+
+.currentIcon {
+  width: 100px;
+  object-fit: contain;
+}
+
+.iconHolder {
+  position: absolute;
 }
