@@ -367,7 +367,7 @@ async function makePost(postData) {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ postData }),
+    body: JSON.stringify(postData),
   });
 
   if (!res.ok) {

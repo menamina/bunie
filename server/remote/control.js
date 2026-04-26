@@ -945,6 +945,7 @@ async function makeAPost(req, res) {
     const userID = Number(id);
 
     const { title, body } = req.body;
+    console.log(title);
     const imgs = req.files;
 
     const fileNames = imgs?.length > 0 ? imgs.map((img) => img.filename) : null;
@@ -952,7 +953,7 @@ async function makeAPost(req, res) {
     const post = await prisma.posts.create({
       data: {
         madeBy: userID,
-        title,
+        title: title,
         ...(body && { body }),
         ...(fileNames && { img: fileNames }),
       },

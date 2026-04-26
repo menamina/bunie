@@ -52,6 +52,7 @@ function MakeAPost({ closeModal, post = null }) {
   });
 
   function submit(e) {
+    console.log(postData);
     e.preventDefault();
     post ? updatePost(postData, post.id) : makeAPost(postData);
   }
