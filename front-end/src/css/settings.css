@@ -74,7 +74,7 @@
 
 .currentHeader,
 .wantedHeader {
-  width: 100vw;
+  width: 100%;
   object-fit: cover;
   height: 300px;
 }
@@ -112,4 +112,27 @@
   text-decoration: underline;
   text-underline-offset: 10px;
   cursor: pointer;
+}
+
+.openedEditForStaticData {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+
+.editForReal {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.openedEditForStaticData > .editForReal > div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.openedEditForStaticData > .editForReal > div > input {
+  border: none;
+  border-bottom: 1px solid gray;
 }

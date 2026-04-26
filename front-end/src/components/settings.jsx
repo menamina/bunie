@@ -257,7 +257,7 @@ function Settings() {
 
           <div className="editStatic">
             {editUserData && (
-              <div>
+              <div className="openedEditForStaticData">
                 {dataUpdateErr && (
                   <div className="imgErrModal">
                     <div>
@@ -265,11 +265,10 @@ function Settings() {
                     </div>
                   </div>
                 )}
-                <div>
+                <div className="editForReal">
                   <div>
                     <label>Name</label>
                     <input
-                      placeholder="Name"
                       value={updateData.name}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -282,7 +281,6 @@ function Settings() {
                   <div>
                     <label>Username</label>
                     <input
-                      placeholder="Username"
                       value={updateData.username}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -295,7 +293,6 @@ function Settings() {
                   <div>
                     <label>Email</label>
                     <input
-                      placeholder="Email"
                       value={updateData.email}
                       onChange={(e) =>
                         setUpdateData((prev) => ({
@@ -308,7 +305,6 @@ function Settings() {
                   <div>
                     <label>Bio</label>
                     <input
-                      placeholder="Bio"
                       value={updateData.bio}
                       onChange={(e) =>
                         setUpdateData((prev) => ({

@@ -86,7 +86,7 @@
   width: 100vw;
   height: 100vh;
   padding: 10px;
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: 0px 0px 30px 0px rgba(34, 20, 20, 0.709);
 }
 
@@ -161,7 +161,7 @@
   max-height: 100%;
   padding-left: 10px;
   font-size: 1rem;
-  overflow: scroll;
+  overflow: auto;
   border: none;
 }
 
@@ -180,7 +180,7 @@
   gap: 30px;
   width: 40%;
   height: 100%;
-  overflow: scroll;
+  overflow: auto;
 }
 
 /* .postIMGContain {
@@ -283,12 +283,4 @@
     width: 90vw;
     height: 90vh;
   }
-}
-
-.utilsModelBackground {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
 }
