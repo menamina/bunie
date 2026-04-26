@@ -152,12 +152,19 @@ function Settings() {
                     alt="your profile img"
                   />
                 </div>
-                <div
-                  onClick={() => setOpenIconHeader(true)}
-                  className="clickEdit"
-                >
-                  edit icon + header
-                </div>
+                {!editUserData && (
+                  <div
+                    onClick={() => {
+                      setOpenIconHeader(true);
+                      {
+                        editUserData && setEditUserData(false);
+                      }
+                    }}
+                    className="clickEdit"
+                  >
+                    edit icon + header
+                  </div>
+                )}
               </div>
             )}
             {openIconHeader && (
@@ -227,7 +234,9 @@ function Settings() {
                 </div>
 
                 <div className="updateCancelIMGS">
-                  <div
+                  <button
+                    type="button"
+                    className="settingsButtons"
                     onClick={() => {
                       setIconHeaderData({
                         pfp: "",
@@ -237,18 +246,24 @@ function Settings() {
                     }}
                   >
                     cancel
-                  </div>
+                  </button>
                   {iconHeaderData.pfp || iconHeaderData.header ? (
-                    <div
+                    <button
+                      type="button"
                       onClick={() => {
                         updateIMGS;
                       }}
-                      classNAme="canUpdate"
+                      className="canUpdate settingsButtons"
                     >
                       update
-                    </div>
+                    </button>
                   ) : (
-                    <div className="cannotUpdate">update</div>
+                    <button
+                      type="button"
+                      className="cannotUpdate settingsButtons"
+                    >
+                      update
+                    </button>
                   )}
                 </div>
               </div>
@@ -318,9 +333,14 @@ function Settings() {
                   <div>cake day: {user.joined.split("T")[0]}</div>
                 </div>
                 <div className="editOrCancelStaticUpdate">
-                  <div
+                  <button
+                    type="button"
+                    className="settingsButtons"
                     onClick={() => {
                       setEditUserData(false);
+                      {
+                        openIconHeader && setIconHeaderData(false);
+                      }
                       setUpdateData({
                         name: user.name,
                         username: user.username,
@@ -330,8 +350,14 @@ function Settings() {
                     }}
                   >
                     cancel
-                  </div>
-                  <div onClick={updateUserData}>update</div>
+                  </button>
+                  <button
+                    type="button"
+                    className="settingsButtons"
+                    onClick={updateUserData}
+                  >
+                    update
+                  </button>
                 </div>
               </div>
             )}
@@ -404,8 +430,20 @@ function Settings() {
           </div>
 
           <div>
-            <div onClick={cancelPassword}>cancel</div>
-            <div onClick={() => updatePass(passwordData)}>change password</div>
+            <button
+              type="button"
+              className="settingsButtons"
+              onClick={cancelPassword}
+            >
+              cancel
+            </button>
+            <button
+              type="button"
+              className="settingsButtons"
+              onClick={() => updatePass(passwordData)}
+            >
+              change password
+            </button>
           </div>
         </div>
       )}
@@ -418,8 +456,20 @@ function Settings() {
             you delete your account there is no recovering it.
           </div>
           <div>
-            <div onClick={() => settingsView(null)}>cancel</div>
-            <div onClick={() => setDeleteClicked(true)}>delete</div>
+            <button
+              type="button"
+              className="settingsButtons"
+              onClick={() => settingsView(null)}
+            >
+              cancel
+            </button>
+            <button
+              type="button"
+              className="settingsButtons"
+              onClick={() => setDeleteClicked(true)}
+            >
+              delete
+            </button>
           </div>
           {deleteClicked && (
             <div
