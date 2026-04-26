@@ -49,7 +49,7 @@ function Settings() {
   const queryClient = useQueryClient();
 
   const {
-    mutation: updatePass,
+    mutate: updatePass,
     error: updatePassErr,
     reset: resetPasswordUpdate,
   } = useMutation({
@@ -65,7 +65,7 @@ function Settings() {
   });
 
   const {
-    mutation: updateIMGS,
+    mutate: updateIMGS,
     error: imgUpdateErr,
     reset: resetIMG,
   } = useMutation({
@@ -81,7 +81,7 @@ function Settings() {
   });
 
   const {
-    mutation: updateUserData,
+    mutate: updateUserData,
     error: dataUpdateErr,
     reset: resetData,
   } = useMutation({
@@ -99,7 +99,7 @@ function Settings() {
     },
   });
 
-  const { mutation: deleteMyAccount, error: deleteAccErr } = useMutation({
+  const { mutate: deleteMyAccount, error: deleteAccErr } = useMutation({
     ...deleteAccount(),
     onSuccess: () => {
       nav("/");
@@ -432,6 +432,25 @@ function Settings() {
                   </button>
                 </>
               )}
+              {updatePassErr.validationErrors && (
+                <>
+                  <div>Validation Error:</div>
+                  <div>
+                    {typeof updatePassErr.validationErrors === "string"
+                      ? updatePassErr.validationErrors
+                      : JSON.stringify(updatePassErr.validationErrors)}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      resetPasswordUpdate();
+                    }}
+                  >
+                    try again
+                  </button>
+                </>
+              )}
             </div>
           )}
           <div>Change password</div>
@@ -440,6 +459,14 @@ function Settings() {
               {updatePassErr.PasswordsDontMatch && (
                 <div>Current password is incorrect</div>
               )}
+            </div>
+          )}
+          {updatePassErr && (
+            <div>
+              {updatePassErr.validationErrors &&
+                updatePassErr.validationErrors.map((error) => {
+                  <div>{error}</div>;
+                })}
             </div>
           )}
           <div className="changePasswordForm">

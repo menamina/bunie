@@ -18,7 +18,7 @@ const passwordValidation = [
     if (errors.isEmpty()) {
       return next();
     }
-    return res.status(400).json({ validationErrors: errors.array() });
+    return res.status(403).json({ validationErrors: errors.array() });
   },
 ];
 

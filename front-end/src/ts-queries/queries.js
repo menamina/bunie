@@ -549,6 +549,10 @@ async function changePassword(passwordObj) {
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
       throw error;
+    } else if (res.status === 403) {
+      const data = await res.json();
+      error.validationErrors = data.validationErrors || "Validation failed";
+      throw error;
     }
   }
 
