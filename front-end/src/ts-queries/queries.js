@@ -546,6 +546,9 @@ async function changePassword(passwordObj) {
     } else if (res.status === 204) {
       error.PasswordsDontMatch = "Current password is incorrect";
       throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
     }
   }
 

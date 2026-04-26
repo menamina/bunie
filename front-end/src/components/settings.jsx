@@ -48,7 +48,11 @@ function Settings() {
 
   const queryClient = useQueryClient();
 
-  const { mutation: updatePass, error: updatePassErr } = useMutation({
+  const {
+    mutation: updatePass,
+    error: updatePassErr,
+    reset: resetPasswordUpdate,
+  } = useMutation({
     ...updatePassword(),
     onSuccess: () => {
       setSettingsView(null);
@@ -398,8 +402,46 @@ function Settings() {
       {settingsView === "change password" && (
         // ability to view passwords too
         <div className="rightOfSettings changePass">
-          {updatePassErr && <div>{updatePassErr}</div>}
+          {updatePassErr && (
+            <div className="passwordErrModal">
+              {updatePassErr.noUserFound && (
+                <>
+                  <div>Sorry, this account cannot be found</div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      nav("/");
+                    }}
+                  >
+                    login/signup
+                  </button>
+                </>
+              )}
+              {updatePassErr.serverError && (
+                <>
+                  <div>Sorry, server error</div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      resetPasswordUpdate();
+                    }}
+                  >
+                    try again
+                  </button>
+                </>
+              )}
+            </div>
+          )}
           <div>Change password</div>
+          {updatePassErr && (
+            <div>
+              {updatePassErr.PasswordsDontMatch && (
+                <div>Current password is incorrect</div>
+              )}
+            </div>
+          )}
           <div className="changePasswordForm">
             <div>
               <label htmlFor="">Current password:</label>
@@ -420,7 +462,11 @@ function Settings() {
                     setViewCurrentPass(false);
                   }}
                 >
-                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={Close}
+                    alt="dont show password"
+                  />
                 </div>
               ) : (
                 <div
@@ -429,7 +475,11 @@ function Settings() {
                     setViewCurrentPass(true);
                   }}
                 >
-                  <img className="passwordViewImgs" src={View} alt=" show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={View}
+                    alt=" show password"
+                  />
                 </div>
               )}
             </div>
@@ -452,7 +502,11 @@ function Settings() {
                     setViewNewPass(false);
                   }}
                 >
-                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={Close}
+                    alt="dont show password"
+                  />
                 </div>
               ) : (
                 <div
@@ -461,7 +515,11 @@ function Settings() {
                     setViewNewPass(true);
                   }}
                 >
-                  <img className="passwordViewImgs" src={View} alt=" show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={View}
+                    alt=" show password"
+                  />
                 </div>
               )}
             </div>
@@ -484,7 +542,11 @@ function Settings() {
                     setViewConfirmPass(false);
                   }}
                 >
-                  <img className="passwordViewImgs" src={Close} alt="dont show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={Close}
+                    alt="dont show password"
+                  />
                 </div>
               ) : (
                 <div
@@ -493,7 +555,11 @@ function Settings() {
                     setViewConfirmPass(true);
                   }}
                 >
-                  <img className="passwordViewImgs" src={View} alt=" show password" />
+                  <img
+                    className="passwordViewImgs"
+                    src={View}
+                    alt=" show password"
+                  />
                 </div>
               )}
             </div>
