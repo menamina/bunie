@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext, useNavigation } from "react-router-dom";
+import { useOutletContext, useNavigate } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -23,7 +23,7 @@ function Profile() {
   const [view, setView] = useState("overview");
   const queryClient = useQueryClient();
 
-  const nav = useNavigation();
+  const nav = useNavigate();
 
   const {
     data: userProfile,
@@ -127,6 +127,7 @@ function Profile() {
               {/* follow / unfollow */}
               {user?.username === username && (
                 <button
+                  type="button"
                   className="goToSettings"
                   onClick={(e) => {
                     e.stopPropagation();
@@ -139,6 +140,7 @@ function Profile() {
               {user.username !== username &&
                 (userProfile.followers.has(user.id) ? (
                   <button
+                    type="button"
                     className="followBTN unfollow"
                     onClick={() => unfollow(userProfile.id)}
                   >
@@ -146,6 +148,7 @@ function Profile() {
                   </button>
                 ) : (
                   <button
+                    type="button"
                     className="followBTN follow"
                     onClick={() => follow(userProfile.id)}
                   >
