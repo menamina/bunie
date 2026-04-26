@@ -244,3 +244,9 @@
   width: 30px;
   cursor: pointer;
 }
+
+.validationErr {
+  color: rgb(140, 100, 0);
+  font-weight: 600;
+  margin-bottom: 10px;
+}

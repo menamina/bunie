@@ -6,9 +6,10 @@ const passwordValidation = [
     .withMessage("Password cannot be empty")
     .isLength({ min: 8 })
     .withMessage("Length must be at least 8 characters"),
+
   body("confirmNewPassword").custom((value, { req }) => {
-    if (value !== req.newPassword) {
-      throw new Error("passwords must match");
+    if (value !== req.body.newPassword) {
+      throw new Error("Passwords must match");
     }
     return true;
   }),

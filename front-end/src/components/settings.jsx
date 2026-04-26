@@ -432,41 +432,22 @@ function Settings() {
                   </button>
                 </>
               )}
-              {updatePassErr.validationErrors && (
-                <>
-                  <div>Validation Error:</div>
-                  <div>
-                    {typeof updatePassErr.validationErrors === "string"
-                      ? updatePassErr.validationErrors
-                      : JSON.stringify(updatePassErr.validationErrors)}
-                  </div>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      resetPasswordUpdate();
-                    }}
-                  >
-                    try again
-                  </button>
-                </>
-              )}
             </div>
           )}
           <div>Change password</div>
           {updatePassErr && (
             <div>
               {updatePassErr.PasswordsDontMatch && (
-                <div>Current password is incorrect</div>
+                <div className="validationErr">
+                  Current password is incorrect
+                </div>
               )}
-            </div>
-          )}
-          {updatePassErr && (
-            <div>
               {updatePassErr.validationErrors &&
-                updatePassErr.validationErrors.map((error) => {
-                  <div>{error}</div>;
-                })}
+                updatePassErr.validationErrors.map((error, index) => (
+                  <div className="validationErr" key={index}>
+                    {error.msg || error.message || error}
+                  </div>
+                ))}
             </div>
           )}
           <div className="changePasswordForm">
