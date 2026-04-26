@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useNavigation } from "react-router-dom";
 import { useParams, Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -22,6 +22,8 @@ function Profile() {
   const { user } = useOutletContext();
   const [view, setView] = useState("overview");
   const queryClient = useQueryClient();
+
+  const nav = useNavigation();
 
   const {
     data: userProfile,
@@ -86,7 +88,6 @@ function Profile() {
 
   return (
     <div className="profileDIV">
-      {/* div below will stretch view heighgt view width for header */}
       <div className="headerDIV">
         <img
           className="headerIMG"
@@ -94,7 +95,6 @@ function Profile() {
           alt={`header for ${userProfile?.username}`}
         />
       </div>
-      {/* div below will be a position absolute and cover header a bit and also be not fulll vh vw */}
 
       <div className="z-index user content">
         <div className="userINFO">
@@ -105,8 +105,8 @@ function Profile() {
             ></img>
           </div>
           <div className="userContent">
-            <div className="username and follow-info">
-              <div className="">
+            <div className="username follow-info">
+              <div className="username-name">
                 <div>{userProfile?.name}</div>
                 <div>@{userProfile?.username}</div>
               </div>
@@ -126,7 +126,15 @@ function Profile() {
             <div className="editAcc togglefollow">
               {/* follow / unfollow */}
               {user?.username === username && (
-                <Link to="/settings">Edit Profile</Link>
+                <button
+                  className="goToSettings"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    nav("/settings");
+                  }}
+                >
+                  Edit Profile
+                </button>
               )}
               {user.username !== username && (
                 <div>
