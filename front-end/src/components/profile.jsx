@@ -99,10 +99,11 @@ function Profile() {
       <div className="z-index user content">
         <div className="userINFO">
           <div>
-            <img
+            {/* <img
               src={userProfile?.profile?.pfp || TempIcon}
               alt={`pfp for ${userProfile?.username}`}
-            ></img>
+            ></img> */}
+            <img src={TempIcon} alt={`pfp for ${userProfile?.username}`}></img>
           </div>
           <div className="userContent">
             <div className="username follow-info">
@@ -138,7 +139,7 @@ function Profile() {
                 </button>
               )}
               {user.username !== username &&
-                (userProfile.followers.some(f => f.follower === user.id) ? (
+                (userProfile.followers.some((f) => f.follower === user.id) ? (
                   <button
                     type="button"
                     className="followBTN unfollow"

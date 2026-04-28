@@ -5,6 +5,7 @@ import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";
+import TempIcon from "../imgs/cafe.jpeg";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
@@ -63,7 +64,8 @@ function PostCard({ post }) {
         }}
       >
         <div onClick={navToProfile}>
-          <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} />
+          {/* <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} /> */}
+          <img src={TempIcon} />
         </div>
         <div>
           <div>

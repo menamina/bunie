@@ -38,7 +38,7 @@ export const followMutationOptions = () => {
 
 export const getProfilePosts = (username, authUser) => {
   return queryOptions({
-    queryKey: ["profile", username],
+    queryKey: ["profilePosts", username],
     queryFn: () => getUserPosts(username, authUser),
   });
 };
@@ -717,15 +717,10 @@ async function getUserPosts(username, authUsername) {
     ? `http://localhost:5555/get-my-posts/${authUsername}`
     : `http://localhost:5555/get-user-posts/${username}`;
 
-  console.log(endpoint);
-
   const res = await fetch(endpoint, {
     method: "GET",
     credentials: "include",
   });
-
-  const data = await res.json();
-  console.log(data, "POST DATA HERE");
 
   if (!res.ok) {
     const error = new Error("error");
@@ -742,7 +737,7 @@ async function getUserPosts(username, authUsername) {
     }
   }
 
-  return data;
+  return await res.json();
 }
 
 async function deleteProduct(productId) {
