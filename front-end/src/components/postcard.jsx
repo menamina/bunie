@@ -33,9 +33,11 @@ function PostCard({ post }) {
   const { mutate: confirmDelete } = useMutation({
     ...deletePostOpt(post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feed"] });
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      queryClient.invalidateQueries({
+        queryKey: ["profilePosts", user.username],
+      });
       queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: ["feed"] });
     },
   });
 
@@ -91,6 +93,7 @@ function PostCard({ post }) {
                             e.stopPropagation();
                             setPostDotsClicked(null);
                             setDeletePostClicked(null);
+                            console.log(post.id);
                             confirmDelete();
                           }}
                         >

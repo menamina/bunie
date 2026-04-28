@@ -444,7 +444,7 @@ async function toggleCommentLike(commentID) {
 
 async function deletePost(postID) {
   const res = await fetch(`http://localhost:5555/delete-post/${postID}`, {
-    method: "POST",
+    method: "DELETE",
     credentials: "include",
   });
   return await res.json();

@@ -957,8 +957,8 @@ async function makeAPost(req, res) {
       data: {
         madeBy: userID,
         title: title,
-        body: body ? body : null ,
-        img: fileNames ? fileNames : null
+        ...(body && { body }),
+        ...(fileNames && { img: fileNames }),
       },
     });
 
@@ -1155,8 +1155,8 @@ async function updateUserIMGS(req, res) {
         userID,
       },
       data: {
-        pfp: pfp ? pfp.filename || null,
-        header: header ? header.filename || null
+        ...(pfp && { pfp: pfp.filename }),
+        ...(header && { header: header.filename }),
       },
     });
 
