@@ -993,7 +993,7 @@ async function updatePost(req, res) {
             },
             data: {
               title,
-              ...(fileNames && { img: fileNames }),
+              img: fileNames ? fileNames : null,
               ...(body && { body }),
             },
           },

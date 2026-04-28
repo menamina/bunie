@@ -321,11 +321,21 @@ async function updateComment(commentData) {
 }
 
 async function updatePost(postData, postID) {
+  const formData = new FormData();
+  formData.append("title", postData.title);
+  if (postData.body) {
+    formData.append("body", postData.body);
+  }
+  if (postData.image && postData.image.length > 0) {
+    postData.image.forEach((img) => {
+      formData.append("image", img);
+    });
+  }
+
   const res = await fetch(`http://localhost:5555/update-post/${postID}`, {
-    method: "GET",
+    method: "PATCH",
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ postData }),
+    body: formData,
   });
 
   if (!res.ok) {
@@ -363,11 +373,21 @@ async function makeComment(commentData) {
 }
 
 async function makePost(postData) {
+  const formData = new FormData();
+  formData.append("title", postData.title);
+  if (postData.body) {
+    formData.append("body", postData.body);
+  }
+  if (postData.image && postData.image.length > 0) {
+    postData.image.forEach((img) => {
+      formData.append("image", img);
+    });
+  }
+
   const res = await fetch(`http://localhost:5555/make-post-API`, {
     method: "POST",
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(postData),
+    body: formData,
   });
 
   if (!res.ok) {
@@ -478,11 +498,18 @@ async function searchThis(query, offset = 0) {
 }
 
 async function updateIMGS(imgs) {
+  const formData = new FormData();
+  if (imgs.pfp) {
+    formData.append("pfp", imgs.pfp);
+  }
+  if (imgs.header) {
+    formData.append("header", imgs.header);
+  }
+
   const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
     method: "PATCH",
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(imgs),
+    body: formData,
   });
 
   if (!res.ok) {
@@ -594,11 +621,34 @@ async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
 }
 
 async function addProductToInventory(productToAdd) {
+  const formData = new FormData();
+  formData.append("brand", productToAdd.brand);
+  formData.append("product", productToAdd.product);
+  formData.append("category", productToAdd.category);
+  formData.append("price", productToAdd.price);
+  if (productToAdd.img && productToAdd.img.length > 0) {
+    formData.append("image", productToAdd.img[0]);
+  }
+  if (productToAdd.status) {
+    formData.append("status", productToAdd.status);
+  }
+  if (productToAdd.purchaseDate) {
+    formData.append("dateOpurchase", productToAdd.purchaseDate);
+  }
+  if (productToAdd.rating) {
+    formData.append("rating", productToAdd.rating);
+  }
+  if (productToAdd.notes) {
+    formData.append("notes", productToAdd.notes);
+  }
+  if (productToAdd.wouldBuyAgain) {
+    formData.append("wouldBuyAgain", productToAdd.wouldBuyAgain);
+  }
+
   const res = await fetch("http://localHost:5555/add-to-inventory-API", {
     method: "POST",
     credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(productToAdd),
+    body: formData,
   });
 
   return await res.json();
