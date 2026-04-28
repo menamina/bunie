@@ -74,7 +74,7 @@ function Welcome() {
     ...loginMutationOptions(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
-      nav("/home");
+      nav("/");
       setLoginINFO({
         email: "",
         password: "",
