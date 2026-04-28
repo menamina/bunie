@@ -673,9 +673,6 @@ async function getProfile(username, authUsername) {
     credentials: "include",
   });
 
-  const data = await res.json();
-  console.log(data);
-
   if (!res.ok) {
     const error = new Error("error");
     if (res.status === 404) {
@@ -690,7 +687,7 @@ async function getProfile(username, authUsername) {
       throw error;
     }
   }
-  return data;
+  return await res.json();
 }
 
 async function toggleFollow(userID) {
@@ -714,16 +711,21 @@ async function toggleFollow(userID) {
 }
 
 async function getUserPosts(username, authUsername) {
-  const isOwnProfile = authUsername === username;
+  const isOwnProfile = authUsername === username ? true : false;
 
   const endpoint = isOwnProfile
-    ? `http://localhost:5555/my-my-posts/${username}`
+    ? `http://localhost:5555/get-my-posts/${authUsername}`
     : `http://localhost:5555/get-user-posts/${username}`;
+
+  console.log(endpoint);
 
   const res = await fetch(endpoint, {
     method: "GET",
     credentials: "include",
   });
+
+  const data = await res.json();
+  console.log(data, "POST DATA HERE");
 
   if (!res.ok) {
     const error = new Error("error");
@@ -740,7 +742,7 @@ async function getUserPosts(username, authUsername) {
     }
   }
 
-  return await res.json();
+  return data;
 }
 
 async function deleteProduct(productId) {

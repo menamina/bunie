@@ -9,7 +9,7 @@ function Overview({ whoseProfile }) {
     data: userPosts,
     isPending,
     error,
-  } = useQuery(getProfilePosts(whoseProfile.username, user.username));
+  } = useQuery(getProfilePosts(whoseProfile, user.username));
 
   if (isPending) {
     return (
@@ -26,11 +26,11 @@ function Overview({ whoseProfile }) {
   return (
     <div className="userPostsDIV">
       {error && (
-        <div>{error.serverError && <div>{error.serverError}</div>}</div>
+        <div>{error?.serverError && <div>{error.serverError}</div>}</div>
       )}
-      {error.zeroposts && <div>{error.zeroposts}</div>}
-      {userPosts?.thisUsersPosts?.length > 0 &&
-        userPosts?.thisUsersPosts?.map((post) => <PostCard post={post} />)}
+      {error?.zeroposts && <div>{error.zeroposts}</div>}
+      {userPosts?.feed?.length > 0 &&
+        userPosts?.feed?.map((post) => <PostCard post={post} />)}
     </div>
   );
 }

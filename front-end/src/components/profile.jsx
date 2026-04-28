@@ -58,18 +58,18 @@ function Profile() {
   if (error) {
     return (
       <div>
-        {error.notAuth && (
+        {error?.notAuth && (
           <div className="errorModal">
             <div>Sorry, you must be logged in to view {username}'s profile</div>
             <Link to="/">login or sign up here</Link>
           </div>
         )}
-        {error.noProfileFound && (
+        {error?.noProfileFound && (
           <div className="errorModal">
             Error loading profile: {error.noProfileFound}
           </div>
         )}
-        {error.serverError && (
+        {error?.serverError && (
           <div className="errorModal">
             Error loading profile: {error.serverError}
           </div>
@@ -138,7 +138,7 @@ function Profile() {
                 </button>
               )}
               {user.username !== username &&
-                (userProfile.followers.has(user.id) ? (
+                (userProfile.followers.some(f => f.follower === user.id) ? (
                   <button
                     type="button"
                     className="followBTN unfollow"

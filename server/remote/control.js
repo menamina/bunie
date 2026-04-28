@@ -237,14 +237,12 @@ async function getProfile(req, res) {
         },
         followers: true,
         followings: true,
-        posts: true,
       },
     });
 
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
     }
-    console.log(userProfile);
     return res.status(200).json(userProfile);
   } catch (error) {
     console.log(error);
@@ -338,7 +336,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const userPosts = await prisma.user.findMany({
+    const user = await prisma.user.findUnique({
       where: {
         username,
       },
@@ -346,6 +344,11 @@ async function getUserPosts(req, res) {
         id: true,
         name: true,
         username: true,
+        profile: {
+          select: {
+            pfp: true,
+          },
+        },
         posts: {
           include: {
             likes: true,
@@ -355,24 +358,24 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (userPosts.length === 0) {
+    if (!user || user.posts.length === 0) {
       return res.status(204).json({ noPosts: true });
     }
 
-    const feed = userPosts.posts.map((post) => ({
+    const feed = user.posts.map((post) => ({
       ...post,
       madeBy: {
-        id: userPosts.id,
-        name: userPosts.name,
-        username: userPosts.username,
-        pfp: userPosts.profile.pfp,
+        id: user.id,
+        name: user.name,
+        username: user.username,
+        pfp: user.profile.pfp,
       },
     }));
 
-    return res.status(200).json({ feed });
+    return res.status(200).json(feed);
   } catch (error) {
     console.log(error);
-    return res.status(500).json({ errMsg: "server error" });
+    return res.status(500).json({ errMsg: "server error", error });
   }
 }
 
