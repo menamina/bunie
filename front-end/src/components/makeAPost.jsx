@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makePostMut, updatePostMut } from "../ts-queries/queries";
 import Picture from "../imgs/uploadPic.svg";
 
 import "../css/nav.css";
 
-function MakeAPost({ closeModal, post = null }) {
+function MakeAPost({ closeModal, post = null, user }) {
   const [postData, setPostData] = useState(
     post
       ? {
@@ -31,7 +31,9 @@ function MakeAPost({ closeModal, post = null }) {
     ...makePostMut(),
     onSuccess: () => {
       closeModal(false);
-      queryClient.invalidateQueries({ queryKey: ["posts"] });
+      queryClient.invalidateQueries({
+        queryKey: ["profilePosts", user.username],
+      });
     },
   });
 
@@ -45,7 +47,7 @@ function MakeAPost({ closeModal, post = null }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryFN: ["post", post.id] });
       queryClient.invalidateQueries({
-        queryFN: ["profile", post.madeBy.username],
+        queryKey: ["profilePosts", user.username],
       });
       closeModal(false);
     },

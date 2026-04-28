@@ -134,7 +134,7 @@ router.post(
   "/make-post-API",
   isAuth,
   zoddie.makeOrUpdatePostZod,
-  multer.array("image", 5),
+  multer.array("image", 4),
   remote.makeAPost,
 );
 router.post(

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { useNavigate, Link, useOutletContext } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
@@ -15,8 +15,7 @@ import Settings from "../imgs/settings.svg";
 
 import "../css/nav.css";
 
-function Nav() {
-  const user = useOutletContext();
+function Nav({ user }) {
   const [makePost, setMakePost] = useState(false);
   const [addToInventory, setAddToInventory] = useState(false);
   const [utilsOpen, setUtilsOpen] = useState(false);
@@ -92,10 +91,10 @@ function Nav() {
           </div>
         </div>
       </div>
-      <Link to={`/${user?.username}`} className="profile">
-        {/* <img src={`http://localhost:5555/IMGS-API/${user?.pfp}`} alt="search" /> */}
+      <Link to={`/${user?.user?.username}`} className="profile">
+        {/* <img src={`http://localhost:5555/IMGS-API/${user?.user?.pfp}`} alt="search" /> */}
       </Link>
-      {makePost && <MakeAPost closeModal={setMakePost} />}
+      {makePost && <MakeAPost closeModal={setMakePost} user={user?.user} />}
       {addToInventory && (
         <AddToInventory closeInventoryModal={setAddToInventory} />
       )}
