@@ -957,8 +957,8 @@ async function makeAPost(req, res) {
       data: {
         madeBy: userID,
         title: title,
-        ...(body && { body }),
-        ...(fileNames && { img: fileNames }),
+        body: body ? body : null ,
+        img: fileNames ? fileNames : null
       },
     });
 
