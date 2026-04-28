@@ -90,6 +90,7 @@ router.patch(
   ]),
   remote.updateUserIMGS,
 );
+
 router.patch(
   "/update-my-profile-API/",
   isAuth,
@@ -148,6 +149,7 @@ router.patch(
   "/update-post/:postToUpdate",
   isAuth,
   zoddie.makeOrUpdatePostZod,
+  multer.array("image", 4),
   remote.updatePost,
 );
 router.patch(

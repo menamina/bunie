@@ -979,7 +979,7 @@ async function updatePost(req, res) {
 
     const imgs = req.files;
 
-    const fileNames = imgs.length > 0 ? imgs.map((img) => img.filename) : null;
+    const fileNames = imgs?.length > 0 ? imgs.map((img) => img.filename) : null;
 
     const updatedPost = await prisma.user.update({
       where: {
@@ -1155,8 +1155,8 @@ async function updateUserIMGS(req, res) {
         userID,
       },
       data: {
-        ...(pfp && { pfp: pfp.filename }),
-        ...(header && { header: header.filename }),
+        pfp: pfp ? pfp.filename || null,
+        header: header ? header.filename || null
       },
     });
 
