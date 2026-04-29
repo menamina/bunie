@@ -158,7 +158,14 @@ function PostCard({ post }) {
           </div>
           {post.body && <div>{post.body}</div>}
           {post.img && (
-            <div className="imgHolder">
+            <div
+              className={
+                (post?.img?.length === 1 && "noGrid") ||
+                (post?.img?.length === 2 && "twoGrids") ||
+                (post?.img?.length === 3 && "threeGrids") ||
+                (post?.img?.length === 4 && "fourGrids")
+              }
+            >
               {post.img.map((img, index) => (
                 <img
                   key={index}

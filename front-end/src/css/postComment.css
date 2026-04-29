@@ -1,3 +1,4 @@
+.userPostsDIV,
 .renderingPosts,
 .postContent {
   display: flex;
@@ -39,6 +40,9 @@
 }
 
 .imgHolder {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   width: 100%;
 }
 
@@ -47,4 +51,8 @@
   height: 60%;
   object-fit: contain;
   object-position: center;
+}
+
+.userPostsDIV {
+  padding: 20px;
 }
