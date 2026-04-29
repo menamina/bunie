@@ -7,6 +7,8 @@ import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";
 import TempIcon from "../imgs/cafe.jpeg";
 
+import "../css/postComment.css";
+
 function PostCard({ post }) {
   const { user } = useOutletContext();
   const isThisMyPost = post.madeBy.username === user.username;
@@ -60,10 +62,10 @@ function PostCard({ post }) {
         className="postDIV"
         id={post.id}
         key={post.id}
-        onClick={(e) => {
-          e.stopPropagation();
-          nav(`/post/${post.id}`);
-        }}
+        // onClick={(e) => {
+        //   e.stopPropagation();
+        //   nav(`/post/${post.id}`);
+        // }}
       >
         <div onClick={navToProfile}>
           {/* <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} /> */}

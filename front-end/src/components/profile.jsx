@@ -177,7 +177,13 @@ function Profile() {
         </div>
 
         {/* render comps below w fetch to diff api */}
-        <div className="renderViewHere">
+        <div
+          className={
+            view === "overview" || view === "likes"
+              ? "renderViewHere-flex"
+              : "renderViewHere-grid"
+          }
+        >
           {view === "overview" && <Overview whoseProfile={username} />}
           {view === "inventory" && (
             <SelectedView view="inventory" whoseProfile={username} />

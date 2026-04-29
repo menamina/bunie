@@ -1,0 +1,8 @@
+.renderingPosts {
+  display: flex;
+  flex-direction: column;
+}
+
+.postDIV {
+  display: flex;
+}
