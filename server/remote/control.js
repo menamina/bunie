@@ -1,4 +1,4 @@
-const { prisma, pool } = require("../prisma/client");
+const { prisma } = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");
 
@@ -246,7 +246,7 @@ async function getProfile(req, res) {
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
     }
-    return res.status(200).json(userProfile);
+    return res.status(200).json({ userProfile });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -792,7 +792,6 @@ async function updateInventory(req, res) {
     return res.status(201).json({ updatedProduct });
   } catch (error) {
     if (error.code === "P2025") {
-      // Record doesn't exist
       return res.status(404).json({ message: "Product not found" });
     }
 

@@ -696,7 +696,7 @@ async function signupUser(signupINFO) {
   });
   if (!res.ok) {
     const errData = await res.json();
-    const err = new Error("Signup failed");
+    const err = new Error();
 
     if (res.status === 500) {
       err.error = "Server error";
@@ -707,8 +707,6 @@ async function signupUser(signupINFO) {
     }
     throw err;
   }
-
-  console.log(res);
 
   return await res.json();
 }
