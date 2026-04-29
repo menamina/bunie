@@ -1,8 +1,39 @@
-.renderingPosts {
+.renderingPosts,
+.postContent {
   display: flex;
   flex-direction: column;
 }
 
-.postDIV {
+.postDIV,
+.postUserINFO,
+.postUserINFO > div,
+.postEngagement {
   display: flex;
+}
+
+.postUserINFO,
+.postEngagement {
+  justify-content: space-between;
+}
+
+.posterspfp {
+  width: 100px;
+}
+
+.postUserINFO > div {
+  gap: 1em;
+}
+
+.postUserINFO > div:last-child {
+  color: rgb(78, 78, 78);
+}
+
+.postContent,
+.postContent > div {
+  flex-grow: 1;
+}
+
+.postdots {
+  cursor: pointer;
+  color: rgb(78, 78, 78);
 }

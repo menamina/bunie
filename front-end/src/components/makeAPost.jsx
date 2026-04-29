@@ -34,6 +34,8 @@ function MakeAPost({ closeModal, post = null, user }) {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
+      queryClient.invalidateQueries({ queryKey: ["feed"] });
+      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
     },
   });
 

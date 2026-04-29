@@ -29,7 +29,7 @@ function PostCard({ post }) {
 
   function openPostSettings(e) {
     e.stopPropagation();
-    setPostDotsClicked(post.id);
+    postDotsClicked ? setPostDotsClicked(null) : setPostDotsClicked(post.id);
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -69,80 +69,88 @@ function PostCard({ post }) {
       >
         <div onClick={navToProfile}>
           {/* <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} /> */}
-          <img src={TempIcon} />
+          <img
+            className="posterspfp"
+            src={TempIcon}
+            alt={` ${post?.madeBy?.username}'s profile picture`}
+          />
         </div>
-        <div>
+        <div className="postContent">
           <div>
-            <div>
-              <div>{post.madeBy.name}</div>
-              <div>{post.madeBy.username}</div>
-            </div>
+            <div className="postUserINFO">
+              <div>
+                <div>{post.madeBy.name}</div>
+                <div>@{post.madeBy.username}</div>
+              </div>
 
-            {isThisMyPost && (
-              <>
-                {deletePostClicked === post.id && (
-                  <div className="confirmDeletePostModal">
-                    <div>
-                      <div>Delete post?</div>
+              {isThisMyPost && (
+                <>
+                  {deletePostClicked === post.id && (
+                    <div className="confirmDeletePostModal">
                       <div>
-                        This can't be undone and it will be removed from your
-                        profile, the timeline of any accounts that follow you,
-                        and from search results.
-                      </div>
-                      <div>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPostDotsClicked(null);
-                            setDeletePostClicked(null);
-                            console.log(
-                              "postID:",
-                              post.id,
-                              "post title:",
-                              post.title,
-                            );
-                            confirmDelete();
-                          }}
-                        >
-                          delete
+                        <div>Delete post?</div>
+                        <div>
+                          This can't be undone and it will be removed from your
+                          profile, the timeline of any accounts that follow you,
+                          and from search results.
                         </div>
-                        <div
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            setPostDotsClicked(null);
-                            setDeletePostClicked(null);
-                          }}
-                        >
-                          cancel
+                        <div>
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPostDotsClicked(null);
+                              setDeletePostClicked(null);
+                              console.log(
+                                "postID:",
+                                post.id,
+                                "post title:",
+                                post.title,
+                              );
+                              confirmDelete();
+                            }}
+                          >
+                            delete
+                          </div>
+                          <div
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPostDotsClicked(null);
+                              setDeletePostClicked(null);
+                            }}
+                          >
+                            cancel
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
-                {postDotsClicked === post.id && (
-                  <div className="deleteModal">
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setPostDotsClicked(null);
-                        setEditPostClicked(post.id);
-                      }}
-                    >
-                      edit
+                  )}
+                  {postDotsClicked === post.id && (
+                    <div className="deleteModal">
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setPostDotsClicked(null);
+                          setEditPostClicked(post.id);
+                        }}
+                      >
+                        edit
+                      </div>
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDeletePostClicked(post.id);
+                        }}
+                      >
+                        delete
+                      </div>
                     </div>
-                    <div
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        setDeletePostClicked(post.id);
-                      }}
-                    >
-                      delete
-                    </div>
+                  )}
+                  <div onClick={openPostSettings} className="postDots">
+                    ...
                   </div>
-                )}
-                <div onClick={openPostSettings}>...</div>
-              </>
-            )}
+                </>
+              )}
+            </div>
           </div>
 
           <div>
@@ -161,7 +169,7 @@ function PostCard({ post }) {
               ))}
             </div>
           )}
-          <div>
+          <div className="postEngagement">
             <div
               onClick={(e) => {
                 e.stopPropagation();

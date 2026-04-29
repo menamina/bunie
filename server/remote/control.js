@@ -124,6 +124,9 @@ async function getFollowingFeed(req, res) {
     const feed = await prisma.posts.findMany({
       ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
       take: 50,
+      orderBy: {
+        timestamp: 'desc',
+      },
       include: {
         likes: true,
         comments: true,
