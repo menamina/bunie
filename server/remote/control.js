@@ -1,4 +1,4 @@
-const prisma = require("../prisma/client");
+const { prisma, pool } = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");
 
@@ -967,6 +967,7 @@ async function makeAPost(req, res) {
       },
     });
 
+    console.log("POST CREATED:", post);
     return res.status(201).json({ post });
   } catch (error) {
     console.log("ERROR CREATING POST:", error);

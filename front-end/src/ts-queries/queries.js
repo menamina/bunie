@@ -699,14 +699,16 @@ async function signupUser(signupINFO) {
     const err = new Error("Signup failed");
 
     if (res.status === 500) {
-      err.serverError = "Server error";
+      err.error = "Server error";
     } else if (res.status === 400) {
-      err.data = errData.validationErrors;
+      err.error = errData.validationErrors;
     } else if (res.status === 403) {
-      err.data = errData.message;
+      err.error = errData.message;
     }
     throw err;
   }
+
+  console.log(res);
 
   return await res.json();
 }
