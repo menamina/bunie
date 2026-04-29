@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
 import PostCard from "./postcard";

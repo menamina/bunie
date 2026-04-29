@@ -140,7 +140,7 @@ function Profile() {
                 </button>
               )}
               {user.username !== username &&
-                (userProfile.followers.some((f) => f.follower === user.id) ? (
+                (userProfile?.followers?.some((f) => f.follower === user.id) ? (
                   <button
                     type="button"
                     className="followBTN unfollow"

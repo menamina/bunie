@@ -114,6 +114,7 @@ router.post(
   zoddie.addOrUpdateInventoryZod,
   remote.addProduct,
 );
+
 router.patch(
   "/update-inventory-status/:productID",
   isAuth,

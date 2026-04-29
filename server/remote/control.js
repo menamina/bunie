@@ -220,6 +220,7 @@ async function query(req, res) {
 async function getProfile(req, res) {
   try {
     const { username } = req.params;
+    console.log("getProfile called for:", username);
 
     const userProfile = await prisma.user.findUnique({
       where: {
@@ -242,10 +243,12 @@ async function getProfile(req, res) {
       },
     });
 
+    console.log("Found user:", userProfile);
+
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
     }
-    return res.status(200).json({ userProfile });
+    return res.status(200).json(userProfile);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -338,6 +341,8 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
+    console.log("📝 getUserPosts called for:", username);
+
     const user = await prisma.user.findUnique({
       where: {
         username,
@@ -360,9 +365,10 @@ async function getUserPosts(req, res) {
       },
     });
 
-    console.log(user);
+    console.log("📝 User found - Posts count:", user?.posts?.length || 0);
 
     if (!user || user.posts.length === 0) {
+      console.log("📝 Returning 204 - no posts");
       return res.status(204).json({ noPosts: true });
     }
 
@@ -376,6 +382,7 @@ async function getUserPosts(req, res) {
       },
     }));
 
+    console.log("📝 Returning", feed.length, "posts");
     return res.status(200).json(feed);
   } catch (error) {
     console.log(error);
@@ -966,6 +973,7 @@ async function makeAPost(req, res) {
     });
 
     console.log("POST CREATED:", post);
+
     return res.status(201).json({ post });
   } catch (error) {
     console.log("ERROR CREATING POST:", error);
@@ -1090,12 +1098,16 @@ async function deletePost(req, res) {
     const userID = Number(id);
     const postID = Number(postToDelete);
 
+    console.log("🗑️ DELETE POST CALLED - postID:", postID, "userID:", userID);
+
     await prisma.posts.deleteMany({
       where: {
         id: postID,
         madeBy: userID,
       },
     });
+
+    console.log("🗑️ POST DELETED:", postID);
 
     return res.status(200).json({ postDeleted: true });
   } catch (error) {
