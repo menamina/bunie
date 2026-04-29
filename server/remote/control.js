@@ -372,6 +372,8 @@ async function getUserPosts(req, res) {
       },
     }));
 
+    console.log(feed || null);
+
     return res.status(200).json(feed);
   } catch (error) {
     console.log(error);

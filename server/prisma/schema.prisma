@@ -100,7 +100,7 @@ model Posts {
 
   title String
   body String?
-  img String[]?
+  img String[] @default([])
   timestamp DateTime @default(now())
 
   likes PostLikes[]
