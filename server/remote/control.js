@@ -967,11 +967,9 @@ async function makeAPost(req, res) {
       },
     });
 
-    console.log("POST CREATED LINE 968", post);
-
     return res.status(201).json({ post });
   } catch (error) {
-    console.log(error);
+    console.log("ERROR CREATING POST:", error);
     return res.status(500).json({ errMsg: "server error" });
   }
 }

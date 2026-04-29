@@ -158,7 +158,7 @@ function PostCard({ post }) {
           </div>
           {post.body && <div>{post.body}</div>}
           {post.img && (
-            <div>
+            <div className="imgHolder">
               {post.img.map((img, index) => (
                 <img
                   key={index}

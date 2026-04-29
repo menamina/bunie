@@ -74,6 +74,26 @@
   cursor: pointer;
 }
 
+.goToSettings,
+.followBTN {
+  border: none;
+  width: 8em;
+  height: 2.5em;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.followBTN.unfollow {
+  background-color: black;
+  color: white;
+}
+
+.renderViewHere-flex,
+.renderViewHere-grid {
+  border: 1px solid rgba(139, 139, 139, 0.516);
+}
+
 @media (max-width: 750px) {
   .nav-DIV {
     width: 100vw;
@@ -90,19 +110,4 @@
   .opts-rendering.mobile {
     display: none;
   }
-}
-
-.goToSettings,
-.followBTN {
-  border: none;
-  width: 8em;
-  height: 2.5em;
-  border-radius: 20px;
-  cursor: pointer;
-  font-size: 1rem;
-}
-
-.followBTN.unfollow {
-  background-color: black;
-  color: white;
 }

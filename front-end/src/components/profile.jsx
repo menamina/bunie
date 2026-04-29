@@ -91,7 +91,8 @@ function Profile() {
       <div className="headerDIV">
         <img
           className="headerIMG"
-          src={userProfile?.profile?.header || TempHeader}
+          src={TempHeader}
+          // src={userProfile?.profile?.header || TempHeader}
           alt={`header for ${userProfile?.username}`}
         />
       </div>

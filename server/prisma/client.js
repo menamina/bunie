@@ -9,4 +9,5 @@ const connection = process.env.DATABASEURL;
 const pool = new Pool({ connectionString: connection });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
+
 module.exports = prisma;

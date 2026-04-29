@@ -37,3 +37,14 @@
   cursor: pointer;
   color: rgb(78, 78, 78);
 }
+
+.imgHolder {
+  width: 100%;
+}
+
+.postIMG {
+  width: 60%;
+  height: 60%;
+  object-fit: contain;
+  object-position: center;
+}
