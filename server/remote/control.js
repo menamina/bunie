@@ -125,7 +125,7 @@ async function getFollowingFeed(req, res) {
       ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
       take: 50,
       orderBy: {
-        timestamp: 'desc',
+        timestamp: "desc",
       },
       include: {
         likes: true,
@@ -361,6 +361,8 @@ async function getUserPosts(req, res) {
       },
     });
 
+    console.log(user);
+
     if (!user || user.posts.length === 0) {
       return res.status(204).json({ noPosts: true });
     }
@@ -374,8 +376,6 @@ async function getUserPosts(req, res) {
         pfp: user.profile.pfp,
       },
     }));
-
-    console.log(feed || null);
 
     return res.status(200).json(feed);
   } catch (error) {
@@ -966,6 +966,8 @@ async function makeAPost(req, res) {
         ...(fileNames && { img: fileNames }),
       },
     });
+
+    console.log("POST CREATED LINE 968", post);
 
     return res.status(201).json({ post });
   } catch (error) {

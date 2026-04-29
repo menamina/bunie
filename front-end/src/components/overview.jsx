@@ -22,17 +22,19 @@ function Overview({ whoseProfile }) {
   }
 
   if (error) {
-    error.notAuth ? <div> {error.notAuth}</div> : null;
+    return (
+      <div className="userPostsDIV">
+        {error?.notAuth && <div>{error.notAuth}</div>}
+        {error?.serverError && <div>{error.serverError}</div>}
+        {error?.zeroposts && <div>Nothing to see here</div>}
+      </div>
+    );
   }
 
   return (
     <div className="userPostsDIV">
-      {error && (
-        <div>{error?.serverError && <div>{error.serverError}</div>}</div>
-      )}
-      {error?.zeroposts && <div>{error.zeroposts}</div>}
       {userPosts?.length > 0 &&
-        userPosts?.map((post) => <PostCard post={post} />)}
+        userPosts?.map((post) => <PostCard post={post} key={post.id} />)}
     </div>
   );
 }
