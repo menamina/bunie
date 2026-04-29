@@ -93,7 +93,12 @@ function PostCard({ post }) {
                             e.stopPropagation();
                             setPostDotsClicked(null);
                             setDeletePostClicked(null);
-                            console.log(post.id);
+                            console.log(
+                              "postID:",
+                              post.id,
+                              "post title:",
+                              post.title,
+                            );
                             confirmDelete();
                           }}
                         >

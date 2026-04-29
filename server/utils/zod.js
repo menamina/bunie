@@ -21,6 +21,7 @@ function makeOrUpdatePostZod(req, res, next) {
     schema.parse(req.body);
     next();
   } catch (error) {
+    console.log(error);
     return res.status(400).json({ error: error.issues });
   }
 }

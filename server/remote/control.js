@@ -1086,7 +1086,7 @@ async function deletePost(req, res) {
     const userID = Number(id);
     const postID = Number(postToDelete);
 
-    await prisma.posts.delete({
+    await prisma.posts.deleteMany({
       where: {
         id: postID,
         madeBy: userID,
@@ -1107,7 +1107,7 @@ async function deleteComment(req, res) {
     const userID = Number(id);
     const commentID = Number(commentToDelete);
 
-    await prisma.comments.delete({
+    await prisma.comments.deleteMany({
       where: {
         id: commentID,
         userWhoCommented: userID,

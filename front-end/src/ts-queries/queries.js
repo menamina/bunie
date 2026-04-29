@@ -153,9 +153,9 @@ export const logoutMut = () => {
   });
 };
 
-export const deletePostOpt = () => {
+export const deletePostOpt = (postID) => {
   return mutationOptions({
-    mutationFn: deletePost,
+    mutationFn: deletePost(postID),
   });
 };
 
