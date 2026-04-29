@@ -155,7 +155,7 @@ export const logoutMut = () => {
 
 export const deletePostOpt = (postID) => {
   return mutationOptions({
-    mutationFn: deletePost(postID),
+    mutationFn: () => deletePost(postID),
   });
 };
 
