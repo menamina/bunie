@@ -33,16 +33,47 @@
   flex-grow: 1;
 }
 
+.postTitle {
+  font-size: 1.2rem;
+}
+
+.postContent {
+  gap: 10px;
+}
+
 .postdots {
   cursor: pointer;
   color: rgb(78, 78, 78);
+}
+
+.twoGrids {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 100%;
+  max-height: 500px;
+  gap: 3px;
 }
 
 .threeGrids {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   max-width: 100%;
+  max-height: 500px;
   gap: 3px;
+}
+
+.fourGrids {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 300px);
+  max-width: 100%;
+  gap: 3px;
+}
+
+.IMGGRID {
+  width: 10%;
+  height: 100%;
+  overflow: hidden;
 }
 
 .postIMG {
@@ -50,6 +81,7 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  overflow: hidden;
 }
 
 .userPostsDIV {

@@ -154,7 +154,7 @@ function PostCard({ post }) {
           </div>
 
           <div>
-            <div>{post.title}</div>
+            <div className="postTitle">{post.title}</div>
           </div>
           {post.body && <div>{post.body}</div>}
           {post.img && (

@@ -363,6 +363,7 @@ async function getUserPosts(req, res) {
           },
         },
       },
+      orderBy: { timestamp: "desc" },
     });
 
     console.log("📝 User found - Posts count:", user?.posts?.length || 0);
