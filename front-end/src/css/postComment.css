@@ -1,5 +1,4 @@
 .userPostsDIV,
-.renderingPosts,
 .postContent {
   display: flex;
   flex-direction: column;
@@ -39,20 +38,31 @@
   color: rgb(78, 78, 78);
 }
 
-.imgHolder {
+.threeGrids {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-columns: repeat(2, 1fr);
-  width: 100%;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 100%;
+  gap: 3px;
 }
 
 .postIMG {
-  width: 60%;
-  height: 60%;
-  object-fit: contain;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   object-position: center;
 }
 
 .userPostsDIV {
-  padding: 20px;
+  gap: 0.5px;
+}
+
+.postDIV {
+  border: 1px solid rgba(139, 139, 139, 0.516);
+  border-radius: 5px;
+  border-bottom: none;
+  padding: 10px;
+}
+
+.postDIV:last-of-type {
+  border-bottom: 1px solid rgba(139, 139, 139, 0.516);
 }
