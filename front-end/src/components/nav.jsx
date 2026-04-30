@@ -5,6 +5,8 @@ import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
 
+import TempIcon from "../imgs/cafe.jpeg";
+
 import { logoutMut } from "../ts-queries/queries";
 
 import Logo from "../imgs/buni.png";
@@ -91,8 +93,12 @@ function Nav({ user }) {
           </div>
         </div>
       </div>
-      <Link to={`/${user?.user?.username}`} className="profile">
-        {/* <img src={`http://localhost:5555/IMGS-API/${user?.user?.pfp}`} alt="search" /> */}
+      <Link className="goToProfile" to={`/${user?.user?.username}`}>
+        {/* <img
+          src={`http://localhost:5555/IMGS-API/${user?.user?.pfp}`}
+          alt="your profile"
+        /> */}
+        <img className="miniPFP" src={TempIcon} alt="your profile" />
       </Link>
       {makePost && <MakeAPost closeModal={setMakePost} user={user?.user} />}
       {addToInventory && (
