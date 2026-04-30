@@ -64,9 +64,9 @@ function Profile() {
             <Link to="/">login or sign up here</Link>
           </div>
         )}
-        {error?.noProfileFound && (
+        {error?.noUserFound && (
           <div className="errorModal">
-            Error loading profile: {error.noProfileFound}
+            Error loading profile: {error.noUserFound}
           </div>
         )}
         {error?.serverError && (

@@ -726,8 +726,7 @@ async function getProfile(username, authUsername) {
   if (!res.ok) {
     const error = new Error("error");
     if (res.status === 404) {
-      error.notAuth = "No user found";
-      console.log(data);
+      error.noUserFound = "No user found";
       throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
