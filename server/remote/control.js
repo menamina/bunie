@@ -341,7 +341,6 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    console.log("📝 getUserPosts called for:", username);
 
     const user = await prisma.user.findUnique({
       where: {
@@ -366,10 +365,7 @@ async function getUserPosts(req, res) {
       },
     });
 
-    console.log("📝 User found - Posts count:", user?.posts?.length || 0);
-
     if (!user || user.posts.length === 0) {
-      console.log("📝 Returning 204 - no posts");
       return res.status(204).json({ noPosts: true });
     }
 
@@ -383,7 +379,6 @@ async function getUserPosts(req, res) {
       },
     }));
 
-    console.log("📝 Returning", feed.length, "posts");
     return res.status(200).json(feed);
   } catch (error) {
     console.log(error);

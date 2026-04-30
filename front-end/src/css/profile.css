@@ -2,8 +2,6 @@
   display: flex;
   flex-direction: column;
   max-width: 700px;
-  height: 100%;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -21,11 +19,11 @@
 
 .profileDIV > div:last-child {
   align-self: center;
-  /* width: 70vw; */
   position: absolute;
   z-index: 1;
   transform: translateY(120px);
-  height: 100%;
+  border-left: 1px solid rgba(168, 168, 168, 0.598);
+  border-right: 1px solid rgba(168, 168, 168, 0.598);
 }
 
 .z-index.user.content,
@@ -46,6 +44,11 @@
 
 .userINFO > div > img {
   height: 100%;
+}
+
+.userINFO,
+.opts-rendering {
+  padding: 20px;
 }
 
 .opts-rendering {
