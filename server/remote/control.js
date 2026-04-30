@@ -220,7 +220,6 @@ async function query(req, res) {
 async function getProfile(req, res) {
   try {
     const { username } = req.params;
-    console.log("getProfile called for:", username);
 
     const userProfile = await prisma.user.findUnique({
       where: {
@@ -242,8 +241,6 @@ async function getProfile(req, res) {
         followings: true,
       },
     });
-
-    console.log("Found user:", userProfile);
 
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
@@ -1094,16 +1091,12 @@ async function deletePost(req, res) {
     const userID = Number(id);
     const postID = Number(postToDelete);
 
-    console.log("🗑️ DELETE POST CALLED - postID:", postID, "userID:", userID);
-
     await prisma.posts.deleteMany({
       where: {
         id: postID,
         madeBy: userID,
       },
     });
-
-    console.log("🗑️ POST DELETED:", postID);
 
     return res.status(200).json({ postDeleted: true });
   } catch (error) {
