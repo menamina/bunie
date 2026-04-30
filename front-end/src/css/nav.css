@@ -1,9 +1,9 @@
 .outlet {
   display: flex;
   flex-direction: column-reverse;
-  height: 100%;
+  gap: 10px;
+  min-height: 100vh;
   width: 100%;
-  overflow-x: hidden;
 }
 
 .navDIV {
@@ -260,10 +260,12 @@
 @media (min-width: 600px) {
   .outlet {
     flex-direction: row;
+    justify-content: center;
+    gap: 20px;
   }
 
   .navDIV {
-    width: 5rem;
+    width: 3rem;
     border-top: none;
   }
 
@@ -279,5 +281,9 @@
   .addToInvenForm {
     width: 90vw;
     height: 90vh;
+  }
+
+  .profileDIV {
+    flex-grow: 2;
   }
 }

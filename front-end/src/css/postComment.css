@@ -46,6 +46,13 @@
   color: rgb(78, 78, 78);
 }
 
+.noGrid {
+  display: flex;
+  max-width: 100%;
+  height: 600px;
+  gap: 3px;
+}
+
 .twoGrids {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -65,14 +72,13 @@
 .fourGrids {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 300px);
-  max-width: 100%;
+  grid-template-rows: repeat(2, 250px);
+  width: 100%;
   gap: 3px;
 }
 
-.IMGGRID {
-  width: 10%;
-  height: 100%;
+.imgHOLDER {
+  width: 100%;
   overflow: hidden;
 }
 
@@ -81,7 +87,6 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
-  overflow: hidden;
 }
 
 .userPostsDIV {

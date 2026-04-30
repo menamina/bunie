@@ -361,9 +361,9 @@ async function getUserPosts(req, res) {
             likes: true,
             comments: true,
           },
+          orderBy: { timestamp: "desc" },
         },
       },
-      orderBy: { timestamp: "desc" },
     });
 
     console.log("📝 User found - Posts count:", user?.posts?.length || 0);

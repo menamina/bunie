@@ -167,12 +167,14 @@ function PostCard({ post }) {
               }
             >
               {post.img.map((img, index) => (
-                <img
-                  key={index}
-                  className="postIMG"
-                  src={`http://localhost:5555/IMGS-API/${img}`}
-                  alt=""
-                />
+                <div className="imgHOLDER">
+                  <img
+                    key={index}
+                    className="postIMG"
+                    src={`http://localhost:5555/IMGS-API/${img}`}
+                    alt=""
+                  />
+                </div>
               ))}
             </div>
           )}
