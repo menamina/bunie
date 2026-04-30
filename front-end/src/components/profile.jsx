@@ -168,13 +168,48 @@ function Profile() {
 
         {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
         <div className="opts-rendering desktop">
-          <div onClick={() => setView("overview")}>Overview</div>
-          <div onClick={() => setView("inventory")}>Inventory</div>
-          <div onClick={() => setView("inprogress")}>In Progress</div>
-          <div onClick={() => setView("limbo")}>Limbo</div>
-          <div onClick={() => setView("decluttered")}>Decluttered</div>
-          <div onClick={() => setView("finished")}>Finished</div>
-          <div onClick={() => setView("likes")}>Likes</div>
+          <div
+            className={view === "overview" && "selectedViewUnderLine"}
+            onClick={() => setView("overview")}
+          >
+            Overview
+          </div>
+          <div
+            className={view === "inventory" && "selectedViewUnderLine"}
+            onClick={() => setView("inventory")}
+          >
+            Inventory
+          </div>
+          <div
+            className={view === "inprogress" && "selectedViewUnderLine"}
+            onClick={() => setView("inprogress")}
+          >
+            In Progress
+          </div>
+          <div
+            className={view === "limbo" && "selectedViewUnderLine"}
+            onClick={() => setView("limbo")}
+          >
+            Limbo
+          </div>
+          <div
+            className={view === "decluttered" && "selectedViewUnderLine"}
+            onClick={() => setView("decluttered")}
+          >
+            Decluttered
+          </div>
+          <div
+            className={view === "finished" && "selectedViewUnderLine"}
+            onClick={() => setView("finished")}
+          >
+            Finished
+          </div>
+          <div
+            className={view === "likes" && "selectedViewUnderLine"}
+            onClick={() => setView("likes")}
+          >
+            Likes
+          </div>
         </div>
 
         {/* render comps below w fetch to diff api */}

@@ -1,5 +1,5 @@
 .settingsDIV {
-  width: 100%;
+  width: 1000px;
   border-left: 1px solid rgba(168, 168, 168, 0.598);
   display: flex;
 }
@@ -9,7 +9,7 @@
 }
 
 .leftOfSettings {
-  width: 35%;
+  width: 20%;
 }
 
 .rightOfSettings {
@@ -75,7 +75,6 @@
 
 .currentHeader,
 .wantedHeader {
-  width: 100%;
   object-fit: cover;
   height: 300px;
 }
