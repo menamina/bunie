@@ -64,7 +64,8 @@
 .makeACommentModal,
 .addToInventoryModal,
 .errorModal,
-.delete.account.modal {
+.delete.account.modal,
+.confirmDeletePostModal {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -96,6 +97,10 @@
   z-index: 3;
   backdrop-filter: blur(0.5px);
   font-size: 2rem;
+}
+
+.confirmDeletePostModal {
+  z-index: 9999;
 }
 
 .makePostForm > div {

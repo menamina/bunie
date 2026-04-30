@@ -87,7 +87,7 @@ function PostCard({ post }) {
                 <>
                   {deletePostClicked === post.id && (
                     <div className="confirmDeletePostModal">
-                      <div>
+                      <div className="deleteMiniModal">
                         <div>Delete post?</div>
                         <div>
                           This can't be undone and it will be removed from your
@@ -95,7 +95,18 @@ function PostCard({ post }) {
                           and from search results.
                         </div>
                         <div>
-                          <div
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setPostDotsClicked(null);
+                              setDeletePostClicked(null);
+                            }}
+                          >
+                            cancel
+                          </button>
+                          <button
+                            type="button"
                             onClick={(e) => {
                               e.stopPropagation();
                               setPostDotsClicked(null);
@@ -110,16 +121,7 @@ function PostCard({ post }) {
                             }}
                           >
                             delete
-                          </div>
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              setPostDotsClicked(null);
-                              setDeletePostClicked(null);
-                            }}
-                          >
-                            cancel
-                          </div>
+                          </button>
                         </div>
                       </div>
                     </div>
