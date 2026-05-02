@@ -24,6 +24,10 @@ function SelectedView({ view, whoseProfile }) {
     finished: { status: "Finished", endpoint: "finished" },
   };
 
+  // if in inventory filter entire enventory by year, category etc etc
+
+  // same for decluttered and finished
+
   const config = viewSelection[view];
 
   const {
