@@ -1,16 +1,6 @@
 # Bunie.
 
 - a semi-social media cosmetics inventory tracker.
-<!--
-
-## What it is
-
-- I wanted a digital space where I can keep track of all cosmetic products I have ever owned with notes about them.
-  This desire came from wanting to make a keepsake of who I am over the years; similar to a photo album. What I like today may not
-  necessarily be what I liked 2 years ago. There are many ways we can connect with our past selves and see where we were and
-  maybe what we were going through. Keeping a journal is one of the most intimate mediums you can engage in
-  with yourself. If someone gets a hold of your journal they have access to a part of your world that almost feels ...
-  -->
 
 ## Application features
 
