@@ -24,12 +24,12 @@
   gap: 1em;
 }
 
-.postUserINFO > div:last-child {
-  color: rgb(78, 78, 78);
+.usernameOfPoster {
+  color: rgba(90, 90, 90, 0.741);
 }
 
-.postUserINFO {
-  position: relative;
+.postUserINFO > div:last-child {
+  color: rgb(78, 78, 78);
 }
 
 .deleteModalFixed {
@@ -134,34 +134,38 @@
 }
 
 .postDIV {
+  cursor: pointer;
   border-bottom: 1px solid rgba(139, 139, 139, 0.516);
 }
 
 .deleteMiniModal {
   background-color: white;
   width: 50%;
-  padding: 20px;
+  padding: 30px;
   border-radius: 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 200px;
-  max-width: 500px;
+  gap: 15px;
+  max-width: 300px;
+  text-align: left;
+  font-size: 1.2rem;
 }
 
 .deleteMiniModal > div:first-child {
-  margin-bottom: 10px;
-  font-size: 1.2rem;
+  font-weight: 600;
 }
 
 .deleteMiniModal > div:last-child {
   display: flex;
   justify-content: space-evenly;
+  padding-top: 20px;
 }
 
 .deleteMiniModal > div:last-child > button:last-child {
   background-color: rgb(238, 22, 15);
+  color: white;
 }
 
 .deleteMiniModal > div:last-child > button {

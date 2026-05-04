@@ -86,16 +86,22 @@ function PostCard({ post }) {
             <div className="postUserINFO">
               <div>
                 <div>{post.madeBy.name}</div>
-                <div>@{post.madeBy.username}</div>
+                <div className="usernameOfPoster">@{post.madeBy.username}</div>
               </div>
 
               {isThisMyPost && (
                 <>
                   {deletePostClicked === post.id && (
-                    <div className="confirmDeletePostModal">
+                    <div
+                      className="confirmDeletePostModal"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDeletePostClicked(null);
+                      }}
+                    >
                       <div className="deleteMiniModal">
                         <div>Delete post?</div>
-                        <div>
+                        <div className="dltCantBeUndone">
                           This can't be undone and it will be removed from your
                           profile, the timeline of any accounts that follow you,
                           and from search results.
@@ -117,12 +123,7 @@ function PostCard({ post }) {
                               e.stopPropagation();
                               setPostDotsClicked(null);
                               setDeletePostClicked(null);
-                              console.log(
-                                "postID:",
-                                post.id,
-                                "post title:",
-                                post.title,
-                              );
+
                               confirmDelete();
                             }}
                           >
@@ -160,6 +161,7 @@ function PostCard({ post }) {
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
+                            setPostDotsClicked(null);
                             setDeletePostClicked(post.id);
                           }}
                         >

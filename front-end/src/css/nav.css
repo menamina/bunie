@@ -67,7 +67,8 @@
 .addToInventoryModal,
 .errorModal,
 .delete.account.modal,
-.confirmDeletePostModal {
+.confirmDeletePostModal,
+.deleteModalFixed {
   position: fixed;
   display: flex;
   justify-content: center;
@@ -78,6 +79,10 @@
   top: 0;
   left: 0;
   background-color: rgba(128, 128, 128, 0.414);
+}
+
+.deleteModalFixed {
+  background-color: rgba(255, 255, 255, 0);
 }
 
 /* FORMS */
