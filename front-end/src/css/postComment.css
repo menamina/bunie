@@ -32,14 +32,21 @@
   position: relative;
 }
 
+.deleteModalFixed {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+}
+
 .deleteModal {
-  position: absolute;
   height: 150px;
   width: 150px;
   background-color: rgb(255, 255, 255);
-  z-index: 1;
-  right: 0;
-  top: 10px;
+  z-index: 2;
   border-radius: 10px;
   flex-direction: column;
   box-shadow: 1px 1px 8px 0px rgba(100, 99, 99, 0.591);
@@ -136,10 +143,16 @@
   padding: 20px;
   border-radius: 20px;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  max-width: 500px;
 }
 
 .deleteMiniModal > div:first-child {
-  margin-bottom: 100px;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
 }
 
 .deleteMiniModal > div:last-child {
@@ -149,4 +162,12 @@
 
 .deleteMiniModal > div:last-child > button:last-child {
   background-color: rgb(238, 22, 15);
+}
+
+.deleteMiniModal > div:last-child > button {
+  border: none;
+  width: 7em;
+  height: 3em;
+  border-radius: 50px;
+  cursor: pointer;
 }

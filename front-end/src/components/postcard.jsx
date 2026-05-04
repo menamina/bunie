@@ -127,23 +127,32 @@ function PostCard({ post }) {
                     </div>
                   )}
                   {postDotsClicked === post.id && (
-                    <div className="deleteModal">
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setPostDotsClicked(null);
-                          setEditPostClicked(post.id);
-                        }}
-                      >
-                        edit
-                      </div>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeletePostClicked(post.id);
-                        }}
-                      >
-                        delete
+                    <div
+                      className="deleteModalFixed"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setPostDotsClicked(null);
+                        setEditPostClicked(null);
+                      }}
+                    >
+                      <div className="deleteModal">
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setPostDotsClicked(null);
+                            setEditPostClicked(post.id);
+                          }}
+                        >
+                          edit
+                        </div>
+                        <div
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setDeletePostClicked(post.id);
+                          }}
+                        >
+                          delete
+                        </div>
                       </div>
                     </div>
                   )}
