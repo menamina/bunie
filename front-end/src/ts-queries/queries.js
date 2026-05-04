@@ -428,7 +428,7 @@ async function getPost(postID) {
 
 async function togglePostLike(postID) {
   const res = await fetch(`http://localhost:5555/like-post/${postID}`, {
-    method: "GET",
+    method: "PATCH",
     credentials: "include",
   });
   return await res.json();

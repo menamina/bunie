@@ -23,7 +23,9 @@ function PostCard({ post }) {
   const [editPostClicked, setEditPostClicked] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
-  const [likeStatus, updateLikeStatus] = useState({});
+  const likeStatus = post.likes?.some((liker) => liker.userWhoLiked === user.id)
+    ? FilledHeart
+    : EmptyHeart;
 
   const [expandIMG, setExpandIMG] = useState(null);
 
@@ -53,7 +55,7 @@ function PostCard({ post }) {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
-      queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
       queryClient.invalidateQueries({ queryKey: ["feed"] });
     },
   });
@@ -223,14 +225,7 @@ function PostCard({ post }) {
                 togglePostLike();
               }}
             >
-              <img
-                src={
-                  post.likes?.some((liker) => liker.userWhoLiked === user.id)
-                    ? FilledHeart
-                    : EmptyHeart
-                }
-                className="engagementIMGS"
-              ></img>
+              <img src={likeStatus} className="engagementIMGS"></img>
               <div>{post.likes?.length}</div>
             </div>
             <div
