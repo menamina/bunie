@@ -121,13 +121,12 @@
 }
 
 .postDIV {
-  border: 1px solid rgba(139, 139, 139, 0.516);
   border-radius: 5px;
   border-bottom: none;
   padding: 10px;
 }
 
-.postDIV:last-of-type {
+.postDIV {
   border-bottom: 1px solid rgba(139, 139, 139, 0.516);
 }
 
