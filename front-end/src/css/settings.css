@@ -209,7 +209,7 @@
 
 .areYouSureDLT {
   background-color: white;
-  width: 50%;
+  max-width: 300px;
   padding: 20px;
   border-radius: 20px;
   text-align: center;

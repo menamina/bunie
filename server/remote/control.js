@@ -660,11 +660,12 @@ async function getPost(req, res) {
             },
           },
         },
+        likes: true,
       },
     });
 
     if (post) {
-      return res.status(200).json({ post });
+      return res.status(200).json(post);
     }
     return res.status(404).json({ message: "no post found" });
   } catch (error) {

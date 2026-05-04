@@ -6,6 +6,8 @@ import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";
 import TempIcon from "../imgs/cafe.jpeg";
+import EmptyHeart from "../imgs/emptyHeart.png";
+import FilledHeart from "../imgs/filledHeart.png";
 
 import "../css/postComment.css";
 
@@ -29,6 +31,8 @@ function PostCard({ post }) {
     e.stopPropagation();
     nav(`/${post.madeBy.username}`);
   }
+
+  console.log(post);
 
   function openPostSettings(e) {
     e.stopPropagation();
@@ -54,9 +58,7 @@ function PostCard({ post }) {
   const { mutate: togglePostLike } = useMutation({
     ...togglePostLikeOpt(post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feed"] });
-      queryClient.invalidateQueries({ queryKey: ["following"] });
-      queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
     },
   });
 
@@ -218,7 +220,13 @@ function PostCard({ post }) {
                 togglePostLike();
               }}
             >
-              <img></img>
+              <img
+                src={
+                  post.likes.filter((liker) => liker.userWhoLiked === user.id)
+                    ? FilledHeart
+                    : EmptyHeart
+                }
+              ></img>
               <div>{post.likes.length}</div>
             </div>
             <div
