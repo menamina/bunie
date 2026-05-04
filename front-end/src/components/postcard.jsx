@@ -242,12 +242,14 @@ function PostCard({ post }) {
             setExpandIMG(null);
           }}
         >
-          <img
-            key={expandIMG}
-            className="expandedIMG"
-            src={`http://localhost:5555/IMGS-API/${expandIMG}`}
-            alt=""
-          />
+          <div className="xPandedIMGHolder">
+            <img
+              key={expandIMG}
+              className="expandedIMG"
+              src={`http://localhost:5555/IMGS-API/${expandIMG}`}
+              alt=""
+            />
+          </div>
         </div>
       )}
 
