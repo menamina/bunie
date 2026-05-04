@@ -34,19 +34,19 @@
 
 .deleteModalFixed {
   position: fixed;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  top: 0;
+  left: 0;
   z-index: 1;
   width: 100vw;
   height: 100vh;
 }
 
 .deleteModal {
+  position: absolute;
+  display: flex;
   height: 150px;
   width: 150px;
   background-color: rgb(255, 255, 255);
-  z-index: 2;
   border-radius: 10px;
   flex-direction: column;
   box-shadow: 1px 1px 8px 0px rgba(100, 99, 99, 0.591);

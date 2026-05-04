@@ -56,6 +56,17 @@ function PostCard({ post }) {
     (editPostClicked(null), setPostDotsClicked(false));
   }
 
+  function editDeleteClickCoordinates(e) {
+    e.stopPropagation();
+    const deleteModal = document.querySelector(".deleteModal");
+
+    const x = e.clientX;
+    const y = e.clientY;
+
+    deleteModal.style.left = `${x - 75}px`;
+    deleteModal.style.top = `${y - 160}px`;
+  }
+
   return (
     <div className="renderingPosts">
       <div
@@ -156,7 +167,13 @@ function PostCard({ post }) {
                       </div>
                     </div>
                   )}
-                  <div onClick={openPostSettings} className="postDots">
+                  <div
+                    onClick={(e) => {
+                      editDeleteClickCoordinates(e);
+                      openPostSettings(e);
+                    }}
+                    className="postDots"
+                  >
                     ...
                   </div>
                 </>
