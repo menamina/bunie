@@ -7,6 +7,7 @@ import {
 } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import { useOutletContext } from "react-router-dom";
+import "../css/comment.css";
 
 function MakeAComment({
   closeModal,
@@ -133,7 +134,7 @@ function MakeAComment({
           </div>
         </div>
       )}
-      <form onSubmit={submit}>
+      <form onSubmit={submit} className="commentForm">
         <div>
           {!edit && <PostCard post={postObj} />}
           {edit && <PostCard post={fetchedPost} />}
