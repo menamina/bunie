@@ -18,6 +18,7 @@ function PostCard({ post }) {
   const [deletePostClicked, setDeletePostClicked] = useState(null);
 
   const [editPostClicked, setEditPostClicked] = useState(false);
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
@@ -29,7 +30,12 @@ function PostCard({ post }) {
 
   function openPostSettings(e) {
     e.stopPropagation();
-    postDotsClicked ? setPostDotsClicked(null) : setPostDotsClicked(post.id);
+    if (postDotsClicked) {
+      setPostDotsClicked(null);
+    } else {
+      setModalPosition({ x: e.clientX - 140, y: e.clientY - 30 });
+      setPostDotsClicked(post.id);
+    }
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -54,17 +60,6 @@ function PostCard({ post }) {
 
   function cancelUpdate() {
     (editPostClicked(null), setPostDotsClicked(false));
-  }
-
-  function editDeleteClickCoordinates(e) {
-    e.stopPropagation();
-    const deleteModal = document.querySelector(".deleteModal");
-
-    const x = e.clientX;
-    const y = e.clientY;
-
-    deleteModal.style.left = `${x - 75}px`;
-    deleteModal.style.top = `${y - 160}px`;
   }
 
   return (
@@ -146,7 +141,13 @@ function PostCard({ post }) {
                         setEditPostClicked(null);
                       }}
                     >
-                      <div className="deleteModal">
+                      <div
+                        className="deleteModal"
+                        style={{
+                          left: `${modalPosition.x}px`,
+                          top: `${modalPosition.y}px`,
+                        }}
+                      >
                         <div
                           onClick={(e) => {
                             e.stopPropagation();
@@ -167,13 +168,7 @@ function PostCard({ post }) {
                       </div>
                     </div>
                   )}
-                  <div
-                    onClick={(e) => {
-                      editDeleteClickCoordinates(e);
-                      openPostSettings(e);
-                    }}
-                    className="postDots"
-                  >
+                  <div onClick={openPostSettings} className="postDots">
                     ...
                   </div>
                 </>
