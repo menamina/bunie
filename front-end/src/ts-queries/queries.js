@@ -297,14 +297,14 @@ async function updateProduct(productID, productData) {
   return await res.json();
 }
 
-async function updateComment(commentData) {
+async function updateComment(commentToUpdate) {
   const res = await fetch(
-    `http://localhost:5555/update-comment/${commentData.pID}`,
+    `http://localhost:5555/update-comment/${commentToUpdate.pID}`,
     {
       method: "GET",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ commentData }),
+      body: JSON.stringify(commentToUpdate.body),
     },
   );
 

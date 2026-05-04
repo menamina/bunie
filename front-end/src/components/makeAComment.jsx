@@ -17,16 +17,16 @@ function MakeAComment({
   const [commentData, setCommentData] = useState(
     edit
       ? {
-          pID: postID,
-          body: comment.body,
+          pID: comment?.idOfPost,
+          body: comment?.body,
         }
       : {
-          pID: postObj.id,
+          pID: postObj?.id,
           body: "",
         },
   );
 
-  const postID = postObj ? postObj.id : comment.idOfPost;
+  const postID = postObj ? postObj?.id : comment?.idOfPost;
 
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
@@ -88,7 +88,7 @@ function MakeAComment({
         closeModal(false);
       }}
     >
-      {fetchErr.serverError && (
+      {fetchErr?.serverError && (
         <div className="errorModal" onClick={closeStop}>
           <div>
             <div>Oops something went wrong fetching the post</div>
@@ -96,34 +96,34 @@ function MakeAComment({
           </div>
         </div>
       )}
-      {fetchErr.postNotFound && (
+      {fetchErr?.postNotFound && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{fetchErr.postNotFound}</div>
+            <div>{fetchErr?.postNotFound}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {updateErr.commentNotFound && (
+      {updateErr?.commentNotFound && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{updateErr.commentNotFound}</div>
+            <div>{updateErr?.commentNotFound}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {addErr.postNotExisting && (
+      {addErr?.postNotExisting && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{addErr.postNotExisting}</div>
+            <div>{addErr?.postNotExisting}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {addErr.serverError && (
+      {addErr?.serverError && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{addErr.serverError}</div>
+            <div>{addErr?.serverError}</div>
             <div>
               <div onClick={() => closeModal(false)}>cancel</div>
               <div onClick={() => makeAComment.mutate(commentData)}>

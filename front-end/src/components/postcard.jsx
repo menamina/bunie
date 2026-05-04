@@ -14,7 +14,7 @@ import "../css/postComment.css";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisMyPost = post.madeBy.username === user.username;
+  const isThisMyPost = post?.madeBy?.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
@@ -23,7 +23,9 @@ function PostCard({ post }) {
   const [editPostClicked, setEditPostClicked] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
-  const likeStatus = post.likes?.some((liker) => liker.userWhoLiked === user.id)
+  const likeStatus = post?.likes?.some(
+    (liker) => liker.userWhoLiked === user.id,
+  )
     ? FilledHeart
     : EmptyHeart;
 
@@ -34,7 +36,7 @@ function PostCard({ post }) {
 
   function navToProfile(e) {
     e.stopPropagation();
-    nav(`/${post.madeBy.username}`);
+    nav(`/${post?.madeBy?.username}`);
   }
 
   console.log(post);
@@ -45,12 +47,12 @@ function PostCard({ post }) {
       setPostDotsClicked(null);
     } else {
       setModalPosition({ x: e.clientX - 140, y: e.clientY - 30 });
-      setPostDotsClicked(post.id);
+      setPostDotsClicked(post?.id);
     }
   }
 
   const { mutate: confirmDelete } = useMutation({
-    ...deletePostOpt(post.id),
+    ...deletePostOpt(post?.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
@@ -261,7 +263,7 @@ function PostCard({ post }) {
       )}
 
       {makeAComment && (
-        <MakeAComment postToCommentOn={post} closeModal={setMakeAComment} />
+        <MakeAComment postObj={post} closeModal={setMakeAComment} />
       )}
       {editPostClicked && (
         <MakeAPost postToEdit={post} closeModal={cancelUpdate} />
