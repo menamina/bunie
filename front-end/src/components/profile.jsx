@@ -211,39 +211,37 @@ function Profile() {
             Likes
           </div>
         </div>
-
-        {/* render comps below w fetch to diff api */}
-        <div
-          className={
-            view === "overview" || view === "likes"
-              ? "renderViewHere-flex"
-              : "renderViewHere-grid"
-          }
-        >
-          {view === "overview" && <Overview whoseProfile={username} />}
-          {view === "inventory" && (
-            <SelectedView view="inventory" whoseProfile={username} />
-          )}
-          {view === "inprogress" && (
-            <SelectedView view="inprogress" whoseProfile={username} />
-          )}
-          {view === "limbo" && (
-            <SelectedView view="limbo" whoseProfile={username} />
-          )}
-          {view === "decluttered" && (
-            <SelectedView view="decluttered" whoseProfile={username} />
-          )}
-          {view === "finished" && (
-            <SelectedView view="finished" whoseProfile={username} />
-          )}
-          {view === "likes" && <Likes whoseProfile={username} />}
-          {view === "followers" && (
-            <Follow whoseProfile={username} view="followers" />
-          )}
-          {view === "following" && (
-            <Follow whoseProfile={username} view="following" />
-          )}
-        </div>
+      </div>
+      <div
+        className={
+          view === "overview" || view === "likes"
+            ? "renderViewHere-flex"
+            : "renderViewHere-grid"
+        }
+      >
+        {view === "overview" && <Overview whoseProfile={username} />}
+        {view === "inventory" && (
+          <SelectedView view="inventory" whoseProfile={username} />
+        )}
+        {view === "inprogress" && (
+          <SelectedView view="inprogress" whoseProfile={username} />
+        )}
+        {view === "limbo" && (
+          <SelectedView view="limbo" whoseProfile={username} />
+        )}
+        {view === "decluttered" && (
+          <SelectedView view="decluttered" whoseProfile={username} />
+        )}
+        {view === "finished" && (
+          <SelectedView view="finished" whoseProfile={username} />
+        )}
+        {view === "likes" && <Likes whoseProfile={username} />}
+        {view === "followers" && (
+          <Follow whoseProfile={username} view="followers" />
+        )}
+        {view === "following" && (
+          <Follow whoseProfile={username} view="following" />
+        )}
       </div>
     </div>
   );
