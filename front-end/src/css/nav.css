@@ -68,7 +68,8 @@
 .errorModal,
 .delete.account.modal,
 .confirmDeletePostModal,
-.deleteModalFixed {
+.deleteModalFixed,
+.expandIMGFixedDiv {
   position: fixed;
   display: flex;
   justify-content: center;

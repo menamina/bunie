@@ -20,6 +20,8 @@ function PostCard({ post }) {
   const [editPostClicked, setEditPostClicked] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
+  const [expandIMG, setExpandIMG] = useState(null);
+
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
@@ -192,7 +194,13 @@ function PostCard({ post }) {
               }
             >
               {post.img.map((img, index) => (
-                <div className="imgHOLDER">
+                <div
+                  className="imgHOLDER"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setExpandIMG(img);
+                  }}
+                >
                   <img
                     key={index}
                     className="postIMG"
@@ -225,6 +233,23 @@ function PostCard({ post }) {
           </div>
         </div>
       </div>
+
+      {expandIMG && (
+        <div
+          className="expandIMGFixedDiv"
+          onClick={(e) => {
+            e.stopPropagation();
+            setExpandIMG(null);
+          }}
+        >
+          <img
+            key={expandIMG}
+            className="expandedIMG"
+            src={`http://localhost:5555/IMGS-API/${expandIMG}`}
+            alt=""
+          />
+        </div>
+      )}
 
       {makeAComment && (
         <MakeAComment postToCommentOn={post} closeModal={setMakeAComment} />
