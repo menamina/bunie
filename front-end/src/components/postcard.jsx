@@ -8,6 +8,7 @@ import MakeAPost from "./makeAPost";
 import TempIcon from "../imgs/cafe.jpeg";
 import EmptyHeart from "../imgs/emptyHeart.png";
 import FilledHeart from "../imgs/filledHeart.png";
+import CommentBubble from "../imgs/comment.png";
 
 import "../css/postComment.css";
 
@@ -21,6 +22,8 @@ function PostCard({ post }) {
 
   const [editPostClicked, setEditPostClicked] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
+
+  const [likeStatus, updateLikeStatus] = useState({});
 
   const [expandIMG, setExpandIMG] = useState(null);
 
@@ -222,12 +225,13 @@ function PostCard({ post }) {
             >
               <img
                 src={
-                  post.likes.filter((liker) => liker.userWhoLiked === user.id)
+                  post.likes?.some((liker) => liker.userWhoLiked === user.id)
                     ? FilledHeart
                     : EmptyHeart
                 }
+                className="engagementIMGS"
               ></img>
-              <div>{post.likes.length}</div>
+              <div>{post.likes?.length}</div>
             </div>
             <div
               onClick={(e) => {
@@ -235,8 +239,8 @@ function PostCard({ post }) {
                 setMakeAComment(true);
               }}
             >
-              <img></img>
-              <div>{post.comments.length}</div>
+              <img src={CommentBubble} className="engagementIMGS"></img>
+              <div>{post.comments?.length}</div>
             </div>
           </div>
         </div>
