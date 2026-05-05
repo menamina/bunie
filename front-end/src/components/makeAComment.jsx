@@ -87,7 +87,6 @@ function MakeAComment({
       className="makeACommentModal"
       onClick={(e) => {
         e.stopPropagation();
-        closeModal(false);
       }}
     >
       {fetchErr?.serverError && (

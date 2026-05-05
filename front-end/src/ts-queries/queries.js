@@ -352,10 +352,10 @@ async function updatePost(postData, postID) {
 
 async function makeComment(commentData) {
   const res = await fetch(`http://localhost:5555/make-comment-API`, {
-    method: "GET",
+    method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ commentData }),
+    body: JSON.stringify(commentData.body),
   });
 
   if (!res.ok) {
