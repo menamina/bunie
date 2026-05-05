@@ -47,29 +47,6 @@ function Profile() {
     );
   }
 
-  if (error) {
-    return (
-      <div>
-        {error?.notAuth && (
-          <div className="errorModal">
-            <div>Sorry, you must be logged in to view {username}'s profile</div>
-            <Link to="/">login or sign up here</Link>
-          </div>
-        )}
-        {error?.noUserFound && (
-          <div className="errorModal">
-            Error loading profile: {error.noUserFound}
-          </div>
-        )}
-        {error?.serverError && (
-          <div className="errorModal">
-            Error loading profile: {error.serverError}
-          </div>
-        )}
-      </div>
-    );
-  }
-
   function follow(idToFollow) {
     toggleFollow(idToFollow);
   }
@@ -81,29 +58,29 @@ function Profile() {
   return (
     <div className="profileDIV">
       {isPending && (
-        <div className="pendingDiv">
+        <div className="pendingLoadingDiv">
           <div>loading</div>
         </div>
       )}
 
       {error?.notAuth && (
-        <div className="errorModal">
+        <div className="pendingLoadingDiv">
           <div>Sorry, you must be logged in to view {username}'s profile</div>
           <Link to="/">login or sign up here</Link>
         </div>
       )}
       {error?.noUserFound && (
-        <div className="errorModal">
+        <div className="pendingLoadingDiv">
           Error loading profile: {error.noUserFound}
         </div>
       )}
       {error?.serverError && (
-        <div className="errorModal">
+        <div className="pendingLoadingDiv">
           Error loading profile: {error.serverError}
         </div>
       )}
 
-      {!isPending && (
+      {!isPending && !error && (
         <>
           <div className="headerDIV">
             <img
