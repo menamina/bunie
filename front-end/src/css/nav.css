@@ -65,7 +65,6 @@
 .make.edit.post,
 .makeACommentModal,
 .addToInventoryModal,
-.errorModal,
 .delete.account.modal,
 .confirmDeletePostModal,
 .deleteModalFixed,
@@ -98,13 +97,6 @@
   padding: 10px;
   overflow-y: auto;
   box-shadow: 0px 0px 30px 0px rgba(34, 20, 20, 0.709);
-}
-
-/*  when on larger devices switch like computer make it a legit modal + smooof edges */
-.errorModal {
-  z-index: 3;
-  backdrop-filter: blur(0.5px);
-  font-size: 2rem;
 }
 
 .confirmDeletePostModal {

@@ -47,14 +47,6 @@ function Profile() {
     );
   }
 
-  if (isPending) {
-    return (
-      <div>
-        <div>Loading {username}'s profile...</div>
-      </div>
-    );
-  }
-
   if (error) {
     return (
       <div>
@@ -88,161 +80,199 @@ function Profile() {
 
   return (
     <div className="profileDIV">
-      <div className="headerDIV">
-        <img
-          className="headerIMG"
-          src={TempHeader}
-          // src={userProfile?.profile?.header || TempHeader}
-          alt={`header for ${userProfile?.username}`}
-        />
-      </div>
+      {isPending && (
+        <div className="pendingDiv">
+          <div>loading</div>
+        </div>
+      )}
 
-      <div className="z-index user content">
-        <div className="userINFO">
-          <div>
-            {/* <img
+      {error?.notAuth && (
+        <div className="errorModal">
+          <div>Sorry, you must be logged in to view {username}'s profile</div>
+          <Link to="/">login or sign up here</Link>
+        </div>
+      )}
+      {error?.noUserFound && (
+        <div className="errorModal">
+          Error loading profile: {error.noUserFound}
+        </div>
+      )}
+      {error?.serverError && (
+        <div className="errorModal">
+          Error loading profile: {error.serverError}
+        </div>
+      )}
+
+      {!isPending && (
+        <>
+          <div className="headerDIV">
+            <img
+              className="headerIMG"
+              src={TempHeader}
+              // src={userProfile?.profile?.header || TempHeader}
+              alt={`header for ${userProfile?.username}`}
+            />
+          </div>
+
+          <div className="z-index user content">
+            <div className="userINFO">
+              <div>
+                {/* <img
               src={userProfile?.profile?.pfp || TempIcon}
               alt={`pfp for ${userProfile?.username}`}
             ></img> */}
-            <img src={TempIcon} alt={`pfp for ${userProfile?.username}`}></img>
-          </div>
-          <div className="userContent">
-            <div className="username follow-info">
-              <div className="username-name">
-                <div>{userProfile?.name}</div>
-                <div>@{userProfile?.username}</div>
+                <img
+                  src={TempIcon}
+                  alt={`pfp for ${userProfile?.username}`}
+                ></img>
               </div>
-              <div>
-                <div>{userProfile?.profile?.bio}</div>
-              </div>
-              <div>
-                <div className="following" onClick={() => setView("following")}>
-                  {userProfile?.following?.length || 0} following
+              <div className="userContent">
+                <div className="username follow-info">
+                  <div className="username-name">
+                    <div>{userProfile?.name}</div>
+                    <div>@{userProfile?.username}</div>
+                  </div>
+                  <div>
+                    <div>{userProfile?.profile?.bio}</div>
+                  </div>
+                  <div>
+                    <div
+                      className="following"
+                      onClick={() => setView("following")}
+                    >
+                      {userProfile?.following?.length || 0} following
+                    </div>
+                    <div
+                      className="followers"
+                      onClick={() => setView("followers")}
+                    >
+                      {userProfile?.followers?.length || 0} followers
+                    </div>
+                  </div>
                 </div>
-                <div className="followers" onClick={() => setView("followers")}>
-                  {userProfile?.followers?.length || 0} followers
+
+                <div className="editAcc togglefollow">
+                  {/* follow / unfollow */}
+                  {user?.username === username && (
+                    <button
+                      type="button"
+                      className="goToSettings"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        nav("/settings");
+                      }}
+                    >
+                      Edit Profile
+                    </button>
+                  )}
+                  {user.username !== username &&
+                    (userProfile?.followers?.some(
+                      (f) => f.follower === user.id,
+                    ) ? (
+                      <button
+                        type="button"
+                        className="followBTN unfollow"
+                        onClick={() => unfollow(userProfile.id)}
+                      >
+                        Following
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="followBTN follow"
+                        onClick={() => follow(userProfile.id)}
+                      >
+                        Follow
+                      </button>
+                    ))}
                 </div>
               </div>
             </div>
 
-            <div className="editAcc togglefollow">
-              {/* follow / unfollow */}
-              {user?.username === username && (
-                <button
-                  type="button"
-                  className="goToSettings"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    nav("/settings");
-                  }}
-                >
-                  Edit Profile
-                </button>
-              )}
-              {user.username !== username &&
-                (userProfile?.followers?.some((f) => f.follower === user.id) ? (
-                  <button
-                    type="button"
-                    className="followBTN unfollow"
-                    onClick={() => unfollow(userProfile.id)}
-                  >
-                    Following
-                  </button>
-                ) : (
-                  <button
-                    type="button"
-                    className="followBTN follow"
-                    onClick={() => follow(userProfile.id)}
-                  >
-                    Follow
-                  </button>
-                ))}
+            <div className="opts-rendering mobile">
+              <div onClick={() => setView("overview")}>Overview</div>
+              <div onClick={() => setView("inventory")}>Inventory</div>
+            </div>
+
+            {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
+            <div className="opts-rendering desktop">
+              <div
+                className={view === "overview" && "selectedViewUnderLine"}
+                onClick={() => setView("overview")}
+              >
+                Overview
+              </div>
+              <div
+                className={view === "inventory" && "selectedViewUnderLine"}
+                onClick={() => setView("inventory")}
+              >
+                Inventory
+              </div>
+              <div
+                className={view === "inprogress" && "selectedViewUnderLine"}
+                onClick={() => setView("inprogress")}
+              >
+                In Progress
+              </div>
+              <div
+                className={view === "limbo" && "selectedViewUnderLine"}
+                onClick={() => setView("limbo")}
+              >
+                Limbo
+              </div>
+              <div
+                className={view === "decluttered" && "selectedViewUnderLine"}
+                onClick={() => setView("decluttered")}
+              >
+                Decluttered
+              </div>
+              <div
+                className={view === "finished" && "selectedViewUnderLine"}
+                onClick={() => setView("finished")}
+              >
+                Finished
+              </div>
+              <div
+                className={view === "likes" && "selectedViewUnderLine"}
+                onClick={() => setView("likes")}
+              >
+                Likes
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="opts-rendering mobile">
-          <div onClick={() => setView("overview")}>Overview</div>
-          <div onClick={() => setView("inventory")}>Inventory</div>
-        </div>
-
-        {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
-        <div className="opts-rendering desktop">
           <div
-            className={view === "overview" && "selectedViewUnderLine"}
-            onClick={() => setView("overview")}
+            className={
+              view === "overview" || view === "likes"
+                ? "renderViewHere-flex"
+                : "renderViewHere-grid"
+            }
           >
-            Overview
+            {view === "overview" && <Overview whoseProfile={username} />}
+            {view === "inventory" && (
+              <SelectedView view="inventory" whoseProfile={username} />
+            )}
+            {view === "inprogress" && (
+              <SelectedView view="inprogress" whoseProfile={username} />
+            )}
+            {view === "limbo" && (
+              <SelectedView view="limbo" whoseProfile={username} />
+            )}
+            {view === "decluttered" && (
+              <SelectedView view="decluttered" whoseProfile={username} />
+            )}
+            {view === "finished" && (
+              <SelectedView view="finished" whoseProfile={username} />
+            )}
+            {view === "likes" && <Likes whoseProfile={username} />}
+            {view === "followers" && (
+              <Follow whoseProfile={username} view="followers" />
+            )}
+            {view === "following" && (
+              <Follow whoseProfile={username} view="following" />
+            )}
           </div>
-          <div
-            className={view === "inventory" && "selectedViewUnderLine"}
-            onClick={() => setView("inventory")}
-          >
-            Inventory
-          </div>
-          <div
-            className={view === "inprogress" && "selectedViewUnderLine"}
-            onClick={() => setView("inprogress")}
-          >
-            In Progress
-          </div>
-          <div
-            className={view === "limbo" && "selectedViewUnderLine"}
-            onClick={() => setView("limbo")}
-          >
-            Limbo
-          </div>
-          <div
-            className={view === "decluttered" && "selectedViewUnderLine"}
-            onClick={() => setView("decluttered")}
-          >
-            Decluttered
-          </div>
-          <div
-            className={view === "finished" && "selectedViewUnderLine"}
-            onClick={() => setView("finished")}
-          >
-            Finished
-          </div>
-          <div
-            className={view === "likes" && "selectedViewUnderLine"}
-            onClick={() => setView("likes")}
-          >
-            Likes
-          </div>
-        </div>
-      </div>
-      <div
-        className={
-          view === "overview" || view === "likes"
-            ? "renderViewHere-flex"
-            : "renderViewHere-grid"
-        }
-      >
-        {view === "overview" && <Overview whoseProfile={username} />}
-        {view === "inventory" && (
-          <SelectedView view="inventory" whoseProfile={username} />
-        )}
-        {view === "inprogress" && (
-          <SelectedView view="inprogress" whoseProfile={username} />
-        )}
-        {view === "limbo" && (
-          <SelectedView view="limbo" whoseProfile={username} />
-        )}
-        {view === "decluttered" && (
-          <SelectedView view="decluttered" whoseProfile={username} />
-        )}
-        {view === "finished" && (
-          <SelectedView view="finished" whoseProfile={username} />
-        )}
-        {view === "likes" && <Likes whoseProfile={username} />}
-        {view === "followers" && (
-          <Follow whoseProfile={username} view="followers" />
-        )}
-        {view === "following" && (
-          <Follow whoseProfile={username} view="following" />
-        )}
-      </div>
+        </>
+      )}
     </div>
   );
 }

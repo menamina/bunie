@@ -4,7 +4,7 @@ import { getPostOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
-function PostOpen() {
+function PostOpen({ post }) {
   const { id } = useParams();
 
   const {
@@ -22,13 +22,13 @@ function PostOpen() {
       {openedPost && (
         <div>
           <div className="post">
-            <PostCard post={openedPost.post} />
+            <PostCard post={openedPost?.post} />
           </div>
           <div className="commentsUnderPost">
-            {openedPost.post.comments.length > 0 && (
+            {openedPost?.comments?.length > 0 && (
               <div className="commentHolder">
-                {openedPost.post.comments.map((comment) => (
-                  <div className="commentLoaded" key={comment.commentedBy.id}>
+                {openedPost?.comments?.map((comment) => (
+                  <div className="commentLoaded" key={comment?.commenter?.id}>
                     <CommentCard comment={comment} />
                   </div>
                 ))}

@@ -432,7 +432,7 @@ async function getUserInProgress(req, res) {
     if (!thisUsersInProgress) {
       return res.status(204).json({ noInProgress: true });
     }
-    return res.status(200).json({ thisUsersInProgress });
+    return res.status(200).json(thisUsersInProgress);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -459,7 +459,7 @@ async function getUserLimbo(req, res) {
     if (!thisUsersLimbo) {
       return res.status(204).json({ noLimbo: true });
     }
-    return res.status(200).json({ thisUsersLimbo });
+    return res.status(200).json(thisUsersLimbo);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -486,7 +486,7 @@ async function getUserDecluttered(req, res) {
     if (!thisUsersDecluttered) {
       return res.status(204).json({ noDecluttered: true });
     }
-    return res.status(200).json({ thisUsersDecluttered });
+    return res.status(200).json(thisUsersDecluttered);
   } catch (error) {
     console.log(error);
     return res.status(500).json({ errMsg: "server error" });

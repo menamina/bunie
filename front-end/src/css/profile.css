@@ -89,6 +89,16 @@
   border-bottom: 2px solid orange;
 }
 
+/* pending + errors */
+
+.pendingDiv {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 750px) {
   .nav-DIV {
     width: 100vw;
