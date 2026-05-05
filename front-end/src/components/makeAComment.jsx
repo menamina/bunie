@@ -154,15 +154,15 @@ function MakeAComment({
               className="pfpIMG"
             />
           </div>
-          <div>
-            <textarea
-              placeholder="post your reply"
-              value={commentData.body}
-              onChange={(e) =>
-                setCommentData((prev) => ({ ...prev, body: e.target.value }))
-              }
-            />
-          </div>
+
+          <textarea
+            placeholder="post your reply"
+            value={commentData.body}
+            onChange={(e) =>
+              setCommentData((prev) => ({ ...prev, body: e.target.value }))
+            }
+            className="textAreaComment"
+          />
         </div>
         {edit && !postObj && (
           <div className="commentBtns">

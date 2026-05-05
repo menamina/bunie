@@ -39,8 +39,6 @@ function PostCard({ post }) {
     nav(`/${post?.madeBy?.username}`);
   }
 
-  console.log(post);
-
   function openPostSettings(e) {
     e.stopPropagation();
     if (postDotsClicked) {
