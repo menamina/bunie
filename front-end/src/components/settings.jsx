@@ -87,7 +87,6 @@ function Settings() {
   } = useMutation({
     ...updateUData(),
     onSuccess: () => {
-      console.log("updated user profile static ish");
       resetData();
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       setUpdateData({
@@ -370,7 +369,6 @@ function Settings() {
                     className="settingsButtons"
                     onClick={() => {
                       updateUserData(updateData);
-                      console.log("i was clicked");
                     }}
                   >
                     update

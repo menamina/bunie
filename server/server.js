@@ -48,10 +48,9 @@ server.use("/uploads", express.static("uploads"));
 
 function ifError(error) {
   if (error) {
-    console.log("big server whomp :(");
-    console.error(error);
+    console.error("Server failed to start:", error);
     return;
   }
-  console.log("no server whomp!");
+  console.log(`Server running on port ${port}`);
 }
 server.listen(port, ifError);
