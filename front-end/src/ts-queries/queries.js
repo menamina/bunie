@@ -407,7 +407,7 @@ async function makePost(postData) {
 
 async function getPost(postID) {
   const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
-    method: "POST",
+    method: "GET",
     credentials: "include",
   });
 

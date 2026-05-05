@@ -5,7 +5,7 @@ import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
 function PostOpen() {
-  const { id } = useParams;
+  const { id } = useParams();
 
   const {
     data: openedPost,

@@ -651,7 +651,7 @@ async function getPost(req, res) {
         },
         comments: {
           include: {
-            commentedBy: {
+            commenter: {
               select: {
                 id: true,
                 name: true,
