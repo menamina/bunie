@@ -64,6 +64,9 @@ function PostCard({ post }) {
     ...togglePostLikeOpt(post.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post", post.id] });
+      queryClient.invalidateQueries({
+        queryKey: ["profilePosts", post.madeBy?.username],
+      });
     },
   });
 
