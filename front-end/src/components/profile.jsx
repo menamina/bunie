@@ -71,12 +71,12 @@ function Profile() {
       )}
       {error?.noUserFound && (
         <div className="pendingLoadingDiv">
-          Error loading profile: {error.noUserFound}
+          Error loading profile: {error.noUserFound} &#9785;
         </div>
       )}
       {error?.serverError && (
         <div className="pendingLoadingDiv">
-          Error loading profile: {error.serverError}
+          Error loading profile: {error.serverError} &#9785;
         </div>
       )}
 
