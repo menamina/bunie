@@ -6,7 +6,6 @@ import {
   getPostOpt,
 } from "../ts-queries/queries";
 import PostCard from "./postcard";
-import { useOutletContext } from "react-router-dom";
 import "../css/comment.css";
 import TempIcon from "../imgs/cafe.jpeg";
 
@@ -30,7 +29,6 @@ function MakeAComment({
 
   const postID = postObj ? postObj?.id : comment?.idOfPost;
 
-  const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
   const {
@@ -138,7 +136,7 @@ function MakeAComment({
         <div className="comment">
           {!edit && <PostCard post={postObj} />}
           {edit && <PostCard post={fetchedPost} />}
-          {edit && isLoading(<div>Loading..</div>)}
+          {edit && isLoading && <div>Loading..</div>}
         </div>
         <div className="yourReply">
           <div>
@@ -193,7 +191,7 @@ function MakeAComment({
               </div>
             )}
 
-            {!addPending && (
+            {!addPending && commentData.body && (
               <div>
                 <button
                   type="button"
@@ -203,6 +201,21 @@ function MakeAComment({
                   cancel
                 </button>
                 <button type="submit" className="can click">
+                  post
+                </button>
+              </div>
+            )}
+
+                        {!addPending && !commentData.body && (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeModal(false)}
+                >
+                  cancel
+                </button>
+                <button type="button" className="can click">
                   post
                 </button>
               </div>

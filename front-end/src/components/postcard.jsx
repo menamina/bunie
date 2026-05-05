@@ -67,6 +67,8 @@ function PostCard({ post }) {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", post.madeBy?.username],
       });
+      queryClient.invalidateQueries({ queryKey: ["feed"] });
+      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
     },
   });
 
@@ -80,10 +82,10 @@ function PostCard({ post }) {
         className="postDIV"
         id={post.id}
         key={post.id}
-        // onClick={(e) => {
-        //   e.stopPropagation();
-        //   nav(`/post/${post.id}`);
-        // }}
+        onClick={(e) => {
+          e.stopPropagation();
+          nav(`/post/${post.id}`);
+        }}
       >
         <div onClick={navToProfile}>
           {/* <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} /> */}
