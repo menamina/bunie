@@ -355,7 +355,7 @@ async function makeComment(commentData) {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(commentData.body),
+    body: JSON.stringify(commentData),
   });
 
   if (!res.ok) {

@@ -7,10 +7,6 @@
   flex-direction: column;
 }
 
-.comment {
-  cursor: crosshair;
-}
-
 .yourReply,
 .commentBtns {
   display: flex;
