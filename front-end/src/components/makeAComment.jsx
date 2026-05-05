@@ -8,6 +8,7 @@ import {
 import PostCard from "./postcard";
 import { useOutletContext } from "react-router-dom";
 import "../css/comment.css";
+import TempIcon from "../imgs/cafe.jpeg";
 
 function MakeAComment({
   closeModal,
@@ -134,8 +135,12 @@ function MakeAComment({
           </div>
         </div>
       )}
-      <form onSubmit={submit} className="commentForm">
-        <div>
+      <form
+        onSubmit={submit}
+        className="commentForm"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="comment">
           {!edit && <PostCard post={postObj} />}
           {edit && <PostCard post={fetchedPost} />}
           {edit && isLoading(<div>Loading..</div>)}
@@ -143,8 +148,10 @@ function MakeAComment({
         <div className="yourReply">
           <div>
             <img
-              src={`http://localhost:5555/IMGS-API/${user.pfp}`}
+              // src={`http://localhost:5555/IMGS-API/${user.pfp}`}
+              src={TempIcon}
               alt="your profile image"
+              className="pfpIMG"
             />
           </div>
           <div>
@@ -158,7 +165,7 @@ function MakeAComment({
           </div>
         </div>
         {edit && !postObj && (
-          <div>
+          <div className="commentBtns">
             {updatePend && (
               <div>
                 <div className="cannot click">update</div>
@@ -179,19 +186,27 @@ function MakeAComment({
           </div>
         )}
         {!edit && postObj && (
-          <div>
+          <div className="commentBtns">
             {addPending && (
               <div>
-                <div className="cannot click">post</div>
-                <div className="cannot click">cancel</div>
+                <button type="button" className="cannot click">
+                  post
+                </button>
+                <button type="button" className="cannot click">
+                  cancel
+                </button>
               </div>
             )}
 
             {!addPending && (
               <div>
-                <div className="can click" onClick={() => closeModal(false)}>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={() => closeModal(false)}
+                >
                   cancel
-                </div>
+                </button>
                 <button type="submit" className="can click">
                   post
                 </button>

@@ -3,4 +3,34 @@
   background-color: white;
   padding: 20px;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.comment {
+  cursor: crosshair;
+}
+
+.yourReply,
+.commentBtns {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+}
+
+.commentBtns {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.commentBtns > div {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.pfpIMG {
+  width: 100px;
+  object-fit: contain;
 }
