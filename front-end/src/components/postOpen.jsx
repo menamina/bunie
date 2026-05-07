@@ -4,7 +4,7 @@ import { getPostOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
-function PostOpen({ post }) {
+function PostOpen() {
   const { id } = useParams();
 
   const {
@@ -18,11 +18,11 @@ function PostOpen({ post }) {
   return (
     <div className="postOpenDIV">
       {isPending && <div>Loading</div>}
-      {openPostErr && <div>{openPostErr}</div>}
+      {openPostErr && <div>{openPostErr.error}</div>}
       {openedPost && (
         <div>
           <div className="post">
-            <PostCard post={openedPost?.post} />
+            <PostCard post={openedPost} />
           </div>
           <div className="commentsUnderPost">
             {openedPost?.comments?.length > 0 && (

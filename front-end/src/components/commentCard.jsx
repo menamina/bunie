@@ -6,7 +6,7 @@ import MakeAComment from "./makeAComment";
 
 function CommentCard({ comment }) {
   const { user } = useOutletContext();
-  const isThisMyComment = comment.commentedBy.username === user.username;
+  const isThisMyComment = comment?.commentedBy?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(null);
 
@@ -18,7 +18,7 @@ function CommentCard({ comment }) {
 
   function navToProfile(e) {
     e.stopPropagation();
-    nav(`/${comment.commentedBy.username}`);
+    nav(`/${comment?.commentedBy?.username}`);
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -48,8 +48,8 @@ function CommentCard({ comment }) {
       <div>
         <div>
           <div>
-            <div>{comment.commentedBy.name}</div>
-            <div>@{comment.commentedBy.username}</div>
+            <div>{comment?.commentedBy?.name}</div>
+            <div>@{comment?.commentedBy?.username}</div>
           </div>
 
           {isThisMyComment && (

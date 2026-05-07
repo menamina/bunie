@@ -647,6 +647,13 @@ async function getPost(req, res) {
             id: true,
             name: true,
             username: true,
+            profile: {
+              select: {
+                pfp: true,
+                header: true,
+                bio: true,
+              },
+            },
           },
         },
         comments: {
@@ -658,6 +665,7 @@ async function getPost(req, res) {
                 username: true,
               },
             },
+            likes: true,
           },
         },
         likes: true,
@@ -665,7 +673,13 @@ async function getPost(req, res) {
     });
 
     if (post) {
-      return res.status(200).json(post);
+      const formattedPost = {
+        ...post,
+        madeBy: post.madeby,
+      };
+      delete formattedPost.madeby;
+
+      return res.status(200).json(formattedPost);
     }
     return res.status(404).json({ message: "no post found" });
   } catch (error) {
