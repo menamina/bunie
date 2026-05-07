@@ -4,6 +4,8 @@ import { getPostOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
+import "../css/postOpen.css";
+
 function PostOpen() {
   const { id } = useParams();
 
@@ -28,7 +30,10 @@ function PostOpen() {
             {openedPost?.comments?.length > 0 && (
               <div className="commentHolder">
                 {openedPost?.comments?.map((comment) => (
-                  <div className="commentLoaded" key={comment?.commenter?.id}>
+                  <div
+                    className="commentLoaded"
+                    key={`${comment?.commenter?.id} comment`}
+                  >
                     <CommentCard comment={comment} />
                   </div>
                 ))}
