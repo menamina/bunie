@@ -5,14 +5,25 @@ import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
 import MakeAComment from "./makeAComment";
 import TempIcon from "../imgs/cafe.jpeg";
 
+import FilledHeart from "../imgs/filledHeart.png";
+import EmptyHeart from "../imgs/emptyHeart.png";
+
+import "../css/comment.css";
+
 function CommentCard({ comment }) {
   const { user } = useOutletContext();
-  const isThisMyComment = comment?.commentedBy?.username === user.username;
+  const isThisMyComment = comment?.commenter?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(null);
 
   const [editComment, setEditComment] = useState(null);
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
+
+  const likeStatus = comment?.likes?.some(
+    (liker) => liker.userWhoLiked === user.id,
+  )
+    ? FilledHeart
+    : EmptyHeart;
 
   const nav = useNavigate();
   const queryClient = useQueryClient();
@@ -30,7 +41,7 @@ function CommentCard({ comment }) {
   });
 
   const { mutate: toggleCommentLike } = useMutation({
-    ...toggleCommentLikeOpt(),
+    ...toggleCommentLikeOpt(comment.id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post", comment.idOfPost] });
     },
@@ -75,7 +86,7 @@ function CommentCard({ comment }) {
                         onClick={(e) => {
                           e.stopPropagation();
                           setDeleteCommentClicked(null);
-                          confirmDelete(comment.id);
+                          confirmDelete();
                         }}
                       >
                         delete
@@ -129,11 +140,11 @@ function CommentCard({ comment }) {
           <div
             onClick={(e) => {
               e.stopPropagation();
-              toggleCommentLike(comment.id);
+              toggleCommentLike();
             }}
           >
-            <img></img>
-            <div>{comment.likes?.length || 0}</div>
+            <img src={likeStatus}></img>
+            <div>{comment?.likes?.length}</div>
           </div>
         </div>
       </div>

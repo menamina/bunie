@@ -435,11 +435,13 @@ async function togglePostLike(postID) {
 }
 
 async function toggleCommentLike(commentID) {
-  const res = await fetch(`http://localhost:5555/like-post/${commentID}`, {
-    method: "GET",
+  const res = await fetch(`http://localhost:5555/like-comment/${commentID}`, {
+    method: "PATCH",
     credentials: "include",
   });
-  return await res.json();
+  const data = await res.json();
+  console.log(data.error);
+  return await data;
 }
 
 async function deletePost(postID) {

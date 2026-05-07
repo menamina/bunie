@@ -32,3 +32,68 @@
   max-width: 100%;
   max-height: 100px;
 }
+
+/* Comment Card Styles */
+.commentCard {
+  display: flex;
+  padding: 10px;
+  border-bottom: 1px solid rgba(139, 139, 139, 0.516);
+  cursor: pointer;
+  gap: 10px;
+}
+
+.commentCard > div:first-child {
+  flex-shrink: 0;
+}
+
+.commentCard > div:first-child img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.commentCard > div:last-child {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  gap: 8px;
+}
+
+.commentCard > div:last-child > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentCard > div:last-child > div:first-child > div:first-child {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.commentCard > div:last-child > div:first-child > div:first-child > div:first-child {
+  font-weight: 600;
+}
+
+.commentCard > div:last-child > div:first-child > div:first-child > div:last-child {
+  color: rgba(90, 90, 90, 0.741);
+}
+
+.commentCard > div:last-child > div:last-child {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.commentCard > div:last-child > div:last-child > div {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.commentCard > div:last-child > div:last-child img {
+  width: 20px;
+  height: 20px;
+}

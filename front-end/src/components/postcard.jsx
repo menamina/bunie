@@ -81,7 +81,7 @@ function PostCard({ post }) {
       <div
         className="postDIV"
         id={post.id}
-        key={post.id}
+        key={`${post.id} postcard`}
         onClick={(e) => {
           e.stopPropagation();
           nav(`/post/${post.id}`);

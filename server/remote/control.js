@@ -882,6 +882,8 @@ async function toggleCommentLike(req, res) {
     const userID = Number(id);
     const commentIDNum = Number(commentID);
 
+    console.log(commentID, userID);
+
     const existingLike = await prisma.commentLikes.findUnique({
       where: {
         idOfComment_userWhoLiked: {
