@@ -3,6 +3,7 @@ import { useNavigate, useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
 import MakeAComment from "./makeAComment";
+import TempIcon from "../imgs/cafe.jpeg";
 
 function CommentCard({ comment }) {
   const { user } = useOutletContext();
@@ -18,7 +19,7 @@ function CommentCard({ comment }) {
 
   function navToProfile(e) {
     e.stopPropagation();
-    nav(`/${comment?.commentedBy?.username}`);
+    nav(`/${comment?.commenter?.username}`);
   }
 
   const { mutate: confirmDelete } = useMutation({
@@ -31,7 +32,7 @@ function CommentCard({ comment }) {
   const { mutate: toggleCommentLike } = useMutation({
     ...toggleCommentLikeOpt(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post"] });
+      queryClient.invalidateQueries({ queryKey: ["post", comment.idOfPost] });
     },
   });
 
@@ -43,13 +44,13 @@ function CommentCard({ comment }) {
   return (
     <div className="commentCard">
       <div onClick={navToProfile}>
-        <img />
+        <img src={TempIcon} />
       </div>
       <div>
         <div>
           <div>
-            <div>{comment?.commentedBy?.name}</div>
-            <div>@{comment?.commentedBy?.username}</div>
+            <div>{comment?.commenter?.name}</div>
+            <div>@{comment?.commenter?.username}</div>
           </div>
 
           {isThisMyComment && (
