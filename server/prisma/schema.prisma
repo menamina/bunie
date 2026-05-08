@@ -51,9 +51,9 @@ model Inventory {
   status Status @default(noStatus)
 
   purchaseDate String?
-  rating Int?
+  rating String?
   notes String?
-  wouldBuyAgain RepurchaseChoice @default("na")
+  wouldBuyAgain RepurchaseChoice @default(na)
 
   whoseInventory User @relation(fields: [belongsTo], references: [id], onDelete: Cascade)
 }
@@ -147,4 +147,13 @@ model CommentLikes {
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfComment, userWhoLiked])
+}
+
+model Session {
+  sid    String   @id @db.VarChar
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  @@index([expire], map: "IDX_session_expire")
+  @@map("session")
 }

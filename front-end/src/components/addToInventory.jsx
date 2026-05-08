@@ -34,15 +34,15 @@ function AddToInventory({ closeInventoryModal, product = null }) {
       ? {
           brand: "",
           product: "",
-          category: "",
+          category: "makeup",
           price: "",
           img: [],
-          status: "",
+          status: "noStatus",
           backup: "",
           purchaseDate: "",
-          rating: "",
+          rating: "na",
           notes: "",
-          wouldBuyAgain: "",
+          wouldBuyAgain: "na",
         }
       : {
           brand: product.brand,
@@ -62,26 +62,16 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   function clearInventoryINFO(e) {
     e.stopPropagation();
     closeInventoryModal(false);
-    setInventoryINFO({
-      brand: "",
-      product: "",
-      category: "",
-      price: "",
-      img: "",
-      status: "",
-      backup: "",
-      purchaseDate: "",
-      rating: "",
-      notes: "",
-      wouldBuyAgain: "",
-    });
   }
 
   function submit(e) {
-    e.stopPropogation();
+    e.stopPropagation();
     e.preventDefault();
     console.log(inventoryINFO);
     editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
+    if (errorAddingProduct) {
+      console.log(errorAddingProduct.error);
+    }
   }
 
   return (
