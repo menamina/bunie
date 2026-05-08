@@ -72,7 +72,7 @@ enum Status {
 }
 
 enum RepurchaseChoice {
-  null
+  na
   no
   yes
   maybe

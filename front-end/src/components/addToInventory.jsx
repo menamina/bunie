@@ -286,7 +286,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             }}
             required
           >
-            <option value="null">n/a</option>
+            <option value="na">n/a</option>
             <option value="yes">yes</option>
             <option value="no">no</option>
             <option value="maybe">maybe</option>
@@ -302,7 +302,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             inventoryINFO.category &&
             inventoryINFO.price &&
             inventoryINFO.img &&
-            inventoryINFO.label &&
+            inventoryINFO.status &&
             inventoryINFO.rating &&
             inventoryINFO.wouldBuyAgain && (
               <div>
@@ -315,30 +315,6 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 </button>
                 <button type="submit" className="can click">
                   update
-                </button>
-              </div>
-            )}
-          {editMode &&
-            !pendingProductAdd &&
-            (inventoryINFO.brand ||
-              inventoryINFO.product ||
-              inventoryINFO.category ||
-              inventoryINFO.price ||
-              inventoryINFO.img ||
-              inventoryINFO.label ||
-              inventoryINFO.rating ||
-              inventoryINFO.wouldBuyAgain ||
-              inventoryINFO.notes) && (
-              <div>
-                <button
-                  type="button"
-                  className="can click"
-                  onClick={clearInventoryINFO}
-                >
-                  cancel
-                </button>
-                <button type="button" className="cannot click">
-                  add
                 </button>
               </div>
             )}
@@ -357,6 +333,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               </button>
             </div>
           )}
+
           {!editMode &&
             !pendingProductAdd &&
             inventoryINFO.brand &&
@@ -364,7 +341,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             inventoryINFO.category &&
             inventoryINFO.price &&
             inventoryINFO.img &&
-            inventoryINFO.label &&
+            inventoryINFO.status &&
             inventoryINFO.rating &&
             inventoryINFO.wouldBuyAgain && (
               <div>
@@ -387,10 +364,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               !inventoryINFO.category ||
               !inventoryINFO.price ||
               !inventoryINFO.img ||
-              !inventoryINFO.label ||
+              !inventoryINFO.status ||
               !inventoryINFO.rating ||
-              !inventoryINFO.wouldBuyAgain ||
-              !inventoryINFO.notes) && (
+              !inventoryINFO.wouldBuyAgain) && (
               <div>
                 <button
                   type="button"
