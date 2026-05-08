@@ -36,7 +36,7 @@ function PostOpen() {
                       className="commentLoaded"
                       key={`${comment?.commenter?.id} comment`}
                     >
-                      <CommentCard comment={comment} />
+                      <CommentCard commentToFetch={comment} />
                     </div>
                   );
                 })}

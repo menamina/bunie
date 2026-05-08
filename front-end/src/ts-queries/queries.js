@@ -222,7 +222,33 @@ export const getMiniProfileOpts = (username, view) => {
   });
 };
 
+export const getCommentOpts = (commentID) => {
+  return queryOptions({
+    queryKey: ["comment", commentID],
+    queryFn: () => getComment(commentID),
+  });
+};
+
 // functions //
+async function getComment(commentID) {
+  const res = await fetch(`http://localhost:5555/${commentID}`, {
+    method: "GET",
+    credentials: "include",
+  });
+
+  if (!res.ok) {
+    const error = new Error();
+    if (res.status === 204) {
+      error.noComment = "No comment found";
+      throw error;
+    } else if (res.status === 500) {
+      error.serverError = "Server error, try again";
+      throw error;
+    }
+  }
+  return res.json();
+}
+
 async function getMiniProfile(username, view) {
   const endPoint =
     view === "following"
@@ -235,7 +261,7 @@ async function getMiniProfile(username, view) {
   });
 
   if (!res.ok) {
-    const error = new Error("error");
+    const error = new Error();
     if (res.status === 204) {
       view === "followers"
         ? (error.noFollowers = "This user has 0 followers")
@@ -440,7 +466,7 @@ async function toggleCommentLike(commentID) {
     credentials: "include",
   });
   const data = await res.json();
-  console.log(data.error);
+  console.log(data);
   return await data;
 }
 

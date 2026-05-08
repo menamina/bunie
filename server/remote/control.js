@@ -720,7 +720,8 @@ async function getComment(req, res) {
     });
 
     if (comment) {
-      return res.status(200).json({ comment });
+      console.log(comment);
+      return res.status(200).json(comment);
     }
     return res.status(204).json({ success: false });
   } catch (error) {
@@ -881,8 +882,6 @@ async function toggleCommentLike(req, res) {
     const { id } = req.user;
     const userID = Number(id);
     const commentIDNum = Number(commentID);
-
-    console.log(commentID, userID);
 
     const existingLike = await prisma.commentLikes.findUnique({
       where: {

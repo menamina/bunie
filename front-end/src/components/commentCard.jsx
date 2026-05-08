@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import {
+  getCommentOpts,
+  deleteCommentOpt,
+  toggleCommentLikeOpt,
+} from "../ts-queries/queries";
+
 import MakeAComment from "./makeAComment";
 import TempIcon from "../imgs/cafe.jpeg";
 
@@ -10,14 +15,19 @@ import EmptyHeart from "../imgs/emptyHeart.png";
 
 import "../css/comment.css";
 
-function CommentCard({ comment }) {
+function CommentCard({ commentToFetch }) {
   const { user } = useOutletContext();
-  const isThisMyComment = comment?.commenter?.username === user.username;
+  console.log(commentToFetch);
+  const isThisMyComment = commentToFetch?.commenter?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(null);
 
   const [editComment, setEditComment] = useState(null);
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
+
+  const { data: comment, error: commentError } = useQuery({
+    ...getCommentOpts(commentToFetch.id),
+  });
 
   const likeStatus = comment?.likes?.some(
     (liker) => liker.userWhoLiked === user.id,
@@ -36,14 +46,24 @@ function CommentCard({ comment }) {
   const { mutate: confirmDelete } = useMutation({
     ...deleteCommentOpt(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", comment.idOfPost] });
+      queryClient.invalidateQueries({
+        queryKey: ["post", commentToFetch.idOfPost],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["comment", commentToFetch.id],
+      });
     },
   });
 
   const { mutate: toggleCommentLike } = useMutation({
     ...toggleCommentLikeOpt(comment.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", comment.idOfPost] });
+      queryClient.invalidateQueries({
+        queryKey: ["post", commentToFetch.idOfPost],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["comment", commentToFetch.id],
+      });
     },
   });
 

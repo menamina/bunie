@@ -130,7 +130,7 @@ router.get("/get-this-post/:id", isAuth, remote.getPost);
 router.get("/get-this-comment/:id", isAuth, remote.getComment);
 
 router.patch("/like-post/:postID", isAuth, remote.togglePostLike);
-router.post("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
+router.patch("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
 
 router.post(
   "/make-post-API",
