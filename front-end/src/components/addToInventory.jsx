@@ -122,19 +122,21 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           />
         </div>
         <div className="category">
-          <label htmlFor="category">Category:</label>
-          <input
+          <label>Category:</label>
+          <select
             name="category"
-            type="text"
             value={inventoryINFO.category}
             onChange={(e) => {
+              e.stopPropagation();
               setInventoryINFO((prev) => ({
                 ...prev,
                 category: e.target.value,
               }));
             }}
-            required
-          />
+          >
+            <option value="makeup">makeup.</option>
+            <option value="skincare">skincare.</option>
+          </select>
         </div>
         <div className="price">
           <label htmlFor="price">Price:</label>
@@ -232,100 +234,26 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           />
         </div>
         <div className="rating">
-          <fieldset>
-            <legend>Current rating:</legend>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="1"
-                checked={inventoryINFO.rating === "1"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-              />
-              <label>1</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="2"
-                checked={inventoryINFO.rating === "2"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-              />
-              <label>2</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="3"
-                checked={inventoryINFO.rating === "3"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-              />
-              <label>3</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="4"
-                checked={inventoryINFO.rating === "4"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-              />
-              <label>4</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="5"
-                checked={inventoryINFO.rating === "5"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-              />
-              <label>5</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="rating"
-                value="n/a"
-                checked={inventoryINFO.rating === "n/a"}
-                onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    rating: e.target.value,
-                  }));
-                }}
-                required
-              />
-              <label>n/a</label>
-            </div>
-          </fieldset>
+          <label>Rating:</label>
+          <select
+            name="rating"
+            type="text"
+            value={inventoryINFO.rating}
+            onChange={(e) => {
+              setInventoryINFO((prev) => ({
+                ...prev,
+                rating: e.target.value,
+              }));
+            }}
+            required
+          >
+            <option value="null">n/a</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>
         <div className="notes">
           <label htmlFor="notes">Notes?</label>

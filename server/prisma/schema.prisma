@@ -60,7 +60,7 @@ model Inventory {
 
 enum Category {
   skincare
-  cosmetics
+  makeup
 }
 
 enum Status {
