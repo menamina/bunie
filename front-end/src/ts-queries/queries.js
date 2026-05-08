@@ -652,7 +652,7 @@ async function addProductToInventory(productToAdd) {
   formData.append("product", productToAdd.product);
   formData.append("category", productToAdd.category);
   formData.append("price", productToAdd.price);
-  if (productToAdd.img && productToAdd.img.length > 0) {
+  if (productToAdd.img.length > 0) {
     formData.append("image", productToAdd.img[0]);
   }
   if (productToAdd.status) {
