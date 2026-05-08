@@ -28,6 +28,8 @@ function SelectedView({ view, whoseProfile }) {
 
   // same for decluttered and finished
 
+  // need to figure why component not in ui
+
   const config = viewSelection[view];
 
   const {
