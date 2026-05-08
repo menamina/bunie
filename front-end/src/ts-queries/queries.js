@@ -231,7 +231,7 @@ export const getCommentOpts = (commentID) => {
 
 // functions //
 async function getComment(commentID) {
-  const res = await fetch(`http://localhost:5555/${commentID}`, {
+  const res = await fetch(`http://localhost:5555/get-this-comment/${commentID}`, {
     method: "GET",
     credentials: "include",
   });
@@ -465,9 +465,7 @@ async function toggleCommentLike(commentID) {
     method: "PATCH",
     credentials: "include",
   });
-  const data = await res.json();
-  console.log(data);
-  return await data;
+  return await res.json();
 }
 
 async function deletePost(postID) {

@@ -693,22 +693,11 @@ async function getComment(req, res) {
     const { id } = req.params;
     const commentID = Number(id);
 
-    const comment = await prisma.posts.findUnique({
+    const comment = await prisma.comments.findUnique({
       where: {
         id: commentID,
       },
       include: {
-        post: {
-          include: {
-            madeby: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-              },
-            },
-          },
-        },
         commenter: {
           select: {
             id: true,
@@ -716,14 +705,14 @@ async function getComment(req, res) {
             username: true,
           },
         },
+        likes: true,
       },
     });
 
     if (comment) {
-      console.log(comment);
       return res.status(200).json(comment);
     }
-    return res.status(204).json({ success: false });
+    return res.status(404).json({ message: "no comment found" });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });

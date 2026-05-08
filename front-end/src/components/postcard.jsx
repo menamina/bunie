@@ -63,7 +63,7 @@ function PostCard({ post }) {
   const { mutate: togglePostLike } = useMutation({
     ...togglePostLikeOpt(post.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
+      console.log("Invalidating:", ["post", post.id], "Type:", typeof post.id);
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", post.madeBy?.username],
       });

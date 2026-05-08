@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
-  getCommentOpts,
   deleteCommentOpt,
   toggleCommentLikeOpt,
 } from "../ts-queries/queries";
@@ -15,19 +14,14 @@ import EmptyHeart from "../imgs/emptyHeart.png";
 
 import "../css/comment.css";
 
-function CommentCard({ commentToFetch }) {
+function CommentCard({ comment }) {
   const { user } = useOutletContext();
-  console.log(commentToFetch);
-  const isThisMyComment = commentToFetch?.commenter?.username === user.username;
+  const isThisMyComment = comment?.commenter?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(null);
 
   const [editComment, setEditComment] = useState(null);
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
-
-  const { data: comment, error: commentError } = useQuery({
-    ...getCommentOpts(commentToFetch.id),
-  });
 
   const likeStatus = comment?.likes?.some(
     (liker) => liker.userWhoLiked === user.id,
@@ -47,10 +41,7 @@ function CommentCard({ commentToFetch }) {
     ...deleteCommentOpt(),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["post", commentToFetch.idOfPost],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["comment", commentToFetch.id],
+        queryKey: ["post", comment.idOfPost],
       });
     },
   });
@@ -59,10 +50,7 @@ function CommentCard({ commentToFetch }) {
     ...toggleCommentLikeOpt(comment.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["post", commentToFetch.idOfPost],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["comment", commentToFetch.id],
+        queryKey: ["post", comment.idOfPost],
       });
     },
   });

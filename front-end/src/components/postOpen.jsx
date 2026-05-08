@@ -8,13 +8,14 @@ import "../css/postOpen.css";
 
 function PostOpen() {
   const { id } = useParams();
+  const postId = Number(id);
 
   const {
     data: openedPost,
     error: openPostErr,
     isPending,
   } = useQuery({
-    ...getPostOpt(id),
+    ...getPostOpt(postId),
   });
 
   return (
@@ -36,7 +37,7 @@ function PostOpen() {
                       className="commentLoaded"
                       key={`${comment?.commenter?.id} comment`}
                     >
-                      <CommentCard commentToFetch={comment} />
+                      <CommentCard comment={comment} />
                     </div>
                   );
                 })}
