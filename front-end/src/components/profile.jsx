@@ -174,43 +174,61 @@ function Profile() {
             {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
             <div className="opts-rendering desktop">
               <div
-                className={view === "overview" && "selectedViewUnderLine"}
+                className={
+                  view === "overview" ? "selectedViewUnderLine" : "notselected"
+                }
                 onClick={() => setView("overview")}
               >
                 Overview
               </div>
               <div
-                className={view === "inventory" && "selectedViewUnderLine"}
+                className={
+                  view === "inventory" ? "selectedViewUnderLine" : "notselected"
+                }
                 onClick={() => setView("inventory")}
               >
                 Inventory
               </div>
               <div
-                className={view === "inprogress" && "selectedViewUnderLine"}
+                className={
+                  view === "inprogress"
+                    ? "selectedViewUnderLine"
+                    : "notselected"
+                }
                 onClick={() => setView("inprogress")}
               >
                 In Progress
               </div>
               <div
-                className={view === "limbo" && "selectedViewUnderLine"}
+                className={
+                  view === "limbo" ? "selectedViewUnderLine" : "notselected"
+                }
                 onClick={() => setView("limbo")}
               >
                 Limbo
               </div>
               <div
-                className={view === "decluttered" && "selectedViewUnderLine"}
+                className={
+                  view === "decluttered"
+                    ? "selectedViewUnderLine"
+                    : "notselected"
+                }
                 onClick={() => setView("decluttered")}
               >
                 Decluttered
               </div>
               <div
-                className={view === "finished" && "selectedViewUnderLine"}
+                className={
+                  view === "finished" ? "selectedViewUnderLine" : "notselected"
+                }
                 onClick={() => setView("finished")}
               >
                 Finished
               </div>
               <div
-                className={view === "likes" && "selectedViewUnderLine"}
+                className={
+                  view === "likes" ? "selectedViewUnderLine" : "notselected"
+                }
                 onClick={() => setView("likes")}
               >
                 Likes
@@ -226,7 +244,7 @@ function Profile() {
           >
             {view === "overview" && <Overview whoseProfile={username} />}
             {view === "inventory" && (
-              <SelectedView view="inventory" whoseProfile={username} />
+              <SelectedView view={"inventory"} whoseProfile={username} />
             )}
             {view === "inprogress" && (
               <SelectedView view="inprogress" whoseProfile={username} />

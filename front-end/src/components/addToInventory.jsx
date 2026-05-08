@@ -76,7 +76,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
 
   return (
     <div className="addToInventoryModal">
-      {errorAddingProduct && <div>{errorAddingProduct}</div>}
+      {errorAddingProduct && <div>{errorAddingProduct?.error}</div>}
       <form
         onClick={(e) => e.stopPropagation()}
         className="addToInvenForm"
