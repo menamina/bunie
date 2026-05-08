@@ -84,7 +84,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   }
 
   return (
-    <div className="addToInventoryModal" onClick={clearInventoryINFO}>
+    <div className="addToInventoryModal">
       {errorAddingProduct && <div>{errorAddingProduct}</div>}
       <form
         onClick={(e) => e.stopPropagation()}
@@ -198,89 +198,24 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           ) : null}
         </div>
         <div className="status">
-          <fieldset>
-            <legend>Status:</legend>
-            <div>
-              <input
-                type="radio"
-                name="status"
-                value="noStatus"
-                checked={inventoryINFO.status === "noStauts"}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    status: e.target.value,
-                  }));
-                }}
-              />
-              <label>none</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="status"
-                value="inProgress"
-                checked={inventoryINFO.status === "inProgress"}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    status: e.target.value,
-                  }));
-                }}
-              />
-              <label>in progress</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="status"
-                value="limbo"
-                checked={inventoryINFO.status === "limbo"}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    status: e.target.value,
-                  }));
-                }}
-              />
-              <label>limbo</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="status"
-                value="decluttered"
-                checked={inventoryINFO.status === "decluttered"}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    status: e.target.value,
-                  }));
-                }}
-              />
-              <label>decluttered</label>
-            </div>
-            <div>
-              <input
-                type="radio"
-                name="status"
-                value="full pan"
-                checked={inventoryINFO.status === "full pan"}
-                onChange={(e) => {
-                  e.stopPropagation();
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    status: e.target.value,
-                  }));
-                }}
-              />
-              <label>full pan</label>
-            </div>
-          </fieldset>
+          <select
+            name="status"
+            type="text"
+            value={inventoryINFO.status}
+            onChange={(e) => {
+              setInventoryINFO((prev) => ({
+                ...prev,
+                status: e.target.value,
+              }));
+            }}
+            required
+          >
+            <option value="noStatus">none</option>
+            <option value="inProgress">in progress</option>
+            <option value="limbo">limbo</option>
+            <option value="decluttered">decluttered</option>
+            <option value="fullpan">full pan</option>
+          </select>
         </div>
         <div className="purchaseDate">
           <label htmlFor="purchaseDate">Purchase Date?</label>
