@@ -200,6 +200,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           ) : null}
         </div>
         <div className="status">
+          <label>Status:</label>
           <select
             name="status"
             type="text"
