@@ -80,6 +80,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   function submit(e) {
     e.stopPropogation();
     e.preventDefault();
+    console.log(inventoryINFO);
     editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
   }
 
@@ -89,7 +90,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
       <form
         onClick={(e) => e.stopPropagation()}
         className="addToInvenForm"
-        onSubmit={submit}
+        onSubmit={(e) => submit(e)}
       >
         <div className="brand">
           <label htmlFor="brand">Brand:</label>
@@ -142,7 +143,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           <label htmlFor="price">Price:</label>
           <input
             name="price"
-            type="text"
+            type="number"
             value={inventoryINFO.price}
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -248,7 +249,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             }}
             required
           >
-            <option value="null">n/a</option>
+            <option value="na">n/a</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -301,7 +302,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             inventoryINFO.product &&
             inventoryINFO.category &&
             inventoryINFO.price &&
-            inventoryINFO.img &&
+            inventoryINFO.img.length > 0 &&
             inventoryINFO.status &&
             inventoryINFO.rating &&
             inventoryINFO.wouldBuyAgain && (
@@ -340,7 +341,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
             inventoryINFO.product &&
             inventoryINFO.category &&
             inventoryINFO.price &&
-            inventoryINFO.img &&
+            inventoryINFO.img.length > 0 &&
             inventoryINFO.status &&
             inventoryINFO.rating &&
             inventoryINFO.wouldBuyAgain && (
@@ -363,7 +364,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               !inventoryINFO.product ||
               !inventoryINFO.category ||
               !inventoryINFO.price ||
-              !inventoryINFO.img ||
+              !inventoryINFO.img.length > 0 ||
               !inventoryINFO.status ||
               !inventoryINFO.rating ||
               !inventoryINFO.wouldBuyAgain) && (
