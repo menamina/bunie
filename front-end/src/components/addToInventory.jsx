@@ -4,7 +4,7 @@ import { addProductMutOpts, updateProductMut } from "../ts-queries/queries";
 
 import UploadIMG from "../imgs/uploadPic.svg";
 
-function AddToInventory({ closeInventoryModal, product = null }) {
+function AddToInventory({ closeInventoryModal, product = null, user }) {
   const editMode = product ? true : false;
   const queryClient = useQueryClient();
 
@@ -18,6 +18,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
     onSuccess: () => {
       clearInventoryINFO();
       resetAddProduct();
+      queryClient.invalidateQueries({
+        queryKey: ["view-status", user.username],
+      });
     },
   });
 
@@ -65,13 +68,12 @@ function AddToInventory({ closeInventoryModal, product = null }) {
   }
 
   function submit(e) {
-    e.stopPropagation();
     e.preventDefault();
-    console.log(inventoryINFO);
     editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
     if (errorAddingProduct) {
       console.log(errorAddingProduct.error);
     }
+    closeInventoryModal(false);
   }
 
   return (

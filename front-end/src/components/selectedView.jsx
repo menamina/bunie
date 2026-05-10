@@ -97,7 +97,7 @@ function SelectedView({ view, whoseProfile }) {
                       </div>
                       {openProductDots === product?.id && (
                         <div onClick={cancelProductOptions}>
-                          <div>
+                          <div className="editdlt">
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
@@ -186,6 +186,7 @@ function SelectedView({ view, whoseProfile }) {
                     <AddToInventory
                       closeInventoryModal={cancelProductOptions}
                       product={product}
+                      user={user}
                     />
                   )}
               </Fragment>
