@@ -67,16 +67,20 @@ function SelectedView({ view, whoseProfile }) {
 
   return (
     <div className="productViewDIV">
-      {viewingProdsPending && <div>Loading...</div>}
-      {viewProdsError && <div>Error: {viewProdsError?.message}</div>}
-      {products?.inventory.length === 0 && <div>Nothing to see here</div>}
-      {products?.inventory.length > 0 && (
+      {viewingProdsPending && <div className="centerError">Loading...</div>}
+      {viewProdsError && (
+        <div className="centerError">Error: {viewProdsError?.message}</div>
+      )}
+
+      {products?.inventory && (
         <div>
           <div className="view and item count">
             <h2>{config.status}</h2>
-            {products?.inventory.length === 1 ? (
-              <div>1 item</div>
-            ) : (
+            {products?.inventory.length === 0 && (
+              <div className="centerError">Nothing to see here</div>
+            )}
+            {products?.inventory.length === 1 && <div>1 item</div>}
+            {products?.inventory.length > 1 && (
               <div>{products?.inventory.length} items</div>
             )}
           </div>

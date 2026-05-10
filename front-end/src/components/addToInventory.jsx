@@ -49,7 +49,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
           product: product.product,
           category: product.category,
           price: product.price,
-          img: product.img,
+          img: product.img ? [product.img] : [],
           status: product.status,
           backup: product.backup || "",
           purchaseDate: product.purchaseDate || "",
@@ -159,7 +159,11 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 X
               </button>
               <img
-                src={URL.createObjectURL(inventoryINFO.img)}
+                src={
+                  typeof inventoryINFO.img[0] === "string"
+                    ? `http://localhost:5555/IMGS-API/${inventoryINFO.img[0]}`
+                    : URL.createObjectURL(inventoryINFO.img[0])
+                }
                 alt="preview"
                 className="preview"
               />
@@ -179,7 +183,11 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                   X
                 </button>
                 <img
-                  src={URL.createObjectURL(img)}
+                  src={
+                    typeof img === "string"
+                      ? `http://localhost:5555/IMGS-API/${img}`
+                      : URL.createObjectURL(img)
+                  }
                   alt="preview"
                   className="preview"
                 />

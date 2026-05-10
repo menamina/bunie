@@ -29,4 +29,9 @@
 
 .dltDots {
   text-align: right;
+  cursor: pointer;
+}
+
+.centerError {
+  text-align: center;
 }
