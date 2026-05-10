@@ -24,9 +24,13 @@ function Overview({ whoseProfile }) {
   if (error) {
     return (
       <div className="userPostsDIV">
-        {error?.notAuth && <div>{error.notAuth}</div>}
-        {error?.serverError && <div>{error.serverError}</div>}
-        {error?.zeroposts && <div>Nothing to see here</div>}
+        {error?.notAuth && <div className="centerError">{error.notAuth}</div>}
+        {error?.serverError && (
+          <div className="centerError">{error.serverError}</div>
+        )}
+        {error?.zeroposts && (
+          <div className="centerError">Nothing to see here</div>
+        )}
       </div>
     );
   }

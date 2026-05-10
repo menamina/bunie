@@ -363,7 +363,7 @@ async function getUserPosts(req, res) {
     });
 
     if (!user || user.posts.length === 0) {
-      return res.status(204).json({ noPosts: true });
+      return res.status(404).json({ zeroposts: "Nothing to see here" });
     }
 
     const feed = user.posts.map((post) => ({

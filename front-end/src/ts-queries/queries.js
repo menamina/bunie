@@ -231,10 +231,13 @@ export const getCommentOpts = (commentID) => {
 
 // functions //
 async function getComment(commentID) {
-  const res = await fetch(`http://localhost:5555/get-this-comment/${commentID}`, {
-    method: "GET",
-    credentials: "include",
-  });
+  const res = await fetch(
+    `http://localhost:5555/get-this-comment/${commentID}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
   if (!res.ok) {
     const error = new Error();
@@ -800,7 +803,7 @@ async function getUserPosts(username, authUsername) {
   if (!res.ok) {
     const error = new Error("error");
 
-    if (res.status === 204) {
+    if (res.status === 404) {
       error.zeroposts = "Nothing to see here";
       throw error;
     } else if (res.status === 500) {
