@@ -7,6 +7,8 @@ import { useOutletContext } from "react-router-dom";
 import { useState, Fragment } from "react";
 import AddToInventory from "./addToInventory";
 
+import "../css/selectedView.css";
+
 function SelectedView({ view, whoseProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
@@ -23,12 +25,6 @@ function SelectedView({ view, whoseProfile }) {
     decluttered: { status: "Decluttered", endpoint: "decluttered" },
     finished: { status: "Finished", endpoint: "finished" },
   };
-
-  // if in inventory filter entire enventory by year, category etc etc
-
-  // same for decluttered and finished
-
-  // need to figure why component not in ui
 
   const config = viewSelection[view];
 
@@ -83,8 +79,11 @@ function SelectedView({ view, whoseProfile }) {
               <Fragment key={`${product?.id} viewProd`}>
                 <div className="productCard">
                   {whoseProfile === user.username && (
-                    <div>
-                      <div onClick={() => setOpenProductDots(product?.id)}>
+                    <div className="deletedProduct">
+                      <div
+                        onClick={() => setOpenProductDots(product?.id)}
+                        className="dltDots"
+                      >
                         ...
                       </div>
                       {openProductDots === product?.id && (
@@ -115,6 +114,15 @@ function SelectedView({ view, whoseProfile }) {
                   )}
 
                   <div>
+                    {product.img && (
+                      <div className="productIMGDiv">
+                        <img
+                          src={`http://localhost:5555/IMGS-API/${product?.img}`}
+                          alt={`${products?.product} by ${product.brand}`}
+                          className="productIMG"
+                        />
+                      </div>
+                    )}
                     <div>
                       <div>
                         <div>{product?.product} by</div>
@@ -125,14 +133,10 @@ function SelectedView({ view, whoseProfile }) {
                         <div>${product?.price}</div>
                       </div>
                     </div>
-
-                    {product.img && (
-                      <img
-                        src={`http://localhost:5555/IMGS-API/${product?.img}`}
-                        alt={`${products?.product} by ${product.brand}`}
-                      />
-                    )}
                     <div>
+                      {product?.purchaseDate && (
+                        <div>{product.purchaseDate}</div>
+                      )}
                       {product?.rating && <div>Rating: {product?.rating}</div>}
                       {product?.notes && <div>Notes: {product?.notes}</div>}
                       {product?.wouldBuyAgain && (
