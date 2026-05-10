@@ -327,7 +327,10 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 <button
                   type="button"
                   className="can click"
-                  onClick={() => closeInventoryModal()}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeInventoryModal();
+                  }}
                 >
                   cancel
                 </button>
@@ -342,7 +345,8 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               <button
                 type="button"
                 className="cannot click"
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   closeInventoryModal();
                 }}
               >
