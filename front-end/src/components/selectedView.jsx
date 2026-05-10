@@ -73,14 +73,14 @@ function SelectedView({ view, whoseProfile }) {
     <div className="productViewDIV">
       {viewingProdsPending && <div>Loading...</div>}
       {viewProdsError && <div>Error: {viewProdsError?.message}</div>}
-      {products?.inventory.length === 0 && <div>Nothing to see here</div>}
+      {products?.inventorylength === 0 && <div>Nothing to see here</div>}
       {products?.inventory.length > 0 && (
         <div>
           <h2>{config.status}</h2>
-          <div>{products?.length} items</div>
+          <div>{products?.inventory.length} items</div>
           <div className="productsGrid">
-            {products?.map((product) => (
-              <Fragment key={product?.id}>
+            {products?.inventory.map((product) => (
+              <Fragment key={`${product?.id} viewProd`}>
                 <div className="productCard">
                   {whoseProfile === user.username && (
                     <div>
@@ -127,7 +127,10 @@ function SelectedView({ view, whoseProfile }) {
                     </div>
 
                     {product.img && (
-                      <img src={product?.img} alt={product?.product} />
+                      <img
+                        src={`http://localhost:5555/IMGS-API/${product?.img}`}
+                        alt={`${products?.product} by ${product.brand}`}
+                      />
                     )}
                     <div>
                       {product?.rating && <div>Rating: {product?.rating}</div>}
