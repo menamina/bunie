@@ -69,11 +69,15 @@ function SelectedView({ view, whoseProfile }) {
     <div className="productViewDIV">
       {viewingProdsPending && <div>Loading...</div>}
       {viewProdsError && <div>Error: {viewProdsError?.message}</div>}
-      {products?.inventorylength === 0 && <div>Nothing to see here</div>}
+      {products?.inventory.length === 0 && <div>Nothing to see here</div>}
       {products?.inventory.length > 0 && (
         <div>
           <h2>{config.status}</h2>
-          <div>{products?.inventory.length} items</div>
+          {products?.inventory.length === 1 ? (
+            <div>1 item</div>
+          ) : (
+            <div>{products?.inventory.length} items</div>
+          )}
           <div className="productsGrid">
             {products?.inventory.map((product) => (
               <Fragment key={`${product?.id} viewProd`}>
@@ -133,7 +137,7 @@ function SelectedView({ view, whoseProfile }) {
                         <div>${product?.price}</div>
                       </div>
                     </div>
-                    <div>
+                    <div className="optionalInventoryInfo">
                       {product?.purchaseDate && (
                         <div>{product.purchaseDate}</div>
                       )}

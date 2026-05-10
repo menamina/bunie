@@ -1,4 +1,15 @@
 .productsGrid {
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(4, 175px);
+  max-width: 100%;
+}
+
+.productCard,
+.productIMGDiv {
+  width: 100%;
+}
+
+.productIMG {
+  width: 100%;
+  max-width: 100%;
 }
