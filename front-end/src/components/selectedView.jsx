@@ -4,7 +4,7 @@ import {
   deleteProductMutOpts,
 } from "../ts-queries/queries";
 import { useOutletContext } from "react-router-dom";
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import AddToInventory from "./addToInventory";
 
 function SelectedView({ view, whoseProfile }) {
@@ -76,8 +76,8 @@ function SelectedView({ view, whoseProfile }) {
           <div>{products?.length} items</div>
           <div className="productsGrid">
             {products?.map((product) => (
-              <>
-                <div key={product?.id} className="productCard">
+              <Fragment key={product?.id}>
+                <div className="productCard">
                   {whoseProfile === user.username && (
                     <div>
                       <div onClick={() => setOpenProductDots(product?.id)}>
@@ -168,7 +168,7 @@ function SelectedView({ view, whoseProfile }) {
                       product={product}
                     />
                   )}
-              </>
+              </Fragment>
             ))}
           </div>
         </div>
