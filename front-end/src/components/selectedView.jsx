@@ -72,12 +72,14 @@ function SelectedView({ view, whoseProfile }) {
       {products?.inventory.length === 0 && <div>Nothing to see here</div>}
       {products?.inventory.length > 0 && (
         <div>
-          <h2>{config.status}</h2>
-          {products?.inventory.length === 1 ? (
-            <div>1 item</div>
-          ) : (
-            <div>{products?.inventory.length} items</div>
-          )}
+          <div className="view and item count">
+            <h2>{config.status}</h2>
+            {products?.inventory.length === 1 ? (
+              <div>1 item</div>
+            ) : (
+              <div>{products?.inventory.length} items</div>
+            )}
+          </div>
           <div className="productsGrid">
             {products?.inventory.map((product) => (
               <Fragment key={`${product?.id} viewProd`}>

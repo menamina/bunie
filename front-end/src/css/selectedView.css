@@ -9,7 +9,24 @@
   width: 100%;
 }
 
+.view.and {
+  justify-self: center;
+  text-align: center;
+}
+
 .productIMG {
   width: 100%;
   max-width: 100%;
+}
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+  border-radius: 5px;
+  border: 1px solid gray;
+}
+
+.dltDots {
+  text-align: right;
 }

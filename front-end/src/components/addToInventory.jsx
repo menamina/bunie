@@ -146,7 +146,26 @@ function AddToInventory({ closeInventoryModal, product = null }) {
         </div>
         <div className="img">
           <label htmlFor="img">Image:</label>
-          {inventoryINFO.img.length > 0 &&
+          {inventoryINFO.img.length === 1 && (
+            <div className="previewIvenPhoto">
+              <button
+                className="dltPicX"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setInventoryINFO((prev) => ({ ...prev, img: [] }));
+                }}
+                type="button"
+              >
+                X
+              </button>
+              <img
+                src={URL.createObjectURL(inventoryINFO.img)}
+                alt="preview"
+                className="preview"
+              />
+            </div>
+          )}
+          {inventoryINFO.img.length > 1 &&
             inventoryINFO.img.map((img, index) => (
               <div key={index} className="previewIvenPhoto">
                 <button
