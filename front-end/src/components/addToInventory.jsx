@@ -327,7 +327,7 @@ function AddToInventory({ closeInventoryModal, product = null }) {
                 <button
                   type="button"
                   className="can click"
-                  onClick={() => closeInventoryModal(false)}
+                  onClick={() => closeInventoryModal()}
                 >
                   cancel
                 </button>
@@ -342,7 +342,9 @@ function AddToInventory({ closeInventoryModal, product = null }) {
               <button
                 type="button"
                 className="cannot click"
-                onClick={clearInventoryINFO}
+                onClick={() => {
+                  closeInventoryModal();
+                }}
               >
                 cancel
               </button>

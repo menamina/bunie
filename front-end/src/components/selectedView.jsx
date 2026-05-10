@@ -61,7 +61,6 @@ function SelectedView({ view, whoseProfile }) {
     e.stopPropagation();
     setOpenProductDots(null);
     setOpenProductOptions(null);
-    setProductToDelete(null);
     setProductToEdit(null);
   }
 
