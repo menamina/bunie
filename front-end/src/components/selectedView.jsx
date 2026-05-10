@@ -40,6 +40,10 @@ function SelectedView({ view, whoseProfile }) {
     getStatusViewOptions(config.endpoint, whoseProfile, user.username),
   );
 
+  if (products) {
+    console.log(products);
+  }
+
   const {
     mutate: deleteProductMutation,
     isPending: deletePending,
@@ -69,8 +73,8 @@ function SelectedView({ view, whoseProfile }) {
     <div className="productViewDIV">
       {viewingProdsPending && <div>Loading...</div>}
       {viewProdsError && <div>Error: {viewProdsError?.message}</div>}
-      {products?.length === 0 && <div>Nothing to see here</div>}
-      {products?.length > 0 && (
+      {products?.inventory.length === 0 && <div>Nothing to see here</div>}
+      {products?.inventory.length > 0 && (
         <div>
           <h2>{config.status}</h2>
           <div>{products?.length} items</div>
