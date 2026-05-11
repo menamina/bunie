@@ -1,7 +1,8 @@
 import { useOutletContext } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getLikeOpts } from "../ts-queries/queries";
-import LikedCard from "./likedCard";
+import PostCard from "./postcard";
+import CommentCard from "./commentCard";
 
 function Likes({ whoseProfile }) {
   const { user } = useOutletContext();
@@ -20,9 +21,14 @@ function Likes({ whoseProfile }) {
       {likesErr && <div>{likesErr}</div>}
       {userLikes?.likesOrdered && (
         <div className="likesFlex">
-          {userLikes.likesOrdered.map((like) => (
-            <LikedCard key={like.id} like={like} />
-          ))}
+          {userLikes.likesOrdered.map((like) => {
+            if (like.type === "post") {
+              return <PostCard key={like.id} post={like.post} />;
+            } else if (like.type === "comment") {
+              return <CommentCard key={like.id} comment={like.comment} />;
+            }
+            return null;
+          })}
         </div>
       )}
       {userLikes?.noLikes && <div>Nothing to see here</div>}
