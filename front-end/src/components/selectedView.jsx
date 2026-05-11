@@ -14,6 +14,7 @@ function SelectedView({ view, whoseProfile }) {
   const queryClient = useQueryClient();
   const [openProductDots, setOpenProductDots] = useState(null);
   const [openProductOptions, setOpenProductOptions] = useState(null);
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const [productToEdit, setProductToEdit] = useState(null);
   const [productToDelete, setProductToDelete] = useState(null);
@@ -90,17 +91,41 @@ function SelectedView({ view, whoseProfile }) {
                   {whoseProfile === user.username && (
                     <div className="deletedProduct">
                       <div
-                        onClick={() => setOpenProductDots(product?.id)}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (openProductDots === product?.id) {
+                            setOpenProductDots(null);
+                          } else {
+                            setModalPosition({
+                              x: e.clientX - 140,
+                              y: e.clientY - 30,
+                            });
+                            setOpenProductDots(product?.id);
+                          }
+                        }}
                         className="dltDots"
                       >
                         ...
                       </div>
                       {openProductDots === product?.id && (
-                        <div onClick={cancelProductOptions}>
-                          <div className="editdlt">
+                        <div
+                          className="deleteModalFixed"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenProductDots(null);
+                          }}
+                        >
+                          <div
+                            className="deleteModal"
+                            style={{
+                              left: `${modalPosition.x}px`,
+                              top: `${modalPosition.y}px`,
+                            }}
+                          >
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
+                                setOpenProductDots(null);
                                 setProductToEdit(product?.id);
                                 setOpenProductOptions("edit");
                               }}
@@ -110,6 +135,7 @@ function SelectedView({ view, whoseProfile }) {
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
+                                setOpenProductDots(null);
                                 setOpenProductOptions("delete");
                                 setProductToDelete(product?.id);
                               }}
