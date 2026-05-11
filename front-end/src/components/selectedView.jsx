@@ -112,7 +112,6 @@ function SelectedView({ view, whoseProfile }) {
                           className="deleteModalFixed"
                           onClick={(e) => {
                             e.stopPropagation();
-                            setOpenProductDots(null);
                           }}
                         >
                           <div
@@ -183,27 +182,50 @@ function SelectedView({ view, whoseProfile }) {
 
                 {openProductOptions === "delete" &&
                   productToDelete === product?.id && (
-                    <div className="deleteModal" onClick={cancelProductOptions}>
-                      <div>Delete this item?</div>
-                      <div>Once you delete this item it cannot be undone </div>
-                      {!deletePending ? (
-                        <div>
-                          <div onClick={cancelProductOptions}>cancel</div>
-                          <div
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              deleteProductMutation(product?.id);
-                            }}
-                          >
-                            delete
+                    <div
+                      className="confirmDeletePostModal"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        cancelProductOptions(e);
+                      }}
+                    >
+                      <div className="deleteMiniModal">
+                        <div>Delete this item?</div>
+                        <div className="dltCantBeUndone">
+                          Once you delete this item it cannot be undone
+                        </div>
+                        {!deletePending ? (
+                          <div>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                cancelProductOptions(e);
+                              }}
+                            >
+                              cancel
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                deleteProductMutation(product?.id);
+                              }}
+                            >
+                              delete
+                            </button>
                           </div>
-                        </div>
-                      ) : (
-                        <div>
-                          <div className="cantClick">cancel</div>
-                          <div className="cantClick">delete</div>
-                        </div>
-                      )}
+                        ) : (
+                          <div>
+                            <button type="button" className="cantClick">
+                              cancel
+                            </button>
+                            <button type="button" className="cantClick">
+                              delete
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   )}
 
