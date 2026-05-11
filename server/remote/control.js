@@ -1184,28 +1184,17 @@ async function updateUserProfile(req, res) {
     const userID = Number(id);
     const { name, username, email, bio } = req.body;
 
-    if (email) {
-      const isEmailInUse = await prisma.user.findUnique({
+    if (req.user.username !== username || req.user.email !== email) {
+      const alreadyTaken = await prisma.user.findMany({
         where: {
-          email,
+          OR: [{ username: username }, { email: email }],
         },
       });
-      if (isEmailInUse) {
-        return res.status(403).json({ message: "Email in use" });
-      }
-      return;
-    }
 
-    if (username) {
-      const isUsernameInUse = await prisma.user.findUnique({
-        where: {
-          username,
-        },
-      });
-      if (isUsernameInUse) {
-        return res.status(403).json({ message: "Username in use" });
+      if (alreadyTaken){
+        alreadyTaken.
       }
-      return;
+
     }
 
     const updatedUser = await prisma.user.update({
