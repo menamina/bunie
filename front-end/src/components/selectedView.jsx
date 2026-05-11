@@ -59,10 +59,13 @@ function SelectedView({ view, whoseProfile }) {
   });
 
   function cancelProductOptions(e) {
-    e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     setOpenProductDots(null);
     setOpenProductOptions(null);
     setProductToEdit(null);
+    setProductToDelete(null);
   }
 
   return (
@@ -112,6 +115,7 @@ function SelectedView({ view, whoseProfile }) {
                           className="deleteModalFixed"
                           onClick={(e) => {
                             e.stopPropagation();
+                            cancelProductOptions(e);
                           }}
                         >
                           <div
@@ -119,6 +123,9 @@ function SelectedView({ view, whoseProfile }) {
                             style={{
                               left: `${modalPosition.x}px`,
                               top: `${modalPosition.y}px`,
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
                             }}
                           >
                             <div
