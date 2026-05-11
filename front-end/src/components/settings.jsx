@@ -56,26 +56,17 @@ function Settings() {
     ...updatePassword(),
     onSuccess: () => {
       setSettingsView(null);
-      setPasswordData({
-        oldPassword: "",
-        newPassword: "",
-        confirmNewPassword: "",
-      });
+      // setPasswordData({
+      //   oldPassword: "",
+      //   newPassword: "",
+      //   confirmNewPassword: "",
+      // });
     },
   });
 
-  const {
-    mutate: updateIMGS,
-    error: imgUpdateErr,
-    reset: resetIMG,
-  } = useMutation({
+  const { mutate: updateIMGS, error: imgUpdateErr } = useMutation({
     ...updateIMGs(),
     onSuccess: () => {
-      setIconHeaderData({
-        pfp: "",
-        header: "",
-      });
-      resetIMG();
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
     },
   });
