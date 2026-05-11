@@ -102,7 +102,7 @@ function Nav({ user }) {
       </Link>
       {makePost && <MakeAPost closeModal={setMakePost} user={user?.user} />}
       {addToInventory && (
-        <AddToInventory closeInventoryModal={setAddToInventory} />
+        <AddToInventory closeInventoryModal={setAddToInventory} user={user?.user} />
       )}
     </div>
   );
