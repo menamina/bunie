@@ -1189,12 +1189,17 @@ async function updateUserProfile(req, res) {
         where: {
           OR: [{ username: username }, { email: email }],
         },
+        select: {
+          username: true,
+          email: true,
+        },
       });
 
-      if (alreadyTaken){
-        alreadyTaken.
+      if (alreadyTaken.username === username) {
+        return res.status(200).json({ usernameTaken: true });
+      } else if (alreadyTaken.email === email) {
+        return res.status(200).json({ emailTaken: true });
       }
-
     }
 
     const updatedUser = await prisma.user.update({
@@ -1213,7 +1218,7 @@ async function updateUserProfile(req, res) {
       },
     });
 
-    return res.status(200).json({ updatedUser });
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
     if (error.code === "P2025") {

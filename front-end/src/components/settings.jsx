@@ -68,24 +68,21 @@ function Settings() {
     ...updateIMGs(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      setSettingsView(null);
     },
   });
 
-  const {
-    mutate: updateUserData,
-    error: dataUpdateErr,
-    reset: resetData,
-  } = useMutation({
+  const { mutate: updateUserData, error: dataUpdateErr } = useMutation({
     ...updateUData(),
     onSuccess: () => {
-      resetData();
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       setUpdateData({
-        name: user.name,
-        username: user.username,
-        email: user.email,
-        bio: user.bio,
+        name: updateData.name,
+        username: updateData.username,
+        email: updateData.email,
+        bio: updateData.bio,
       });
+      setEditUserData(false);
     },
   });
 
