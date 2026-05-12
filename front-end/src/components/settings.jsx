@@ -56,11 +56,6 @@ function Settings() {
     ...updatePassword(),
     onSuccess: () => {
       setSettingsView(null);
-      // setPasswordData({
-      //   oldPassword: "",
-      //   newPassword: "",
-      //   confirmNewPassword: "",
-      // });
     },
   });
 
@@ -75,7 +70,7 @@ function Settings() {
   const { mutate: updateUserData, error: dataUpdateErr } = useMutation({
     ...updateUData(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      queryClient.invalidateQueries({ queryKey: ["checkSession"] });
       setUpdateData({
         name: updateData.name,
         username: updateData.username,
