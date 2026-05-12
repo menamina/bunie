@@ -25,6 +25,7 @@ function Settings() {
   const [viewCurrentPass, setViewCurrentPass] = useState(false);
   const [viewNewPass, setViewNewPass] = useState(false);
   const [viewConfirmPass, setViewConfirmPass] = useState(false);
+  const [expandedImage, setExpandedImage] = useState(null);
 
   const nav = useNavigate();
 
@@ -94,6 +95,22 @@ function Settings() {
 
   return (
     <div className="settingsDIV">
+      {expandedImage && (
+        <div
+          className="expandedImageModal"
+          onClick={() => setExpandedImage(null)}
+        >
+          <div className="expandedImageContainer">
+            <button
+              className="closeExpandedImage"
+              onClick={() => setExpandedImage(null)}
+            >
+              ×
+            </button>
+            <img src={expandedImage} alt="Expanded view" />
+          </div>
+        </div>
+      )}
       <div className="leftOfSettings">
         <div>Settings</div>
         <div className="options-set">
@@ -130,6 +147,8 @@ function Settings() {
                     src={Header}
                     // src={`http:localhost:5555/IMGS-API/${user.header}`}
                     alt="your header"
+                    onClick={() => setExpandedImage(Header)}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
                 <div className="iconHolder">
@@ -138,6 +157,8 @@ function Settings() {
                     src={Icon}
                     // src={`http:localhost:5555/IMGS-API/${user.pfp}`}
                     alt="your profile img"
+                    onClick={() => setExpandedImage(Icon)}
+                    style={{ cursor: "pointer" }}
                   />
                 </div>
                 {!editUserData && (

@@ -255,11 +255,21 @@ function PostCard({ post }) {
           }}
         >
           <div className="xPandedIMGHolder">
+            <button
+              className="closeExpandedImage"
+              onClick={(e) => {
+                e.stopPropagation();
+                setExpandIMG(null);
+              }}
+            >
+              ×
+            </button>
             <img
               key={expandIMG}
               className="expandedIMG"
               src={`http://localhost:5555/IMGS-API/${expandIMG}`}
               alt=""
+              onClick={(e) => e.stopPropagation()}
             />
           </div>
         </div>
