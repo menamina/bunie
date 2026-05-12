@@ -138,7 +138,7 @@ function MakeAComment({
           {edit && <PostCard post={fetchedPost} />}
           {edit && isLoading && <div>Loading..</div>}
         </div>
-        <div className="yourReply">
+        <div className="yourReply" onClick={(e) => e.stopPropagation()}>
           <div>
             <img
               // src={`http://localhost:5555/IMGS-API/${user.pfp}`}
@@ -200,13 +200,17 @@ function MakeAComment({
                 >
                   cancel
                 </button>
-                <button type="submit" className="can click">
+                <button
+                  onClick={(e) => e.stopPropagation()}
+                  type="submit"
+                  className="can click"
+                >
                   post
                 </button>
               </div>
             )}
 
-                        {!addPending && !commentData.body && (
+            {!addPending && !commentData.body && (
               <div>
                 <button
                   type="button"
