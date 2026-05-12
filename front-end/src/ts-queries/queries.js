@@ -562,8 +562,6 @@ async function updateUserData(staticProfDataUpdate) {
     body: JSON.stringify(staticProfDataUpdate),
   });
 
-  console.log(staticProfDataUpdate);
-
   if (!res.ok) {
     const error = new Error();
     const data = await res.json();
@@ -575,10 +573,12 @@ async function updateUserData(staticProfDataUpdate) {
       error.serverError = "Server error, try again";
       throw error;
     } else if (res.status === 403) {
-      console.log(data);
-      error.otherMessage === data.message;
+      error.otherMessage = data.message;
+      throw error;
     }
   }
+
+  return await res.json();
 }
 
 async function deleteMyAcc() {

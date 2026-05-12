@@ -71,12 +71,7 @@ function Settings() {
     ...updateUData(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
-      setUpdateData({
-        name: updateData.name,
-        username: updateData.username,
-        email: updateData.email,
-        bio: updateData.bio,
-      });
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       setEditUserData(false);
     },
   });
