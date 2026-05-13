@@ -18,7 +18,16 @@ function Likes({ whoseProfile }) {
   return (
     <div className="likesDIV">
       {likesPending && <div>Loading..</div>}
-      {likesErr && <div>{likesErr}</div>}
+      {likesErr && (
+        <div className="centerError">
+          {likesErr?.noUserLikes && <div>{likesErr.noUserLikes}</div>}
+          {likesErr?.noUserFound && <div>{likesErr.noUserFound}</div>}
+          {likesErr?.serverError && <div>{likesErr.serverError}</div>}
+          {!likesErr?.noUserLikes && !likesErr?.noUserFound && !likesErr?.serverError && (
+            <div>Nothing to see here</div>
+          )}
+        </div>
+      )}
       {userLikes?.likesOrdered && (
         <div className="likesFlex">
           {userLikes.likesOrdered.map((like) => {
