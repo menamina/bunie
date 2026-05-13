@@ -293,8 +293,10 @@ async function getLikes(username) {
       throw error;
     } else if (res.status === 404) {
       error.noUserFound = "0 likes by this user";
+      throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
 
