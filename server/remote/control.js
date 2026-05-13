@@ -557,6 +557,19 @@ async function getUserLikes(req, res) {
                 },
               },
             },
+            likes: true,
+            comments: {
+              include: {
+                commenter: {
+                  select: {
+                    id: true,
+                    name: true,
+                    username: true,
+                  },
+                },
+                likes: true,
+              },
+            },
           },
         },
       },
@@ -612,6 +625,10 @@ async function getUserLikes(req, res) {
     const postsFilter = postLikes.map((like) => ({
       type: "post",
       ...like,
+      post: {
+        ...like.post,
+        madeBy: like.post.madeby,
+      },
     }));
 
     const commentsFiltered = commentLikes.map((like) => ({
