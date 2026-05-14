@@ -48,7 +48,7 @@ function MakeAComment({
   } = useMutation({
     ...makeCommentMut(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", postObj.id] });
+      queryClient.invalidateQueries({ queryKey: ["post", postID] });
       closeModal(false);
     },
   });

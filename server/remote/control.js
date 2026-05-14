@@ -1040,7 +1040,7 @@ async function updatePost(req, res) {
 async function makeAComment(req, res) {
   try {
     const { id } = req.user;
-    const { pID } = req.body;
+    const { pID, body } = req.body;
     const postID = Number(pID);
     const userID = Number(id);
 
