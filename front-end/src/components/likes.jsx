@@ -23,9 +23,6 @@ function Likes({ whoseProfile }) {
           {likesErr?.noUserLikes && <div>{likesErr.noUserLikes}</div>}
           {likesErr?.noUserFound && <div>{likesErr.noUserFound}</div>}
           {likesErr?.serverError && <div>{likesErr.serverError}</div>}
-          {!likesErr?.noUserLikes &&
-            !likesErr?.noUserFound &&
-            !likesErr?.serverError && <div>Nothing to see here</div>}
         </div>
       )}
       {userLikes?.likesOrdered && (
