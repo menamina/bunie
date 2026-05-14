@@ -30,11 +30,6 @@ function CommentCard({ comment }) {
   const nav = useNavigate();
   const queryClient = useQueryClient();
 
-  function navToProfile(e) {
-    e.stopPropagation();
-    nav(`/${comment?.commenter?.username}`);
-  }
-
   const { mutate: confirmDelete } = useMutation({
     ...deleteCommentOpt(),
     onSuccess: () => {
@@ -48,7 +43,7 @@ function CommentCard({ comment }) {
     ...toggleCommentLikeOpt(comment.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["comment", returnedComment.id],
+        queryKey: ["comment", comment.id],
       });
       queryClient.invalidateQueries({
         queryKey: ["post", comment.idOfPost],

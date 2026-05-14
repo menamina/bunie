@@ -22,9 +22,9 @@ function Likes({ whoseProfile }) {
         <div className="centerError">
           {likesErr?.noUserLikes && <div>{likesErr.noUserLikes}</div>}
           {likesErr?.noUserFound && <div>{likesErr.noUserFound}</div>}
-          {likesErr?.serverError && <div>{likesErr.serverError}</div>}
         </div>
       )}
+      {!userLikes && <div>Nothing to see here</div>}
       {userLikes?.likesOrdered && (
         <div className="likesFlex">
           {userLikes.likesOrdered.map((like) => {

@@ -613,13 +613,14 @@ async function getUserLikes(req, res) {
                 },
               },
             },
+            likes: true,
           },
         },
       },
     });
 
     if (postLikes.length === 0 && commentLikes.length === 0) {
-      return res.status(204).json({ noLikes: true });
+      return res.status(200).json({ noLikes: true });
     }
 
     const postsFilter = postLikes.map((like) => ({
