@@ -1044,6 +1044,8 @@ async function makeAComment(req, res) {
     const postID = Number(pID);
     const userID = Number(id);
 
+    console.log(pID, body);
+
     const comment = await prisma.comments.create({
       data: {
         userWhoCommented: userID,

@@ -121,9 +121,7 @@ function MakeAComment({
             <div>{addErr?.serverError}</div>
             <div>
               <div onClick={() => closeModal(false)}>cancel</div>
-              <div onClick={() => makeAComment.mutate(commentData)}>
-                try again
-              </div>
+              <div onClick={() => makeAComment(commentData)}>try again</div>
             </div>
           </div>
         </div>
