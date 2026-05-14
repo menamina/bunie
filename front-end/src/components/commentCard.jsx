@@ -27,7 +27,13 @@ function CommentCard({ comment }) {
     ? FilledHeart
     : EmptyHeart;
 
+  const nav = useNavigate();
   const queryClient = useQueryClient();
+
+  function navToProfile(e) {
+    e.stopPropagation();
+    nav(`/${comment?.commenter?.username}`);
+  }
 
   const { mutate: confirmDelete } = useMutation({
     ...deleteCommentOpt(),
@@ -42,13 +48,13 @@ function CommentCard({ comment }) {
     ...toggleCommentLikeOpt(comment.id),
     onSuccess: () => {
       queryClient.invalidateQueries({
+        queryKey: ["comment", returnedComment.id],
+      });
+      queryClient.invalidateQueries({
         queryKey: ["post", comment.idOfPost],
       });
       queryClient.invalidateQueries({
         queryKey: ["profileLikes", user.username],
-      });
-      queryClient.invalidateQueries({
-        queryKey: ["comment", comment.id],
       });
     },
   });
@@ -121,31 +127,44 @@ function CommentCard({ comment }) {
               )}
               {dotsClicked === comment.id && (
                 <div
-                  className="optionsModal"
+                  className="deleteModalFixed"
                   onClick={(e) => {
                     e.stopPropagation();
                     setDotsClicked(null);
+                    setEditComment(null);
                   }}
                 >
                   <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEditComment(comment.id);
+                    className="deleteModal"
+                    style={{
+                      left: `${modalPosition.x}px`,
+                      top: `${modalPosition.y}px`,
                     }}
                   >
-                    edit
-                  </div>
-                  <div
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setDeleteCommentClicked(comment.id);
-                    }}
-                  >
-                    delete
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDotsClicked(null);
+                        setEditComment(comment.id);
+                      }}
+                    >
+                      edit
+                    </div>
+                    <div
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setDotsClicked(null);
+                        setDeleteCommentClicked(comment.id);
+                      }}
+                    >
+                      delete
+                    </div>
                   </div>
                 </div>
               )}
-              <div onClick={() => setDotsClicked(comment.id)}>...</div>
+              <div onClick={openCommentSettings} className="postDots">
+                ...
+              </div>
             </>
           )}
         </div>
