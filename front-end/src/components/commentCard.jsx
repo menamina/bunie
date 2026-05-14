@@ -16,6 +16,7 @@ function CommentCard({ comment }) {
   const isThisMyComment = comment?.commenter?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(null);
+  const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const [editComment, setEditComment] = useState(null);
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
@@ -26,13 +27,7 @@ function CommentCard({ comment }) {
     ? FilledHeart
     : EmptyHeart;
 
-  const nav = useNavigate();
   const queryClient = useQueryClient();
-
-  function navToProfile(e) {
-    e.stopPropagation();
-    nav(`/${comment?.commenter?.username}`);
-  }
 
   const { mutate: confirmDelete } = useMutation({
     ...deleteCommentOpt(),
@@ -58,6 +53,16 @@ function CommentCard({ comment }) {
     },
   });
 
+  function openCommentSettings(e) {
+    e.stopPropagation();
+    if (dotsClicked) {
+      setDotsClicked(null);
+    } else {
+      setModalPosition({ x: e.clientX - 140, y: e.clientY - 30 });
+      setDotsClicked(comment?.id);
+    }
+  }
+
   function closeEditModal() {
     setDotsClicked(null);
     setEditComment(false);
@@ -65,7 +70,7 @@ function CommentCard({ comment }) {
 
   return (
     <div className="commentCard">
-      <div onClick={navToProfile}>
+      <div>
         <img src={TempIcon} />
       </div>
       <div>
