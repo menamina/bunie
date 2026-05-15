@@ -353,8 +353,12 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
+    const { cursor } = req.query;
+    const thisMany = 15;
 
     const user = await prisma.user.findUnique({
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       where: {
         username,
       },
@@ -391,7 +395,7 @@ async function getUserPosts(req, res) {
       },
     }));
 
-    return res.status(200).json(feed);
+    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error", error });
