@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { search } from "../ts-queries/queries";
 
 import MiniProfile from "./miniProfile";
@@ -7,13 +7,31 @@ import PostCard from "./postcard";
 
 function Search() {
   const [querySearch, setQuerySearch] = useState("");
+  const [searching, setSearching] = useState(false);
   const [tabView, setTabView] = useState("top");
+
+  useEffect(() => {
+    if (!querySearch) {
+      setSearching(false);
+      return;
+    }
+
+    const timer = setTimeout(() => setSearching(true), 5000);
+
+    return () => clearTimeout(timer);
+  }, [querySearch]);
 
   const {
     data: queryResults,
-    isPending,
     error,
-  } = useQuery(search(querySearch));
+    isFetching,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
+  } = useInfiniteQuery({
+    ...search(querySearch),
+    enabled: searching,
+  });
 
   return (
     <div className="searchDIV">
@@ -24,7 +42,7 @@ function Search() {
           onChange={(e) => setQuerySearch(e.target.value)}
         />
       </div>
-      {isPending && <div>Loading</div>}
+      {isFetching && <div>Loading</div>}
       {error && <div>{error.errMsg}</div>}
       {queryResults && (
         <div className="resultsReturnedDIV">
