@@ -58,7 +58,7 @@ async function IMGS(req, res) {
 
 async function getMainFeed(req, res) {
   try {
-    const { cursor } = req.query;
+    const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
     const feed = await prisma.posts.findMany({
@@ -100,7 +100,7 @@ async function getMainFeed(req, res) {
 
 async function getFollowingFeed(req, res) {
   try {
-    const { cursor } = req.query;
+    const cursor = parseInt(req.query.cursor);
     const { id } = req.user;
 
     const userID = Number(id);
@@ -167,7 +167,7 @@ async function getFollowingFeed(req, res) {
 async function query(req, res) {
   try {
     const { query } = req.query;
-    const { cursor } = req.query;
+    const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
     const usersWithQuery = await prisma.user.findMany({
@@ -353,7 +353,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const { cursor } = req.query;
+    const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
     const user = await prisma.user.findUnique({
@@ -542,9 +542,8 @@ async function getUserFinished(req, res) {
 async function getUserLikes(req, res) {
   try {
     const { username } = req.params;
-    const { limit = 50, offset = 0 } = req.query;
-    const limitNum = Math.min(Number(limit), 100);
-    const offsetNum = Number(offset);
+    const cursor = parseInt(req.query.cursor);
+    const thisMany = 15;
 
     const user = await prisma.user.findUnique({
       where: { username },
@@ -556,9 +555,9 @@ async function getUserLikes(req, res) {
     }
 
     const postLikes = await prisma.postLikes.findMany({
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       where: { userWhoLiked: user.id },
-      take: limitNum,
-      skip: offsetNum,
       orderBy: { dateLiked: "desc" },
       include: {
         post: {
@@ -595,9 +594,9 @@ async function getUserLikes(req, res) {
     });
 
     const commentLikes = await prisma.commentLikes.findMany({
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       where: { userWhoLiked: user.id },
-      take: limitNum,
-      skip: offsetNum,
       orderBy: { dateLiked: "desc" },
       include: {
         comment: {
@@ -656,13 +655,13 @@ async function getUserLikes(req, res) {
       ...like,
     }));
 
-    const likesOrdered = [...postsFilter, ...commentsFiltered]
-      .sort((a, b) => new Date(b.dateLiked) - new Date(a.dateLiked))
-      .slice(0, limitNum);
+    const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
+      (b, a) => new Date(b.dateLiked) - new Date(a.dateLiked),
+    );
 
     return res
       .status(200)
-      .json({ likesOrdered, hasMore: likesOrdered.length === limitNum });
+      .json({ likesOrdered, nextCursor: cursor + thisMany });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
