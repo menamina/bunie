@@ -58,12 +58,12 @@ async function IMGS(req, res) {
 
 async function getMainFeed(req, res) {
   try {
-    const { nextPosts } = req.body;
-    const numberOfNextPost = Number(nextPosts);
+    const { cursor } = req.query;
+    const thisMany = 15;
 
     const feed = await prisma.posts.findMany({
-      ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
-      take: 50,
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       include: {
         likes: true,
         comments: true,
@@ -82,13 +82,16 @@ async function getMainFeed(req, res) {
           },
         },
       },
+      orderBy: {
+        timestamp: "desc",
+      },
     });
 
     if (!feed || feed.length === 0) {
       return res.status(204).json({ databaseEmpty: true });
     }
 
-    return res.status(200).json(feed);
+    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -97,11 +100,11 @@ async function getMainFeed(req, res) {
 
 async function getFollowingFeed(req, res) {
   try {
-    const { nextPosts } = req.body;
+    const { cursor } = req.query;
     const { id } = req.user;
 
     const userID = Number(id);
-    const numberOfNextPost = Number(nextPosts);
+    const thisMany = 15;
 
     const thisUsersFollowing = await prisma.user.findUnique({
       where: {
@@ -120,12 +123,13 @@ async function getFollowingFeed(req, res) {
       },
     });
 
+    if (!thisUsersFollowing) {
+      return res.status(204).json({ noUserFollowing: true });
+    }
+
     const feed = await prisma.posts.findMany({
-      ...(numberOfNextPost > 0 && { skip: numberOfNextPost }),
-      take: 50,
-      orderBy: {
-        timestamp: "desc",
-      },
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       include: {
         likes: true,
         comments: true,
@@ -144,13 +148,16 @@ async function getFollowingFeed(req, res) {
           },
         },
       },
+      orderBy: {
+        timestamp: "desc",
+      },
     });
 
     if (!feed || feed.length === 0) {
       return res.status(204).json({ databaseEmpty: true });
     }
 
-    return res.status(200).json(feed);
+    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -160,8 +167,12 @@ async function getFollowingFeed(req, res) {
 async function query(req, res) {
   try {
     const { query } = req.query;
+    const { cursor } = req.query;
+    const thisMany = 15;
 
     const usersWithQuery = await prisma.user.findMany({
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       where: {
         username: {
           contains: query,
@@ -182,6 +193,8 @@ async function query(req, res) {
     });
 
     const postsWithQuery = await prisma.posts.findMany({
+      ...(cursor > 0 && { skip: cursor }),
+      take: thisMany,
       where: {
         OR: [
           {
@@ -211,7 +224,9 @@ async function query(req, res) {
       },
     });
 
-    return res.status(200).json(usersWithQuery, postsWithQuery);
+    return res
+      .status(200)
+      .json({ usersWithQuery, postsWithQuery, nextCursor: cursor + thisMany });
   } catch (error) {
     return res.status(500).json({ errMsg: "server error" });
   }

@@ -105,12 +105,10 @@ export const updateIMGs = () => {
 
 export const getFeedOpt = () => {
   return infiniteQueryOptions({
-    queryKey: ["feed"],
-    queryFn: ({ pageParam = 0 }) => getFeed(pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 50 ? allPages.length * 50 : undefined;
-    },
+    queryKey: ["mainFeed"],
+    queryFn: getFeed,
     initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 };
 
@@ -505,13 +503,14 @@ async function getFollowingFeed(numberOfNextPost) {
   return await res.json();
 }
 
-async function getFeed(numberOfNextPost) {
-  const res = await fetch(`http://localhost:5555/main-feed-API`, {
-    method: "GET",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nextPosts: numberOfNextPost }),
-  });
+async function getFeed({ pageParam }) {
+  const res = await fetch(
+    `http://localhost:5555/main-feed-API?cursor=${pageParam}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
   return await res.json();
 }
 
