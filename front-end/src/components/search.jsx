@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { search } from "../ts-queries/queries";
 
@@ -9,10 +9,10 @@ function Search() {
   const [querySearch, setQuerySearch] = useState("");
   const [searching, setSearching] = useState(false);
   const [tabView, setTabView] = useState("top");
+  const loadMoreRef = useRef(null);
 
   useEffect(() => {
     if (!querySearch) {
-      setSearching(false);
       return;
     }
 
@@ -30,8 +30,25 @@ function Search() {
     hasNextPage,
   } = useInfiniteQuery({
     ...search(querySearch),
-    enabled: searching,
+    enabled: searching && !!querySearch,
   });
+
+  useEffect(() => {
+    if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(loadMoreRef.current);
+
+    return () => observer.disconnect();
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
     <div className="searchDIV">
@@ -79,7 +96,9 @@ function Search() {
                   {queryResults.pages[0].usersWithQuery.length > 0 &&
                     queryResults.pages[0].usersWithQuery
                       .slice(0, 9)
-                      .map((user) => <MiniProfile userProfile={user} />)}
+                      .map((user) => (
+                        <MiniProfile key={user.id} userProfile={user} />
+                      ))}
                   {queryResults.pages[0].usersWithQuery.length > 10 && (
                     <div
                       onClick={() => {
@@ -95,7 +114,7 @@ function Search() {
                   {queryResults.pages[0].postsWithQuery
                     .slice(0, 9)
                     .map((post) => (
-                      <PostCard post={post} />
+                      <PostCard key={post.id} post={post} />
                     ))}
                   {queryResults.pages[0].postsWithQuery.length > 10 && (
                     <div
@@ -111,46 +130,66 @@ function Search() {
               </div>
             </div>
           )}
-          {tabView !== "top" && 
-          <div>
+
+          {tabView !== "top" && (
             <div>
-              <div
-                className={
-                  tabView === "users" ? "selectedViewInSearch" : "userView"
-                }
-              >
-                Users
+              <div>
+                <div
+                  className={
+                    tabView === "users" ? "selectedViewInSearch" : "userView"
+                  }
+                  onClick={() => {
+                    tabView === "users" ? null : setTabView("users");
+                  }}
+                >
+                  Users
                 </div>
-                 <div
-                className={
-                  tabView === "posts" ? "selectedViewInSearch" : "postView"
-                }
-              >
-                Posts
+                <div
+                  className={
+                    tabView === "posts" ? "selectedViewInSearch" : "postView"
+                  }
+                  onClick={() => {
+                    tabView === "posts" ? null : setTabView("posts");
+                  }}
+                >
+                  Posts
+                </div>
               </div>
 
-            </div>
-
-
-             </div>
               {tabView === "users" && (
                 <div>
-                  {queryResults.usersWithQuery.map((user) => (
-                    <MiniProfile userProfile={user} />
-                  ))}
+                  {queryResults.pages.flatMap((item) =>
+                    item.usersWithQuery.map((user) => (
+                      <MiniProfile key={user.id} userProfile={user} />
+                    )),
+                  )}
+                  {hasNextPage && (
+                    <div ref={loadMoreRef} style={{ height: "20px" }}>
+                      {isFetchingNextPage && <div>Loading more...</div>}
+                    </div>
+                  )}
+                  {!hasNextPage && <div>That's all folks</div>}
                 </div>
               )}
 
-               {tabView === "posts" && (
+              {tabView === "posts" && (
                 <div>
-                  {queryResults.postsWithQuery.map((post) => (
-                    <PostCard post={post} />
-                  ))}
+                  {queryResults.pages.flatMap((item) =>
+                    item.postsWithQuery.map((post) => (
+                      <PostCard key={post.id} post={post} />
+                    )),
+                  )}
+                  {hasNextPage && (
+                    <div ref={loadMoreRef} style={{ height: "20px" }}>
+                      {isFetchingNextPage && <div>Loading more...</div>}
+                    </div>
+                  )}
+                  {!hasNextPage && <div>That's all folks</div>}
                 </div>
               )}
-          </div>
+            </div>
+          )}
         </div>
-        }
       )}
     </div>
   );
