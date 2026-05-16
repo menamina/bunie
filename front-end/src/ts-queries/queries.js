@@ -106,7 +106,7 @@ export const updateIMGs = () => {
 export const getFeedOpt = () => {
   return infiniteQueryOptions({
     queryKey: ["mainFeed"],
-    queryFn: getFeed,
+    queryFn: ({ pageParam }) => getFeed({ pageParam }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -126,7 +126,7 @@ export const getFollowingFeedOpt = () => {
 export const search = (query) => {
   return queryOptions({
     queryKey: ["search", query],
-    queryFn: searchThis,
+    queryFn: ({ pageParam }) => searchThis({ pageParam, query }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
