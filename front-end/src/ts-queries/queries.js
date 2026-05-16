@@ -126,22 +126,9 @@ export const getFollowingFeedOpt = () => {
 export const search = (query) => {
   return queryOptions({
     queryKey: ["search", query],
-    queryFn: () => searchThis(query),
-    enabled: !!query,
-  });
-};
-
-export const searchInfinite = (query) => {
-  return infiniteQueryOptions({
-    queryKey: ["search", query],
-    queryFn: ({ pageParam = 0 }) => searchThis(query, pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      const hasMoreUsers = lastPage.usersWithQuery?.length === 50;
-      const hasMorePosts = lastPage.postsWithQuery?.length === 50;
-      return hasMoreUsers || hasMorePosts ? allPages.length * 50 : undefined;
-    },
+    queryFn: searchThis,
     initialPageParam: 0,
-    enabled: !!query,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 };
 
@@ -514,9 +501,9 @@ async function getFeed({ pageParam }) {
   return await res.json();
 }
 
-async function searchThis(query, offset = 0) {
+async function searchThis({ pageParam, query }) {
   const res = await fetch(
-    `http://localhost:5555/search-API?q=${query}&offset=${offset}`,
+    `http://localhost:5555/search-API?cursor=${pageParam}&query=${query}`,
     {
       method: "GET",
       credentials: "include",
