@@ -33,6 +33,13 @@ function Search() {
     enabled: searching,
   });
 
+  const top10Users = queryResults.pages.flatMap((page) => {
+    page.usersWithQuery.length === 0 ? false : page.usersWithQuery.slice(0, 9);
+  });
+  const top10Posts = queryResults.pages.flatMap((page) => {
+    page.postsWithQuery.length === 0 ? false : page.postsWithQuery.slice(0, 9);
+  });
+
   return (
     <div className="searchDIV">
       <div>Search</div>
@@ -67,34 +74,34 @@ function Search() {
             </div>
           </div>
 
-          {queryResults.usersWithQuery.length === 0 &&
-            queryResults.postsWithQuery.length === 0 && (
+          {queryResults.pages[0].usersWithQuery.length === 0 &&
+            queryResults.pages[0].postsWithQuery.length === 0 && (
               <div className="noQueryResults">No results found</div>
             )}
 
           {tabView === "top" && (
             <div>
-              {queryResults.usersWithQuery.length > 0 &&
-                queryResults.postsWithQuery.length > 0 && (
-                  <div className="topRES">
-                    <div className="top10USERS">
-                      {queryResults.usersWithQuery.slice(0, 9).map((user) => (
-                        <MiniProfile userProfile={user} />
-                      ))}
-                      {queryResults.usersWithQuery.length > 10 && (
-                        <div onClick={setTabView("users")}>see more </div>
-                      )}
-                    </div>
-                    <div className="top10POSTS">
-                      {queryResults.postsWithQuery.slice(0, 9).map((post) => (
-                        <PostCard post={post} />
-                      ))}
-                      {queryResults.postsWithQuery.length > 10 && (
-                        <div onClick={setTabView("posts")}>see more </div>
-                      )}
-                    </div>
-                  </div>
-                )}
+              <div className="topRES">
+                <div className="top10USERS">
+                  {queryResults.pages[0].usersWithQuery.length > 0 &&
+                    queryResults.pages[0].usersWithQuery
+                      .slice(0, 9)
+                      .map((user) => <MiniProfile userProfile={user} />)}
+                  {queryResults.pages[0].usersWithQuery.length > 10 && (
+                    <div onClick={setTabView("users")}>see more </div>
+                  )}
+                </div>
+                <div className="top10POSTS">
+                  {queryResults.pages[0].postsWithQuery
+                    .slice(0, 9)
+                    .map((post) => (
+                      <PostCard post={post} />
+                    ))}
+                  {queryResults.pages[0].postsWithQuery.length > 10 && (
+                    <div onClick={setTabView("posts")}>see more </div>
+                  )}
+                </div>
+              </div>
             </div>
           )}
           {tabView === "posts" && (

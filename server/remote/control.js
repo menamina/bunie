@@ -224,9 +224,9 @@ async function query(req, res) {
       },
     });
 
-    return res
-      .status(200)
-      .json({ usersWithQuery, postsWithQuery, nextCursor: cursor + thisMany });
+    const nextCursor = cursor + thisMany;
+
+    return res.status(200).json({ usersWithQuery, postsWithQuery, nextCursor });
   } catch (error) {
     return res.status(500).json({ errMsg: "server error" });
   }
