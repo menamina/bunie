@@ -52,14 +52,14 @@ function MiniProfile({ userProfile }) {
       <div>
         {isFollowing ? (
           <button
-            className="followButton unfollow"
+            className="followButton unfollowMini"
             onClick={() => toggleFollow(userProfile?.id)}
           >
             Following
           </button>
         ) : (
           <button
-            className="followButton follow"
+            className="followButton followMini"
             onClick={() => toggleFollow(userProfile?.id)}
           >
             Follow
