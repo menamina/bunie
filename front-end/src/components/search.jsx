@@ -5,6 +5,8 @@ import { search } from "../ts-queries/queries";
 import MiniProfile from "./miniProfile";
 import PostCard from "./postcard";
 
+import "../css/search.css";
+
 function Search() {
   const [querySearch, setQuerySearch] = useState("");
   const [searching, setSearching] = useState(false);
