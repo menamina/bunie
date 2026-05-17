@@ -135,25 +135,6 @@ function Search() {
 
           {tabView !== "top" && (
             <div>
-              <div>
-                <div
-                  className={
-                    tabView === "users" ? "selectedViewInSearch" : "userView"
-                  }
-                  onClick={() => setTabView("users")}
-                >
-                  Users
-                </div>
-                <div
-                  className={
-                    tabView === "posts" ? "selectedViewInSearch" : "postView"
-                  }
-                  onClick={() => setTabView("posts")}
-                >
-                  Posts
-                </div>
-              </div>
-
               {tabView === "users" && (
                 <div>
                   {queryResults.pages.flatMap((item) =>

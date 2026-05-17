@@ -26,3 +26,18 @@
 .searchTop > div:last-child > input:focus {
   box-shadow: 0 0 0 3.3px rgba(128, 128, 128, 0.401);
 }
+
+.tabView {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 2rem;
+}
+
+.tabView > div {
+  cursor: pointer;
+}
+
+.clickedView {
+  border-bottom: 1px solid orange;
+}
