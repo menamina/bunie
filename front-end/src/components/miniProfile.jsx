@@ -2,6 +2,8 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useOutletContext, Link } from "react-router-dom";
 import { followMutationOptions } from "../ts-queries/queries";
 
+import "../css/miniProfile.css";
+
 function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
