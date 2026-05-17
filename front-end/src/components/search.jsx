@@ -16,7 +16,7 @@ function Search() {
       return;
     }
 
-    const timer = setTimeout(() => setSearching(true), 500);
+    const timer = setTimeout(() => setSearching(true), 1000);
 
     return () => clearTimeout(timer);
   }, [querySearch]);
