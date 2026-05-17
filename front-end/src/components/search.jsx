@@ -54,12 +54,14 @@ function Search() {
 
   return (
     <div className="searchDIV">
-      <div>Search</div>
-      <div>
-        <input
-          value={querySearch}
-          onChange={(e) => setQuerySearch(e.target.value)}
-        />
+      <div className="searchTop">
+        <div>Search</div>
+        <div>
+          <input
+            value={querySearch}
+            onChange={(e) => setQuerySearch(e.target.value)}
+          />
+        </div>
       </div>
       {isFetching && !queryResults && <div>Loading</div>}
       {error && <div>{error.errMsg}</div>}
