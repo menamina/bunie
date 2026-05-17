@@ -211,10 +211,10 @@ async function query(req, res) {
           },
         ],
       },
-      select: {
+      include: {
         likes: true,
         comments: true,
-        madeBy: {
+        madeby: {
           select: {
             id: true,
             name: true,
@@ -223,8 +223,6 @@ async function query(req, res) {
         },
       },
     });
-
-    console.log(usersWithQuery);
 
     const nextCursor = cursor + thisMany;
 
