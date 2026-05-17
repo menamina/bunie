@@ -20,7 +20,9 @@ function MiniProfile({ userProfile }) {
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      queryClient.invalidateQueries({
+        queryKey: ["follow", user.username, "follow"],
+      });
     },
   });
 
