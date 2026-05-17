@@ -16,7 +16,7 @@ function Search() {
       return;
     }
 
-    const timer = setTimeout(() => setSearching(true), 5000);
+    const timer = setTimeout(() => setSearching(true), 500);
 
     return () => clearTimeout(timer);
   }, [querySearch]);
@@ -59,7 +59,7 @@ function Search() {
           onChange={(e) => setQuerySearch(e.target.value)}
         />
       </div>
-      {isFetching && <div>Loading</div>}
+      {isFetching && !queryResults && <div>Loading</div>}
       {error && <div>{error.errMsg}</div>}
       {queryResults && (
         <div className="resultsReturnedDIV">
@@ -84,8 +84,8 @@ function Search() {
             </div>
           </div>
 
-          {queryResults.pages[0].usersWithQuery.length === 0 &&
-            queryResults.pages[0].postsWithQuery.length === 0 && (
+          {queryResults.pages[0]?.usersWithQuery.length === 0 &&
+            queryResults.pages[0]?.postsWithQuery.length === 0 && (
               <div className="noQueryResults">No results found</div>
             )}
 
@@ -93,17 +93,16 @@ function Search() {
             <div>
               <div className="topRES">
                 <div className="top10USERS">
-                  {queryResults.pages[0].usersWithQuery.length > 0 &&
+                  {queryResults.pages[0]?.usersWithQuery.length > 0 &&
                     queryResults.pages[0].usersWithQuery
-                      .slice(0, 9)
+                      .slice(0, 10)
                       .map((user) => (
                         <MiniProfile key={user.id} userProfile={user} />
                       ))}
-                  {queryResults.pages[0].usersWithQuery.length > 10 && (
+                  {queryResults.pages[0]?.usersWithQuery.length >= 10 && (
                     <div
                       onClick={() => {
                         setTabView("users");
-                        fetchNextPage();
                       }}
                     >
                       see more{" "}
@@ -111,16 +110,15 @@ function Search() {
                   )}
                 </div>
                 <div className="top10POSTS">
-                  {queryResults.pages[0].postsWithQuery
-                    .slice(0, 9)
+                  {queryResults.pages[0]?.postsWithQuery
+                    .slice(0, 10)
                     .map((post) => (
                       <PostCard key={post.id} post={post} />
                     ))}
-                  {queryResults.pages[0].postsWithQuery.length > 10 && (
+                  {queryResults.pages[0]?.postsWithQuery.length >= 10 && (
                     <div
                       onClick={() => {
                         setTabView("posts");
-                        fetchNextPage();
                       }}
                     >
                       see more{" "}
