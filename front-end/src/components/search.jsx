@@ -136,9 +136,7 @@ function Search() {
                   className={
                     tabView === "users" ? "selectedViewInSearch" : "userView"
                   }
-                  onClick={() => {
-                    tabView === "users" ? null : setTabView("users");
-                  }}
+                  onClick={() => setTabView("users")}
                 >
                   Users
                 </div>
@@ -146,9 +144,7 @@ function Search() {
                   className={
                     tabView === "posts" ? "selectedViewInSearch" : "postView"
                   }
-                  onClick={() => {
-                    tabView === "posts" ? null : setTabView("posts");
-                  }}
+                  onClick={() => setTabView("posts")}
                 >
                   Posts
                 </div>
