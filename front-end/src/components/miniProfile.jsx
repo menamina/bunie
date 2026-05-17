@@ -8,11 +8,15 @@ function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
+  console.log("Profile data:", userProfile);
+  console.log("Profile PFP:", userProfile.profile?.pfp);
+
   const authUser = queryClient.getQueryData([
     "follow",
     user.username,
     "following",
   ]);
+
   const isFollowing = authUser?.following?.some(
     (user) => user.id === userProfile.id,
   );
@@ -31,7 +35,10 @@ function MiniProfile({ userProfile }) {
       <div>
         <Link to={`/${userProfile?.username}`} key={userProfile?.id}>
           {" "}
-          <img src={userProfile?.profile?.pfp} />
+          <img
+            src={userProfile?.profile?.pfp}
+            alt={`${userProfile?.username}'s profile`}
+          />
         </Link>
         <div>
           <div>

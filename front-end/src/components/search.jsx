@@ -33,6 +33,9 @@ function Search() {
   } = useInfiniteQuery({
     ...search(querySearch),
     enabled: searching && !!querySearch,
+    onSuccess: () => {
+      setSearching(false);
+    },
   });
 
   useEffect(() => {
