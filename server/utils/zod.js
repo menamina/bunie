@@ -2,7 +2,7 @@ const z = require("zod");
 
 function searchZod(req, res, next) {
   const schema = z.object({
-    q: z.string().min(1).max(100),
+    querySearch: z.string().min(1).max(100),
   });
   try {
     schema.parse(req.query);

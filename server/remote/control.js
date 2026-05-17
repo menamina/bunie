@@ -166,7 +166,7 @@ async function getFollowingFeed(req, res) {
 
 async function query(req, res) {
   try {
-    const { query } = req.query;
+    const { querySearch } = req.query;
     const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
@@ -175,7 +175,7 @@ async function query(req, res) {
       take: thisMany,
       where: {
         username: {
-          contains: query,
+          contains: querySearch,
           mode: "insensitive",
         },
       },
@@ -199,13 +199,13 @@ async function query(req, res) {
         OR: [
           {
             title: {
-              contains: query,
+              contains: querySearch,
               mode: "insensitive",
             },
           },
           {
             body: {
-              contains: query,
+              contains: querySearch,
               mode: "insensitive",
             },
           },
