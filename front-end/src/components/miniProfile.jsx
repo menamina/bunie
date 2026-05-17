@@ -6,8 +6,12 @@ function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
-  const authUser = queryClient.getQueryData(["profile", user.username]);
-  const isFollowing = authUser.following.some(
+  const authUser = queryClient.getQueryData([
+    "follow",
+    user.username,
+    "following",
+  ]);
+  const isFollowing = authUser?.following?.some(
     (user) => user.id === userProfile.id,
   );
 
