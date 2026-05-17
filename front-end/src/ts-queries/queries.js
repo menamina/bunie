@@ -503,7 +503,7 @@ async function getFeed({ pageParam }) {
 
 async function searchThis({ pageParam, query }) {
   const res = await fetch(
-    `http://localhost:5555/search-API?cursor=${pageParam}&query=${query}`,
+    `http://localhost:5555/search-API?cursor=${pageParam}&querySearch=${query}`,
     {
       method: "GET",
       credentials: "include",
