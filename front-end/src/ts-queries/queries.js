@@ -509,7 +509,8 @@ async function searchThis({ pageParam, query }) {
       credentials: "include",
     },
   );
-  return await res.json();
+  const data = await res.json();
+  console.log(data);
 }
 
 async function updateIMGS(imgs) {

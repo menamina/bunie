@@ -8,7 +8,7 @@ function searchZod(req, res, next) {
     schema.parse(req.query);
     next();
   } catch (error) {
-    return res.status(400).json({ error: error.issues });
+    return res.status(400).json({ error: error.issues, "here" });
   }
 }
 
