@@ -224,10 +224,13 @@ async function query(req, res) {
       },
     });
 
+    console.log(usersWithQuery);
+
     const nextCursor = cursor + thisMany;
 
     return res.status(200).json({ usersWithQuery, postsWithQuery, nextCursor });
   } catch (error) {
+    console.error("Query function error:", error);
     return res.status(500).json({ errMsg: "server error" });
   }
 }
