@@ -36,7 +36,8 @@ function MiniProfile({ userProfile }) {
         <Link to={`/${userProfile?.username}`} key={userProfile?.id}>
           {" "}
           <img
-            src={userProfile?.profile?.pfp}
+            className="miniProfilePfp"
+            src={`http://localhost:5555/IMGS-API/${userProfile?.profile?.pfp}`}
             alt={`${userProfile?.username}'s profile`}
           />
         </Link>
