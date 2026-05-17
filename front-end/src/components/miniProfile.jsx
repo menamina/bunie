@@ -26,28 +26,30 @@ function MiniProfile({ userProfile }) {
 
   return (
     <div className="miniProfileDIV">
-      <Link to={`/${userProfile?.username}`} key={userProfile?.id}>
-        {" "}
-        <img src={userProfile?.profile?.pfp} />
-      </Link>
       <div>
+        <Link to={`/${userProfile?.username}`} key={userProfile?.id}>
+          {" "}
+          <img src={userProfile?.profile?.pfp} />
+        </Link>
         <div>
-          <div>{userProfile?.name}</div>
-          <div>@{userProfile?.username}</div>
-          <div>{userProfile?.profile?.bio}</div>
+          <div>
+            <div>{userProfile?.name}</div>
+            <div>@{userProfile?.username}</div>
+            <div>{userProfile?.profile?.bio}</div>
+          </div>
         </div>
       </div>
       <div>
         {isFollowing ? (
           <button
-            className="followButton"
+            className="followButton unfollow"
             onClick={() => toggleFollow(userProfile?.id)}
           >
             Following
           </button>
         ) : (
           <button
-            className="followButton"
+            className="followButton follow"
             onClick={() => toggleFollow(userProfile?.id)}
           >
             Follow

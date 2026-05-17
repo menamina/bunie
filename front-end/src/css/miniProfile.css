@@ -1,3 +1,26 @@
 .miniProfileDIV {
   display: flex;
+  justify-content: space-between;
+}
+
+.miniProfileDIV > div:first-child {
+  display: flex;
+  gap: 8px;
+}
+
+.followButton {
+  border-radius: 50px;
+  width: 6rem;
+  height: 2rem;
+  cursor: pointer;
+}
+
+.follow {
+  background-color: white;
+  border: 1px solid gray;
+}
+
+.following {
+  background-color: black;
+  color: white;
 }
