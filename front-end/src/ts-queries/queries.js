@@ -250,13 +250,9 @@ async function getMiniProfile(username, view) {
 
   if (!res.ok) {
     const error = new Error();
-    if (res.status === 204) {
-      view === "followers"
-        ? (error.noFollowers = "This user has 0 followers")
-        : (error.noFollowers = "This user has 0 followings");
+    if (res.status === 403) {
+      error.noUser = "No user found";
       throw error;
-    } else if (res.status === 403) {
-      error.noUser === "No user found";
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
       throw error;

@@ -300,9 +300,6 @@ async function getFollowers(req, res) {
       return res.status(403).json({ message: "no user found" });
     }
 
-    if (fullFollowerList.followers.length === 0) {
-      return res.status(204).json({ noFollowers: true });
-    }
     return res.status(200).json(fullFollowerList);
   } catch (error) {
     console.error(error);
@@ -341,9 +338,6 @@ async function getFollowing(req, res) {
       return res.status(403).json({ message: "no user found" });
     }
 
-    if (fullFollowingList.followings.length === 0) {
-      return res.status(204).json({ noFollowing: true });
-    }
     return res.status(200).json(fullFollowingList);
   } catch (error) {
     console.error(error);

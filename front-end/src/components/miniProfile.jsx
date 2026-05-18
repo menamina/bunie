@@ -11,15 +11,9 @@ function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
-  console.log("Profile data:", userProfile);
-  console.log("Profile PFP:", userProfile.profile?.pfp);
-
   const { data: authUserFollowing } = useQuery(
     getMiniProfileOpts(user.username, "following"),
   );
-
-  console.log("Auth user following data:", authUserFollowing);
-  console.log("Checking if following user:", userProfile.id);
 
   const isFollowing = authUserFollowing?.followings?.some(
     (f) => f.followingAcc.id === userProfile.id,
@@ -27,25 +21,12 @@ function MiniProfile({ userProfile }) {
 
   const isOwnProfile = user.id === userProfile.id;
 
-  console.log("Is following:", isFollowing);
-  console.log("Is own profile:", isOwnProfile);
-
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
-    onMutate: (userID) => {
-      console.log("About to toggle follow for user ID:", userID);
-      console.log("Current user (me):", user.id, user.username);
-      console.log("Target user:", userProfile.id, userProfile.username);
-    },
-    onSuccess: (data) => {
-      console.log("Follow toggle success! Response:", data);
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["miniProfile", user.username, "following"],
       });
-      console.log("Invalidated queries for:", user.username);
-    },
-    onError: (error) => {
-      console.error("Follow toggle failed:", error);
     },
   });
 
