@@ -7,7 +7,7 @@ import {
 
 import "../css/miniProfile.css";
 
-function MiniProfile({ userProfile, query }) {
+function MiniProfile({ userProfile }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
@@ -18,7 +18,7 @@ function MiniProfile({ userProfile, query }) {
     getMiniProfileOpts(user.username, "following"),
   );
 
-  const isFollowing = authUserFollowing?.fullFollowingList?.following?.some(
+  const isFollowing = authUserFollowing?.fullFollowingList?.followings?.some(
     (f) => f.followingAcc.id === userProfile.id,
   );
 
