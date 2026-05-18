@@ -18,16 +18,34 @@ function MiniProfile({ userProfile }) {
     getMiniProfileOpts(user.username, "following"),
   );
 
-  const isFollowing = authUserFollowing?.fullFollowingList?.followings?.some(
+  console.log("Auth user following data:", authUserFollowing);
+  console.log("Checking if following user:", userProfile.id);
+
+  const isFollowing = authUserFollowing?.followings?.some(
     (f) => f.followingAcc.id === userProfile.id,
   );
 
+  const isOwnProfile = user.id === userProfile.id;
+
+  console.log("Is following:", isFollowing);
+  console.log("Is own profile:", isOwnProfile);
+
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
-    onSuccess: () => {
+    onMutate: (userID) => {
+      console.log("About to toggle follow for user ID:", userID);
+      console.log("Current user (me):", user.id, user.username);
+      console.log("Target user:", userProfile.id, userProfile.username);
+    },
+    onSuccess: (data) => {
+      console.log("Follow toggle success! Response:", data);
       queryClient.invalidateQueries({
         queryKey: ["miniProfile", user.username, "following"],
       });
+      console.log("Invalidated queries for:", user.username);
+    },
+    onError: (error) => {
+      console.error("Follow toggle failed:", error);
     },
   });
 
@@ -51,20 +69,32 @@ function MiniProfile({ userProfile }) {
         </div>
       </div>
       <div>
-        {isFollowing ? (
-          <button
-            className="followButton unfollowMini"
-            onClick={() => toggleFollow(userProfile?.id)}
-          >
-            Following
-          </button>
-        ) : (
-          <button
-            className="followButton followMini"
-            onClick={() => toggleFollow(userProfile?.id)}
-          >
-            Follow
-          </button>
+        {!isOwnProfile && (
+          <>
+            {isFollowing ? (
+              <button
+                className="followButton unfollowMini"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleFollow(userProfile?.id);
+                }}
+              >
+                Following
+              </button>
+            ) : (
+              <button
+                className="followButton followMini"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  toggleFollow(userProfile?.id);
+                }}
+              >
+                Follow
+              </button>
+            )}
+          </>
         )}
       </div>
     </div>
