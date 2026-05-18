@@ -104,7 +104,11 @@ function Search() {
                     queryResults?.pages[0].usersWithQuery
                       .slice(0, 10)
                       .map((user) => (
-                        <MiniProfile key={user.id} userProfile={user} />
+                        <MiniProfile
+                          key={user.id}
+                          userProfile={user}
+                          query={querySearch}
+                        />
                       ))}
                   {queryResults?.pages[0]?.usersWithQuery.length >= 10 && (
                     <div
@@ -142,7 +146,11 @@ function Search() {
                 <div>
                   {queryResults.pages.flatMap((item) =>
                     item.usersWithQuery.map((user) => (
-                      <MiniProfile key={user.id} userProfile={user} />
+                      <MiniProfile
+                        key={user.id}
+                        userProfile={user}
+                        query={querySearch}
+                      />
                     )),
                   )}
                   {hasNextPage && (

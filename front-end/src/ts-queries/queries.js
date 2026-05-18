@@ -124,7 +124,7 @@ export const getFollowingFeedOpt = () => {
 };
 
 export const search = (query) => {
-  return queryOptions({
+  return infiniteQueryOptions({
     queryKey: ["search", query],
     queryFn: ({ pageParam }) => searchThis({ pageParam, query }),
     initialPageParam: 0,
@@ -202,7 +202,7 @@ export const getLikeOpts = (username) => {
 
 export const getMiniProfileOpts = (username, view) => {
   return queryOptions({
-    queryKey: ["miniProfile", username],
+    queryKey: ["miniProfile", username, view],
     queryFn: () => getMiniProfile(username, view),
   });
 };

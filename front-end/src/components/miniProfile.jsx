@@ -1,31 +1,32 @@
-import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import { useOutletContext, Link } from "react-router-dom";
-import { followMutationOptions } from "../ts-queries/queries";
+import {
+  followMutationOptions,
+  getMiniProfileOpts,
+} from "../ts-queries/queries";
 
 import "../css/miniProfile.css";
 
-function MiniProfile({ userProfile }) {
+function MiniProfile({ userProfile, query }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 
   console.log("Profile data:", userProfile);
   console.log("Profile PFP:", userProfile.profile?.pfp);
 
-  const authUser = queryClient.getQueryData([
-    "follow",
-    user.username,
-    "following",
-  ]);
+  const { data: authUserFollowing } = useQuery(
+    getMiniProfileOpts(user.username, "following"),
+  );
 
-  const isFollowing = authUser?.following?.some(
-    (user) => user.id === userProfile.id,
+  const isFollowing = authUserFollowing?.fullFollowingList?.following?.some(
+    (f) => f.followingAcc.id === userProfile.id,
   );
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["follow", user.username, "follow"],
+        queryKey: ["miniProfile", user.username, "following"],
       });
     },
   });
