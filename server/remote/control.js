@@ -236,6 +236,7 @@ async function query(req, res) {
 async function getProfile(req, res) {
   try {
     const { username } = req.params;
+    console.log(username);
 
     const userProfile = await prisma.user.findUnique({
       where: {
@@ -258,6 +259,7 @@ async function getProfile(req, res) {
       },
     });
 
+    console.log(userProfile);
     if (!userProfile) {
       return res.status(404).json({ noUserFound: true });
     }

@@ -38,6 +38,8 @@ function Profile() {
     },
   });
 
+  console.log(userProfile);
+
   if (!user) {
     return (
       <div className="errorModal">
@@ -117,13 +119,13 @@ function Profile() {
                       className="following"
                       onClick={() => setView("following")}
                     >
-                      {userProfile?.following?.length || 0} following
+                      {userProfile?.followings?.length} following
                     </div>
                     <div
                       className="followers"
                       onClick={() => setView("followers")}
                     >
-                      {userProfile?.followers?.length || 0} followers
+                      {userProfile?.followers?.length} followers
                     </div>
                   </div>
                 </div>
