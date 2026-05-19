@@ -393,6 +393,8 @@ async function getUserPosts(req, res) {
       },
     }));
 
+    console.log(feed);
+
     return res.status(200).json({ feed, nextCursor: cursor + thisMany });
   } catch (error) {
     console.error(error);

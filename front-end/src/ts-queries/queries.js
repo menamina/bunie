@@ -41,7 +41,7 @@ export const getProfilePosts = (username, authUsername) => {
     queryKey: ["profilePosts", username, authUsername],
     queryFn: ({ pageParam }) => getUserPosts(username, authUsername, pageParam),
     initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.cursor,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 };
 

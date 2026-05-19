@@ -94,7 +94,8 @@ function PostCard({ post }) {
           <img
             className="posterspfp"
             src={
-              post?.madeBy?.profile?.pfp && post.madeBy.profile.pfp !== "default.svg"
+              post?.madeBy?.profile?.pfp &&
+              post?.madeBy?.profile?.pfp !== "default.svg"
                 ? `http://localhost:5555/IMGS-API/${post.madeBy.profile.pfp}`
                 : DefaultIcon
             }
@@ -105,8 +106,10 @@ function PostCard({ post }) {
           <div>
             <div className="postUserINFO">
               <div>
-                <div>{post.madeBy.name}</div>
-                <div className="usernameOfPoster">@{post.madeBy.username}</div>
+                <div>{post?.madeBy?.name}</div>
+                <div className="usernameOfPoster">
+                  @{post?.madeBy?.username}
+                </div>
               </div>
 
               {isThisMyPost && (
@@ -199,10 +202,10 @@ function PostCard({ post }) {
           </div>
 
           <div>
-            <div className="postTitle">{post.title}</div>
+            <div className="postTitle">{post?.title}</div>
           </div>
-          {post.body && <div>{post.body}</div>}
-          {post.img && (
+          {post?.body && <div>{post?.body}</div>}
+          {post?.img && (
             <div
               className={
                 (post?.img?.length === 1 && "noGrid") ||
@@ -237,7 +240,7 @@ function PostCard({ post }) {
               }}
             >
               <img src={likeStatus} className="engagementIMGS"></img>
-              <div>{post.likes?.length}</div>
+              <div>{post?.likes?.length}</div>
             </div>
             <div
               onClick={(e) => {
@@ -246,7 +249,7 @@ function PostCard({ post }) {
               }}
             >
               <img src={CommentBubble} className="engagementIMGS"></img>
-              <div>{post.comments?.length}</div>
+              <div>{post?.comments?.length}</div>
             </div>
           </div>
         </div>

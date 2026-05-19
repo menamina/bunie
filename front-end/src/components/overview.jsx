@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import { infiniteQueryOptions, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
 import PostCard from "./postcard";
@@ -9,9 +9,18 @@ function Overview({ whoseProfile }) {
 
   const {
     data: userPosts,
+    isFetching,
+    fetchNextPage,
+    isFetchingNextPage,
+    hasNextPage,
     isPending,
     error,
-  } = infiniteQueryOptions(getProfilePosts(whoseProfile, user.username));
+  } = useInfiniteQuery({
+    ...getProfilePosts(whoseProfile, user.username),
+    onSuccess: () => {
+      console.log("gathered", whoseProfile, "posts");
+    },
+  });
 
   return (
     <div className="userPostsDIV">
@@ -27,7 +36,7 @@ function Overview({ whoseProfile }) {
       {isPending && <div>Loading..</div>}
       {userPosts?.pages?.length === 0 && <div>Nothing to see here</div>}
       {userPosts?.pages?.length > 0 &&
-        userPosts?.pages?.flatmap((post) => (
+        userPosts?.pages?.flatMap((post) => (
           <PostCard post={post} key={post.id} />
         ))}
     </div>

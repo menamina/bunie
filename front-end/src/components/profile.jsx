@@ -39,15 +39,6 @@ function Profile() {
 
   console.log(userProfile);
 
-  if (!user) {
-    return (
-      <div className="errorModal">
-        <div>Sorry, you must be logged in to view {username}'s profile</div>
-        <Link to="/">login or sign up here</Link>
-      </div>
-    );
-  }
-
   function follow(idToFollow) {
     toggleFollow(idToFollow);
   }
@@ -84,14 +75,18 @@ function Profile() {
       {!isPending && !error && (
         <>
           <div className="headerDIV">
-            {userProfile?.profile?.header && userProfile.profile.header !== "white" ? (
+            {userProfile?.profile?.header &&
+            userProfile.profile.header !== "white" ? (
               <img
                 className="headerIMG"
                 src={`http://localhost:5555/IMGS-API/${userProfile.profile.header}`}
                 alt={`header for ${userProfile?.username}`}
               />
             ) : (
-              <div className="headerIMG" style={{ backgroundColor: "white" }}></div>
+              <div
+                className="headerIMG"
+                style={{ backgroundColor: "white" }}
+              ></div>
             )}
           </div>
 
@@ -100,7 +95,8 @@ function Profile() {
               <div>
                 <img
                   src={
-                    userProfile?.profile?.pfp && userProfile.profile.pfp !== "default.svg"
+                    userProfile?.profile?.pfp &&
+                    userProfile.profile.pfp !== "default.svg"
                       ? `http://localhost:5555/IMGS-API/${userProfile.profile.pfp}`
                       : DefaultIcon
                   }
