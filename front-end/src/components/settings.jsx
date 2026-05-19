@@ -144,20 +144,34 @@ function Settings() {
                 <div>
                   <img
                     className="currentHeader"
-                    src={Header}
-                    // src={`http:localhost:5555/IMGS-API/${user.header}`}
+                    src={
+                      user?.profile?.header && user.profile.header !== "white"
+                        ? `http://localhost:5555/IMGS-API/${user.profile.header}`
+                        : DefaultHeader
+                    }
                     alt="your header"
-                    onClick={() => setExpandedImage(Header)}
+                    onClick={() => setExpandedImage(
+                      user?.profile?.header && user.profile.header !== "white"
+                        ? `http://localhost:5555/IMGS-API/${user.profile.header}`
+                        : DefaultHeader
+                    )}
                     style={{ cursor: "pointer" }}
                   />
                 </div>
                 <div className="iconHolder">
                   <img
                     className="currentIcon"
-                    src={Icon}
-                    // src={`http:localhost:5555/IMGS-API/${user.pfp}`}
+                    src={
+                      user?.profile?.pfp && user.profile.pfp !== "default.svg"
+                        ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
+                        : DefaultIcon
+                    }
                     alt="your profile img"
-                    onClick={() => setExpandedImage(Icon)}
+                    onClick={() => setExpandedImage(
+                      user?.profile?.pfp && user.profile.pfp !== "default.svg"
+                        ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
+                        : DefaultIcon
+                    )}
                     style={{ cursor: "pointer" }}
                   />
                 </div>
@@ -195,7 +209,9 @@ function Settings() {
                     }
                     src={
                       !iconHeaderData.header
-                        ? Header
+                        ? (user?.profile?.header && user.profile.header !== "white"
+                            ? `http://localhost:5555/IMGS-API/${user.profile.header}`
+                            : DefaultHeader)
                         : URL.createObjectURL(iconHeaderData.header)
                     }
                     alt="your updated header"
@@ -223,7 +239,9 @@ function Settings() {
                     }
                     src={
                       !iconHeaderData.pfp
-                        ? Icon
+                        ? (user?.profile?.pfp && user.profile.pfp !== "default.svg"
+                            ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
+                            : DefaultIcon)
                         : URL.createObjectURL(iconHeaderData.pfp)
                     }
                     alt="your updated pfp"
