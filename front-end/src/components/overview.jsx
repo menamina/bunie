@@ -1,5 +1,5 @@
 import { useOutletContext } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { infiniteQueryOptions, useQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
 import PostCard from "./postcard";
@@ -11,15 +11,7 @@ function Overview({ whoseProfile }) {
     data: userPosts,
     isPending,
     error,
-  } = useQuery(getProfilePosts(whoseProfile, user.username));
-
-  if (isPending) {
-    return (
-      <div>
-        <div>Loading</div>
-      </div>
-    );
-  }
+  } = infiniteQueryOptions(getProfilePosts(whoseProfile, user.username));
 
   if (error) {
     return (
@@ -37,8 +29,11 @@ function Overview({ whoseProfile }) {
 
   return (
     <div className="userPostsDIV">
-      {userPosts?.length > 0 &&
-        userPosts?.map((post) => <PostCard post={post} key={post.id} />)}
+      {userPosts?.pages?.length === 0 && <div>Nothing to see here</div>}
+      {userPosts?.pages?.length > 0 &&
+        userPosts?.pages?.flatmap((post) => (
+          <PostCard post={post} key={post.id} />
+        ))}
     </div>
   );
 }

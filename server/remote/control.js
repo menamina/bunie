@@ -349,7 +349,7 @@ async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
     const cursor = parseInt(req.query.cursor);
-    const thisMany = 15;
+    const thisMany = 20;
 
     const user = await prisma.user.findUnique({
       ...(cursor > 0 && { skip: cursor }),
@@ -376,8 +376,9 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (!user || user.posts.length === 0) {
-      return res.status(404).json({ zeroposts: "Nothing to see here" });
+    if (user.posts.length === 0) {
+      const feed = [];
+      return res.status(200).json(feed);
     }
 
     const feed = user.posts.map((post) => ({
