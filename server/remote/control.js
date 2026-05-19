@@ -386,7 +386,9 @@ async function getUserPosts(req, res) {
         id: user.id,
         name: user.name,
         username: user.username,
-        pfp: user.profile.pfp,
+        profile: {
+          pfp: user.profile.pfp,
+        },
       },
     }));
 

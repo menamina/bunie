@@ -18,9 +18,11 @@ router.get("/session-check-API", isAuth, (req, res) => {
       username: req.user.username,
       email: req.user.email,
       joined: req.user.joined,
-      pfp: req.user.profile.pfp,
-      header: req.user.profile.header,
-      bio: req.user.profile.bio,
+      profile: {
+        pfp: req.user.profile.pfp,
+        header: req.user.profile.header,
+        bio: req.user.profile.bio,
+      },
     },
   });
 });
@@ -42,9 +44,11 @@ router.post("/login-API", (req, res, next) => {
           name: user.name,
           username: user.username,
           email: user.email,
-          pfp: user.profile.pfp,
-          header: user.profile.header,
-          bio: user.profile.bio,
+          profile: {
+            pfp: user.profile.pfp,
+            header: user.profile.header,
+            bio: user.profile.bio,
+          },
         },
       });
     });

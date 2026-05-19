@@ -10,8 +10,8 @@ import {
 
 import "../css/settings.css";
 
-import Icon from "../imgs/cafe.jpeg";
-import Header from "../imgs/image.jpg";
+import DefaultIcon from "../imgs/default.svg";
+import DefaultHeader from "../imgs/image.jpg";
 import Close from "../imgs/eye.png";
 import View from "../imgs/view.png";
 
