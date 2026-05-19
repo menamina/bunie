@@ -131,7 +131,6 @@ function Profile() {
                 </div>
 
                 <div className="editAcc togglefollow">
-                  {/* follow / unfollow */}
                   {user?.username === username && (
                     <button
                       type="button"
@@ -173,7 +172,6 @@ function Profile() {
               <div onClick={() => setView("inventory")}>Inventory</div>
             </div>
 
-            {/* MEDIA QUERIES HERE FOR CONDENSED MOBILE VIEW VS DESKTOP */}
             <div className="opts-rendering desktop">
               <div
                 className={

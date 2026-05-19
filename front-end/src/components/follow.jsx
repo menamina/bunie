@@ -12,7 +12,7 @@ function Follow({ whoseProfile, view }) {
   return (
     <div className="followDIV">
       {isPending && <div>loading..</div>}
-      {followError && <div>{followError}</div>}
+      {followError && <div>{followError?.errors}</div>}
       <div className="followDataDIV">
         {view === "followers" && (
           <div>
@@ -30,11 +30,10 @@ function Follow({ whoseProfile, view }) {
         )}
         {view === "following" && (
           <div>
-            {followData?.fullFollowingList?.following &&
-            followData.fullFollowingList.following.length > 0 ? (
-              followData.fullFollowingList.following.map((following) => (
+            {followData?.followings?.length > 0 ? (
+              followData?.followings?.map((following) => (
                 <MiniProfile
-                  key={following.followingAcc.id}
+                  key={following.followingAcc?.id}
                   userProfile={following.followingAcc}
                 />
               ))
