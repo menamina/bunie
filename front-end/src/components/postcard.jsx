@@ -29,6 +29,8 @@ function PostCard({ post }) {
     ? FilledHeart
     : EmptyHeart;
 
+  console.log(post);
+
   const [expandIMG, setExpandIMG] = useState(null);
 
   const nav = useNavigate();
@@ -83,11 +85,11 @@ function PostCard({ post }) {
     <div className="renderingPosts">
       <div
         className="postDIV"
-        id={post.id}
-        key={`${post.id} postcard`}
+        id={post?.id}
+        key={`${post?.id} postcard`}
         onClick={(e) => {
           e.stopPropagation();
-          nav(`/post/${post.id}`);
+          nav(`/post/${post?.id}`);
         }}
       >
         <div onClick={navToProfile}>
@@ -114,7 +116,7 @@ function PostCard({ post }) {
 
               {isThisMyPost && (
                 <>
-                  {deletePostClicked === post.id && (
+                  {deletePostClicked === post?.id && (
                     <div
                       className="confirmDeletePostModal"
                       onClick={(e) => {

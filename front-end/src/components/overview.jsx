@@ -36,9 +36,9 @@ function Overview({ whoseProfile }) {
       {isPending && <div>Loading..</div>}
       {userPosts?.pages?.length === 0 && <div>Nothing to see here</div>}
       {userPosts?.pages?.length > 0 &&
-        userPosts?.pages?.flatMap((post) => (
-          <PostCard post={post} key={post.id} />
-        ))}
+        userPosts?.pages
+          ?.flatMap((page) => page.feed)
+          .map((page) => <PostCard post={page?.item} key={page?.id} />)}
     </div>
   );
 }

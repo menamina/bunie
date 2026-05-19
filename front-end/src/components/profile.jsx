@@ -37,8 +37,6 @@ function Profile() {
     },
   });
 
-  console.log(userProfile);
-
   function follow(idToFollow) {
     toggleFollow(idToFollow);
   }
