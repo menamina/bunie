@@ -29,9 +29,9 @@ model User {
 }
 
 model Profile {
-  id Int @id @default(autoincrement()) 
+  id Int @id @default(autoincrement())
   userID Int @unique
-  pfp String @default("default-icon.png")
+  pfp String @default("default.svg")
   header String @default("white")
   bio String?
 

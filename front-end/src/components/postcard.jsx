@@ -5,7 +5,7 @@ import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";
-import TempIcon from "../imgs/cafe.jpeg";
+import DefaultIcon from "../imgs/default.svg";
 import EmptyHeart from "../imgs/emptyHeart.png";
 import FilledHeart from "../imgs/filledHeart.png";
 import CommentBubble from "../imgs/comment.png";
@@ -91,10 +91,13 @@ function PostCard({ post }) {
         }}
       >
         <div onClick={navToProfile}>
-          {/* <img src={`http://localhost:5555/IMGS-API/${post.madeBy.pfp}`} /> */}
           <img
             className="posterspfp"
-            src={TempIcon}
+            src={
+              post?.madeBy?.profile?.pfp && post.madeBy.profile.pfp !== "default.svg"
+                ? `http://localhost:5555/IMGS-API/${post.madeBy.profile.pfp}`
+                : DefaultIcon
+            }
             alt={` ${post?.madeBy?.username}'s profile picture`}
           />
         </div>

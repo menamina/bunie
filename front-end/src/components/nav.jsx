@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import MakeAPost from "./makeAPost";
 import AddToInventory from "./addToInventory";
 
-import TempIcon from "../imgs/cafe.jpeg";
+import DefaultIcon from "../imgs/default.svg";
 
 import { logoutMut } from "../ts-queries/queries";
 
@@ -94,11 +94,15 @@ function Nav({ user }) {
         </div>
       </div>
       <Link className="goToProfile" to={`/${user?.user?.username}`}>
-        {/* <img
-          src={`http://localhost:5555/IMGS-API/${user?.user?.pfp}`}
+        <img
+          className="miniPFP"
+          src={
+            user?.user?.profile?.pfp && user.user.profile.pfp !== "default.svg"
+              ? `http://localhost:5555/IMGS-API/${user.user.profile.pfp}`
+              : DefaultIcon
+          }
           alt="your profile"
-        /> */}
-        <img className="miniPFP" src={TempIcon} alt="your profile" />
+        />
       </Link>
       {makePost && <MakeAPost closeModal={setMakePost} user={user?.user} />}
       {addToInventory && (

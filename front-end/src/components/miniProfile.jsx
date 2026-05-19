@@ -5,6 +5,7 @@ import {
   getMiniProfileOpts,
 } from "../ts-queries/queries";
 
+import DefaultIcon from "../imgs/default.svg";
 import "../css/miniProfile.css";
 
 function MiniProfile({ userProfile }) {
@@ -37,7 +38,11 @@ function MiniProfile({ userProfile }) {
           {" "}
           <img
             className="miniProfilePfp"
-            src={`http://localhost:5555/IMGS-API/${userProfile?.profile?.pfp}`}
+            src={
+              userProfile?.profile?.pfp && userProfile.profile.pfp !== "default.svg"
+                ? `http://localhost:5555/IMGS-API/${userProfile.profile.pfp}`
+                : DefaultIcon
+            }
             alt={`${userProfile?.username}'s profile`}
           />
         </Link>
