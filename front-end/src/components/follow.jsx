@@ -7,7 +7,7 @@ function Follow({ whoseProfile, view }) {
     data: followData,
     error: followError,
     isPending,
-  } = useQuery(getMiniProfileOpts(whoseProfile.username, view));
+  } = useQuery(getMiniProfileOpts(whoseProfile, view));
 
   return (
     <div className="followDIV">
@@ -16,11 +16,11 @@ function Follow({ whoseProfile, view }) {
       <div className="followDataDIV">
         {view === "followers" && (
           <div>
-            {followData?.followers && followData.followers.length > 0 ? (
-              followData.followers.map((follower) => (
+            {followData?.followers?.length > 0 ? (
+              followData?.followers.map((follower) => (
                 <MiniProfile
-                  key={follower.followerAcc.id}
-                  userProfile={follower.followerAcc}
+                  key={follower?.followerAcc?.id}
+                  userProfile={follower?.followerAcc}
                 />
               ))
             ) : (
@@ -33,8 +33,8 @@ function Follow({ whoseProfile, view }) {
             {followData?.followings?.length > 0 ? (
               followData?.followings?.map((following) => (
                 <MiniProfile
-                  key={following.followingAcc?.id}
-                  userProfile={following.followingAcc}
+                  key={following?.followingAcc?.id}
+                  userProfile={following?.followingAcc}
                 />
               ))
             ) : (

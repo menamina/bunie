@@ -334,8 +334,6 @@ async function getFollowing(req, res) {
       },
     });
 
-    console.log(fullFollowingList);
-
     if (!fullFollowingList) {
       return res.status(403).json({ message: "no user found" });
     }
