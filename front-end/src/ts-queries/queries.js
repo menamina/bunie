@@ -36,10 +36,12 @@ export const followMutationOptions = () => {
   });
 };
 
-export const getProfilePosts = (username, authUser) => {
-  return queryOptions({
-    queryKey: ["profilePosts", username],
-    queryFn: () => getUserPosts(username, authUser),
+export const getProfilePosts = (username, authUsername) => {
+  return infiniteQueryOptions({
+    queryKey: ["profilePosts", username, authUsername],
+    queryFn: ({ pageParam }) => getUserPosts(username, authUsername, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.cursor,
   });
 };
 
@@ -773,12 +775,12 @@ async function toggleFollow(userID) {
   return await res.json();
 }
 
-async function getUserPosts(username, authUsername) {
+async function getUserPosts(username, authUsername, pageParam) {
   const isOwnProfile = authUsername === username ? true : false;
 
   const endpoint = isOwnProfile
-    ? `http://localhost:5555/get-my-posts/${authUsername}`
-    : `http://localhost:5555/get-user-posts/${username}`;
+    ? `http://localhost:5555/get-my-posts/${authUsername}?cursor=${pageParam}`
+    : `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`;
 
   const res = await fetch(endpoint, {
     method: "GET",

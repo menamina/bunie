@@ -14,7 +14,6 @@ import SelectedView from "./selectedView";
 
 import "../css/profile.css";
 
-import TempHeader from "../imgs/image.jpg";
 import DefaultIcon from "../imgs/default.svg";
 
 function Profile() {
@@ -85,12 +84,15 @@ function Profile() {
       {!isPending && !error && (
         <>
           <div className="headerDIV">
-            <img
-              className="headerIMG"
-              src={TempHeader}
-              // src={userProfile?.profile?.header || TempHeader}
-              alt={`header for ${userProfile?.username}`}
-            />
+            {userProfile?.profile?.header && userProfile.profile.header !== "white" ? (
+              <img
+                className="headerIMG"
+                src={`http://localhost:5555/IMGS-API/${userProfile.profile.header}`}
+                alt={`header for ${userProfile?.username}`}
+              />
+            ) : (
+              <div className="headerIMG" style={{ backgroundColor: "white" }}></div>
+            )}
           </div>
 
           <div className="z-index user content">

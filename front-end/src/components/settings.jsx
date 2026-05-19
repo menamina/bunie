@@ -11,7 +11,6 @@ import {
 import "../css/settings.css";
 
 import DefaultIcon from "../imgs/default.svg";
-import DefaultHeader from "../imgs/image.jpg";
 import Close from "../imgs/eye.png";
 import View from "../imgs/view.png";
 
@@ -142,21 +141,21 @@ function Settings() {
             {!openIconHeader && (
               <div className="currentIconHeader">
                 <div>
-                  <img
-                    className="currentHeader"
-                    src={
-                      user?.profile?.header && user.profile.header !== "white"
-                        ? `http://localhost:5555/IMGS-API/${user.profile.header}`
-                        : DefaultHeader
-                    }
-                    alt="your header"
-                    onClick={() => setExpandedImage(
-                      user?.profile?.header && user.profile.header !== "white"
-                        ? `http://localhost:5555/IMGS-API/${user.profile.header}`
-                        : DefaultHeader
-                    )}
-                    style={{ cursor: "pointer" }}
-                  />
+                  {user?.profile?.header && user.profile.header !== "white" ? (
+                    <img
+                      className="currentHeader"
+                      src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
+                      alt="your header"
+                      onClick={() => setExpandedImage(`http://localhost:5555/IMGS-API/${user.profile.header}`)}
+                      style={{ cursor: "pointer", width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div
+                      className="currentHeader"
+                      style={{ backgroundColor: "white", cursor: "pointer", width: "100%", height: "100%" }}
+                      onClick={() => setExpandedImage(null)}
+                    ></div>
+                  )}
                 </div>
                 <div className="iconHolder">
                   <img
@@ -201,22 +200,29 @@ function Settings() {
                 )}
 
                 <div>
-                  <img
-                    className={
-                      iconHeaderData.header
-                        ? "wantedHeader noHeaderOverlay"
-                        : "wantedHeader overlay"
-                    }
-                    src={
-                      !iconHeaderData.header
-                        ? (user?.profile?.header && user.profile.header !== "white"
-                            ? `http://localhost:5555/IMGS-API/${user.profile.header}`
-                            : DefaultHeader)
-                        : URL.createObjectURL(iconHeaderData.header)
-                    }
-                    alt="your updated header"
-                    onClick={(e) => e.target.nextElementSibling.click()}
-                  />
+                  {iconHeaderData.header ? (
+                    <img
+                      className="wantedHeader noHeaderOverlay"
+                      src={URL.createObjectURL(iconHeaderData.header)}
+                      alt="your updated header"
+                      onClick={(e) => e.target.nextElementSibling.click()}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : user?.profile?.header && user.profile.header !== "white" ? (
+                    <img
+                      className="wantedHeader overlay"
+                      src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
+                      alt="your updated header"
+                      onClick={(e) => e.target.nextElementSibling.click()}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                    />
+                  ) : (
+                    <div
+                      className="wantedHeader overlay"
+                      style={{ backgroundColor: "white", width: "100%", height: "100%" }}
+                      onClick={(e) => e.target.nextElementSibling.click()}
+                    ></div>
+                  )}
                   <input
                     type="file"
                     accept="image/*"
