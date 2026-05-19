@@ -352,8 +352,6 @@ async function getUserPosts(req, res) {
     const thisMany = 20;
 
     const user = await prisma.user.findUnique({
-      ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
       where: {
         username,
       },
@@ -367,6 +365,8 @@ async function getUserPosts(req, res) {
           },
         },
         posts: {
+          ...(cursor > 0 && { skip: cursor }),
+          take: thisMany,
           include: {
             likes: true,
             comments: true,
