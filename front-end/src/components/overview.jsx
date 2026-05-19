@@ -13,22 +13,18 @@ function Overview({ whoseProfile }) {
     error,
   } = infiniteQueryOptions(getProfilePosts(whoseProfile, user.username));
 
-  if (error) {
-    return (
-      <div className="userPostsDIV">
-        {error?.notAuth && <div className="centerError">{error.notAuth}</div>}
-        {error?.serverError && (
-          <div className="centerError">{error.serverError}</div>
-        )}
-        {error?.zeroposts && (
-          <div className="centerError">Nothing to see here</div>
-        )}
-      </div>
-    );
-  }
-
   return (
     <div className="userPostsDIV">
+      {error && (
+        <div>
+          {" "}
+          {error?.notAuth && <div className="centerError">{error.notAuth}</div>}
+          {error?.serverError && (
+            <div className="centerError">{error.serverError}</div>
+          )}
+        </div>
+      )}
+      {isPending && <div>Loading..</div>}
       {userPosts?.pages?.length === 0 && <div>Nothing to see here</div>}
       {userPosts?.pages?.length > 0 &&
         userPosts?.pages?.flatmap((post) => (
