@@ -29,8 +29,6 @@ function PostCard({ post }) {
     ? FilledHeart
     : EmptyHeart;
 
-  console.log(post);
-
   const [expandIMG, setExpandIMG] = useState(null);
 
   const nav = useNavigate();
@@ -57,20 +55,20 @@ function PostCard({ post }) {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
-      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
+      queryClient.invalidateQueries({ queryKey: ["post", post?.id] });
       queryClient.invalidateQueries({ queryKey: ["feed"] });
     },
   });
 
   const { mutate: togglePostLike } = useMutation({
-    ...togglePostLikeOpt(post.id),
+    ...togglePostLikeOpt(post?.id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
+      queryClient.invalidateQueries({ queryKey: ["post", post?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["profilePosts", post.madeBy?.username],
+        queryKey: ["profilePosts", post?.madeBy?.username],
       });
       queryClient.invalidateQueries({
-        queryKey: ["profileLikes", user.username],
+        queryKey: ["profileLikes", user?.username],
       });
       queryClient.invalidateQueries({ queryKey: ["feed"] });
       queryClient.invalidateQueries({ queryKey: ["following-feed"] });

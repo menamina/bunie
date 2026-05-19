@@ -38,7 +38,7 @@ function Overview({ whoseProfile }) {
       {userPosts?.pages?.length > 0 &&
         userPosts?.pages
           ?.flatMap((page) => page.feed)
-          .map((page) => <PostCard post={page?.item} key={page?.id} />)}
+          .map((post) => <PostCard post={post} key={post?.id} />)}
     </div>
   );
 }
