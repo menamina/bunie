@@ -15,7 +15,7 @@ import SelectedView from "./selectedView";
 import "../css/profile.css";
 
 import TempHeader from "../imgs/image.jpg";
-import TempIcon from "../imgs/cafe.jpeg";
+import DefaultIcon from "../imgs/default.svg";
 
 function Profile() {
   const { username } = useParams();
@@ -96,12 +96,12 @@ function Profile() {
           <div className="z-index user content">
             <div className="userINFO">
               <div>
-                {/* <img
-              src={userProfile?.profile?.pfp || TempIcon}
-              alt={`pfp for ${userProfile?.username}`}
-            ></img> */}
                 <img
-                  src={TempIcon}
+                  src={
+                    userProfile?.profile?.pfp && userProfile.profile.pfp !== "default.svg"
+                      ? `http://localhost:5555/IMGS-API/${userProfile.profile.pfp}`
+                      : DefaultIcon
+                  }
                   alt={`pfp for ${userProfile?.username}`}
                 ></img>
               </div>

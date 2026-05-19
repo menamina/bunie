@@ -28,6 +28,12 @@ function MiniProfile({ userProfile }) {
       queryClient.invalidateQueries({
         queryKey: ["miniProfile", user.username, "following"],
       });
+      queryClient.invalidateQueries({
+        queryKey: ["miniProfile", user.username, "followers"],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["profile", user.username],
+      });
     },
   });
 
@@ -39,7 +45,8 @@ function MiniProfile({ userProfile }) {
           <img
             className="miniProfilePfp"
             src={
-              userProfile?.profile?.pfp && userProfile.profile.pfp !== "default.svg"
+              userProfile?.profile?.pfp &&
+              userProfile.profile.pfp !== "default.svg"
                 ? `http://localhost:5555/IMGS-API/${userProfile.profile.pfp}`
                 : DefaultIcon
             }
