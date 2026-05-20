@@ -67,7 +67,7 @@ async function getMainFeed(req, res) {
       include: {
         likes: true,
         comments: true,
-        madeBy: {
+        madeby: {
           select: {
             id: true,
             name: true,
@@ -88,8 +88,11 @@ async function getMainFeed(req, res) {
     });
 
     if (!feed || feed.length === 0) {
-      return res.status(204).json({ databaseEmpty: true });
+      const feed = [];
+      return res.status(204).json({ feed });
     }
+
+    console.log(feed);
 
     return res.status(200).json({ feed, nextCursor: cursor + thisMany });
   } catch (error) {
@@ -154,7 +157,8 @@ async function getFollowingFeed(req, res) {
     });
 
     if (!feed || feed.length === 0) {
-      return res.status(204).json({ databaseEmpty: true });
+      const feed = [];
+      return res.status(204).json({ feed });
     }
 
     return res.status(200).json({ feed, nextCursor: cursor + thisMany });
@@ -383,7 +387,7 @@ async function getUserPosts(req, res) {
 
     const feed = user.posts.map((post) => ({
       ...post,
-      madeBy: {
+      madeby: {
         id: user.id,
         name: user.name,
         username: user.username,

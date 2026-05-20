@@ -104,7 +104,7 @@ function Search() {
                     queryResults?.pages[0].usersWithQuery
                       .slice(0, 10)
                       .map((user) => (
-                        <MiniProfile key={user.id} userProfile={user} />
+                        <MiniProfile key={user?.id} userProfile={user} />
                       ))}
                   {queryResults?.pages[0]?.usersWithQuery.length >= 10 && (
                     <div

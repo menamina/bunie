@@ -25,7 +25,7 @@ function Overview({ whoseProfile }) {
   });
 
   useEffect(() => {
-    if (!loadMore.current || !isFetchingNextPage || !hasNextPage) {
+    if (!loadMore.current || isFetchingNextPage || !hasNextPage) {
       return;
     }
 

@@ -30,8 +30,10 @@ function Feed() {
     enabled: view === "following",
   });
 
+  console.log(mainFeedData);
+
   useEffect(() => {
-    if (!mainFeed.current || !isFetchingNextMain || !hasNextFollowingPage) {
+    if (!mainFeed.current || isFetchingNextMain || !hasNextMainPage) {
       return;
     }
 
@@ -44,13 +46,17 @@ function Feed() {
       { threshold: 0.1 },
     );
 
-    observer.observe(mainFeed);
+    observer.observe(mainFeed.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [fetchNextMainPage, isFetchingNextMain, hasNextMainPage]);
 
   useEffect(() => {
     if (
       !followingFeed.current ||
-      !isFetchingNextFollowing ||
+      isFetchingNextFollowing ||
       !hasNextFollowingPage
     ) {
       return;
@@ -59,13 +65,17 @@ function Feed() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchNextMainPage();
+          fetchNextFollowingPage();
         }
       },
       { threshold: 0.1 },
     );
 
-    observer.observe(followingFeed);
+    observer.observe(followingFeed.current);
+
+    return () => {
+      observer.disconnect();
+    };
   }, [fetchNextFollowingPage, isFetchingNextFollowing, hasNextFollowingPage]);
 
   return (
@@ -97,7 +107,7 @@ function Feed() {
           {mainFeedData?.pages
             ?.flatMap((page) => page.feed)
             .map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post?.id} post={post} />
             ))}
 
           <div className="mainFeed ref" ref={mainFeed}>
@@ -112,7 +122,7 @@ function Feed() {
           {followingFeedData?.pages
             .flatMap((page) => page.feed)
             .map((post) => (
-              <PostCard key={post.id} post={post} />
+              <PostCard key={post?.id} post={post} />
             ))}
           <div className="followingFeed ref" ref={followingFeed}>
             {isFetchingNextFollowing ? <div>loading... </div> : null}

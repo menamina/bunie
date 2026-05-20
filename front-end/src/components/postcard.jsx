@@ -14,7 +14,7 @@ import "../css/postComment.css";
 
 function PostCard({ post }) {
   const { user } = useOutletContext();
-  const isThisMyPost = post?.madeBy?.username === user.username;
+  const isThisMyPost = post?.madeby?.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);
   const [postDotsClicked, setPostDotsClicked] = useState(null);
@@ -36,7 +36,7 @@ function PostCard({ post }) {
 
   function navToProfile(e) {
     e.stopPropagation();
-    nav(`/${post?.madeBy?.username}`);
+    nav(`/${post?.madeby?.username}`);
   }
 
   function openPostSettings(e) {
@@ -65,7 +65,7 @@ function PostCard({ post }) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post", post?.id] });
       queryClient.invalidateQueries({
-        queryKey: ["profilePosts", post?.madeBy?.username],
+        queryKey: ["profilePosts", post?.madeby?.username],
       });
       queryClient.invalidateQueries({
         queryKey: ["profileLikes", user?.username],
@@ -94,21 +94,21 @@ function PostCard({ post }) {
           <img
             className="posterspfp"
             src={
-              post?.madeBy?.profile?.pfp &&
-              post?.madeBy?.profile?.pfp !== "default.svg"
-                ? `http://localhost:5555/IMGS-API/${post.madeBy.profile.pfp}`
+              post?.madeby?.profile?.pfp &&
+              post?.madeby?.profile?.pfp !== "default.svg"
+                ? `http://localhost:5555/IMGS-API/${post.madeby.profile.pfp}`
                 : DefaultIcon
             }
-            alt={` ${post?.madeBy?.username}'s profile picture`}
+            alt={` ${post?.madeby?.username}'s profile picture`}
           />
         </div>
         <div className="postContent">
           <div>
             <div className="postUserINFO">
               <div>
-                <div>{post?.madeBy?.name}</div>
+                <div>{post?.madeby?.name}</div>
                 <div className="usernameOfPoster">
-                  @{post?.madeBy?.username}
+                  @{post?.madeby?.username}
                 </div>
               </div>
 
