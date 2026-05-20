@@ -13,7 +13,10 @@ function Feed() {
     fetchNextPage: fetchNextMainPage,
     isFetchingNextPage: isFetchingNextMain,
     hasNextPage: hasNextMainPage,
-  } = useInfiniteQuery(getFeedOpt());
+  } = useInfiniteQuery({
+    ...getFeedOpt(),
+    enabled: view === "main",
+  });
 
   const {
     data: followingFeedData,
@@ -21,7 +24,10 @@ function Feed() {
     fetchNextPage: fetchNextFollowingPage,
     isFetchingNextPage: isFetchingNextFollowing,
     hasNextPage: hasNextFollowingPage,
-  } = useInfiniteQuery(getFollowingFeedOpt());
+  } = useInfiniteQuery({
+    ...getFollowingFeedOpt(),
+    enabled: view === "following",
+  });
 
   return (
     <div className="feedDIV">

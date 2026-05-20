@@ -163,10 +163,9 @@ function Search() {
                   )}
                   {hasNextPage && (
                     <div ref={loadMoreRef} style={{ height: "20px" }}>
-                      {isFetchingNextPage && <div>Loading more...</div>}
+                      {isFetchingNextPage ? <div>Loading more...</div> : null}
                     </div>
                   )}
-                  {!hasNextPage && <div>That's all folks</div>}
                 </div>
               )}
             </div>

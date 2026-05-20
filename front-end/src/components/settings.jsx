@@ -147,12 +147,12 @@ function Settings() {
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
                       alt="your header"
                       onClick={() => setExpandedImage(`http://localhost:5555/IMGS-API/${user.profile.header}`)}
-                      style={{ cursor: "pointer", width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{ cursor: "pointer", width: "100%", objectFit: "cover" }}
                     />
                   ) : (
                     <div
                       className="currentHeader"
-                      style={{ backgroundColor: "white", cursor: "pointer", width: "100%", height: "100%" }}
+                      style={{ backgroundColor: "white", cursor: "pointer", width: "100%" }}
                       onClick={() => setExpandedImage(null)}
                     ></div>
                   )}
@@ -206,7 +206,7 @@ function Settings() {
                       src={URL.createObjectURL(iconHeaderData.header)}
                       alt="your updated header"
                       onClick={(e) => e.target.nextElementSibling.click()}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : user?.profile?.header && user.profile.header !== "white" ? (
                     <img
@@ -214,12 +214,12 @@ function Settings() {
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
                       alt="your updated header"
                       onClick={(e) => e.target.nextElementSibling.click()}
-                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : (
                     <div
                       className="wantedHeader overlay"
-                      style={{ backgroundColor: "white", width: "100%", height: "100%" }}
+                      style={{ backgroundColor: "white", width: "100%" }}
                       onClick={(e) => e.target.nextElementSibling.click()}
                     ></div>
                   )}

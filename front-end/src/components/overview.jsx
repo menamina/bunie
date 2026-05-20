@@ -58,7 +58,9 @@ function Overview({ whoseProfile }) {
         userPosts?.pages
           ?.flatMap((page) => page.feed)
           .map((post) => <PostCard post={post} key={post?.id} />)}
-      <div className="intersectObsOverview" ref={loadMore}></div>
+      <div className="intersectObsOverview" ref={loadMore}>
+        {isFetchingNextPage ? <div>Loading...</div> : null}
+      </div>
     </div>
   );
 }
