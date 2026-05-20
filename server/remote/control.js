@@ -715,10 +715,10 @@ async function getPost(req, res) {
     if (post) {
       const formattedPost = {
         ...post,
-        madeBy: post.madeby,
+        madeby: post.madeby,
       };
-      delete formattedPost.madeby;
 
+      console.log(formattedPost);
       return res.status(200).json(formattedPost);
     }
     return res.status(404).json({ message: "no post found" });

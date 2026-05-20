@@ -18,6 +18,8 @@ function PostOpen() {
     ...getPostOpt(postId),
   });
 
+  console.log(openedPost);
+
   return (
     <div className="postOpenDIV">
       {isPending && <div>Loading</div>}
@@ -28,20 +30,19 @@ function PostOpen() {
             <PostCard post={openedPost} />
           </div>
           <div className="commentsUnderPost">
-            {openedPost?.comments?.length > 0 && (
+            {openedPost?.comments?.length > 0 ? (
               <div className="commentHolder">
-                {openedPost?.comments?.map((comment) => {
-                  console.log(comment);
-                  return (
-                    <div
-                      className="commentLoaded"
-                      key={`${comment?.commenter?.id} comment`}
-                    >
-                      <CommentCard comment={comment} />
-                    </div>
-                  );
-                })}
+                {openedPost?.comments?.map((comment) => (
+                  <div
+                    className="commentLoaded"
+                    key={comment?.id}
+                  >
+                    <CommentCard comment={comment} />
+                  </div>
+                ))}
               </div>
+            ) : (
+              <div>0</div>
             )}
           </div>
         </div>
