@@ -105,7 +105,7 @@ async function getMainFeed(req, res) {
 
 async function getFollowingFeed(req, res) {
   try {
-    const cursor = parseInt(req.query.cursor) || 0;
+    const cursor = parseInt(req.query.cursor);
     const { id } = req.user;
 
     const userID = Number(id);
@@ -138,7 +138,7 @@ async function getFollowingFeed(req, res) {
       include: {
         likes: true,
         comments: true,
-        madeBy: {
+        madeby: {
           select: {
             id: true,
             name: true,
@@ -157,6 +157,8 @@ async function getFollowingFeed(req, res) {
         timestamp: "desc",
       },
     });
+
+    console.log(feed);
 
     if (!feed || feed.length === 0) {
       return res.status(200).json({ feed: [], nextCursor: null });

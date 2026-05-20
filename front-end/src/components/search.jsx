@@ -140,7 +140,7 @@ function Search() {
             <div>
               {tabView === "users" && (
                 <div>
-                  {queryResults?.pages?.flatMap((item) =>
+                  {queryResults?.pagesbap((item) =>
                     item.usersWithQuery.map((user) => (
                       <MiniProfile key={user.id} userProfile={user} />
                     )),

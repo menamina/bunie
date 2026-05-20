@@ -30,6 +30,8 @@ function Feed() {
     enabled: view === "following",
   });
 
+  console.log(mainFeedData, followingFeedData);
+
   useEffect(() => {
     if (!mainFeed.current || isFetchingNextMain || !hasNextMainPage) {
       return;

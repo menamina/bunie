@@ -108,7 +108,7 @@ export const updateIMGs = () => {
 export const getFeedOpt = () => {
   return infiniteQueryOptions({
     queryKey: ["mainFeed"],
-    queryFn: ({ pageParam }) => getFeed({ pageParam }),
+    queryFn: ({ pageParam }) => getMainFeed({ pageParam }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -476,17 +476,18 @@ async function logout() {
   return await res.json();
 }
 
-async function getFollowingFeed(numberOfNextPost) {
-  const res = await fetch(`http://localhost:5555/following-feed-API`, {
-    method: "GET",
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ nextPosts: numberOfNextPost }),
-  });
+async function getFollowingFeed({ pageParam }) {
+  const res = await fetch(
+    `http://localhost:5555/following-feed-API?cursor=${pageParam}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
   return await res.json();
 }
 
-async function getFeed({ pageParam }) {
+async function getMainFeed({ pageParam }) {
   const res = await fetch(
     `http://localhost:5555/main-feed-API?cursor=${pageParam}`,
     {
