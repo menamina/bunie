@@ -110,9 +110,11 @@ function Feed() {
               <PostCard key={post?.id} post={post} />
             ))}
 
-          <div className="mainFeed ref" ref={mainFeed}>
-            {isFetchingNextMain ? <div>loading... </div> : null}
-          </div>
+          {hasNextMainPage && (
+            <div className="mainFeed ref" ref={mainFeed}>
+              {isFetchingNextMain ? <div>loading.. </div> : null}
+            </div>
+          )}
         </div>
       )}
 
@@ -124,9 +126,11 @@ function Feed() {
             .map((post) => (
               <PostCard key={post?.id} post={post} />
             ))}
-          <div className="followingFeed ref" ref={followingFeed}>
-            {isFetchingNextFollowing ? <div>loading... </div> : null}
-          </div>
+          {hasNextFollowingPage && (
+            <div className="followingFeed ref" ref={followingFeed}>
+              {isFetchingNextFollowing ? <div>loading... </div> : null}
+            </div>
+          )}
         </div>
       )}
     </div>
