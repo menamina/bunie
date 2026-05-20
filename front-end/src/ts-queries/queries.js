@@ -118,10 +118,8 @@ export const getFollowingFeedOpt = () => {
   return infiniteQueryOptions({
     queryKey: ["following-feed"],
     queryFn: ({ pageParam = 0 }) => getFollowingFeed(pageParam),
-    getNextPageParam: (lastPage, allPages) => {
-      return lastPage.length === 50 ? allPages.length * 50 : undefined;
-    },
     initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 };
 
