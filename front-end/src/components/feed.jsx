@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getFeedOpt, getFollowingFeedOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
 
 function Feed() {
   const [view, setView] = useState("main");
+  const mainFeed = useRef(null);
+  const followingFeed = useRef(null);
 
   const {
     data: mainFeedData,
-    error: mainFeedError,
-    isFetching: isFetchingFirstPage,
+    isPending: isMainPending,
     fetchNextPage: fetchNextMainPage,
     isFetchingNextPage: isFetchingNextMain,
     hasNextPage: hasNextMainPage,
@@ -20,7 +21,7 @@ function Feed() {
 
   const {
     data: followingFeedData,
-    error: followingFeedError,
+    isPending: isFollowingPending,
     fetchNextPage: fetchNextFollowingPage,
     isFetchingNextPage: isFetchingNextFollowing,
     hasNextPage: hasNextFollowingPage,
@@ -28,6 +29,44 @@ function Feed() {
     ...getFollowingFeedOpt(),
     enabled: view === "following",
   });
+
+  useEffect(() => {
+    if (!mainFeed.current || !isFetchingNextMain || !hasNextFollowingPage) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextMainPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(mainFeed);
+  }, [fetchNextMainPage, isFetchingNextMain, hasNextMainPage]);
+
+  useEffect(() => {
+    if (
+      !followingFeed.current ||
+      !isFetchingNextFollowing ||
+      !hasNextFollowingPage
+    ) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextMainPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(followingFeed);
+  }, [fetchNextFollowingPage, isFetchingNextFollowing, hasNextFollowingPage]);
 
   return (
     <div className="feedDIV">
@@ -52,39 +91,34 @@ function Feed() {
         </div>
       </div>
 
-      {/* {/* {view === "main" && (
+      {view === "main" && (
         <div>
           {isMainPending && <div>Loading...</div>}
-          {mainFeedData?.pages.map((page) =>
-            page.map((post) => <PostCard key={post.id} post={post} />),
-          )}
-          {hasNextMainPage && (
-            <button
-              onClick={() => fetchNextMainPage()}
-              disabled={isFetchingNextMain}
-            >
-              {isFetchingNextMain ? "Loading more..." : "Load More"}
-            </button>
-          )}
+          {mainFeedData?.pages
+            ?.flatMap((page) => page.feed)
+            .map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+
+          <div className="mainFeed ref" ref={mainFeed}>
+            {isFetchingNextMain ? <div>loading... </div> : null}
+          </div>
         </div>
-      )} */}
+      )}
 
       {view === "following" && (
         <div>
           {isFollowingPending && <div>Loading...</div>}
-          {followingFeedData?.pages.map((page) =>
-            page.map((post) => <PostCard key={post.id} post={post} />),
-          )}
-          {hasNextFollowingPage && (
-            <button
-              onClick={() => fetchNextFollowingPage()}
-              disabled={isFetchingNextFollowing}
-            >
-              {isFetchingNextFollowing ? "Loading more..." : "Load More"}
-            </button>
-          )}
+          {followingFeedData?.pages
+            .flatMap((page) => page.feed)
+            .map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          <div className="followingFeed ref" ref={followingFeed}>
+            {isFetchingNextFollowing ? <div>loading... </div> : null}
+          </div>
         </div>
-      )} */}
+      )}
     </div>
   );
 }
