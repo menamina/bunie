@@ -52,7 +52,7 @@ function Feed() {
         </div>
       </div>
 
-      {/* {view === "main" && (
+      {/* {/* {view === "main" && (
         <div>
           {isMainPending && <div>Loading...</div>}
           {mainFeedData?.pages.map((page) =>
@@ -67,7 +67,7 @@ function Feed() {
             </button>
           )}
         </div>
-      )}
+      )} */}
 
       {view === "following" && (
         <div>
