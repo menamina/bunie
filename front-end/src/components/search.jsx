@@ -31,7 +31,7 @@ function Search() {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    ...search(querySearch),
+    ...search(querySearch, tabView),
     enabled: searching && !!querySearch,
     onSuccess: () => {
       setSearching(false);
@@ -140,7 +140,7 @@ function Search() {
             <div>
               {tabView === "users" && (
                 <div>
-                  {queryResults.pages.flatMap((item) =>
+                  {queryResults?.pages?.flatMap((item) =>
                     item.usersWithQuery.map((user) => (
                       <MiniProfile key={user.id} userProfile={user} />
                     )),
@@ -156,7 +156,7 @@ function Search() {
 
               {tabView === "posts" && (
                 <div>
-                  {queryResults.pages.flatMap((item) =>
+                  {queryResults?.pages?.flatMap((item) =>
                     item.postsWithQuery.map((post) => (
                       <PostCard key={post.id} post={post} />
                     )),

@@ -120,7 +120,7 @@ function Feed() {
         <div>
           {isFollowingPending && <div>Loading...</div>}
           {followingFeedData?.pages
-            .flatMap((page) => page.feed)
+            ?.flatMap((page) => page.feed)
             .map((post) => (
               <PostCard key={post?.id} post={post} />
             ))}

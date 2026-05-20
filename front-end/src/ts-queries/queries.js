@@ -123,10 +123,10 @@ export const getFollowingFeedOpt = () => {
   });
 };
 
-export const search = (query) => {
+export const search = (query, tabView) => {
   return infiniteQueryOptions({
-    queryKey: ["search", query],
-    queryFn: ({ pageParam }) => searchThis({ pageParam, query }),
+    queryKey: ["search", query, tabView],
+    queryFn: ({ pageParam }) => searchThis({ pageParam, query, tabView }),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -497,9 +497,9 @@ async function getFeed({ pageParam }) {
   return await res.json();
 }
 
-async function searchThis({ pageParam, query }) {
+async function searchThis({ pageParam, query, tabView }) {
   const res = await fetch(
-    `http://localhost:5555/search-API?cursor=${pageParam}&querySearch=${query}`,
+    `http://localhost:5555/search-API?cursor=${pageParam}&querySearch=${query}&tabView=${tabView}`,
     {
       method: "GET",
       credentials: "include",

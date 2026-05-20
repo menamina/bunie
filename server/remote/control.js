@@ -1,3 +1,4 @@
+const { table } = require("console");
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");
@@ -63,7 +64,7 @@ async function getMainFeed(req, res) {
 
     const feed = await prisma.posts.findMany({
       ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
+      take: thisMany + 1,
       include: {
         likes: true,
         comments: true,
@@ -88,13 +89,14 @@ async function getMainFeed(req, res) {
     });
 
     if (!feed || feed.length === 0) {
-      const feed = [];
-      return res.status(204).json({ feed });
+      return res.status(200).json({ feed: [], nextCursor: null });
     }
 
-    console.log(feed);
+    const hasMore = feed.length > thisMany;
+    const results = hasMore ? feed.slice(0, thisMany) : feed;
+    const nextCursor = hasMore ? cursor + thisMany : null;
 
-    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
+    return res.status(200).json({ feed: results, nextCursor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -103,7 +105,7 @@ async function getMainFeed(req, res) {
 
 async function getFollowingFeed(req, res) {
   try {
-    const cursor = parseInt(req.query.cursor);
+    const cursor = parseInt(req.query.cursor) || 0;
     const { id } = req.user;
 
     const userID = Number(id);
@@ -127,12 +129,12 @@ async function getFollowingFeed(req, res) {
     });
 
     if (!thisUsersFollowing) {
-      return res.status(204).json({ noUserFollowing: true });
+      return res.status(200).json({ feed: [], nextCursor: null });
     }
 
     const feed = await prisma.posts.findMany({
       ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
+      take: thisMany + 1,
       include: {
         likes: true,
         comments: true,
@@ -157,11 +159,14 @@ async function getFollowingFeed(req, res) {
     });
 
     if (!feed || feed.length === 0) {
-      const feed = [];
-      return res.status(204).json({ feed });
+      return res.status(200).json({ feed: [], nextCursor: null });
     }
 
-    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
+    const hasMore = feed.length > thisMany;
+    const results = hasMore ? feed.slice(0, thisMany) : feed;
+    const nextCursor = hasMore ? cursor + thisMany : null;
+
+    return res.status(200).json({ feed: results, nextCursor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -170,67 +175,148 @@ async function getFollowingFeed(req, res) {
 
 async function query(req, res) {
   try {
-    const { querySearch } = req.query;
+    const { querySearch, tabView } = req.query;
     const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
-    const usersWithQuery = await prisma.user.findMany({
-      ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
-      where: {
-        username: {
-          contains: querySearch,
-          mode: "insensitive",
-        },
-      },
-      select: {
-        id: true,
-        name: true,
-        username: true,
-        profile: {
-          select: {
-            pfp: true,
-            bio: true,
+    let usersWithQuery = [];
+    let postsWithQuery = [];
+
+    if (tabView === "top") {
+      usersWithQuery = await prisma.user.findMany({
+        take: 10,
+        where: {
+          username: {
+            contains: querySearch,
+            mode: "insensitive",
           },
         },
-      },
-    });
-
-    const postsWithQuery = await prisma.posts.findMany({
-      ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
-      where: {
-        OR: [
-          {
-            title: {
-              contains: querySearch,
-              mode: "insensitive",
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          profile: {
+            select: {
+              pfp: true,
+              bio: true,
             },
           },
-          {
-            body: {
-              contains: querySearch,
-              mode: "insensitive",
+        },
+      });
+
+      postsWithQuery = await prisma.posts.findMany({
+        take: 10,
+        where: {
+          OR: [
+            {
+              title: {
+                contains: querySearch,
+                mode: "insensitive",
+              },
+            },
+            {
+              body: {
+                contains: querySearch,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        include: {
+          likes: true,
+          comments: true,
+          madeby: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
             },
           },
-        ],
-      },
-      include: {
-        likes: true,
-        comments: true,
-        madeby: {
-          select: {
-            id: true,
-            name: true,
-            username: true,
+        },
+      });
+
+      return res
+        .status(200)
+        .json({ usersWithQuery, postsWithQuery, nextCursor: null });
+    }
+
+    if (tabView === "users") {
+      const users = await prisma.user.findMany({
+        ...(cursor > 0 && { skip: cursor }),
+        take: thisMany + 1,
+        where: {
+          username: {
+            contains: querySearch,
+            mode: "insensitive",
           },
         },
-      },
-    });
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          profile: {
+            select: {
+              pfp: true,
+              bio: true,
+            },
+          },
+        },
+      });
 
-    const nextCursor = cursor + thisMany;
+      const hasMore = users.length > thisMany;
+      usersWithQuery = hasMore ? users.slice(0, thisMany) : users;
+      const nextCursor = hasMore ? cursor + thisMany : null;
 
-    return res.status(200).json({ usersWithQuery, postsWithQuery, nextCursor });
+      return res
+        .status(200)
+        .json({ usersWithQuery, postsWithQuery: [], nextCursor });
+    }
+
+    if (tabView === "posts") {
+      const posts = await prisma.posts.findMany({
+        ...(cursor > 0 && { skip: cursor }),
+        take: thisMany + 1,
+        where: {
+          OR: [
+            {
+              title: {
+                contains: querySearch,
+                mode: "insensitive",
+              },
+            },
+            {
+              body: {
+                contains: querySearch,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+        include: {
+          likes: true,
+          comments: true,
+          madeby: {
+            select: {
+              id: true,
+              name: true,
+              username: true,
+            },
+          },
+        },
+      });
+
+      const hasMore = posts.length > thisMany;
+      postsWithQuery = hasMore ? posts.slice(0, thisMany) : posts;
+      const nextCursor = hasMore ? cursor + thisMany : null;
+
+      return res
+        .status(200)
+        .json({ usersWithQuery: [], postsWithQuery, nextCursor });
+    }
+
+    return res
+      .status(200)
+      .json({ usersWithQuery, postsWithQuery, nextCursor: null });
   } catch (error) {
     console.error("Query function error:", error);
     return res.status(500).json({ errMsg: "server error" });
@@ -352,7 +438,7 @@ async function getFollowing(req, res) {
 async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
-    const cursor = parseInt(req.query.cursor);
+    const cursor = parseInt(req.query.cursor) || 0;
     const thisMany = 20;
 
     const user = await prisma.user.findUnique({
@@ -370,7 +456,7 @@ async function getUserPosts(req, res) {
         },
         posts: {
           ...(cursor > 0 && { skip: cursor }),
-          take: thisMany,
+          take: thisMany + 1,
           include: {
             likes: true,
             comments: true,
@@ -380,12 +466,14 @@ async function getUserPosts(req, res) {
       },
     });
 
-    if (user.posts.length === 0) {
-      const feed = [];
-      return res.status(200).json(feed);
+    if (!user || user.posts.length === 0) {
+      return res.status(200).json({ feed: [], nextCursor: null });
     }
 
-    const feed = user.posts.map((post) => ({
+    const hasMore = user.posts.length > thisMany;
+    const posts = hasMore ? user.posts.slice(0, thisMany) : user.posts;
+
+    const feed = posts.map((post) => ({
       ...post,
       madeby: {
         id: user.id,
@@ -397,9 +485,9 @@ async function getUserPosts(req, res) {
       },
     }));
 
-    console.log(feed);
+    const nextCursor = hasMore ? cursor + thisMany : null;
 
-    return res.status(200).json({ feed, nextCursor: cursor + thisMany });
+    return res.status(200).json({ feed, nextCursor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error", error });
