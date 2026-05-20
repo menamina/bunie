@@ -76,7 +76,7 @@
 .currentHeader,
 .wantedHeader {
   object-fit: cover;
-  height: 300px;
+  height: 180px;
 }
 
 .iconHolder {
@@ -97,7 +97,7 @@
   width: 100%;
   justify-content: space-evenly;
   cursor: pointer;
-  margin-top: 300px;
+  margin-top: 180px;
 }
 
 .userInfoSettings {

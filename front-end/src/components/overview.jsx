@@ -1,4 +1,5 @@
-import { useOutletContext, useEffect, useRef } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
+import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
@@ -31,13 +32,13 @@ function Overview({ whoseProfile }) {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          fetchNextPage;
+          fetchNextPage();
         }
       },
       { threshold: 0.1 },
     );
 
-    observer.observe(loadMore);
+    observer.observe(loadMore.current);
   }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   return (
