@@ -1,4 +1,4 @@
-import { useOutletContext } from "react-router-dom";
+import { useOutletContext, useEffect, useRef } from "react-router-dom";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { getProfilePosts } from "../ts-queries/queries";
 
@@ -6,6 +6,7 @@ import PostCard from "./postcard";
 
 function Overview({ whoseProfile }) {
   const { user } = useOutletContext();
+  const loadMore = useRef(null);
 
   const {
     data: userPosts,
@@ -21,6 +22,23 @@ function Overview({ whoseProfile }) {
       console.log("gathered", whoseProfile, "posts");
     },
   });
+
+  useEffect(() => {
+    if (!loadMore.current || !isFetchingNextPage || !hasNextPage) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage;
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(loadMore);
+  }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   return (
     <div className="userPostsDIV">
@@ -39,6 +57,7 @@ function Overview({ whoseProfile }) {
         userPosts?.pages
           ?.flatMap((page) => page.feed)
           .map((post) => <PostCard post={post} key={post?.id} />)}
+      <div className="intersectObsOverview" ref={loadMore}></div>
     </div>
   );
 }
