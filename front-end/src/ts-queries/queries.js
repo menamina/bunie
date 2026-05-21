@@ -466,9 +466,8 @@ async function deletePost(postID) {
 }
 
 async function deleteComment(commentID) {
-  console.log(commentID, "in delete comment");
   const res = await fetch(`http://localhost:5555/delete-comment/${commentID}`, {
-    method: "POST",
+    method: "DELETE",
     credentials: "include",
   });
   return await res.json();

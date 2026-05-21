@@ -1202,6 +1202,8 @@ async function deleteComment(req, res) {
     const userID = Number(id);
     const commentID = Number(commentToDelete);
 
+    console.log(commentID, commentToDelete, id, userID);
+
     await prisma.comments.deleteMany({
       where: {
         id: commentID,
