@@ -30,6 +30,8 @@ function Profile() {
     error,
   } = useQuery(getProfileQueryOptions(username, user.username));
 
+  console.log(userProfile);
+
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
     onSuccess: () => {
@@ -254,7 +256,7 @@ function Profile() {
             {view === "finished" && (
               <SelectedView view="finished" whoseProfile={username} />
             )}
-            {view === "likes" && <Likes whoseProfile={username} />}
+            {view === "likes" && <Likes whoseProfile={userProfile?.id} />}
             {view === "followers" && (
               <Follow whoseProfile={username} view="followers" />
             )}

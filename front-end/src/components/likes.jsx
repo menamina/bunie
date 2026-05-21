@@ -1,18 +1,15 @@
-import { useOutletContext } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { getLikeOpts } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
 function Likes({ whoseProfile }) {
-  const { user } = useOutletContext();
-
   const {
     data: userLikes,
     error: likesErr,
     isPending: likesPending,
-  } = useQuery({
-    ...getLikeOpts(whoseProfile, user.username),
+  } = useInfiniteQuery({
+    ...getLikeOpts(whoseProfile),
   });
 
   return (
@@ -20,7 +17,6 @@ function Likes({ whoseProfile }) {
       {likesPending && <div>Loading..</div>}
       {likesErr && (
         <div className="centerError">
-          {likesErr?.noUserLikes && <div>{likesErr.noUserLikes}</div>}
           {likesErr?.noUserFound && <div>{likesErr.noUserFound}</div>}
         </div>
       )}
@@ -37,7 +33,9 @@ function Likes({ whoseProfile }) {
           })}
         </div>
       )}
-      {userLikes?.noLikes && <div className="centerError">Nothing to see here</div>}
+      {userLikes?.noLikes && (
+        <div className="centerError">Nothing to see here</div>
+      )}
     </div>
   );
 }

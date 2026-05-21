@@ -193,10 +193,12 @@ export const updateCommentMut = () => {
   });
 };
 
-export const getLikeOpts = (username) => {
-  return queryOptions({
-    queryKey: ["profileLikes", username],
-    queryFn: () => getLikes(username),
+export const getLikeOpts = (userID) => {
+  return infiniteQueryOptions({
+    queryKey: ["profileLikes", userID],
+    queryFn: ({ pageParam }) => getLikes(userID, pageParam),
+    initialPageParam: 0,
+    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
 };
 
@@ -261,11 +263,14 @@ async function getMiniProfile(username, view) {
   return await res.json();
 }
 
-async function getLikes(username) {
-  const res = await fetch(`http://localhost:5555/get-user-likes/${username}`, {
-    method: "GET",
-    credentials: "include",
-  });
+async function getLikes(userID, pageParam) {
+  const res = await fetch(
+    `http://localhost:5555/get-user-likes/${userID}?cursor=${pageParam}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
   if (!res.ok) {
     const error = new Error("error");

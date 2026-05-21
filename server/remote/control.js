@@ -640,23 +640,14 @@ async function getUserFinished(req, res) {
 
 async function getUserLikes(req, res) {
   try {
-    const { username } = req.params;
+    const { userID } = parseInt(req.params);
     const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
-
-    const user = await prisma.user.findUnique({
-      where: { username },
-      select: { id: true },
-    });
-
-    if (!user) {
-      return res.status(404).json({ noUser: "No user found" });
-    }
 
     const postLikes = await prisma.postLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),
       take: thisMany,
-      where: { userWhoLiked: user.id },
+      where: { userWhoLiked: userID },
       orderBy: { dateLiked: "desc" },
       include: {
         post: {
@@ -675,18 +666,7 @@ async function getUserLikes(req, res) {
               },
             },
             likes: true,
-            comments: {
-              include: {
-                commenter: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                  },
-                },
-                likes: true,
-              },
-            },
+            comments: true,
           },
         },
       },
@@ -695,41 +675,12 @@ async function getUserLikes(req, res) {
     const commentLikes = await prisma.commentLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),
       take: thisMany,
-      where: { userWhoLiked: user.id },
+      where: { userWhoLiked: userID },
       orderBy: { dateLiked: "desc" },
       include: {
         comment: {
           include: {
-            post: {
-              include: {
-                madeby: {
-                  select: {
-                    id: true,
-                    name: true,
-                    username: true,
-                    profile: {
-                      select: {
-                        pfp: true,
-                        header: true,
-                      },
-                    },
-                  },
-                },
-              },
-            },
-            commenter: {
-              select: {
-                id: true,
-                name: true,
-                username: true,
-                profile: {
-                  select: {
-                    pfp: true,
-                    header: true,
-                  },
-                },
-              },
-            },
+            idOfPost: true,
             likes: true,
           },
         },
@@ -737,7 +688,7 @@ async function getUserLikes(req, res) {
     });
 
     if (postLikes.length === 0 && commentLikes.length === 0) {
-      return res.status(200).json({ noLikes: true });
+      return res.status(200).json({ likesOrdered: [], nextCursor: null });
     }
 
     const postsFilter = postLikes.map((like) => ({

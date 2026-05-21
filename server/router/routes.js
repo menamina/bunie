@@ -82,7 +82,6 @@ router.get("/get-my-in-progress/:username", isAuth, remote.getUserInProgress);
 router.get("/get-my-limbo/:username", isAuth, remote.getUserLimbo);
 router.get("/get-my-decluttered/:username", isAuth, remote.getUserDecluttered);
 router.get("/get-my-finished/:username", isAuth, remote.getUserFinished);
-router.get("/get-my-likes/:username", isAuth, remote.getUserLikes);
 
 // edit + delete user profile //
 router.patch(
@@ -187,7 +186,7 @@ router.get(
 );
 router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
 
-router.get("/get-user-likes/:username", isAuth, remote.getUserLikes);
+router.get("/get-user-likes/:userID", isAuth, remote.getUserLikes);
 
 // following //
 router.post("/follow/:userID", isAuth, remote.toggleFollow);
