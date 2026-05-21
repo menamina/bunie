@@ -646,7 +646,7 @@ async function getUserLikes(req, res) {
 
     const postLikes = await prisma.postLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
+      take: thisMany + 1,
       where: { userWhoLiked: userID },
       orderBy: { dateLiked: "desc" },
       include: {
@@ -671,15 +671,30 @@ async function getUserLikes(req, res) {
         },
       },
     });
-    console.log(postLikes, "likes");
 
     const commentLikes = await prisma.commentLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),
-      take: thisMany,
+      take: thisMany + 1,
       where: { userWhoLiked: userID },
       orderBy: { dateLiked: "desc" },
       include: {
-        comment: true,
+        comment: {
+          include: {
+            commenter: {
+              select: {
+                id: true,
+                name: true,
+                username: true,
+                profile: {
+                  select: {
+                    pfp: true,
+                    header: true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     });
 
@@ -689,27 +704,21 @@ async function getUserLikes(req, res) {
 
     const postsFilter = postLikes.map((like) => ({
       type: "post",
-      ...like,
-      post: {
-        ...like.post,
-        madeBy: like.post.madeby,
-      },
+      ...like.post,
     }));
-
-    console.log(postsFilter);
 
     const commentsFiltered = commentLikes.map((like) => ({
       type: "comment",
-      ...like,
+      ...like.comment,
     }));
 
     const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
       (b, a) => new Date(b.dateLiked) - new Date(a.dateLiked),
     );
 
-    return res
-      .status(200)
-      .json({ likesOrdered, nextCursor: cursor + thisMany });
+    const hasMore = likesOrdered.length > cursor ? cursor + thisMany : null;
+
+    return res.status(200).json({ likesOrdered, nextCursor: hasMore });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });

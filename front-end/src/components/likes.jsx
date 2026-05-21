@@ -23,16 +23,21 @@ function Likes({ whoseProfile }) {
       return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        fetchNextPage();
-      }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          fetchNextPage();
+        }
+      },
+      { threshold: 0.1 },
+    );
 
-      observer.observe(hasMore.current);
+    observer.observe(hasMore.current);
 
-      return () => observer.disconnect();
-    });
-  }, [fetchNextPage, hasNextPage]);
+    return () => observer.disconnect();
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
+
+  console.log(userLikes);
 
   return (
     <div className="likesDIV">
@@ -45,27 +50,29 @@ function Likes({ whoseProfile }) {
       {userLikes?.pages[0]?.likesOrdered?.length === 0 && (
         <div className="centerError">Nothing to see here</div>
       )}
-      {userLikes?.likesOrdered && (
+      {userLikes?.pages && (
         <div className="likesFlex">
           {userLikes?.pages
             ?.flatMap((object) => object.likesOrdered)
             .map((orderedLikesObj) => {
               if (orderedLikesObj.type === "post") {
                 return (
-                  <PostCard
-                    key={orderedLikesObj.id}
-                    post={orderedLikesObj.post}
-                  />
+                  <PostCard key={orderedLikesObj?.id} post={orderedLikesObj} />
                 );
               } else {
                 return (
                   <CommentCard
-                    key={orderedLikesObj.id}
-                    comment={orderedLikesObj.comment}
+                    key={orderedLikesObj?.id}
+                    comment={orderedLikesObj}
                   />
                 );
               }
             })}
+          {hasNextPage && (
+            <div ref={hasMore} style={{ height: "20px" }}>
+              {isFetchingNextPage && <div>Loading more...</div>}
+            </div>
+          )}
         </div>
       )}
       {userLikes?.noLikes && (
