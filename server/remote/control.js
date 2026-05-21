@@ -128,13 +128,20 @@ async function getFollowingFeed(req, res) {
       },
     });
 
-    if (!thisUsersFollowing) {
+    console.log(thisUsersFollowing);
+
+    if (thisUsersFollowing.followings.length === 0) {
       return res.status(200).json({ feed: [], nextCursor: null });
     }
 
     const feed = await prisma.posts.findMany({
       ...(cursor > 0 && { skip: cursor }),
       take: thisMany + 1,
+      where: {
+        madeBy: {
+          in: thisUsersFollowing,
+        },
+      },
       include: {
         likes: true,
         comments: true,
@@ -157,8 +164,6 @@ async function getFollowingFeed(req, res) {
         timestamp: "desc",
       },
     });
-
-    console.log(feed);
 
     if (!feed || feed.length === 0) {
       return res.status(200).json({ feed: [], nextCursor: null });

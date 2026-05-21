@@ -78,6 +78,8 @@ function Feed() {
     };
   }, [fetchNextFollowingPage, isFetchingNextFollowing, hasNextFollowingPage]);
 
+  console.log(followingFeedData);
+
   return (
     <div className="feedDIV">
       <div className="feedOpts">
@@ -104,6 +106,9 @@ function Feed() {
       {view === "main" && (
         <div>
           {isMainPending && <div>Loading...</div>}
+          {mainFeedData?.pages[0]?.feed?.length === 0 && (
+            <div>nothing to see here</div>
+          )}
           {mainFeedData?.pages
             ?.flatMap((page) => page.feed)
             .map((post) => (
@@ -121,6 +126,9 @@ function Feed() {
       {view === "following" && (
         <div>
           {isFollowingPending && <div>Loading...</div>}
+          {followingFeedData?.pages[0]?.feed?.length === 0 && (
+            <div>nothing to see here</div>
+          )}
           {followingFeedData?.pages
             ?.flatMap((page) => page.feed)
             .map((post) => (
