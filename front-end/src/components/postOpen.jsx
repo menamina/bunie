@@ -38,9 +38,7 @@ function PostOpen() {
                   </div>
                 ))}
               </div>
-            ) : (
-              <div>0</div>
-            )}
+            ) : null}
           </div>
         </div>
       )}

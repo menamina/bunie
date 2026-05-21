@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 
@@ -32,6 +32,7 @@ function PostCard({ post }) {
   const [expandIMG, setExpandIMG] = useState(null);
 
   const nav = useNavigate();
+  const location = useLocation();
   const queryClient = useQueryClient();
 
   function navToProfile(e) {
@@ -52,6 +53,10 @@ function PostCard({ post }) {
   const { mutate: confirmDelete } = useMutation({
     ...deletePostOpt(post?.id),
     onSuccess: () => {
+      if (location.pathname === `/post/${post?.id}`) {
+        nav("/");
+      }
+
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
@@ -122,7 +127,10 @@ function PostCard({ post }) {
                         setDeletePostClicked(null);
                       }}
                     >
-                      <div className="deleteMiniModal" onClick={(e) => e.stopPropagation()}>
+                      <div
+                        className="deleteMiniModal"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <div>Delete post?</div>
                         <div className="dltCantBeUndone">
                           This can't be undone and it will be removed from your
