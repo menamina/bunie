@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext } from "react-router-dom";
+import { useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
 
@@ -27,7 +27,6 @@ function CommentCard({ comment }) {
     ? FilledHeart
     : EmptyHeart;
 
-  const nav = useNavigate();
   const queryClient = useQueryClient();
 
   const { mutate: confirmDelete } = useMutation({
@@ -92,30 +91,43 @@ function CommentCard({ comment }) {
                 />
               )}
               {deleteCommentClicked === comment.id && (
-                <div className="confirmDeleteCommentModal">
-                  <div>
+                <div
+                  className="confirmDeleteCommentModal"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setDeleteCommentClicked(null);
+                  }}
+                >
+                  <div
+                    className="deleteMiniModal"
+                    onClick={(e) => e.stopPropagation()}
+                  >
                     <div>Delete comment?</div>
-                    <div>
+                    <div className="dltCantBeUndone">
                       This can't be undone and it will be removed from the post.
                     </div>
                     <div>
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setDeleteCommentClicked(null);
-                          confirmDelete();
-                        }}
-                      >
-                        delete
-                      </div>
-                      <div
+                      <button
+                        type="button"
                         onClick={(e) => {
                           e.stopPropagation();
                           setDotsClicked(null);
+                          setDeleteCommentClicked(null);
                         }}
                       >
                         cancel
-                      </div>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setDotsClicked(null);
+                          setDeleteCommentClicked(null);
+                          confirmDelete(comment.id);
+                        }}
+                      >
+                        delete
+                      </button>
                     </div>
                   </div>
                 </div>

@@ -144,9 +144,9 @@ export const deletePostOpt = (postID) => {
   });
 };
 
-export const deleteCommentOpt = (commentID) => {
+export const deleteCommentOpt = () => {
   return mutationOptions({
-    mutationFn: () => deleteComment(commentID),
+    mutationFn: deleteComment,
   });
 };
 
@@ -466,6 +466,7 @@ async function deletePost(postID) {
 }
 
 async function deleteComment(commentID) {
+  console.log(commentID, "in delete comment");
   const res = await fetch(`http://localhost:5555/delete-comment/${commentID}`, {
     method: "POST",
     credentials: "include",

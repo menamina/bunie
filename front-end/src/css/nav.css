@@ -66,6 +66,7 @@
 .addToInventoryModal,
 .delete.account.modal,
 .confirmDeletePostModal,
+.confirmDeleteCommentModal,
 .deleteModalFixed,
 .expandIMGFixedDiv {
   position: fixed;

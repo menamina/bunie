@@ -56,6 +56,7 @@ function PostCard({ post }) {
         queryKey: ["profilePosts", user.username],
       });
       queryClient.invalidateQueries({ queryKey: ["post", post?.id] });
+      queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
     },
   });
 
@@ -121,7 +122,7 @@ function PostCard({ post }) {
                         setDeletePostClicked(null);
                       }}
                     >
-                      <div className="deleteMiniModal">
+                      <div className="deleteMiniModal" onClick={(e) => e.stopPropagation()}>
                         <div>Delete post?</div>
                         <div className="dltCantBeUndone">
                           This can't be undone and it will be removed from your

@@ -11,7 +11,6 @@ function Overview({ whoseProfile }) {
 
   const {
     data: userPosts,
-    isFetching,
     fetchNextPage,
     isFetchingNextPage,
     hasNextPage,

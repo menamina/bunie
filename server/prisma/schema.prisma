@@ -115,7 +115,7 @@ model PostLikes {
   userWhoLiked Int
   dateLiked DateTime @default(now())
 
-  post Posts @relation(fields: [idOfPost], references: [id])
+  post Posts @relation(fields: [idOfPost], references: [id], onDelete: Cascade)
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfPost, userWhoLiked])
@@ -132,7 +132,7 @@ model Comments {
 
   likes CommentLikes[]
 
-  post Posts @relation(fields: [idOfPost], references: [id])
+  post Posts @relation(fields: [idOfPost], references: [id], onDelete: Cascade)
   commenter User @relation(fields: [userWhoCommented], references: [id], onDelete: Cascade)
 
 }
@@ -143,7 +143,7 @@ model CommentLikes {
   userWhoLiked Int
   dateLiked DateTime @default(now())
 
-  comment Comments @relation(fields: [idOfComment], references: [id])
+  comment Comments @relation(fields: [idOfComment], references: [id], onDelete: Cascade)
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfComment, userWhoLiked])
