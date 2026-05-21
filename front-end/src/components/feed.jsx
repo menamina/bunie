@@ -30,8 +30,6 @@ function Feed() {
     enabled: view === "following",
   });
 
-  console.log(mainFeedData, followingFeedData);
-
   useEffect(() => {
     if (!mainFeed.current || isFetchingNextMain || !hasNextMainPage) {
       return;
@@ -77,8 +75,6 @@ function Feed() {
       observer.disconnect();
     };
   }, [fetchNextFollowingPage, isFetchingNextFollowing, hasNextFollowingPage]);
-
-  console.log(followingFeedData);
 
   return (
     <div className="feedDIV">

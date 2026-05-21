@@ -18,9 +18,6 @@ function Overview({ whoseProfile }) {
     error,
   } = useInfiniteQuery({
     ...getProfilePosts(whoseProfile, user.username),
-    onSuccess: () => {
-      console.log("gathered", whoseProfile, "posts");
-    },
   });
 
   useEffect(() => {

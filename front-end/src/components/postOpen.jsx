@@ -33,10 +33,7 @@ function PostOpen() {
             {openedPost?.comments?.length > 0 ? (
               <div className="commentHolder">
                 {openedPost?.comments?.map((comment) => (
-                  <div
-                    className="commentLoaded"
-                    key={comment?.id}
-                  >
+                  <div className="commentLoaded" key={comment?.id}>
                     <CommentCard comment={comment} />
                   </div>
                 ))}

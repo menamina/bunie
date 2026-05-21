@@ -128,8 +128,6 @@ async function getFollowingFeed(req, res) {
       },
     });
 
-    console.log(thisUsersFollowing);
-
     if (thisUsersFollowing.followings.length === 0) {
       return res.status(200).json({ feed: [], nextCursor: null });
     }
@@ -770,8 +768,6 @@ async function getPost(req, res) {
         ...post,
         madeby: post.madeby,
       };
-
-      console.log(formattedPost);
       return res.status(200).json(formattedPost);
     }
     return res.status(404).json({ message: "no post found" });
