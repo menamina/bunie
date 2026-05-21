@@ -640,7 +640,7 @@ async function getUserFinished(req, res) {
 
 async function getUserLikes(req, res) {
   try {
-    const { userID } = parseInt(req.params);
+    const userID = parseInt(req.params.userID);
     const cursor = parseInt(req.query.cursor);
     const thisMany = 15;
 
@@ -671,6 +671,7 @@ async function getUserLikes(req, res) {
         },
       },
     });
+    console.log(postLikes, "likes");
 
     const commentLikes = await prisma.commentLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),
@@ -678,12 +679,7 @@ async function getUserLikes(req, res) {
       where: { userWhoLiked: userID },
       orderBy: { dateLiked: "desc" },
       include: {
-        comment: {
-          include: {
-            idOfPost: true,
-            likes: true,
-          },
-        },
+        comment: true,
       },
     });
 
@@ -699,6 +695,8 @@ async function getUserLikes(req, res) {
         madeBy: like.post.madeby,
       },
     }));
+
+    console.log(postsFilter);
 
     const commentsFiltered = commentLikes.map((like) => ({
       type: "comment",

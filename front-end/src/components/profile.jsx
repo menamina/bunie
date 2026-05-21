@@ -30,8 +30,6 @@ function Profile() {
     error,
   } = useQuery(getProfileQueryOptions(username, user.username));
 
-  console.log(userProfile);
-
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
     onSuccess: () => {
