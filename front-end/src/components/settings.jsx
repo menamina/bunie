@@ -24,7 +24,6 @@ function Settings() {
   const [viewCurrentPass, setViewCurrentPass] = useState(false);
   const [viewNewPass, setViewNewPass] = useState(false);
   const [viewConfirmPass, setViewConfirmPass] = useState(false);
-  const [expandedImage, setExpandedImage] = useState(null);
 
   const nav = useNavigate();
 
@@ -63,7 +62,9 @@ function Settings() {
     ...updateIMGs(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
+      queryClient.invalidateQueries({ queryKey: ["checkSession"] });
       setSettingsView(null);
+      openIconHeader(false);
     },
   });
 
@@ -71,7 +72,6 @@ function Settings() {
     ...updateUData(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
-      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       setEditUserData(false);
     },
   });
@@ -94,22 +94,6 @@ function Settings() {
 
   return (
     <div className="settingsDIV">
-      {expandedImage && (
-        <div
-          className="expandedImageModal"
-          onClick={() => setExpandedImage(null)}
-        >
-          <div className="expandedImageContainer">
-            <button
-              className="closeExpandedImage"
-              onClick={() => setExpandedImage(null)}
-            >
-              ×
-            </button>
-            <img src={expandedImage} alt="Expanded view" />
-          </div>
-        </div>
-      )}
       <div className="leftOfSettings">
         <div>Settings</div>
         <div className="options-set">
@@ -146,14 +130,20 @@ function Settings() {
                       className="currentHeader"
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
                       alt="your header"
-                      onClick={() => setExpandedImage(`http://localhost:5555/IMGS-API/${user.profile.header}`)}
-                      style={{ cursor: "pointer", width: "100%", objectFit: "cover" }}
+                      style={{
+                        cursor: "pointer",
+                        width: "100%",
+                        objectFit: "cover",
+                      }}
                     />
                   ) : (
                     <div
                       className="currentHeader"
-                      style={{ backgroundColor: "white", cursor: "pointer", width: "100%" }}
-                      onClick={() => setExpandedImage(null)}
+                      style={{
+                        backgroundColor: "white",
+                        cursor: "pointer",
+                        width: "100%",
+                      }}
                     ></div>
                   )}
                 </div>
@@ -166,11 +156,6 @@ function Settings() {
                         : DefaultIcon
                     }
                     alt="your profile img"
-                    onClick={() => setExpandedImage(
-                      user?.profile?.pfp && user.profile.pfp !== "default.svg"
-                        ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
-                        : DefaultIcon
-                    )}
                     style={{ cursor: "pointer" }}
                   />
                 </div>
@@ -194,7 +179,7 @@ function Settings() {
                 {imgUpdateErr && (
                   <div className="imgErrModal">
                     <div>
-                      <div>{imgUpdateErr}</div>
+                      <div>{imgUpdateErr.error}</div>
                     </div>
                   </div>
                 )}
@@ -208,7 +193,8 @@ function Settings() {
                       onClick={(e) => e.target.nextElementSibling.click()}
                       style={{ width: "100%", objectFit: "cover" }}
                     />
-                  ) : user?.profile?.header && user.profile.header !== "white" ? (
+                  ) : user?.profile?.header &&
+                    user.profile.header !== "white" ? (
                     <img
                       className="wantedHeader overlay"
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
@@ -245,9 +231,10 @@ function Settings() {
                     }
                     src={
                       !iconHeaderData.pfp
-                        ? (user?.profile?.pfp && user.profile.pfp !== "default.svg"
-                            ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
-                            : DefaultIcon)
+                        ? user?.profile?.pfp &&
+                          user.profile.pfp !== "default.svg"
+                          ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
+                          : DefaultIcon
                         : URL.createObjectURL(iconHeaderData.pfp)
                     }
                     alt="your updated pfp"

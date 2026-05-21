@@ -95,6 +95,7 @@ function Nav({ user }) {
       </div>
       <Link className="goToProfile" to={`/${user?.user?.username}`}>
         <img
+          key={user?.user?.profile?.pfp}
           className="miniPFP"
           src={
             user?.user?.profile?.pfp && user.user.profile.pfp !== "default.svg"

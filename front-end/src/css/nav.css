@@ -11,9 +11,8 @@
   flex-direction: column;
   position: fixed;
   justify-content: space-between;
-  height: 100vh;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  height: 100%;
+  padding-bottom: 4vh;
   border-top: 1px solid rgba(177, 171, 171, 0.581);
 }
 
@@ -269,9 +268,10 @@
   }
 
   .navDIV {
-    width: 3rem;
+    width: 5rem;
     border-top: none;
-    left: calc(50% - 350px - 3rem - 10px);
+    left: 0;
+    padding-left: 10px;
   }
 
   .nav.options {
