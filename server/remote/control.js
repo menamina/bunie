@@ -235,6 +235,11 @@ async function query(req, res) {
               id: true,
               name: true,
               username: true,
+              profile: {
+                select: {
+                  pfp: true,
+                },
+              },
             },
           },
         },
@@ -305,6 +310,11 @@ async function query(req, res) {
               id: true,
               name: true,
               username: true,
+              profile: {
+                select: {
+                  pfp: true,
+                },
+              },
             },
           },
         },

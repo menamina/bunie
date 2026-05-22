@@ -142,7 +142,7 @@ function Search() {
             <div>
               {tabView === "users" && (
                 <div>
-                  {queryResults?.pagesbap((item) =>
+                  {queryResults?.pages.flatMap((item) =>
                     item.usersWithQuery.map((user) => (
                       <MiniProfile key={user.id} userProfile={user} />
                     )),
@@ -152,7 +152,6 @@ function Search() {
                       {isFetchingNextPage && <div>Loading more...</div>}
                     </div>
                   )}
-                  {!hasNextPage && <div>That's all folks</div>}
                 </div>
               )}
 

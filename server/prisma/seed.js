@@ -39,9 +39,6 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`✅ Found user: ${user.username} (ID: ${user.id})`);
-
-  console.log("📝 Creating 30 fake posts...");
   const posts = [];
 
   for (let i = 0; i < 30; i++) {
