@@ -36,7 +36,7 @@ function Settings() {
     name: user.name,
     username: user.username,
     email: user.email,
-    bio: user.bio,
+    bio: user.profile.bio,
   });
 
   const [passwordData, setPasswordData] = useState({
@@ -63,14 +63,15 @@ function Settings() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
+      setOpenIconHeader(false);
       setSettingsView(null);
-      openIconHeader(false);
     },
   });
 
   const { mutate: updateUserData, error: dataUpdateErr } = useMutation({
     ...updateUData(),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
       setEditUserData(false);
     },
@@ -393,7 +394,7 @@ function Settings() {
                   <div>{user.name}</div>
                   <div>@{user.username}</div>
                   <div>{user.email}</div>
-                  <div>{user.bio}</div>
+                  <div>{user.profile.bio}</div>
                   <div>cake day: {user.joined.split("T")[0]}</div>
                 </div>
                 <div

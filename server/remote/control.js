@@ -132,12 +132,17 @@ async function getFollowingFeed(req, res) {
       return res.status(200).json({ feed: [], nextCursor: null });
     }
 
+    // Extract just the IDs of users being followed
+    const followingIds = thisUsersFollowing.followings.map(
+      (f) => f.followingAcc.id
+    );
+
     const feed = await prisma.posts.findMany({
       ...(cursor > 0 && { skip: cursor }),
       take: thisMany + 1,
       where: {
         madeBy: {
-          in: thisUsersFollowing,
+          in: followingIds,
         },
       },
       include: {
