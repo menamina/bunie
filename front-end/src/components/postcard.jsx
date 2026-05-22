@@ -57,6 +57,8 @@ function PostCard({ post }) {
         nav("/");
       }
 
+      queryClient.invalidateQueries({ queryKey: ["search"] });
+
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });

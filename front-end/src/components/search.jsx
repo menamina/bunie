@@ -93,8 +93,8 @@ function Search() {
             </div>
           </div>
 
-          {queryResults?.pages[0]?.usersWithQuery.length === 0 &&
-            queryResults?.pages[0]?.postsWithQuery.length === 0 && (
+          {queryResults?.pages[0]?.usersWithQuery?.length === 0 &&
+            queryResults?.pages[0]?.postsWithQuery?.length === 0 && (
               <div className="noQueryResults">No results found</div>
             )}
 
@@ -102,13 +102,13 @@ function Search() {
             <div>
               <div className="topRES">
                 <div className="top10USERS">
-                  {queryResults?.pages[0]?.usersWithQuery.length > 0 &&
-                    queryResults?.pages[0].usersWithQuery
+                  {queryResults?.pages[0]?.usersWithQuery?.length > 0 &&
+                    queryResults?.pages[0]?.usersWithQuery
                       .slice(0, 10)
                       .map((user) => (
                         <MiniProfile key={user?.id} userProfile={user} />
                       ))}
-                  {queryResults?.pages[0]?.usersWithQuery.length >= 10 && (
+                  {queryResults?.pages[0]?.usersWithQuery?.length >= 10 && (
                     <div
                       onClick={() => {
                         setTabView("users");
@@ -124,7 +124,7 @@ function Search() {
                     .map((post) => (
                       <PostCard key={post.id} post={post} />
                     ))}
-                  {queryResults?.pages[0]?.postsWithQuery.length >= 10 && (
+                  {queryResults?.pages[0]?.postsWithQuery?.length >= 10 && (
                     <div
                       onClick={() => {
                         setTabView("posts");
