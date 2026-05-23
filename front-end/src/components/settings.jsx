@@ -36,7 +36,7 @@ function Settings() {
     name: user.name,
     username: user.username,
     email: user.email,
-    bio: user.profile.bio,
+    bio: user.profile.bio || "",
   });
 
   const [passwordData, setPasswordData] = useState({
