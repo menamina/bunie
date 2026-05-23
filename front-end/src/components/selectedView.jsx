@@ -33,9 +33,7 @@ function SelectedView({ view, whoseProfile }) {
     data: products,
     isPending: viewingProdsPending,
     error: viewProdsError,
-  } = useQuery(
-    getStatusViewOptions(config.endpoint, whoseProfile, user.username),
-  );
+  } = useQuery(getStatusViewOptions(config.endpoint, whoseProfile));
 
   if (products) {
     console.log(products);

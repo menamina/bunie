@@ -35,9 +35,6 @@ function CommentCard({ comment }) {
       queryClient.invalidateQueries({
         queryKey: ["post", comment.idOfPost],
       });
-      queryClient.invalidateQueries({ queryKey: ["search"] });
-      queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
-      queryClient.invalidateQueries({ queryKey: ["profileLikes", user.username] });
     },
   });
 

@@ -28,7 +28,7 @@ function Profile() {
     data: userProfile,
     isPending,
     error,
-  } = useQuery(getProfileQueryOptions(username, user.username));
+  } = useQuery(getProfileQueryOptions(username));
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),

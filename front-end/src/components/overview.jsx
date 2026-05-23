@@ -17,7 +17,7 @@ function Overview({ whoseProfile }) {
     isPending,
     error,
   } = useInfiniteQuery({
-    ...getProfilePosts(whoseProfile, user.username),
+    ...getProfilePosts(whoseProfile),
   });
 
   useEffect(() => {

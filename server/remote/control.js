@@ -1,4 +1,3 @@
-const { table } = require("console");
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
 const path = require("path");
@@ -728,9 +727,11 @@ async function getUserLikes(req, res) {
       (b, a) => new Date(b.dateLiked) - new Date(a.dateLiked),
     );
 
-    const hasMore = likesOrdered.length > cursor ? cursor + thisMany : null;
+    const hasMore = likesOrdered.length > thisMany;
+    const results = hasMore ? likesOrdered.slice(0, thisMany) : likesOrdered;
+    const nextCursor = hasMore ? cursor + thisMany : null;
 
-    return res.status(200).json({ likesOrdered, nextCursor: hasMore });
+    return res.status(200).json({ likesOrdered: results, nextCursor });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });

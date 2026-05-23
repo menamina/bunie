@@ -72,16 +72,7 @@ router.get("/main-feed-API", isAuth, remote.getMainFeed);
 router.get("/following-feed-API", isAuth, remote.getFollowingFeed);
 
 // getting user's profile //
-router.get("/my-profile-API/:username", isAuth, remote.getProfile);
 router.get("/get-my-profile-settings/", isAuth, remote.getMyProfileSettings);
-
-router.get("/get-my-posts/:username", isAuth, remote.getUserPosts);
-
-router.get("/get-my-inventory/:username", isAuth, remote.getUserInventory);
-router.get("/get-my-in-progress/:username", isAuth, remote.getUserInProgress);
-router.get("/get-my-limbo/:username", isAuth, remote.getUserLimbo);
-router.get("/get-my-decluttered/:username", isAuth, remote.getUserDecluttered);
-router.get("/get-my-finished/:username", isAuth, remote.getUserFinished);
 
 // edit + delete user profile //
 router.patch(

@@ -23,10 +23,10 @@ export const signUpMutationOptions = () => {
   });
 };
 
-export const getProfileQueryOptions = (username, authUsername) => {
+export const getProfileQueryOptions = (username) => {
   return queryOptions({
     queryKey: ["profile", username],
-    queryFn: () => getProfile(username, authUsername),
+    queryFn: () => getProfile(username),
   });
 };
 
@@ -36,10 +36,10 @@ export const followMutationOptions = () => {
   });
 };
 
-export const getProfilePosts = (username, authUsername) => {
+export const getProfilePosts = (username) => {
   return infiniteQueryOptions({
-    queryKey: ["profilePosts", username, authUsername],
-    queryFn: ({ pageParam }) => getUserPosts(username, authUsername, pageParam),
+    queryKey: ["profilePosts", username],
+    queryFn: ({ pageParam }) => getUserPosts(username, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
@@ -63,14 +63,10 @@ export const deleteProductMutOpts = () => {
   });
 };
 
-export const getStatusViewOptions = (
-  viewAPI,
-  whoseProfileUsername,
-  authUsername,
-) => {
+export const getStatusViewOptions = (viewAPI, whoseProfileUsername) => {
   return queryOptions({
     queryKey: ["view-status", whoseProfileUsername],
-    queryFn: () => getViewStatus(viewAPI, whoseProfileUsername, authUsername),
+    queryFn: () => getViewStatus(viewAPI, whoseProfileUsername),
   });
 };
 
@@ -316,7 +312,7 @@ async function updateComment(commentToUpdate) {
   const res = await fetch(
     `http://localhost:5555/update-comment/${commentToUpdate.pID}`,
     {
-      method: "GET",
+      method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(commentToUpdate.body),
@@ -523,7 +519,7 @@ async function updateIMGS(imgs) {
     formData.append("header", imgs.header);
   }
 
-  const res = await fetch(`http://localHost:5555/update-my-IMGS-API`, {
+  const res = await fetch(`http://localhost:5555/update-my-IMGS-API`, {
     method: "PATCH",
     credentials: "include",
     body: formData,
@@ -543,7 +539,7 @@ async function updateIMGS(imgs) {
 }
 
 async function updateUserData(staticProfDataUpdate) {
-  const res = await fetch(`http://localHost:5555/update-my-profile-API`, {
+  const res = await fetch(`http://localhost:5555/update-my-profile-API`, {
     method: "PATCH",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -570,7 +566,7 @@ async function updateUserData(staticProfDataUpdate) {
 }
 
 async function deleteMyAcc() {
-  const res = await fetch(`http://localHost:5555/delete-my-account-API`, {
+  const res = await fetch(`http://localhost:5555/delete-my-account-API`, {
     method: "DELETE",
     credentials: "include",
   });
@@ -578,7 +574,7 @@ async function deleteMyAcc() {
 }
 
 async function changePassword(passwordObj) {
-  const res = await fetch(`http://localHost:5555/update-my-password-API`, {
+  const res = await fetch(`http://localhost:5555/update-my-password-API`, {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -608,7 +604,7 @@ async function changePassword(passwordObj) {
 
 async function getUserFollow(username, view) {
   const res = await fetch(
-    `http://localHost:5555/get-user-${view}/:${username}`,
+    `http://localhost:5555/get-user-${view}/:${username}`,
     {
       method: "GET",
       credentials: "include",
@@ -617,27 +613,15 @@ async function getUserFollow(username, view) {
   return await res.json();
 }
 
-async function getViewStatus(viewAPI, whoseProfileUsername, authUsername) {
-  if (whoseProfileUsername === authUsername) {
-    const res = await fetch(
-      `http://localHost:5555/get-my-${viewAPI}/${authUsername}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
-
-    return await res.json();
-  } else {
-    const res = await fetch(
-      `http://localhost:5555/get-user-${viewAPI}/${whoseProfileUsername}`,
-      {
-        method: "GET",
-        credentials: "include",
-      },
-    );
-    return await res.json();
-  }
+async function getViewStatus(viewAPI, whoseProfileUsername) {
+  const res = await fetch(
+    `http://localhost:5555/get-user-${viewAPI}/${whoseProfileUsername}`,
+    {
+      method: "GET",
+      credentials: "include",
+    },
+  );
+  return await res.json();
 }
 
 async function addProductToInventory(productToAdd) {
@@ -665,7 +649,7 @@ async function addProductToInventory(productToAdd) {
     formData.append("wouldBuyAgain", productToAdd.wouldBuyAgain);
   }
 
-  const res = await fetch("http://localHost:5555/add-to-inventory-API", {
+  const res = await fetch("http://localhost:5555/add-to-inventory-API", {
     method: "POST",
     credentials: "include",
     body: formData,
@@ -675,7 +659,7 @@ async function addProductToInventory(productToAdd) {
 }
 
 async function sessCheck() {
-  const res = await fetch("http://localHost:5555/session-check-API", {
+  const res = await fetch("http://localhost:5555/session-check-API", {
     method: "GET",
     credentials: "include",
   });
@@ -688,7 +672,7 @@ async function sessCheck() {
 }
 
 async function loginUser(loginINFO) {
-  const res = await fetch("http://localHost:5555/login-API", {
+  const res = await fetch("http://localhost:5555/login-API", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -708,7 +692,7 @@ async function loginUser(loginINFO) {
 }
 
 async function signupUser(signupINFO) {
-  const res = await fetch("http://localHost:5555/sign-up-API", {
+  const res = await fetch("http://localhost:5555/sign-up-API", {
     method: "POST",
     credentials: "include",
     headers: { "Content-Type": "application/json" },
@@ -731,14 +715,8 @@ async function signupUser(signupINFO) {
   return await res.json();
 }
 
-async function getProfile(username, authUsername) {
-  const isOwnProfile = authUsername === username;
-
-  const endpoint = isOwnProfile
-    ? `http://localhost:5555/my-profile-API/${username}`
-    : `http://localhost:5555/profile-API/${username}`;
-
-  const res = await fetch(endpoint, {
+async function getProfile(username) {
+  const res = await fetch(`http://localhost:5555/profile-API/${username}`, {
     method: "GET",
     credentials: "include",
   });
@@ -760,7 +738,7 @@ async function getProfile(username, authUsername) {
 }
 
 async function toggleFollow(userID) {
-  const res = await fetch(`http://localHost:5555/follow/${userID}`, {
+  const res = await fetch(`http://localhost:5555/follow/${userID}`, {
     method: "POST",
     credentials: "include",
   });
@@ -779,14 +757,10 @@ async function toggleFollow(userID) {
   return await res.json();
 }
 
-async function getUserPosts(username, authUsername, pageParam) {
-  const isOwnProfile = authUsername === username ? true : false;
-
-  const endpoint = isOwnProfile
-    ? `http://localhost:5555/get-my-posts/${authUsername}?cursor=${pageParam}`
-    : `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`;
-
-  const res = await fetch(endpoint, {
+async function getUserPosts(username, pageParam) {
+  const res = await fetch(
+    `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`,
+    {
     method: "GET",
     credentials: "include",
   });

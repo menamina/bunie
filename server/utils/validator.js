@@ -16,7 +16,12 @@ const validation = [
     .withMessage("An email is required")
     .isEmail()
     .withMessage("Valid email required"),
-  body("password").trim().notEmpty().withMessage("Password required"),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("Password required")
+    .isLength({ min: 8 })
+    .withMessage("Password must be at least 8 characters"),
   body("confirmPassword").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("Passwords must match");

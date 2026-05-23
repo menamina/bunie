@@ -7,7 +7,7 @@ async function passwordGenie(password) {
 }
 
 async function checkPassword(password, usersSaltedHash) {
-  const match = bcrypt.compare(password, usersSaltedHash);
+  const match = await bcrypt.compare(password, usersSaltedHash);
   return match;
 }
 
