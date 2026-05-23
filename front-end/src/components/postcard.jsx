@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate, useOutletContext, useLocation } from "react-router-dom";
+import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
 
@@ -32,7 +32,7 @@ function PostCard({ post }) {
   const [expandIMG, setExpandIMG] = useState(null);
 
   const nav = useNavigate();
-  const location = useLocation();
+  const { postId } = useParams();
   const queryClient = useQueryClient();
 
   function navToProfile(e) {
@@ -53,12 +53,11 @@ function PostCard({ post }) {
   const { mutate: confirmDelete } = useMutation({
     ...deletePostOpt(post?.id),
     onSuccess: () => {
-      if (location.pathname === `/post/${post?.id}`) {
+      if (postId) {
         nav("/");
       }
 
       queryClient.invalidateQueries({ queryKey: ["search"] });
-
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });

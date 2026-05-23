@@ -37,7 +37,7 @@ function CommentCard({ comment }) {
       });
       queryClient.invalidateQueries({ queryKey: ["search"] });
       queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
-      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
+      queryClient.invalidateQueries({ queryKey: ["profileLikes", user.username] });
     },
   });
 
