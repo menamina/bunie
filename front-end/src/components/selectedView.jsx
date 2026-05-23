@@ -35,10 +35,6 @@ function SelectedView({ view, whoseProfile }) {
     error: viewProdsError,
   } = useQuery(getStatusViewOptions(config.endpoint, whoseProfile));
 
-  if (products) {
-    console.log(products);
-  }
-
   const {
     mutate: deleteProductMutation,
     isPending: deletePending,

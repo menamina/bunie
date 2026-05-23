@@ -38,8 +38,6 @@ function Search() {
     },
   });
 
-  console.log(queryResults);
-
   useEffect(() => {
     if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
 

@@ -18,8 +18,6 @@ function PostOpen() {
     ...getPostOpt(postId),
   });
 
-  console.log(openedPost);
-
   return (
     <div className="postOpenDIV">
       {isPending && <div>Loading</div>}

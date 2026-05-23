@@ -1,5 +1,6 @@
 const prisma = require("../prisma/client");
 const { passwordGenie, checkPassword } = require("../utils/password");
+const { PAGINATION_LIMIT } = require("../utils/constants");
 const path = require("path");
 
 async function signUpUser(req, res) {
@@ -59,7 +60,7 @@ async function IMGS(req, res) {
 async function getMainFeed(req, res) {
   try {
     const cursor = parseInt(req.query.cursor);
-    const thisMany = 15;
+    const thisMany = PAGINATION_LIMIT;
 
     const feed = await prisma.posts.findMany({
       ...(cursor > 0 && { skip: cursor }),
@@ -108,7 +109,7 @@ async function getFollowingFeed(req, res) {
     const { id } = req.user;
 
     const userID = Number(id);
-    const thisMany = 15;
+    const thisMany = PAGINATION_LIMIT;
 
     const thisUsersFollowing = await prisma.user.findUnique({
       where: {
@@ -185,7 +186,7 @@ async function query(req, res) {
   try {
     const { querySearch, tabView } = req.query;
     const cursor = parseInt(req.query.cursor);
-    const thisMany = 15;
+    const thisMany = PAGINATION_LIMIT;
 
     let usersWithQuery = [];
     let postsWithQuery = [];
@@ -457,7 +458,7 @@ async function getUserPosts(req, res) {
   try {
     const { username } = req.params;
     const cursor = parseInt(req.query.cursor) || 0;
-    const thisMany = 20;
+    const thisMany = PAGINATION_LIMIT;
 
     const user = await prisma.user.findUnique({
       where: {
@@ -653,7 +654,7 @@ async function getUserLikes(req, res) {
   try {
     const userID = parseInt(req.params.userID);
     const cursor = parseInt(req.query.cursor);
-    const thisMany = 15;
+    const thisMany = PAGINATION_LIMIT;
 
     const postLikes = await prisma.postLikes.findMany({
       ...(cursor > 0 && { skip: cursor }),

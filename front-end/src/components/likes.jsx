@@ -37,8 +37,6 @@ function Likes({ whoseProfile }) {
     return () => observer.disconnect();
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
-  console.log(userLikes);
-
   return (
     <div className="likesDIV">
       {isFetching && <div>Loading..</div>}

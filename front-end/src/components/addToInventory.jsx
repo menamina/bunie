@@ -70,9 +70,6 @@ function AddToInventory({ closeInventoryModal, product = null, user }) {
   function submit(e) {
     e.preventDefault();
     editMode ? updateProduct(inventoryINFO) : addProduct(inventoryINFO);
-    if (errorAddingProduct) {
-      console.log(errorAddingProduct.error);
-    }
     closeInventoryModal(false);
   }
 
