@@ -30,7 +30,7 @@ function makeOrUpdatePostZod(req, res, next) {
 function makeOrUpdateCommentZod(req, res, next) {
   const schema = z.object({
     body: z.string(),
-    pID: z.coerce.number(),
+    pID: z.coerce.number().optional(),
   });
   try {
     schema.parse(req.body);
@@ -47,7 +47,7 @@ function addOrUpdateInventoryZod(req, res, next) {
     category: z.string().optional(),
     price: z.coerce.number().optional(),
     status: z.string().optional(),
-    dateOfPurchase: z.coerce.date().optional(),
+    dateOpurchase: z.coerce.date().optional(),
     rating: z.string().or(z.number()).optional(),
     notes: z.string().optional(),
     wouldBuyAgain: z.string().or(z.null()).optional(),

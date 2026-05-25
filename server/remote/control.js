@@ -839,7 +839,7 @@ async function addProduct(req, res) {
       wouldBuyAgain,
     } = req.body;
     const image = req.file;
-    const imgFileName = image.filename;
+    const imgFileName = image ? image.filename : null;
     const userID = Number(id);
 
     const addedProduct = await prisma.inventory.create({
@@ -1293,6 +1293,7 @@ async function updateUserProfile(req, res) {
       const alreadyTaken = await prisma.user.findMany({
         where: {
           OR: [{ username: username }, { email: email }],
+          NOT: { id: userID },
         },
         select: {
           username: true,
@@ -1300,9 +1301,14 @@ async function updateUserProfile(req, res) {
         },
       });
 
-      if (alreadyTaken.username === username) {
+      const usernameTaken = alreadyTaken.some(
+        (user) => user.username === username,
+      );
+      const emailTaken = alreadyTaken.some((user) => user.email === email);
+
+      if (usernameTaken) {
         return res.status(200).json({ usernameTaken: true });
-      } else if (alreadyTaken.email === email) {
+      } else if (emailTaken) {
         return res.status(200).json({ emailTaken: true });
       }
     }

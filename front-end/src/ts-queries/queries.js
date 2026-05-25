@@ -275,8 +275,10 @@ async function getLikes(userID, pageParam) {
       throw error;
     } else if (res.status === 404) {
       error.noUserFound = "0 likes by this user";
+      throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
 
@@ -324,8 +326,10 @@ async function updateComment(commentToUpdate) {
 
     if (res.status === 404) {
       error.commentNotFound = "Comment not found or not yours";
+      throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
   return await res.json();
@@ -353,8 +357,10 @@ async function updatePost(postData, postID) {
     const error = new Error();
     if (res.status === 404) {
       error.noPostExists = "Post not found or not yours";
+      throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
 
@@ -377,6 +383,7 @@ async function makeComment(commentData) {
       throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error,";
+      throw error;
     }
   }
 
@@ -530,8 +537,10 @@ async function updateIMGS(imgs) {
 
     if (res.status === 404) {
       error.userNotFound = "User not found or not your account";
+      throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
 
@@ -751,6 +760,7 @@ async function toggleFollow(userID) {
       throw error;
     } else if (res.status === 500) {
       error.serverError = "Server error, try again";
+      throw error;
     }
   }
 
