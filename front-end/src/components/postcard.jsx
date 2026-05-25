@@ -80,7 +80,8 @@ function PostCard({ post }) {
   });
 
   function cancelUpdate() {
-    (editPostClicked(null), setPostDotsClicked(false));
+    setEditPostClicked(false);
+    setPostDotsClicked(false);
   }
 
   return (
@@ -294,9 +295,7 @@ function PostCard({ post }) {
       {makeAComment && (
         <MakeAComment postObj={post} closeModal={setMakeAComment} />
       )}
-      {editPostClicked && (
-        <MakeAPost postToEdit={post} closeModal={cancelUpdate} />
-      )}
+      {editPostClicked && <MakeAPost post={post} closeModal={cancelUpdate} user={user} />}
     </div>
   );
 }

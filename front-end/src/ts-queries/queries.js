@@ -310,12 +310,12 @@ async function updateProduct(productID, productData) {
 
 async function updateComment(commentToUpdate) {
   const res = await fetch(
-    `http://localhost:5555/update-comment/${commentToUpdate.pID}`,
+    `http://localhost:5555/update-comment/${commentToUpdate.id}`,
     {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(commentToUpdate.body),
+      body: JSON.stringify(commentToUpdate),
     },
   );
 
@@ -604,7 +604,7 @@ async function changePassword(passwordObj) {
 
 async function getUserFollow(username, view) {
   const res = await fetch(
-    `http://localhost:5555/get-user-${view}/:${username}`,
+    `http://localhost:5555/get-user-${view}/${username}`,
     {
       method: "GET",
       credentials: "include",
@@ -761,9 +761,10 @@ async function getUserPosts(username, pageParam) {
   const res = await fetch(
     `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`,
     {
-    method: "GET",
-    credentials: "include",
-  });
+      method: "GET",
+      credentials: "include",
+    },
+  );
 
   if (!res.ok) {
     const error = new Error("error");

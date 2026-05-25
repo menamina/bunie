@@ -18,6 +18,7 @@ function MakeAComment({
   const [commentData, setCommentData] = useState(
     edit
       ? {
+          id: comment?.id,
           pID: comment?.idOfPost,
           body: comment?.body,
         }

@@ -47,7 +47,7 @@ function MakeAPost({ closeModal, post = null, user }) {
   } = useMutation({
     ...updatePostMut(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryFN: ["post", post.id] });
+      queryClient.invalidateQueries({ queryKey: ["post", post.id] });
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });

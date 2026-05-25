@@ -63,7 +63,7 @@ function AddToInventory({ closeInventoryModal, product = null, user }) {
   );
 
   function clearInventoryINFO(e) {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     closeInventoryModal(false);
   }
 
