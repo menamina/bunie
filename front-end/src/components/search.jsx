@@ -9,16 +9,14 @@ import "../css/search.css";
 
 function Search() {
   const [querySearch, setQuerySearch] = useState("");
-  const [searching, setSearching] = useState(false);
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [tabView, setTabView] = useState("top");
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    if (!querySearch) {
-      return;
-    }
-
-    const timer = setTimeout(() => setSearching(true), 1000);
+    const timer = setTimeout(() => {
+      setDebouncedQuery(querySearch);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, [querySearch]);
@@ -31,11 +29,8 @@ function Search() {
     isFetchingNextPage,
     hasNextPage,
   } = useInfiniteQuery({
-    ...search(querySearch, tabView),
-    enabled: searching && !!querySearch,
-    onSuccess: () => {
-      setSearching(false);
-    },
+    ...search(debouncedQuery, tabView),
+    enabled: !!debouncedQuery,
   });
 
   useEffect(() => {

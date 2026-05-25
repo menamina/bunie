@@ -101,7 +101,7 @@ function MakeAPost({ closeModal, post = null, user }) {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                resetUpdate;
+                resetUpdate();
               }}
             >
               {updateErr.message}
@@ -117,7 +117,7 @@ function MakeAPost({ closeModal, post = null, user }) {
               type="button"
               onClick={(e) => {
                 e.stopPropagation();
-                resetPost;
+                resetPost();
               }}
             >
               {postErr.message}

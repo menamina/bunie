@@ -35,6 +35,8 @@ function Overview({ whoseProfile }) {
     );
 
     observer.observe(loadMore.current);
+
+    return () => observer.disconnect();
   }, [fetchNextPage, isFetchingNextPage, hasNextPage]);
 
   return (

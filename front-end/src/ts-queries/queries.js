@@ -195,6 +195,7 @@ export const getLikeOpts = (userID) => {
     queryFn: ({ pageParam }) => getLikes(userID, pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
+    enabled: !!userID,
   });
 };
 
@@ -595,7 +596,7 @@ async function changePassword(passwordObj) {
     if (res.status === 400) {
       error.noUserFound = "No account found";
       throw error;
-    } else if (res.status === 204) {
+    } else if (res.status === 401) {
       error.PasswordsDontMatch = "Current password is incorrect";
       throw error;
     } else if (res.status === 500) {

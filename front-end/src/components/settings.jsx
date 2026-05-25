@@ -363,13 +363,17 @@ function Settings() {
                     onClick={() => {
                       setEditUserData(false);
                       {
-                        openIconHeader && setIconHeaderData(false);
+                        openIconHeader &&
+                          setIconHeaderData({
+                            pfp: "",
+                            header: "",
+                          });
                       }
                       setUpdateData({
                         name: user.name,
                         username: user.username,
                         email: user.email,
-                        bio: user.bio,
+                        bio: user.profile.bio,
                       });
                     }}
                   >
@@ -608,7 +612,7 @@ function Settings() {
             with it will no longer be available to other users or yourself; once
             you delete your account there is no recovering it.
           </div>
-          <div class="dltAccBtns">
+          <div className="dltAccBtns">
             <button
               type="button"
               className="settingsButtons"

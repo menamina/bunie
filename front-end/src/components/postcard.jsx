@@ -32,7 +32,7 @@ function PostCard({ post }) {
   const [expandIMG, setExpandIMG] = useState(null);
 
   const nav = useNavigate();
-  const { postId } = useParams();
+  const { id: postId } = useParams();
   const queryClient = useQueryClient();
 
   function navToProfile(e) {
@@ -61,6 +61,7 @@ function PostCard({ post }) {
         queryKey: ["profilePosts", user.username],
       });
       queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
+      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
     },
   });
 
