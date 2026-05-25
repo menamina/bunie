@@ -61,7 +61,6 @@ function PostCard({ post }) {
         queryKey: ["profilePosts", user.username],
       });
       queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
-      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
     },
   });
 
