@@ -56,6 +56,8 @@ model Inventory {
   wouldBuyAgain RepurchaseChoice @default(na)
 
   whoseInventory User @relation(fields: [belongsTo], references: [id], onDelete: Cascade)
+
+  @@index([belongsTo])
 }
 
 enum Category {
@@ -91,7 +93,8 @@ model FollowRelation {
   followingAcc User @relation("userFollowers", fields: [following], references: [id], onDelete: Cascade)
 
   @@unique([follower, following])
-
+  @@index([follower])
+  @@index([following])
 }
 
 model Posts {
@@ -107,6 +110,8 @@ model Posts {
   comments Comments[]
 
   madeby User @relation(fields: [madeBy], references: [id], onDelete: Cascade)
+
+  @@index([madeBy])
 }
 
 model PostLikes {
@@ -119,13 +124,14 @@ model PostLikes {
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfPost, userWhoLiked])
+  @@index([userWhoLiked])
 }
 
 
 model Comments {
   id Int @id @default(autoincrement())
   idOfPost Int
-  userWhoCommented Int 
+  userWhoCommented Int
 
   body String
   timestamp DateTime @default(now())
@@ -135,6 +141,7 @@ model Comments {
   post Posts @relation(fields: [idOfPost], references: [id], onDelete: Cascade)
   commenter User @relation(fields: [userWhoCommented], references: [id], onDelete: Cascade)
 
+  @@index([idOfPost])
 }
 
 model CommentLikes {
@@ -147,6 +154,7 @@ model CommentLikes {
   liker User @relation(fields: [userWhoLiked], references: [id], onDelete: Cascade)
 
   @@unique([idOfComment, userWhoLiked])
+  @@index([userWhoLiked])
 }
 
 model Session {
