@@ -133,7 +133,7 @@ async function getFollowingFeed(req, res) {
     }
 
     const followingIds = thisUsersFollowing.followings.map(
-      (f) => f.followingAcc.id
+      (f) => f.followingAcc.id,
     );
 
     const feed = await prisma.posts.findMany({
@@ -725,7 +725,7 @@ async function getUserLikes(req, res) {
     }));
 
     const likesOrdered = [...postsFilter, ...commentsFiltered].sort(
-      (b, a) => new Date(b.dateLiked) - new Date(a.dateLiked),
+      (a, b) => new Date(b.dateLiked) - new Date(a.dateLiked),
     );
 
     const hasMore = likesOrdered.length > thisMany;
@@ -922,7 +922,7 @@ async function deleteProduct(req, res) {
       },
     });
 
-    return res.status(200).json({ succes: true });
+    return res.status(200).json({ success: true });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -1363,7 +1363,7 @@ async function updateUserPassword(req, res) {
     const passwordMatch = await checkPassword(oldPassword, user.saltedHash);
 
     if (!passwordMatch) {
-      return res.status(204).json({ passwordsDontMatch: true });
+      return res.status(401).json({ passwordsDontMatch: true });
     }
 
     const updatedSaltedHash = await passwordGenie(confirmNewPassword);

@@ -165,18 +165,16 @@ function MakeAPost({ closeModal, post = null, user }) {
             </div>
           )}
           {post && (
-            <div>
-              {postData.title &&
-              (postData.body || postData.image.length > 0) ? (
-                <div>
-                  {updatePending && <div className="cannot click">update</div>}
-                  {!updatePending && (
-                    <button className="can click">post</button>
-                  )}
-                </div>
-              ) : (
-                <div className="cannotPost">post</div>
-              )}
+            <div className="topOfPostModal">
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeModal(false);
+                }}
+                className="X"
+              >
+                X
+              </div>
             </div>
           )}
         </div>
@@ -257,6 +255,57 @@ function MakeAPost({ closeModal, post = null, user }) {
             hidden
           />
         </div>
+        {post && (
+          <div className="updatePostButtons">
+            {postData.title && (postData.body || postData.image.length > 0) ? (
+              <div>
+                {updatePending && (
+                  <div>
+                    <button type="button" className="cannot click">
+                      cancel
+                    </button>
+                    <button type="button" className="cannot click">
+                      update
+                    </button>
+                  </div>
+                )}
+                {!updatePending && (
+                  <div>
+                    <button
+                      type="button"
+                      className="can click"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        closeModal(false);
+                      }}
+                    >
+                      cancel
+                    </button>
+                    <button type="submit" className="can click">
+                      update
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <div>
+                <button
+                  type="button"
+                  className="can click"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    closeModal(false);
+                  }}
+                >
+                  cancel
+                </button>
+                <button type="button" className="cannot click">
+                  update
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </form>
     </div>
   );
