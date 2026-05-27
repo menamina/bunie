@@ -32,15 +32,6 @@
   color: rgb(78, 78, 78);
 }
 
-.deleteModalFixed {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100vw;
-  height: 100vh;
-}
-
 .deleteModal {
   position: absolute;
   display: flex;

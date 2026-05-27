@@ -528,6 +528,9 @@ async function getUserInventory(req, res) {
               notIn: ["decluttered", "fullpan"],
             },
           },
+          orderBy: {
+            id: "desc",
+          },
         },
       },
     });
@@ -554,6 +557,9 @@ async function getUserInProgress(req, res) {
         inventory: {
           where: {
             status: "inProgress",
+          },
+          orderBy: {
+            id: "desc",
           },
         },
       },
@@ -582,6 +588,9 @@ async function getUserLimbo(req, res) {
           where: {
             status: "limbo",
           },
+          orderBy: {
+            id: "desc",
+          },
         },
       },
     });
@@ -609,6 +618,9 @@ async function getUserDecluttered(req, res) {
           where: {
             status: "decluttered",
           },
+          orderBy: {
+            id: "desc",
+          },
         },
       },
     });
@@ -635,6 +647,9 @@ async function getUserFinished(req, res) {
         inventory: {
           where: {
             status: "fullpan",
+          },
+          orderBy: {
+            id: "desc",
           },
         },
       },
