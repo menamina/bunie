@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getPostOpt } from "../ts-queries/queries";
 import PostCard from "./postcard";
@@ -8,7 +8,10 @@ import "../css/postOpen.css";
 
 function PostOpen() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const postId = Number(id);
+
+  const goBack = () => navigate(-1);
 
   const {
     data: openedPost,
@@ -20,6 +23,7 @@ function PostOpen() {
 
   return (
     <div className="postOpenDIV">
+      <button onClick={goBack} className="backButton">← Back</button>
       {isPending && <div>Loading</div>}
       {openPostErr && <div>{openPostErr.error}</div>}
       {openedPost && (
