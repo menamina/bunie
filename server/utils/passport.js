@@ -11,17 +11,7 @@ async function verify(email, password, done) {
       },
       select: {
         id: true,
-        name: true,
-        username: true,
-        email: true,
         saltedHash: true,
-        profile: {
-          select: {
-            pfp: true,
-            header: true,
-            bio: true,
-          },
-        },
       },
     });
 
