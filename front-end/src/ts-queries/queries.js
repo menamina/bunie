@@ -286,7 +286,7 @@ async function getLikes(userID, pageParam) {
   return await res.json();
 }
 
-async function updateProduct(productID, productData) {
+async function updateProduct({ productID, productData }) {
   const res = await fetch(
     `http://localhost:5555/update-inventory-status/${productID}`,
     {
@@ -336,7 +336,7 @@ async function updateComment(commentToUpdate) {
   return await res.json();
 }
 
-async function updatePost(postData, postID) {
+async function updatePost({ postData, postID }) {
   const formData = new FormData();
   formData.append("title", postData.title);
   if (postData.body) {

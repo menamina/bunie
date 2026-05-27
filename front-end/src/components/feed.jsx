@@ -103,7 +103,7 @@ function Feed() {
         <div>
           {isMainPending && <div>Loading...</div>}
           {mainFeedData?.pages[0]?.feed?.length === 0 && (
-            <div>nothing to see here</div>
+            <div className="centerError">Nothing to see here</div>
           )}
           {mainFeedData?.pages
             ?.flatMap((page) => page.feed)
@@ -123,7 +123,7 @@ function Feed() {
         <div>
           {isFollowingPending && <div>Loading...</div>}
           {followingFeedData?.pages[0]?.feed?.length === 0 && (
-            <div>nothing to see here</div>
+            <div className="centerError">Nothing to see here</div>
           )}
           {followingFeedData?.pages
             ?.flatMap((page) => page.feed)

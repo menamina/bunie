@@ -12,7 +12,7 @@ import CommentBubble from "../imgs/comment.png";
 
 import "../css/postComment.css";
 
-function PostCard({ post }) {
+function PostCard({ post, postOpen = false }) {
   const { user } = useOutletContext();
   const isThisMyPost = post?.madeby?.username === user.username;
 
@@ -212,7 +212,15 @@ function PostCard({ post }) {
           <div>
             <div className="postTitle">{post?.title}</div>
           </div>
-          {post?.body && <div>{post?.body}</div>}
+          {post?.body && (
+            <>
+              {postOpen === false ? (
+                <div>{post?.body.slice(0, 174)}...</div>
+              ) : (
+                <div>{post?.body}</div>
+              )}
+            </>
+          )}
           {post?.img && (
             <div
               className={
@@ -295,7 +303,9 @@ function PostCard({ post }) {
       {makeAComment && (
         <MakeAComment postObj={post} closeModal={setMakeAComment} />
       )}
-      {editPostClicked && <MakeAPost post={post} closeModal={cancelUpdate} user={user} />}
+      {editPostClicked && (
+        <MakeAPost post={post} closeModal={cancelUpdate} user={user} />
+      )}
     </div>
   );
 }

@@ -140,7 +140,7 @@ function MakeAComment({
         <div className="yourReply" onClick={(e) => e.stopPropagation()}>
           <div>
             <img
-              // src={`http://localhost:5555/IMGS-API/${user.pfp}`}
+              src={`http://localhost:5555/IMGS-API/${user.pfp}`}
               src={TempIcon}
               alt="your profile image"
               className="pfpIMG"

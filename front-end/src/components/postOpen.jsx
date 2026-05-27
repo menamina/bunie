@@ -25,7 +25,7 @@ function PostOpen() {
       {openedPost && (
         <div>
           <div className="post">
-            <PostCard post={openedPost} />
+            <PostCard post={openedPost} postOpen={true} />
           </div>
           <div className="commentsUnderPost">
             {openedPost?.comments?.length > 0 ? (

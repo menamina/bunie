@@ -24,7 +24,7 @@ function Follow({ whoseProfile, view }) {
                 />
               ))
             ) : (
-              <div>No followers yet</div>
+              <div className="centerError">No followers yet</div>
             )}
           </div>
         )}
@@ -38,7 +38,7 @@ function Follow({ whoseProfile, view }) {
                 />
               ))
             ) : (
-              <div>Not following anyone yet</div>
+              <div className="centerError">Not following anyone yet</div>
             )}
           </div>
         )}

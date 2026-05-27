@@ -1106,7 +1106,7 @@ async function updatePost(req, res) {
             },
             data: {
               title,
-              img: fileNames ? fileNames : null,
+              ...(fileNames && { img: fileNames }),
               ...(body && { body }),
             },
           },

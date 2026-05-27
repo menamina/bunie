@@ -57,7 +57,7 @@ function MakeAPost({ closeModal, post = null, user }) {
 
   function submit(e) {
     e.preventDefault();
-    post ? updatePost(postData, post.id) : makeAPost(postData);
+    post ? updatePost({ postData, postID: post.id }) : makeAPost(postData);
   }
 
   const [maxImgTotal, setMaxImgTotal] = useState(false);

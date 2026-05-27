@@ -51,7 +51,9 @@ function Overview({ whoseProfile }) {
         </div>
       )}
       {isPending && <div>Loading..</div>}
-      {userPosts?.pages?.length === 0 && <div>Nothing to see here</div>}
+      {userPosts?.pages?.length === 0 && (
+        <div className="centerError">Nothing to see here</div>
+      )}
       {userPosts?.pages?.length > 0 &&
         userPosts?.pages
           ?.flatMap((page) => page.feed)
