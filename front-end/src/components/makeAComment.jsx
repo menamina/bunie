@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   makeCommentMut,
@@ -15,6 +16,8 @@ function MakeAComment({
   edit = false,
   comment = null,
 }) {
+  const { user } = useOutletContext();
+
   const [commentData, setCommentData] = useState(
     edit
       ? {
