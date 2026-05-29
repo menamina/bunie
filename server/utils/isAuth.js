@@ -1,6 +1,6 @@
 function isAuth(req, res, next) {
   if (!req.user) {
-    res.status(403).json({ message: "not authenticated" });
+    res.status(401).json({ message: "not authenticated" });
     return;
   }
   return next();

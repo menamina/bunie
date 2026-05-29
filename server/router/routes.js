@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const remote = require("../remote/control");
 const isAuth = require("../utils/isAuth");
 const validator = require("../utils/validator");
 const passwordValidation = require("../utils/passwordValOnly");
@@ -8,7 +7,48 @@ const passport = require("../utils/passport");
 const multer = require("../utils/multer");
 const zoddie = require("../utils/zod");
 
-router.post("/sign-up-API", validator, remote.signUpUser);
+const { signUpUser } = require("../controllers/authController");
+const { IMGS, getMainFeed, getFollowingFeed } = require("../controllers/feedController");
+const { query } = require("../controllers/searchController");
+const {
+  getProfile,
+  getFollowers,
+  getFollowing,
+  getUserPosts,
+  getUserLikes,
+  getMyProfileSettings,
+  updateUserIMGS,
+  updateUserProfile,
+  updateUserPassword,
+  deleteUserAccount,
+  toggleFollow,
+} = require("../controllers/userController");
+const {
+  getUserInventory,
+  getUserInProgress,
+  getUserLimbo,
+  getUserDecluttered,
+  getUserFinished,
+  addProduct,
+  updateInventory,
+  deleteProduct,
+} = require("../controllers/inventoryController");
+const {
+  getPost,
+  makeAPost,
+  updatePost,
+  deletePost,
+  togglePostLike,
+} = require("../controllers/postController");
+const {
+  getComment,
+  makeAComment,
+  updateComment,
+  deleteComment,
+  toggleCommentLike,
+} = require("../controllers/commentController");
+
+router.post("/sign-up-API", validator, signUpUser);
 
 router.get("/session-check-API", isAuth, (req, res) => {
   return res.status(200).json({
@@ -65,16 +105,14 @@ router.post("/log-out", (req, res, next) => {
   });
 });
 
-// getting feed //
+// feed //
+router.get("/IMGS-API/:IMG", isAuth, zoddie.imgSearch, IMGS);
+router.get("/main-feed-API", isAuth, getMainFeed);
+router.get("/following-feed-API", isAuth, getFollowingFeed);
 
-router.get("/IMGS-API/:IMG", isAuth, zoddie.imgSearch, remote.IMGS);
-router.get("/main-feed-API", isAuth, remote.getMainFeed);
-router.get("/following-feed-API", isAuth, remote.getFollowingFeed);
+// profile settings //
+router.get("/get-my-profile-settings/", isAuth, getMyProfileSettings);
 
-// getting user's profile //
-router.get("/get-my-profile-settings/", isAuth, remote.getMyProfileSettings);
-
-// edit + delete user profile //
 router.patch(
   "/update-my-IMGS-API/",
   isAuth,
@@ -82,107 +120,62 @@ router.patch(
     { name: "pfp", maxCount: 1 },
     { name: "header", maxCount: 1 },
   ]),
-  remote.updateUserIMGS,
+  updateUserIMGS,
 );
+router.patch("/update-my-profile-API/", isAuth, zoddie.updateProfZod, updateUserProfile);
+router.post("/update-my-password-API/", isAuth, passwordValidation, updateUserPassword);
+router.delete("/delete-my-account-API/", isAuth, deleteUserAccount);
 
-router.patch(
-  "/update-my-profile-API/",
-  isAuth,
-  zoddie.updateProfZod,
-  remote.updateUserProfile,
-);
-router.post(
-  "/update-my-password-API/",
-  isAuth,
-  passwordValidation,
-  remote.updateUserPassword,
-);
-router.delete("/delete-my-account-API/", isAuth, remote.deleteUserAccount);
-
-// user product options //
-
+// inventory //
 router.post(
   "/add-to-inventory-API",
   isAuth,
   multer.single("image"),
   zoddie.addOrUpdateInventoryZod,
-  remote.addProduct,
+  addProduct,
 );
-
 router.patch(
   "/update-inventory-status/:productID",
   isAuth,
   zoddie.addOrUpdateInventoryZod,
-  remote.updateInventory,
+  updateInventory,
 );
+router.delete("/delete-from-where/:productID", isAuth, deleteProduct);
 
-router.delete("/delete-from-where/:productID", isAuth, remote.deleteProduct);
+// posts + comments + likes //
+router.get("/get-this-post/:id", isAuth, getPost);
+router.get("/get-this-comment/:id", isAuth, getComment);
 
-// user posts + comments + likes //
+router.patch("/like-post/:postID", isAuth, togglePostLike);
+router.patch("/like-comment/:commentID", isAuth, toggleCommentLike);
 
-router.get("/get-this-post/:id", isAuth, remote.getPost);
-router.get("/get-this-comment/:id", isAuth, remote.getComment);
+router.post("/make-post-API", isAuth, multer.array("image", 4), zoddie.makeOrUpdatePostZod, makeAPost);
+router.post("/make-comment-API", isAuth, zoddie.makeOrUpdateCommentZod, makeAComment);
 
-router.patch("/like-post/:postID", isAuth, remote.togglePostLike);
-router.patch("/like-comment/:commentID", isAuth, remote.toggleCommentLike);
+router.patch("/update-post/:postToUpdate", isAuth, multer.array("image", 4), zoddie.makeOrUpdatePostZod, updatePost);
+router.patch("/update-comment/:commentToUpdate", isAuth, zoddie.makeOrUpdateCommentZod, updateComment);
 
-router.post(
-  "/make-post-API",
-  isAuth,
-  multer.array("image", 4),
-  zoddie.makeOrUpdatePostZod,
-  remote.makeAPost,
-);
+router.delete("/delete-post/:postToDelete", isAuth, deletePost);
+router.delete("/delete-comment/:commentToDelete", isAuth, deleteComment);
 
-router.post(
-  "/make-comment-API",
-  isAuth,
-  zoddie.makeOrUpdateCommentZod,
-  remote.makeAComment,
-);
+// other users' profiles //
+router.get("/profile-API/:username", isAuth, getProfile);
+router.get("/get-user-followers/:username", isAuth, getFollowers);
+router.get("/get-user-following/:username", isAuth, getFollowing);
+router.get("/get-user-posts/:username", isAuth, getUserPosts);
 
-router.patch(
-  "/update-post/:postToUpdate",
-  isAuth,
-  multer.array("image", 4),
-  zoddie.makeOrUpdatePostZod,
-  remote.updatePost,
-);
+router.get("/get-user-inventory/:username", isAuth, getUserInventory);
+router.get("/get-user-in-progress/:username", isAuth, getUserInProgress);
+router.get("/get-user-limbo/:username", isAuth, getUserLimbo);
+router.get("/get-user-decluttered/:username", isAuth, getUserDecluttered);
+router.get("/get-user-finished/:username", isAuth, getUserFinished);
 
-router.patch(
-  "/update-comment/:commentToUpdate",
-  isAuth,
-  zoddie.makeOrUpdateCommentZod,
-  remote.updateComment,
-);
+router.get("/get-user-likes/:userID", isAuth, getUserLikes);
 
-router.delete("/delete-post/:postToDelete", isAuth, remote.deletePost);
-router.delete("/delete-comment/:commentToDelete", isAuth, remote.deleteComment);
-
-// getting other ppl's profiles //
-router.get("/profile-API/:username", isAuth, remote.getProfile);
-
-router.get("/get-user-followers/:username", isAuth, remote.getFollowers);
-router.get("/get-user-following/:username", isAuth, remote.getFollowing);
-
-router.get("/get-user-posts/:username", isAuth, remote.getUserPosts);
-
-router.get("/get-user-inventory/:username", isAuth, remote.getUserInventory);
-router.get("/get-user-in-progress/:username", isAuth, remote.getUserInProgress);
-router.get("/get-user-limbo/:username", isAuth, remote.getUserLimbo);
-router.get(
-  "/get-user-decluttered/:username",
-  isAuth,
-  remote.getUserDecluttered,
-);
-router.get("/get-user-finished/:username", isAuth, remote.getUserFinished);
-
-router.get("/get-user-likes/:userID", isAuth, remote.getUserLikes);
-
-// following //
-router.post("/follow/:userID", isAuth, remote.toggleFollow);
+// follow //
+router.post("/follow/:userID", isAuth, toggleFollow);
 
 // search //
-router.get("/search-API", isAuth, zoddie.searchZod, remote.query);
+router.get("/search-API", isAuth, zoddie.searchZod, query);
 
 module.exports = router;
