@@ -189,7 +189,7 @@ export const updateCommentMut = () => {
   });
 };
 
-export const getLikeOpts = (userID) => {
+export const getLikeOpts = (userID: number) => {
   return infiniteQueryOptions({
     queryKey: ["profileLikes", userID],
     queryFn: ({ pageParam }) => getLikes(userID, pageParam),
@@ -199,14 +199,17 @@ export const getLikeOpts = (userID) => {
   });
 };
 
-export const getMiniProfileOpts = (username, view) => {
+export const getMiniProfileOpts = (
+  username: string,
+  view: "followers" | "following",
+) => {
   return queryOptions({
     queryKey: ["miniProfile", username, view],
     queryFn: () => getMiniProfile(username, view),
   });
 };
 
-export const getCommentOpts = (commentID) => {
+export const getCommentOpts = (commentID: number) => {
   return queryOptions({
     queryKey: ["comment", commentID],
     queryFn: () => getComment(commentID),
@@ -214,7 +217,7 @@ export const getCommentOpts = (commentID) => {
 };
 
 // functions //
-async function getComment(commentID) {
+async function getComment(commentID: number) {
   const res = await fetch(
     `http://localhost:5555/get-this-comment/${commentID}`,
     {

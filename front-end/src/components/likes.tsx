@@ -4,7 +4,11 @@ import { getLikeOpts } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
-function Likes({ whoseProfile }) {
+interface Who {
+  whoseProfile: string;
+}
+
+function Likes({ whoseProfile }: Who) {
   const hasMore = useRef(null);
 
   const {

@@ -2,7 +2,12 @@ import { useQuery } from "@tanstack/react-query";
 import { getMiniProfileOpts } from "../ts-queries/queries";
 import MiniProfile from "./miniProfile";
 
-function Follow({ whoseProfile, view }) {
+interface FollowOpt {
+  whoseProfile: string;
+  view: string;
+}
+
+function Follow({ whoseProfile, view }: FollowOpt) {
   const {
     data: followData,
     error: followError,

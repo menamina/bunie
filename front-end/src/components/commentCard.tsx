@@ -15,11 +15,11 @@ function CommentCard({ comment }) {
   const { user } = useOutletContext();
   const isThisMyComment = comment?.commenter?.username === user.username;
 
-  const [dotsClicked, setDotsClicked] = useState(null);
+  const [dotsClicked, setDotsClicked] = useState(false);
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
-  const [editComment, setEditComment] = useState(null);
-  const [deleteCommentClicked, setDeleteCommentClicked] = useState(null);
+  const [editComment, setEditComment] = useState(false);
+  const [deleteCommentClicked, setDeleteCommentClicked] = useState(false);
 
   const likeStatus = comment?.likes?.some(
     (liker) => liker.userWhoLiked === user.id,
@@ -56,7 +56,7 @@ function CommentCard({ comment }) {
   function openCommentSettings(e) {
     e.stopPropagation();
     if (dotsClicked) {
-      setDotsClicked(null);
+      setDotsClicked(false);
     } else {
       setModalPosition({ x: e.clientX - 140, y: e.clientY - 30 });
       setDotsClicked(comment?.id);
@@ -64,7 +64,7 @@ function CommentCard({ comment }) {
   }
 
   function closeEditModal() {
-    setDotsClicked(null);
+    setDotsClicked(false);
     setEditComment(false);
   }
 
@@ -95,7 +95,7 @@ function CommentCard({ comment }) {
                   className="confirmDeleteCommentModal"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDeleteCommentClicked(null);
+                    setDeleteCommentClicked(false);
                   }}
                 >
                   <div
@@ -111,8 +111,8 @@ function CommentCard({ comment }) {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setDotsClicked(null);
-                          setDeleteCommentClicked(null);
+                          setDotsClicked(false);
+                          setDeleteCommentClicked(false);
                         }}
                       >
                         cancel
@@ -121,8 +121,8 @@ function CommentCard({ comment }) {
                         type="button"
                         onClick={(e) => {
                           e.stopPropagation();
-                          setDotsClicked(null);
-                          setDeleteCommentClicked(null);
+                          setDotsClicked(false);
+                          setDeleteCommentClicked(false);
                           confirmDelete(comment.id);
                         }}
                       >
@@ -137,8 +137,8 @@ function CommentCard({ comment }) {
                   className="deleteModalFixed"
                   onClick={(e) => {
                     e.stopPropagation();
-                    setDotsClicked(null);
-                    setEditComment(null);
+                    setDotsClicked(false);
+                    setEditComment(false);
                   }}
                 >
                   <div
@@ -151,7 +151,7 @@ function CommentCard({ comment }) {
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDotsClicked(null);
+                        setDotsClicked(false);
                         setEditComment(comment.id);
                       }}
                     >
@@ -160,7 +160,7 @@ function CommentCard({ comment }) {
                     <div
                       onClick={(e) => {
                         e.stopPropagation();
-                        setDotsClicked(null);
+                        setDotsClicked(false);
                         setDeleteCommentClicked(comment.id);
                       }}
                     >
