@@ -4,7 +4,17 @@ import { addProductMutOpts, updateProductMut } from "../ts-queries/queries";
 
 import UploadIMG from "../imgs/uploadPic.svg";
 
-function AddToInventory({ closeInventoryModal, product = null, user }) {
+interface AddEditInv {
+  closeInventoryModal: any;
+  product: any;
+  user: string;
+}
+
+function AddToInventory({
+  closeInventoryModal,
+  product = null,
+  user,
+}: AddEditInv) {
   const editMode = product ? true : false;
   const queryClient = useQueryClient();
 

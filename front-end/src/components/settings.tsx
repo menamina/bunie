@@ -16,7 +16,7 @@ import View from "../imgs/view.png";
 
 function Settings() {
   const { user } = useOutletContext();
-  const [settingsView, setSettingsView] = useState(null);
+  const [settingsView, setSettingsView] = useState("");
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);
   const [deleteClicked, setDeleteClicked] = useState(false);
@@ -54,7 +54,7 @@ function Settings() {
   } = useMutation({
     ...updatePassword(),
     onSuccess: () => {
-      setSettingsView(null);
+      setSettingsView("");
     },
   });
 
@@ -64,7 +64,7 @@ function Settings() {
       queryClient.invalidateQueries({ queryKey: ["profile", user.username] });
       queryClient.invalidateQueries({ queryKey: ["checkSession"] });
       setOpenIconHeader(false);
-      setSettingsView(null);
+      setSettingsView("");
     },
   });
 
@@ -90,7 +90,7 @@ function Settings() {
       newPassword: "",
       confirmNewPassword: "",
     });
-    setSettingsView(null);
+    setSettingsView("");
   }
 
   return (
@@ -99,8 +99,8 @@ function Settings() {
         <div>Settings</div>
         <div className="options-set">
           <div
-            className={settingsView === null ? "selectedSView" : "viewOpt"}
-            onClick={() => setSettingsView(null)}
+            className={settingsView === "" ? "selectedSView" : "viewOpt"}
+            onClick={() => setSettingsView("")}
           >
             Overview
           </div>
@@ -120,7 +120,7 @@ function Settings() {
           </div>
         </div>
       </div>
-      {settingsView === null && (
+      {settingsView === "" && (
         <div className="rightOfSettings updateIMGS">
           <div>
             {!openIconHeader && (
@@ -616,7 +616,7 @@ function Settings() {
             <button
               type="button"
               className="settingsButtons"
-              onClick={() => setSettingsView(null)}
+              onClick={() => setSettingsView("")}
             >
               cancel
             </button>
@@ -639,7 +639,7 @@ function Settings() {
               {deleteAccErr && (
                 <div className="delete err modal">
                   <div>
-                    <div>{deleteAccErr}</div>
+                    <div>{deleteAccErr.error}</div>
                   </div>
                 </div>
               )}
