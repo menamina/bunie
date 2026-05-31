@@ -5,7 +5,14 @@ import Picture from "../imgs/uploadPic.svg";
 
 import "../css/nav.css";
 
-function MakeAPost({ closeModal, post = null, user }) {
+interface MakeAPostArgs {
+  closeModal: void;
+  postObj: any;
+  edit: boolean;
+  comment: any;
+}
+
+function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
   const [postData, setPostData] = useState(
     post
       ? {

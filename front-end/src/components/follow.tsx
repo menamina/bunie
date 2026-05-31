@@ -4,7 +4,7 @@ import MiniProfile from "./miniProfile";
 
 interface FollowOpt {
   whoseProfile: string;
-  view: string;
+  view: "followers" | "following";
 }
 
 function Follow({ whoseProfile, view }: FollowOpt) {

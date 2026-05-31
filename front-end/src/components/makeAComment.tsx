@@ -10,12 +10,19 @@ import PostCard from "./postcard";
 import "../css/comment.css";
 import TempIcon from "../imgs/cafe.jpeg";
 
+interface CommentArgs {
+  closeModal: void;
+  postObj: any;
+  edit: boolean;
+  comment: any;
+}
+
 function MakeAComment({
   closeModal,
   postObj = null,
   edit = false,
   comment = null,
-}) {
+}: CommentArgs) {
   const { user } = useOutletContext();
 
   const [commentData, setCommentData] = useState(

@@ -23,7 +23,7 @@ export const signUpMutationOptions = () => {
   });
 };
 
-export const getProfileQueryOptions = (username) => {
+export const getProfileQueryOptions = (username: string) => {
   return queryOptions({
     queryKey: ["profile", username],
     queryFn: () => getProfile(username),
@@ -36,7 +36,7 @@ export const followMutationOptions = () => {
   });
 };
 
-export const getProfilePosts = (username) => {
+export const getProfilePosts = (username: string) => {
   return infiniteQueryOptions({
     queryKey: ["profilePosts", username],
     queryFn: ({ pageParam }) => getUserPosts(username, pageParam),
@@ -63,14 +63,17 @@ export const deleteProductMutOpts = () => {
   });
 };
 
-export const getStatusViewOptions = (viewAPI, whoseProfileUsername) => {
+export const getStatusViewOptions = (
+  viewAPI: string,
+  whoseProfileUsername: string,
+) => {
   return queryOptions({
     queryKey: ["view-status", whoseProfileUsername],
     queryFn: () => getViewStatus(viewAPI, whoseProfileUsername),
   });
 };
 
-export const getFollow = (username, view) => {
+export const getFollow = (username: string, view: string) => {
   return queryOptions({
     queryKey: ["follow", username, view],
     queryFn: () => getUserFollow(username, view),
@@ -119,7 +122,7 @@ export const getFollowingFeedOpt = () => {
   });
 };
 
-export const search = (query, tabView) => {
+export const search = (query: string, tabView: string) => {
   return infiniteQueryOptions({
     queryKey: ["search", query, tabView],
     queryFn: ({ pageParam }) => searchThis({ pageParam, query, tabView }),
@@ -134,7 +137,7 @@ export const logoutMut = () => {
   });
 };
 
-export const deletePostOpt = (postID) => {
+export const deletePostOpt = (postID: number) => {
   return mutationOptions({
     mutationFn: () => deletePost(postID),
   });
@@ -146,19 +149,19 @@ export const deleteCommentOpt = () => {
   });
 };
 
-export const togglePostLikeOpt = (postID) => {
+export const togglePostLikeOpt = (postID: number) => {
   return mutationOptions({
     mutationFn: () => togglePostLike(postID),
   });
 };
 
-export const toggleCommentLikeOpt = (commentID) => {
+export const toggleCommentLikeOpt = (commentID: number) => {
   return mutationOptions({
     mutationFn: () => toggleCommentLike(commentID),
   });
 };
 
-export const getPostOpt = (postID) => {
+export const getPostOpt = (postID: number) => {
   return queryOptions({
     queryKey: ["post", postID],
     queryFn: () => getPost(postID),
@@ -239,7 +242,7 @@ async function getComment(commentID: number) {
   return res.json();
 }
 
-async function getMiniProfile(username, view) {
+async function getMiniProfile(username: string, view: string) {
   const endPoint =
     view === "following"
       ? `http://localhost:5555/get-user-following/${username}`
@@ -263,7 +266,7 @@ async function getMiniProfile(username, view) {
   return await res.json();
 }
 
-async function getLikes(userID, pageParam) {
+async function getLikes(userID: number, pageParam: number) {
   const res = await fetch(
     `http://localhost:5555/get-user-likes/${userID}?cursor=${pageParam}`,
     {
@@ -289,7 +292,13 @@ async function getLikes(userID, pageParam) {
   return await res.json();
 }
 
-async function updateProduct({ productID, productData }) {
+async function updateProduct({
+  productID,
+  productData,
+}: {
+  productID: number;
+  productData: any;
+}) {
   const res = await fetch(
     `http://localhost:5555/update-inventory-status/${productID}`,
     {
@@ -314,7 +323,7 @@ async function updateProduct({ productID, productData }) {
   return await res.json();
 }
 
-async function updateComment(commentToUpdate) {
+async function updateComment(commentToUpdate: number) {
   const res = await fetch(
     `http://localhost:5555/update-comment/${commentToUpdate.id}`,
     {
@@ -339,7 +348,13 @@ async function updateComment(commentToUpdate) {
   return await res.json();
 }
 
-async function updatePost({ postData, postID }) {
+async function updatePost({
+  postData,
+  postID,
+}: {
+  postData: any;
+  postID: number;
+}) {
   const formData = new FormData();
   formData.append("title", postData.title);
   if (postData.body) {
@@ -371,7 +386,7 @@ async function updatePost({ postData, postID }) {
   return await res.json();
 }
 
-async function makeComment(commentData) {
+async function makeComment(commentData: any) {
   const res = await fetch(`http://localhost:5555/make-comment-API`, {
     method: "POST",
     credentials: "include",
@@ -394,7 +409,7 @@ async function makeComment(commentData) {
   return await res.json();
 }
 
-async function makePost(postData) {
+async function makePost(postData: any) {
   const formData = new FormData();
   formData.append("title", postData.title);
   if (postData.body) {
@@ -427,7 +442,7 @@ async function makePost(postData) {
   return await res.json();
 }
 
-async function getPost(postID) {
+async function getPost(postID: number) {
   const res = await fetch(`http://localhost:5555/get-this-post/${postID}`, {
     method: "GET",
     credentials: "include",
@@ -448,7 +463,7 @@ async function getPost(postID) {
   return await res.json();
 }
 
-async function togglePostLike(postID) {
+async function togglePostLike(postID: number) {
   const res = await fetch(`http://localhost:5555/like-post/${postID}`, {
     method: "PATCH",
     credentials: "include",
@@ -456,7 +471,7 @@ async function togglePostLike(postID) {
   return await res.json();
 }
 
-async function toggleCommentLike(commentID) {
+async function toggleCommentLike(commentID: number) {
   const res = await fetch(`http://localhost:5555/like-comment/${commentID}`, {
     method: "PATCH",
     credentials: "include",
@@ -464,7 +479,7 @@ async function toggleCommentLike(commentID) {
   return await res.json();
 }
 
-async function deletePost(postID) {
+async function deletePost(postID: number) {
   const res = await fetch(`http://localhost:5555/delete-post/${postID}`, {
     method: "DELETE",
     credentials: "include",
@@ -472,7 +487,7 @@ async function deletePost(postID) {
   return await res.json();
 }
 
-async function deleteComment(commentID) {
+async function deleteComment(commentID: number) {
   const res = await fetch(`http://localhost:5555/delete-comment/${commentID}`, {
     method: "DELETE",
     credentials: "include",
@@ -488,7 +503,7 @@ async function logout() {
   return await res.json();
 }
 
-async function getFollowingFeed({ pageParam }) {
+async function getFollowingFeed({ pageParam }: { pageParam: number }) {
   const res = await fetch(
     `http://localhost:5555/following-feed-API?cursor=${pageParam}`,
     {
@@ -499,7 +514,7 @@ async function getFollowingFeed({ pageParam }) {
   return await res.json();
 }
 
-async function getMainFeed({ pageParam }) {
+async function getMainFeed({ pageParam }: { pageParam: number }) {
   const res = await fetch(
     `http://localhost:5555/main-feed-API?cursor=${pageParam}`,
     {
@@ -510,7 +525,15 @@ async function getMainFeed({ pageParam }) {
   return await res.json();
 }
 
-async function searchThis({ pageParam, query, tabView }) {
+async function searchThis({
+  pageParam,
+  query,
+  tabView,
+}: {
+  pageParam: number;
+  query: string;
+  tabView: string;
+}) {
   const res = await fetch(
     `http://localhost:5555/search-API?cursor=${pageParam}&querySearch=${query}&tabView=${tabView}`,
     {
@@ -521,7 +544,7 @@ async function searchThis({ pageParam, query, tabView }) {
   return res.json();
 }
 
-async function updateIMGS(imgs) {
+async function updateIMGS(imgs: any) {
   const formData = new FormData();
   if (imgs.pfp) {
     formData.append("pfp", imgs.pfp);
@@ -551,7 +574,7 @@ async function updateIMGS(imgs) {
   return await res.json();
 }
 
-async function updateUserData(staticProfDataUpdate) {
+async function updateUserData(staticProfDataUpdate: any) {
   const res = await fetch(`http://localhost:5555/update-my-profile-API`, {
     method: "PATCH",
     credentials: "include",
@@ -586,7 +609,7 @@ async function deleteMyAcc() {
   return await res.json();
 }
 
-async function changePassword(passwordObj) {
+async function changePassword(passwordObj: any) {
   const res = await fetch(`http://localhost:5555/update-my-password-API`, {
     method: "POST",
     credentials: "include",
@@ -615,7 +638,7 @@ async function changePassword(passwordObj) {
   return await res.json();
 }
 
-async function getUserFollow(username, view) {
+async function getUserFollow(username: string, view: string) {
   const res = await fetch(
     `http://localhost:5555/get-user-${view}/${username}`,
     {
@@ -626,7 +649,7 @@ async function getUserFollow(username, view) {
   return await res.json();
 }
 
-async function getViewStatus(viewAPI, whoseProfileUsername) {
+async function getViewStatus(viewAPI: string, whoseProfileUsername: string) {
   const res = await fetch(
     `http://localhost:5555/get-user-${viewAPI}/${whoseProfileUsername}`,
     {
@@ -637,7 +660,7 @@ async function getViewStatus(viewAPI, whoseProfileUsername) {
   return await res.json();
 }
 
-async function addProductToInventory(productToAdd) {
+async function addProductToInventory(productToAdd: any) {
   const formData = new FormData();
   formData.append("brand", productToAdd.brand);
   formData.append("product", productToAdd.product);
@@ -684,7 +707,7 @@ async function sessCheck() {
   return await res.json();
 }
 
-async function loginUser(loginINFO) {
+async function loginUser(loginINFO: any) {
   const res = await fetch("http://localhost:5555/login-API", {
     method: "POST",
     credentials: "include",
@@ -704,7 +727,7 @@ async function loginUser(loginINFO) {
   return await res.json();
 }
 
-async function signupUser(signupINFO) {
+async function signupUser(signupINFO: any) {
   const res = await fetch("http://localhost:5555/sign-up-API", {
     method: "POST",
     credentials: "include",
@@ -728,7 +751,7 @@ async function signupUser(signupINFO) {
   return await res.json();
 }
 
-async function getProfile(username) {
+async function getProfile(username: string) {
   const res = await fetch(`http://localhost:5555/profile-API/${username}`, {
     method: "GET",
     credentials: "include",
@@ -750,7 +773,7 @@ async function getProfile(username) {
   return await res.json();
 }
 
-async function toggleFollow(userID) {
+async function toggleFollow(userID: number) {
   const res = await fetch(`http://localhost:5555/follow/${userID}`, {
     method: "POST",
     credentials: "include",
@@ -771,7 +794,7 @@ async function toggleFollow(userID) {
   return await res.json();
 }
 
-async function getUserPosts(username, pageParam) {
+async function getUserPosts(username: string, pageParam: number) {
   const res = await fetch(
     `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`,
     {
@@ -798,7 +821,7 @@ async function getUserPosts(username, pageParam) {
   return await res.json();
 }
 
-async function deleteProduct(productId) {
+async function deleteProduct(productId: number) {
   const res = await fetch(
     `http://localhost:5555/delete-from-where/${productId}`,
     {

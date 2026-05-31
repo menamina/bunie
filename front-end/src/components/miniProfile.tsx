@@ -8,7 +8,7 @@ import {
 import DefaultIcon from "../imgs/default.svg";
 import "../css/miniProfile.css";
 
-function MiniProfile({ userProfile }) {
+function MiniProfile({ userProfile }: { userProfile: string }) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
 

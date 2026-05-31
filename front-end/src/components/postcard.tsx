@@ -12,7 +12,12 @@ import CommentBubble from "../imgs/comment.png";
 
 import "../css/postComment.css";
 
-function PostCard({ post, postOpen = false }) {
+interface PostCardArgs {
+  post: any;
+  postOpen: boolean;
+}
+
+function PostCard({ post, postOpen = false }: PostCardArgs) {
   const { user } = useOutletContext();
   const isThisMyPost = post?.madeby?.username === user.username;
 
