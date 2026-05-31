@@ -9,7 +9,20 @@ import AddToInventory from "./addToInventory";
 
 import "../css/selectedView.css";
 
-function SelectedView({ view, whoseProfile }) {
+const viewSelection = {
+  inventory: { status: "Inventory", endpoint: "inventory" },
+  inprogress: { status: "In Progress", endpoint: "in-progress" },
+  limbo: { status: "Limbo", endpoint: "limbo" },
+  decluttered: { status: "Decluttered", endpoint: "decluttered" },
+  finished: { status: "Finished", endpoint: "finished" },
+};
+
+interface SelectedViewProps {
+  view: keyof typeof viewSelection;
+  whoseProfile: string;
+}
+
+function SelectedView({ view, whoseProfile }: SelectedViewProps) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
   const [openProductDots, setOpenProductDots] = useState(null);
@@ -18,14 +31,6 @@ function SelectedView({ view, whoseProfile }) {
 
   const [productToEdit, setProductToEdit] = useState(null);
   const [productToDelete, setProductToDelete] = useState(null);
-
-  const viewSelection = {
-    inventory: { status: "Inventory", endpoint: "inventory" },
-    inprogress: { status: "In Progress", endpoint: "in-progress" },
-    limbo: { status: "Limbo", endpoint: "limbo" },
-    decluttered: { status: "Decluttered", endpoint: "decluttered" },
-    finished: { status: "Finished", endpoint: "finished" },
-  };
 
   const config = viewSelection[view];
 
