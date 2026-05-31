@@ -14,20 +14,20 @@ import DontShow from "../imgs/eye.png";
 
 function Welcome() {
   const [mainWelcome, setMainWelcome] = useState(true);
-  const [view, setView] = useState(false);
+  const [view, setView] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
 
   const [passwordInvalid, setPasswordInvalid] = useState({
-    notLongEnough: false,
-    notTheSame: false,
+    notLongEnough: "",
+    notTheSame: "",
   });
 
   const [invalidUsername, setInvalidUsername] = useState({
-    invalidChars: false,
-    cannotBegin: false,
-    cannotEnd: false,
-    lengthTooShortOrLong: false,
+    invalidChars: "",
+    cannotBegin: "",
+    cannotEnd: "",
+    lengthTooShortOrLong: "",
   });
 
   const nav = useNavigate();
@@ -94,18 +94,18 @@ function Welcome() {
     signUp(signupINFO);
   }
 
-  function validatePassword(password) {
+  function validatePassword(password: string) {
     if (password.length < 8) {
       setPasswordInvalid((prev) => ({
         ...prev,
         notLongEnough: "Password must be 8 characters or more",
       }));
     } else {
-      setPasswordInvalid((prev) => ({ ...prev, notLongEnough: false }));
+      setPasswordInvalid((prev) => ({ ...prev, notLongEnough: "" }));
     }
   }
 
-  function validatateBothPass(confirmPassword, password) {
+  function validatateBothPass(confirmPassword: string, password: string) {
     if (confirmPassword !== password) {
       setPasswordInvalid((prev) => ({
         ...prev,
@@ -114,12 +114,12 @@ function Welcome() {
     } else {
       setPasswordInvalid((prev) => ({
         ...prev,
-        notTheSame: false,
+        notTheSame: "",
       }));
     }
   }
 
-  function validateUsername(username) {
+  function validateUsername(username: string) {
     if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
@@ -128,7 +128,7 @@ function Welcome() {
     } else {
       setInvalidUsername((prev) => ({
         ...prev,
-        invalidChars: false,
+        invalidChars: "",
       }));
     }
 
@@ -140,7 +140,7 @@ function Welcome() {
     } else {
       setInvalidUsername((prev) => ({
         ...prev,
-        cannotBegin: false,
+        cannotBegin: "",
       }));
     }
 
@@ -152,7 +152,7 @@ function Welcome() {
     } else {
       setInvalidUsername((prev) => ({
         ...prev,
-        cannotEnd: false,
+        cannotEnd: "",
       }));
     }
 
@@ -164,7 +164,7 @@ function Welcome() {
     } else {
       setInvalidUsername((prev) => ({
         ...prev,
-        lengthTooShortOrLong: false,
+        lengthTooShortOrLong: "",
       }));
     }
   }
