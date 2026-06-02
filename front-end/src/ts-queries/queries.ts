@@ -660,7 +660,7 @@ async function getViewStatus(viewAPI: string, whoseProfileUsername: string) {
   return await res.json();
 }
 
-async function addProductToInventory(productToAdd: any) {
+async function addProductToInventory(productToAdd: any): Promise<any> {
   const formData = new FormData();
   formData.append("brand", productToAdd.brand);
   formData.append("product", productToAdd.product);
