@@ -694,7 +694,19 @@ async function addProductToInventory(productToAdd: any) {
   return await res.json();
 }
 
-async function sessCheck() {
+export type User = {
+  id: string;
+  name: string;
+  username: string;
+  email: string;
+  joined: string;
+  profile: {
+    pfp: string;
+    header: string;
+    bio: string;
+  };
+};
+async function sessCheck(): Promise<{ user: User } | null> {
   const res = await fetch("http://localhost:5555/session-check-API", {
     method: "GET",
     credentials: "include",
@@ -707,7 +719,7 @@ async function sessCheck() {
   return await res.json();
 }
 
-async function loginUser(loginINFO: any) {
+async function loginUser(loginINFO: any): Promise<any> {
   const res = await fetch("http://localhost:5555/login-API", {
     method: "POST",
     credentials: "include",
@@ -727,7 +739,7 @@ async function loginUser(loginINFO: any) {
   return await res.json();
 }
 
-async function signupUser(signupINFO: any) {
+async function signupUser(signupINFO: any): Promise<any> {
   const res = await fetch("http://localhost:5555/sign-up-API", {
     method: "POST",
     credentials: "include",
@@ -751,7 +763,7 @@ async function signupUser(signupINFO: any) {
   return await res.json();
 }
 
-async function getProfile(username: string) {
+async function getProfile(username: string): Promise<any> {
   const res = await fetch(`http://localhost:5555/profile-API/${username}`, {
     method: "GET",
     credentials: "include",
@@ -773,7 +785,7 @@ async function getProfile(username: string) {
   return await res.json();
 }
 
-async function toggleFollow(userID: number) {
+async function toggleFollow(userID: number): Promise<any> {
   const res = await fetch(`http://localhost:5555/follow/${userID}`, {
     method: "POST",
     credentials: "include",
@@ -794,7 +806,7 @@ async function toggleFollow(userID: number) {
   return await res.json();
 }
 
-async function getUserPosts(username: string, pageParam: number) {
+async function getUserPosts(username: string, pageParam: number): Promise<any> {
   const res = await fetch(
     `http://localhost:5555/get-user-posts/${username}?cursor=${pageParam}`,
     {
@@ -821,7 +833,7 @@ async function getUserPosts(username: string, pageParam: number) {
   return await res.json();
 }
 
-async function deleteProduct(productId: number) {
+async function deleteProduct(productId: number): Promise<any> {
   const res = await fetch(
     `http://localhost:5555/delete-from-where/${productId}`,
     {

@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getStatusViewOptions,
   deleteProductMutOpts,
+  User,
 } from "../ts-queries/queries";
 import { useOutletContext } from "react-router-dom";
 import { useState, Fragment } from "react";
@@ -23,7 +24,7 @@ interface SelectedViewProps {
 }
 
 function SelectedView({ view, whoseProfile }: SelectedViewProps) {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
   const queryClient = useQueryClient();
   const [openProductDots, setOpenProductDots] = useState<boolean | number>(
     false,
