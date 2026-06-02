@@ -6,6 +6,7 @@ import {
   updateIMGs,
   updatePassword,
   deleteAccount,
+  User,
 } from "../ts-queries/queries";
 
 import "../css/settings.css";
@@ -15,7 +16,7 @@ import Close from "../imgs/eye.png";
 import View from "../imgs/view.png";
 
 function Settings() {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
   const [settingsView, setSettingsView] = useState("");
   const [editUserData, setEditUserData] = useState(false);
   const [openIconHeader, setOpenIconHeader] = useState(false);

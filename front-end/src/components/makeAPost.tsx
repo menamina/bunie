@@ -7,8 +7,8 @@ import "../css/nav.css";
 
 interface MakeAPostArgs {
   closeModal: void;
-  postObj: any;
-  edit: boolean;
+  post: any;
+  user: string;
   comment: any;
 }
 

@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { useOutletContext } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCommentOpt, toggleCommentLikeOpt } from "../ts-queries/queries";
+import {
+  deleteCommentOpt,
+  toggleCommentLikeOpt,
+  User,
+} from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 import TempIcon from "../imgs/cafe.jpeg";
@@ -11,8 +15,8 @@ import EmptyHeart from "../imgs/emptyHeart.png";
 
 import "../css/comment.css";
 
-function CommentCard({ comment }) {
-  const { user } = useOutletContext();
+function CommentCard({ comment }: any) {
+  const { user } = useOutletContext<{ user: User }>();
   const isThisMyComment = comment?.commenter?.username === user.username;
 
   const [dotsClicked, setDotsClicked] = useState(false);

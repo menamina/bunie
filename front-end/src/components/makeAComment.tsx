@@ -5,6 +5,7 @@ import {
   makeCommentMut,
   updateCommentMut,
   getPostOpt,
+  User,
 } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import "../css/comment.css";
@@ -23,7 +24,7 @@ function MakeAComment({
   edit = false,
   comment = null,
 }: CommentArgs) {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
 
   const [commentData, setCommentData] = useState(
     edit

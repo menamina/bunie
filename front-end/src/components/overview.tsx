@@ -1,12 +1,12 @@
 import { useOutletContext } from "react-router-dom";
 import { useEffect, useRef } from "react";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getProfilePosts } from "../ts-queries/queries";
+import { getProfilePosts, User } from "../ts-queries/queries";
 
 import PostCard from "./postcard";
 
-function Overview({ whoseProfile }) {
-  const { user } = useOutletContext();
+function Overview({ whoseProfile }: string) {
+  const { user } = useOutletContext<{ user: User }>();
   const loadMore = useRef(null);
 
   const {

@@ -5,6 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   getProfileQueryOptions,
   followMutationOptions,
+  User,
 } from "../ts-queries/queries";
 
 import Overview from "./overview";
@@ -18,7 +19,7 @@ import DefaultIcon from "../imgs/default.svg";
 
 function Profile() {
   const { username } = useParams();
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
   const [view, setView] = useState("overview");
   const queryClient = useQueryClient();
 

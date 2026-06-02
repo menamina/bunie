@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useOutletContext, useParams } from "react-router-dom";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deletePostOpt, togglePostLikeOpt } from "../ts-queries/queries";
+import { deletePostOpt, togglePostLikeOpt, User } from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
 import MakeAPost from "./makeAPost";
@@ -18,7 +18,7 @@ interface PostCardArgs {
 }
 
 function PostCard({ post, postOpen = false }: PostCardArgs) {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
   const isThisMyPost = post?.madeby?.username === user.username;
 
   const [makeAComment, setMakeAComment] = useState(null);

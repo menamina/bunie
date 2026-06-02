@@ -3,13 +3,14 @@ import { useOutletContext, Link } from "react-router-dom";
 import {
   followMutationOptions,
   getMiniProfileOpts,
+  User,
 } from "../ts-queries/queries";
 
 import DefaultIcon from "../imgs/default.svg";
 import "../css/miniProfile.css";
 
 function MiniProfile({ userProfile }: { userProfile: string }) {
-  const { user } = useOutletContext();
+  const { user } = useOutletContext<{ user: User }>();
   const queryClient = useQueryClient();
 
   const { data: authUserFollowing } = useQuery(

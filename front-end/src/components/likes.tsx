@@ -5,7 +5,7 @@ import PostCard from "./postcard";
 import CommentCard from "./commentCard";
 
 interface Who {
-  whoseProfile: string;
+  whoseProfile: number;
 }
 
 function Likes({ whoseProfile }: Who) {

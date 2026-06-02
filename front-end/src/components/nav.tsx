@@ -17,7 +17,7 @@ import Settings from "../imgs/settings.svg";
 
 import "../css/nav.css";
 
-function Nav({ user }) {
+function Nav({ user }: any) {
   const [makePost, setMakePost] = useState(false);
   const [addToInventory, setAddToInventory] = useState(false);
   const [utilsOpen, setUtilsOpen] = useState(false);
@@ -107,7 +107,10 @@ function Nav({ user }) {
       </Link>
       {makePost && <MakeAPost closeModal={setMakePost} user={user?.user} />}
       {addToInventory && (
-        <AddToInventory closeInventoryModal={setAddToInventory} user={user?.user} />
+        <AddToInventory
+          closeInventoryModal={setAddToInventory}
+          user={user?.user}
+        />
       )}
     </div>
   );
