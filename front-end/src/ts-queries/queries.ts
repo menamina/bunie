@@ -116,7 +116,7 @@ export const getFeedOpt = () => {
 export const getFollowingFeedOpt = () => {
   return infiniteQueryOptions({
     queryKey: ["following-feed"],
-    queryFn: ({ pageParam = 0 }) => getFollowingFeed(pageParam),
+    queryFn: ({ pageParam }: any) => getFollowingFeed(pageParam),
     initialPageParam: 0,
     getNextPageParam: (lastPage) => lastPage.nextCursor,
   });

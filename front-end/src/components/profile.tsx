@@ -54,20 +54,20 @@ function Profile() {
         </div>
       )}
 
-      {error?.notAuth && (
+      {(error as any)?.notAuth && (
         <div className="pendingLoadingDiv">
           <div>Sorry, you must be logged in to view {username}'s profile</div>
           <Link to="/">login or sign up here</Link>
         </div>
       )}
-      {error?.noUserFound && (
+      {(error as any)?.noUserFound && (
         <div className="pendingLoadingDiv">
-          Error loading profile: {error.noUserFound} &#9785;
+          Error loading profile: {(error as any).noUserFound} &#9785;
         </div>
       )}
-      {error?.serverError && (
+      {(error as any)?.serverError && (
         <div className="pendingLoadingDiv">
-          Error loading profile: {error.serverError} &#9785;
+          Error loading profile: {(error as any).serverError} &#9785;
         </div>
       )}
 
@@ -142,7 +142,7 @@ function Profile() {
                   )}
                   {user.username !== username &&
                     (userProfile?.followers?.some(
-                      (f) => f.follower === user.id,
+                      (f) => f.follower === (user as any).id,
                     ) ? (
                       <button
                         type="button"

@@ -181,7 +181,7 @@ function Settings() {
                 {imgUpdateErr && (
                   <div className="imgErrModal">
                     <div>
-                      <div>{imgUpdateErr.error}</div>
+                      <div>{(imgUpdateErr as any).error}</div>
                     </div>
                   </div>
                 )}
@@ -192,7 +192,7 @@ function Settings() {
                       className="wantedHeader noHeaderOverlay"
                       src={URL.createObjectURL(iconHeaderData.header)}
                       alt="your updated header"
-                      onClick={(e) => e.target.nextElementSibling.click()}
+                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                       style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : user?.profile?.header &&
@@ -201,26 +201,28 @@ function Settings() {
                       className="wantedHeader overlay"
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
                       alt="your updated header"
-                      onClick={(e) => e.target.nextElementSibling.click()}
+                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                       style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : (
                     <div
                       className="wantedHeader overlay"
                       style={{ backgroundColor: "white", width: "100%" }}
-                      onClick={(e) => e.target.nextElementSibling.click()}
+                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                     ></div>
                   )}
                   <input
                     type="file"
                     accept="image/*"
                     hidden
-                    onChange={(e) =>
-                      setIconHeaderData((prev) => ({
-                        ...prev,
-                        header: e.target.files[0],
-                      }))
-                    }
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        setIconHeaderData((prev) => ({
+                          ...prev,
+                          header: e.target.files![0],
+                        }));
+                      }
+                    }}
                   />
                 </div>
 
@@ -240,18 +242,20 @@ function Settings() {
                         : URL.createObjectURL(iconHeaderData.pfp)
                     }
                     alt="your updated pfp"
-                    onClick={(e) => e.target.nextElementSibling.click()}
+                    onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                   />
                   <input
                     type="file"
                     accept="image/*"
                     hidden
-                    onChange={(e) =>
-                      setIconHeaderData((prev) => ({
-                        ...prev,
-                        pfp: e.target.files[0],
-                      }))
-                    }
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        setIconHeaderData((prev) => ({
+                          ...prev,
+                          pfp: e.target.files![0],
+                        }));
+                      }
+                    }}
                   />
                 </div>
 
@@ -298,7 +302,7 @@ function Settings() {
                 {dataUpdateErr && (
                   <div className="imgErrModal">
                     <div>
-                      <div>{dataUpdateErr}</div>
+                      <div>{(dataUpdateErr as any).error || dataUpdateErr.message}</div>
                     </div>
                   </div>
                 )}
@@ -418,7 +422,7 @@ function Settings() {
         <div className="rightOfSettings changePass">
           {updatePassErr && (
             <div className="passwordErrModal">
-              {updatePassErr.noUserFound && (
+              {(updatePassErr as any).noUserFound && (
                 <>
                   <div>Sorry, this account cannot be found</div>
                   <button
@@ -432,7 +436,7 @@ function Settings() {
                   </button>
                 </>
               )}
-              {updatePassErr.serverError && (
+              {(updatePassErr as any).serverError && (
                 <>
                   <div>Sorry, server error</div>
                   <button
@@ -451,13 +455,13 @@ function Settings() {
           <div>Change password</div>
           {updatePassErr && (
             <div>
-              {updatePassErr.PasswordsDontMatch && (
+              {(updatePassErr as any).PasswordsDontMatch && (
                 <div className="validationErr">
                   Current password is incorrect
                 </div>
               )}
-              {updatePassErr.validationErrors &&
-                updatePassErr.validationErrors.map((error, index) => (
+              {(updatePassErr as any).validationErrors &&
+                (updatePassErr as any).validationErrors.map((error: any, index: number) => (
                   <div className="validationErr" key={index}>
                     {error.msg || error.message || error}
                   </div>
@@ -640,7 +644,7 @@ function Settings() {
               {deleteAccErr && (
                 <div className="delete err modal">
                   <div>
-                    <div>{deleteAccErr.error}</div>
+                    <div>{(deleteAccErr as any).error}</div>
                   </div>
                 </div>
               )}

@@ -84,12 +84,12 @@ function Welcome() {
     },
   });
 
-  function loginSubmit(e) {
+  function loginSubmit(e: any) {
     e.preventDefault();
     logIn(loginINFO);
   }
 
-  function signupSugmit(e) {
+  function signupSugmit(e: any) {
     e.preventDefault();
     signUp(signupINFO);
   }
@@ -214,7 +214,7 @@ function Welcome() {
               />
             </div>
           </div>
-          {logInError && <div>{logInError.data}</div>}
+          {logInError && <div>{(logInError as any).data}</div>}
           <form onSubmit={loginSubmit}>
             <div>
               <label htmlFor="email" hidden></label>
@@ -279,7 +279,7 @@ function Welcome() {
 
       {view === "signup" && (
         <div className="signupDIV">
-          {signUpError && <div>{signUpError.error}</div>}
+          {signUpError && <div>{(signUpError as any).error}</div>}
           <form onSubmit={signupSugmit}>
             <div>
               <label htmlFor="name"></label>

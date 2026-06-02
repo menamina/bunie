@@ -95,7 +95,7 @@ function SelectedView({ view, whoseProfile }: SelectedViewProps) {
             {products?.inventory.map((product) => (
               <Fragment key={`${product?.id} viewProd`}>
                 <div className="productCard">
-                  {whoseProfile === user.username && (
+                  {whoseProfile === (user as any).username && (
                     <div className="deletedProduct">
                       <div
                         onClick={(e) => {

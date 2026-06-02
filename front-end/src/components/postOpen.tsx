@@ -25,7 +25,7 @@ function PostOpen() {
     <div className="postOpenDIV">
       <button onClick={goBack} className="backButton">← Back</button>
       {isPending && <div>Loading</div>}
-      {openPostErr && <div>{openPostErr.error}</div>}
+      {openPostErr && <div>{(openPostErr as any).error}</div>}
       {openedPost && (
         <div>
           <div className="post">

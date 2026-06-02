@@ -62,7 +62,7 @@ function Search() {
         </div>
       </div>
       {isFetching && !queryResults && <div>Loading</div>}
-      {error && <div>{error.errMsg}</div>}
+      {error && <div>{(error as any).errMsg}</div>}
       {queryResults && (
         <div className="resultsReturnedDIV">
           <div className="tabView">
