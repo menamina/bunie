@@ -12,7 +12,7 @@ import "../css/comment.css";
 import TempIcon from "../imgs/cafe.jpeg";
 
 interface CommentArgs {
-  closeModal: void;
+  closeModal: any;
   postObj: any;
   edit: boolean;
   comment: any;
@@ -95,7 +95,7 @@ function MakeAComment({
         e.stopPropagation();
       }}
     >
-      {fetchErr?.serverError && (
+      {(fetchErr as any)?.serverError && (
         <div className="errorModal" onClick={closeStop}>
           <div>
             <div>Oops something went wrong fetching the post</div>
@@ -103,34 +103,34 @@ function MakeAComment({
           </div>
         </div>
       )}
-      {fetchErr?.postNotFound && (
+      {(fetchErr as any)?.postNotFound && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{fetchErr?.postNotFound}</div>
+            <div>{(fetchErr as any)?.postNotFound}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {updateErr?.commentNotFound && (
+      {(updateErr as any)?.commentNotFound && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{updateErr?.commentNotFound}</div>
+            <div>{(updateErr as any)?.commentNotFound}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {addErr?.postNotExisting && (
+      {(addErr as any)?.postNotExisting && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{addErr?.postNotExisting}</div>
+            <div>{(addErr as any)?.postNotExisting}</div>
             <div onClick={() => closeModal(false)}>ok</div>
           </div>
         </div>
       )}
-      {addErr?.serverError && (
+      {(addErr as any)?.serverError && (
         <div className="errorModal" onClick={closeStop}>
           <div>
-            <div>{addErr?.serverError}</div>
+            <div>{(addErr as any)?.serverError}</div>
             <div>
               <div onClick={() => closeModal(false)}>cancel</div>
               <div onClick={() => makeAComment(commentData)}>try again</div>
@@ -151,7 +151,7 @@ function MakeAComment({
         <div className="yourReply" onClick={(e) => e.stopPropagation()}>
           <div>
             <img
-              src={`http://localhost:5555/IMGS-API/${user.pfp}`}
+              src={`http://localhost:5555/IMGS-API/${(user as any).pfp}`}
               src={TempIcon}
               alt="your profile image"
               className="pfpIMG"

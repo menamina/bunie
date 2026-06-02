@@ -6,9 +6,9 @@ import Picture from "../imgs/uploadPic.svg";
 import "../css/nav.css";
 
 interface MakeAPostArgs {
-  closeModal: void;
+  closeModal: any;
   post: any;
-  user: string;
+  user: any;
   comment: any;
 }
 
@@ -237,7 +237,7 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
             className="stickyorwhatever"
             onClick={(e) => {
               e.stopPropagation();
-              e.target.nextElementSibling.click();
+              (e.currentTarget.nextElementSibling as HTMLInputElement)?.click();
             }}
           />
           <input
@@ -245,18 +245,20 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
             name="image"
             accept="image/*"
             onChange={(e) => {
-              const imgFiles = Array.from(e.target.files);
-              const total = postData.image.length + imgFiles.length;
+              if (e.target.files) {
+                const imgFiles = Array.from(e.target.files);
+                const total = postData.image.length + imgFiles.length;
 
-              if (total > 4) {
-                setMaxImgTotal(true);
-                return;
+                if (total > 4) {
+                  setMaxImgTotal(true);
+                  return;
+                }
+
+                setPostData((prev) => ({
+                  ...prev,
+                  image: [...prev.image, ...imgFiles],
+                }));
               }
-
-              setPostData((prev) => ({
-                ...prev,
-                image: [...prev.image, ...imgFiles],
-              }));
             }}
             className="hidden"
             hidden

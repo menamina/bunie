@@ -29,7 +29,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const likeStatus = post?.likes?.some(
-    (liker) => liker.userWhoLiked === user.id,
+    (liker) => liker.userWhoLiked === (user as any).id,
   )
     ? FilledHeart
     : EmptyHeart;

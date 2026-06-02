@@ -5,7 +5,7 @@ import { getProfilePosts, User } from "../ts-queries/queries";
 
 import PostCard from "./postcard";
 
-function Overview({ whoseProfile }: string) {
+function Overview({ whoseProfile }: { whoseProfile: string }) {
   const { user } = useOutletContext<{ user: User }>();
   const loadMore = useRef(null);
 
@@ -44,9 +44,9 @@ function Overview({ whoseProfile }: string) {
       {error && (
         <div>
           {" "}
-          {error?.notAuth && <div className="centerError">{error.notAuth}</div>}
-          {error?.serverError && (
-            <div className="centerError">{error.serverError}</div>
+          {(error as any)?.notAuth && <div className="centerError">{(error as any).notAuth}</div>}
+          {(error as any)?.serverError && (
+            <div className="centerError">{(error as any).serverError}</div>
           )}
         </div>
       )}
@@ -57,6 +57,7 @@ function Overview({ whoseProfile }: string) {
       {userPosts?.pages?.length > 0 &&
         userPosts?.pages
           ?.flatMap((page) => page.feed)
+          .filter(Boolean)
           .map((post) => <PostCard post={post} key={post?.id} />)}
       <div className="intersectObsOverview" ref={loadMore}>
         {isFetchingNextPage ? <div>Loading...</div> : null}

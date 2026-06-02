@@ -9,7 +9,7 @@ import {
 import DefaultIcon from "../imgs/default.svg";
 import "../css/miniProfile.css";
 
-function MiniProfile({ userProfile }: { userProfile: string }) {
+function MiniProfile({ userProfile }: { userProfile: any }) {
   const { user } = useOutletContext<{ user: User }>();
   const queryClient = useQueryClient();
 
@@ -21,7 +21,7 @@ function MiniProfile({ userProfile }: { userProfile: string }) {
     (f) => f.followingAcc.id === userProfile.id,
   );
 
-  const isOwnProfile = user.id === userProfile.id;
+  const isOwnProfile = (user as any).id === userProfile.id;
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
