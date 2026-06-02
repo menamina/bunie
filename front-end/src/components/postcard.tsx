@@ -86,7 +86,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
 
   function cancelUpdate() {
     setEditPostClicked(false);
-    setPostDotsClicked(false);
+    setPostDotsClicked(null);
   }
 
   return (
@@ -175,7 +175,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
                       onClick={(e) => {
                         e.stopPropagation();
                         setPostDotsClicked(null);
-                        setEditPostClicked(null);
+                        setEditPostClicked(false);
                       }}
                     >
                       <div
@@ -267,7 +267,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
             <div
               onClick={(e) => {
                 e.stopPropagation();
-                setMakeAComment(true);
+                setMakeAComment(post.id as any);
               }}
             >
               <img src={CommentBubble} className="engagementIMGS"></img>

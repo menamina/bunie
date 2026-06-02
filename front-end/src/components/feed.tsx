@@ -109,7 +109,7 @@ function Feed() {
             ?.flatMap((page) => page.feed)
             .filter(Boolean)
             .map((post) => (
-              <PostCard key={post?.id} post={post} />
+              <PostCard key={post?.id} post={post} postOpen={false} />
             ))}
 
           {hasNextMainPage && (
@@ -130,7 +130,7 @@ function Feed() {
             ?.flatMap((page) => page.feed)
             .filter(Boolean)
             .map((post) => (
-              <PostCard key={post?.id} post={post} />
+              <PostCard key={post?.id} post={post} postOpen={false} />
             ))}
           {hasNextFollowingPage && (
             <div className="followingFeed ref" ref={followingFeed}>

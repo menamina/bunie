@@ -26,7 +26,7 @@ function CommentCard({ comment }: any) {
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(false);
 
   const likeStatus = comment?.likes?.some(
-    (liker) => liker.userWhoLiked === (user as any).id,
+    (liker: any) => liker.userWhoLiked === (user as any).id,
   )
     ? FilledHeart
     : EmptyHeart;
@@ -57,7 +57,7 @@ function CommentCard({ comment }: any) {
     },
   });
 
-  function openCommentSettings(e) {
+  function openCommentSettings(e: any) {
     e.stopPropagation();
     if (dotsClicked) {
       setDotsClicked(false);

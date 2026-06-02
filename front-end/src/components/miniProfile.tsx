@@ -18,7 +18,7 @@ function MiniProfile({ userProfile }: { userProfile: any }) {
   );
 
   const isFollowing = authUserFollowing?.followings?.some(
-    (f) => f.followingAcc.id === userProfile.id,
+    (f: any) => f.followingAcc.id === userProfile.id,
   );
 
   const isOwnProfile = (user as any).id === userProfile.id;

@@ -22,7 +22,7 @@ function Follow({ whoseProfile, view }: FollowOpt) {
         {view === "followers" && (
           <div>
             {followData?.followers?.length > 0 ? (
-              followData?.followers.map((follower) => (
+              followData?.followers.map((follower: any) => (
                 <MiniProfile
                   key={follower?.followerAcc?.id}
                   userProfile={follower?.followerAcc}
@@ -36,7 +36,7 @@ function Follow({ whoseProfile, view }: FollowOpt) {
         {view === "following" && (
           <div>
             {followData?.followings?.length > 0 ? (
-              followData?.followings?.map((following) => (
+              followData?.followings?.map((following: any) => (
                 <MiniProfile
                   key={following?.followingAcc?.id}
                   userProfile={following?.followingAcc}

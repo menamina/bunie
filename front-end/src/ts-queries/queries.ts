@@ -323,7 +323,7 @@ async function updateProduct({
   return await res.json();
 }
 
-async function updateComment(commentToUpdate: number) {
+async function updateComment(commentToUpdate: any) {
   const res = await fetch(
     `http://localhost:5555/update-comment/${commentToUpdate.id}`,
     {
@@ -361,7 +361,7 @@ async function updatePost({
     formData.append("body", postData.body);
   }
   if (postData.image && postData.image.length > 0) {
-    postData.image.forEach((img) => {
+    postData.image.forEach((img: any) => {
       formData.append("image", img);
     });
   }
@@ -416,7 +416,7 @@ async function makePost(postData: any) {
     formData.append("body", postData.body);
   }
   if (postData.image && postData.image.length > 0) {
-    postData.image.forEach((img) => {
+    postData.image.forEach((img: any) => {
       formData.append("image", img);
     });
   }

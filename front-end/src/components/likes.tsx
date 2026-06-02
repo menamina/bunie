@@ -59,7 +59,7 @@ function Likes({ whoseProfile }: Who) {
             .map((orderedLikesObj) => {
               if (orderedLikesObj.type === "post") {
                 return (
-                  <PostCard key={orderedLikesObj?.id} post={orderedLikesObj} />
+                  <PostCard key={orderedLikesObj?.id} post={orderedLikesObj} postOpen={false} />
                 );
               } else {
                 return (
@@ -77,7 +77,7 @@ function Likes({ whoseProfile }: Who) {
           )}
         </div>
       )}
-      {userLikes?.noLikes && (
+      {(userLikes as any)?.noLikes && (
         <div className="centerError">Nothing to see here</div>
       )}
     </div>

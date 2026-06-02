@@ -22,13 +22,9 @@ interface CommentArgs {
 function MakeAComment({
   closeModal,
   postObj = null,
-  postToCommentOn = null,
   edit = false,
   comment = null,
 }: CommentArgs) {
-  const actualPost = postObj || postToCommentOn;
-  const { user } = useOutletContext<{ user: User }>();
-
   const [commentData, setCommentData] = useState<any>(
     edit
       ? {
@@ -154,7 +150,6 @@ function MakeAComment({
         <div className="yourReply" onClick={(e) => e.stopPropagation()}>
           <div>
             <img
-              src={`http://localhost:5555/IMGS-API/${(user as any).pfp}`}
               src={TempIcon}
               alt="your profile image"
               className="pfpIMG"
@@ -165,7 +160,7 @@ function MakeAComment({
             placeholder="post your reply"
             value={commentData.body}
             onChange={(e) =>
-              setCommentData((prev) => ({ ...prev, body: e.target.value }))
+              setCommentData((prev: any) => ({ ...prev, body: e.target.value }))
             }
             className="textAreaComment"
           />
