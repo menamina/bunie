@@ -26,7 +26,7 @@ function MakeAComment({
 }: CommentArgs) {
   const { user } = useOutletContext<{ user: User }>();
 
-  const [commentData, setCommentData] = useState(
+  const [commentData, setCommentData] = useState<any>(
     edit
       ? {
           id: comment?.id,
@@ -83,7 +83,7 @@ function MakeAComment({
     return makeAComment(commentData);
   }
 
-  function closeStop(e) {
+  function closeStop(e: any) {
     e.stopPropagation();
     closeModal(false);
   }
@@ -99,7 +99,7 @@ function MakeAComment({
         <div className="errorModal" onClick={closeStop}>
           <div>
             <div>Oops something went wrong fetching the post</div>
-            <div onClick={refetchPost}>try again</div>
+            <div onClick={() => refetchPost()}>try again</div>
           </div>
         </div>
       )}

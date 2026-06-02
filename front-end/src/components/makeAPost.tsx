@@ -62,7 +62,7 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
     },
   });
 
-  function submit(e) {
+  function submit(e: any) {
     e.preventDefault();
     post ? updatePost({ postData, postID: post.id }) : makeAPost(postData);
   }
@@ -204,7 +204,7 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
           />
           {postData.image.length > 0 && (
             <div className="imgs if any sticky or whatever">
-              {postData.image.map((thisImg, index) => {
+              {postData.image.map((thisImg: any, index: number) => {
                 return (
                   <div className="postIMGContain">
                     <button
@@ -212,7 +212,7 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
                       onClick={() =>
                         setPostData((prev) => ({
                           ...prev,
-                          image: prev.image.filter((img) => img !== thisImg),
+                          image: prev.image.filter((img: any) => img !== thisImg),
                         }))
                       }
                     >
