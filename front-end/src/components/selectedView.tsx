@@ -25,12 +25,16 @@ interface SelectedViewProps {
 function SelectedView({ view, whoseProfile }: SelectedViewProps) {
   const { user } = useOutletContext();
   const queryClient = useQueryClient();
-  const [openProductDots, setOpenProductDots] = useState(null);
-  const [openProductOptions, setOpenProductOptions] = useState(null);
+  const [openProductDots, setOpenProductDots] = useState<boolean | number>(
+    false,
+  );
+  const [openProductOptions, setOpenProductOptions] = useState("");
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
-  const [productToEdit, setProductToEdit] = useState(null);
-  const [productToDelete, setProductToDelete] = useState(null);
+  const [productToEdit, setProductToEdit] = useState<boolean | number>(false);
+  const [productToDelete, setProductToDelete] = useState<boolean | number>(
+    false,
+  );
 
   const config = viewSelection[view];
 
@@ -50,21 +54,21 @@ function SelectedView({ view, whoseProfile }: SelectedViewProps) {
       queryClient.invalidateQueries({
         queryKey: ["view-status", whoseProfile],
       });
-      setProductToDelete(null);
-      setOpenProductDots(null);
-      setOpenProductOptions(null);
+      setProductToDelete(false);
+      setOpenProductDots(false);
+      setOpenProductOptions("");
       resetDelete();
     },
   });
 
-  function cancelProductOptions(e) {
+  function cancelProductOptions(e?: any) {
     if (e) {
       e.stopPropagation();
     }
-    setOpenProductDots(null);
-    setOpenProductOptions(null);
-    setProductToEdit(null);
-    setProductToDelete(null);
+    setOpenProductDots(false);
+    setOpenProductOptions("");
+    setProductToEdit(false);
+    setProductToDelete(false);
   }
 
   return (
@@ -96,7 +100,7 @@ function SelectedView({ view, whoseProfile }: SelectedViewProps) {
                         onClick={(e) => {
                           e.stopPropagation();
                           if (openProductDots === product?.id) {
-                            setOpenProductDots(null);
+                            setOpenProductDots(false);
                           } else {
                             setModalPosition({
                               x: e.clientX - 140,
@@ -130,7 +134,7 @@ function SelectedView({ view, whoseProfile }: SelectedViewProps) {
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setOpenProductDots(null);
+                                setOpenProductDots(false);
                                 setProductToEdit(product?.id);
                                 setOpenProductOptions("edit");
                               }}
@@ -140,7 +144,7 @@ function SelectedView({ view, whoseProfile }: SelectedViewProps) {
                             <div
                               onClick={(e) => {
                                 e.stopPropagation();
-                                setOpenProductDots(null);
+                                setOpenProductDots(false);
                                 setOpenProductOptions("delete");
                                 setProductToDelete(product?.id);
                               }}

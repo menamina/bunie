@@ -7,7 +7,7 @@ import UploadIMG from "../imgs/uploadPic.svg";
 interface AddEditInv {
   closeInventoryModal: any;
   product: any;
-  user: string;
+  user: any;
 }
 
 function AddToInventory({
@@ -72,12 +72,12 @@ function AddToInventory({
         },
   );
 
-  function clearInventoryINFO(e) {
+  function clearInventoryINFO(e?: any) {
     if (e) e.stopPropagation();
     closeInventoryModal(false);
   }
 
-  function submit(e) {
+  function submit(e: any) {
     e.preventDefault();
     editMode
       ? updateProduct({ productID: product.id, productData: inventoryINFO })
