@@ -298,7 +298,7 @@ async function updateProduct({
 }: {
   productID: number;
   productData: any;
-}) {
+}): Promise<any> {
   const res = await fetch(
     `http://localhost:5555/update-inventory-status/${productID}`,
     {
@@ -690,6 +690,17 @@ async function addProductToInventory(productToAdd: any): Promise<any> {
     credentials: "include",
     body: formData,
   });
+
+  if (!res.ok) {
+    const error: any = new Error();
+
+    if (res.status === 404) {
+      error.error = "Not logged in";
+    } else if (res.status === 500) {
+      error.error = "oops! server error";
+    }
+    throw error;
+  }
 
   return await res.json();
 }

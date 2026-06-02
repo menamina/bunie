@@ -79,15 +79,15 @@ function AddToInventory({
 
   function submit(e: any) {
     e.preventDefault();
-    editMode
+    void (editMode
       ? updateProduct({ productID: product.id, productData: inventoryINFO })
-      : addProduct(inventoryINFO);
+      : addProduct(inventoryINFO));
     closeInventoryModal(false);
   }
 
   return (
     <div className="addToInventoryModal">
-      {errorAddingProduct && <div>{errorAddingProduct?.error}</div>}
+      {errorAddingProduct && <div>{(errorAddingProduct as any).error}</div>}
       <form
         onClick={(e) => e.stopPropagation()}
         className="addToInvenForm"
@@ -209,7 +209,7 @@ function AddToInventory({
               <img
                 src={UploadIMG}
                 alt="upload image icon"
-                onClick={(e) => e.target.nextElementSibling.click()}
+                onClick={(e) => e.currentTarget.nextElementSibling.click()}
                 className="curs0r upload img"
               />
               <input
@@ -220,7 +220,7 @@ function AddToInventory({
                 onChange={(e) => {
                   setInventoryINFO((prev) => ({
                     ...prev,
-                    img: [e.target.files[0]],
+                    img: [e.currentTarget.files[0]],
                   }));
                 }}
                 required
