@@ -7,9 +7,9 @@ import "../css/nav.css";
 
 interface MakeAPostArgs {
   closeModal: any;
-  post: any;
+  post?: any;
   user: any;
-  comment: any;
+  comment?: any;
 }
 
 function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {

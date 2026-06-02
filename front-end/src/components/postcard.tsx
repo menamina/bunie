@@ -29,7 +29,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
   const [modalPosition, setModalPosition] = useState({ x: 0, y: 0 });
 
   const likeStatus = post?.likes?.some(
-    (liker) => liker.userWhoLiked === (user as any).id,
+    (liker: any) => liker.userWhoLiked === (user as any).id,
   )
     ? FilledHeart
     : EmptyHeart;
@@ -40,12 +40,12 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
   const { id: postId } = useParams();
   const queryClient = useQueryClient();
 
-  function navToProfile(e) {
+  function navToProfile(e: any) {
     e.stopPropagation();
     nav(`/${post?.madeby?.username}`);
   }
 
-  function openPostSettings(e) {
+  function openPostSettings(e: any) {
     e.stopPropagation();
     if (postDotsClicked) {
       setPostDotsClicked(null);
@@ -232,10 +232,11 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
                 (post?.img?.length === 1 && "noGrid") ||
                 (post?.img?.length === 2 && "twoGrids") ||
                 (post?.img?.length === 3 && "threeGrids") ||
-                (post?.img?.length === 4 && "fourGrids")
+                (post?.img?.length === 4 && "fourGrids") ||
+                undefined
               }
             >
-              {post.img.map((img, index) => (
+              {post.img.map((img: any, index: number) => (
                 <div
                   className="imgHOLDER"
                   onClick={(e) => {

@@ -29,7 +29,7 @@ function Profile() {
     data: userProfile,
     isPending,
     error,
-  } = useQuery(getProfileQueryOptions(username));
+  } = useQuery(getProfileQueryOptions(username!));
 
   const { mutate: toggleFollow } = useMutation({
     ...followMutationOptions(),
@@ -38,11 +38,11 @@ function Profile() {
     },
   });
 
-  function follow(idToFollow) {
+  function follow(idToFollow: any) {
     toggleFollow(idToFollow);
   }
 
-  function unfollow(idToUnfollow) {
+  function unfollow(idToUnfollow: any) {
     toggleFollow(idToUnfollow);
   }
 
@@ -142,7 +142,7 @@ function Profile() {
                   )}
                   {user.username !== username &&
                     (userProfile?.followers?.some(
-                      (f) => f.follower === (user as any).id,
+                      (f: any) => f.follower === (user as any).id,
                     ) ? (
                       <button
                         type="button"
@@ -239,28 +239,28 @@ function Profile() {
                 : "renderViewHere-grid"
             }
           >
-            {view === "overview" && <Overview whoseProfile={username} />}
+            {view === "overview" && <Overview whoseProfile={username!} />}
             {view === "inventory" && (
-              <SelectedView view={"inventory"} whoseProfile={username} />
+              <SelectedView view={"inventory"} whoseProfile={username!} />
             )}
             {view === "inprogress" && (
-              <SelectedView view="inprogress" whoseProfile={username} />
+              <SelectedView view="inprogress" whoseProfile={username!} />
             )}
             {view === "limbo" && (
-              <SelectedView view="limbo" whoseProfile={username} />
+              <SelectedView view="limbo" whoseProfile={username!} />
             )}
             {view === "decluttered" && (
-              <SelectedView view="decluttered" whoseProfile={username} />
+              <SelectedView view="decluttered" whoseProfile={username!} />
             )}
             {view === "finished" && (
-              <SelectedView view="finished" whoseProfile={username} />
+              <SelectedView view="finished" whoseProfile={username!} />
             )}
             {view === "likes" && <Likes whoseProfile={userProfile?.id} />}
             {view === "followers" && (
-              <Follow whoseProfile={username} view="followers" />
+              <Follow whoseProfile={username!} view="followers" />
             )}
             {view === "following" && (
-              <Follow whoseProfile={username} view="following" />
+              <Follow whoseProfile={username!} view="following" />
             )}
           </div>
         </>

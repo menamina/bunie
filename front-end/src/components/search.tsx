@@ -98,7 +98,7 @@ function Search() {
                   {queryResults?.pages[0]?.usersWithQuery?.length > 0 &&
                     queryResults?.pages[0]?.usersWithQuery
                       .slice(0, 10)
-                      .map((user) => (
+                      .map((user: any) => (
                         <MiniProfile key={user?.id} userProfile={user} />
                       ))}
                   {queryResults?.pages[0]?.usersWithQuery?.length >= 10 && (
@@ -114,8 +114,8 @@ function Search() {
                 <div className="top10POSTS">
                   {queryResults?.pages[0]?.postsWithQuery
                     .slice(0, 10)
-                    .map((post) => (
-                      <PostCard key={post.id} post={post} />
+                    .map((post: any) => (
+                      <PostCard key={post.id} post={post} postOpen={false} />
                     ))}
                   {queryResults?.pages[0]?.postsWithQuery?.length >= 10 && (
                     <div
@@ -136,7 +136,7 @@ function Search() {
               {tabView === "users" && (
                 <div>
                   {queryResults?.pages.flatMap((item) =>
-                    item.usersWithQuery.map((user) => (
+                    item.usersWithQuery.map((user: any) => (
                       <MiniProfile key={user.id} userProfile={user} />
                     )),
                   )}
@@ -151,8 +151,8 @@ function Search() {
               {tabView === "posts" && (
                 <div>
                   {queryResults?.pages?.flatMap((item) =>
-                    item.postsWithQuery.map((post) => (
-                      <PostCard key={post.id} post={post} />
+                    item.postsWithQuery.map((post: any) => (
+                      <PostCard key={post.id} post={post} postOpen={false} />
                     )),
                   )}
                   {hasNextPage && (

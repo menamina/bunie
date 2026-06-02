@@ -6,7 +6,7 @@ import UploadIMG from "../imgs/uploadPic.svg";
 
 interface AddEditInv {
   closeInventoryModal: any;
-  product: any;
+  product?: any;
   user: any;
 }
 

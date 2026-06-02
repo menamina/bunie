@@ -54,11 +54,11 @@ function Overview({ whoseProfile }: { whoseProfile: string }) {
       {userPosts?.pages?.length === 0 && (
         <div className="centerError">Nothing to see here</div>
       )}
-      {userPosts?.pages?.length > 0 &&
+      {userPosts?.pages && userPosts.pages.length > 0 &&
         userPosts?.pages
           ?.flatMap((page) => page.feed)
           .filter(Boolean)
-          .map((post) => <PostCard post={post} key={post?.id} />)}
+          .map((post) => <PostCard post={post} key={post?.id} postOpen={false} />)}
       <div className="intersectObsOverview" ref={loadMore}>
         {isFetchingNextPage ? <div>Loading...</div> : null}
       </div>

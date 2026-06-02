@@ -13,17 +13,20 @@ import TempIcon from "../imgs/cafe.jpeg";
 
 interface CommentArgs {
   closeModal: any;
-  postObj: any;
-  edit: boolean;
-  comment: any;
+  postObj?: any;
+  edit?: boolean;
+  comment?: any;
+  postToCommentOn?: any;
 }
 
 function MakeAComment({
   closeModal,
   postObj = null,
+  postToCommentOn = null,
   edit = false,
   comment = null,
 }: CommentArgs) {
+  const actualPost = postObj || postToCommentOn;
   const { user } = useOutletContext<{ user: User }>();
 
   const [commentData, setCommentData] = useState<any>(
@@ -144,8 +147,8 @@ function MakeAComment({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="comment">
-          {!edit && <PostCard post={postObj} />}
-          {edit && <PostCard post={fetchedPost} />}
+          {!edit && <PostCard post={postObj} postOpen={false} />}
+          {edit && <PostCard post={fetchedPost} postOpen={false} />}
           {edit && isLoading && <div>Loading..</div>}
         </div>
         <div className="yourReply" onClick={(e) => e.stopPropagation()}>

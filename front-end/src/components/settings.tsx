@@ -28,7 +28,10 @@ function Settings() {
 
   const nav = useNavigate();
 
-  const [iconHeaderData, setIconHeaderData] = useState({
+  const [iconHeaderData, setIconHeaderData] = useState<{
+    pfp: File | string;
+    header: File | string;
+  }>({
     pfp: "",
     header: "",
   });
@@ -190,7 +193,7 @@ function Settings() {
                   {iconHeaderData.header ? (
                     <img
                       className="wantedHeader noHeaderOverlay"
-                      src={URL.createObjectURL(iconHeaderData.header)}
+                      src={URL.createObjectURL(iconHeaderData.header as File)}
                       alt="your updated header"
                       onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                       style={{ width: "100%", objectFit: "cover" }}
@@ -239,7 +242,7 @@ function Settings() {
                           user.profile.pfp !== "default.svg"
                           ? `http://localhost:5555/IMGS-API/${user.profile.pfp}`
                           : DefaultIcon
-                        : URL.createObjectURL(iconHeaderData.pfp)
+                        : URL.createObjectURL(iconHeaderData.pfp as File)
                     }
                     alt="your updated pfp"
                     onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}

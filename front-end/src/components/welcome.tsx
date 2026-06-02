@@ -319,13 +319,11 @@ function Welcome() {
                 placeholder="Username"
                 value={signupINFO.username}
                 onChange={(e) => {
-                  setSignupINFO(
-                    (prev) => ({
-                      ...prev,
-                      username: e.target.value,
-                    }),
-                    validateUsername(e.target.value),
-                  );
+                  setSignupINFO((prev) => ({
+                    ...prev,
+                    username: e.target.value,
+                  }));
+                  validateUsername(e.target.value);
                 }}
               ></input>
             </div>
