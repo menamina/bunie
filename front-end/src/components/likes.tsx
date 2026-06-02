@@ -46,7 +46,7 @@ function Likes({ whoseProfile }: Who) {
       {isFetching && <div>Loading..</div>}
       {likesErr && (
         <div className="centerError">
-          {likesErr?.noUserFound && <div>{likesErr.noUserFound}</div>}
+          {(likesErr as any)?.noUserFound && <div>{(likesErr as any).noUserFound}</div>}
         </div>
       )}
       {userLikes?.pages[0]?.likesOrdered?.length === 0 && (

@@ -26,7 +26,7 @@ function CommentCard({ comment }: any) {
   const [deleteCommentClicked, setDeleteCommentClicked] = useState(false);
 
   const likeStatus = comment?.likes?.some(
-    (liker) => liker.userWhoLiked === user.id,
+    (liker) => liker.userWhoLiked === (user as any).id,
   )
     ? FilledHeart
     : EmptyHeart;

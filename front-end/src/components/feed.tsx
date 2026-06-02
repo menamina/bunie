@@ -107,6 +107,7 @@ function Feed() {
           )}
           {mainFeedData?.pages
             ?.flatMap((page) => page.feed)
+            .filter(Boolean)
             .map((post) => (
               <PostCard key={post?.id} post={post} />
             ))}
@@ -127,6 +128,7 @@ function Feed() {
           )}
           {followingFeedData?.pages
             ?.flatMap((page) => page.feed)
+            .filter(Boolean)
             .map((post) => (
               <PostCard key={post?.id} post={post} />
             ))}

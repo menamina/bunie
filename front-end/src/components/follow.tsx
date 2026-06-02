@@ -17,7 +17,7 @@ function Follow({ whoseProfile, view }: FollowOpt) {
   return (
     <div className="followDIV">
       {isPending && <div>loading..</div>}
-      {followError && <div>{followError?.errors}</div>}
+      {followError && <div>{(followError as any)?.errors}</div>}
       <div className="followDataDIV">
         {view === "followers" && (
           <div>

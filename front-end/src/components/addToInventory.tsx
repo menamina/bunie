@@ -209,7 +209,7 @@ function AddToInventory({
               <img
                 src={UploadIMG}
                 alt="upload image icon"
-                onClick={(e) => e.currentTarget.nextElementSibling.click()}
+                onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
                 className="curs0r upload img"
               />
               <input
@@ -218,10 +218,12 @@ function AddToInventory({
                 accept="image/*"
                 hidden
                 onChange={(e) => {
-                  setInventoryINFO((prev) => ({
-                    ...prev,
-                    img: [e.currentTarget.files[0]],
-                  }));
+                  if (e.currentTarget.files?.[0]) {
+                    setInventoryINFO((prev) => ({
+                      ...prev,
+                      img: [e.currentTarget.files![0]],
+                    }));
+                  }
                 }}
                 required
               />
@@ -232,7 +234,6 @@ function AddToInventory({
           <label>Status:</label>
           <select
             name="status"
-            type="text"
             value={inventoryINFO.status}
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -267,7 +268,6 @@ function AddToInventory({
           <label>Rating:</label>
           <select
             name="rating"
-            type="text"
             value={inventoryINFO.rating}
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -289,7 +289,6 @@ function AddToInventory({
           <label htmlFor="notes">Notes?</label>
           <textarea
             name="notes"
-            type="text"
             value={inventoryINFO.notes}
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -305,7 +304,6 @@ function AddToInventory({
           </label>
           <select
             name="wouldBuyAgain"
-            type="text"
             value={inventoryINFO.wouldBuyAgain}
             onChange={(e) => {
               setInventoryINFO((prev) => ({
@@ -398,7 +396,7 @@ function AddToInventory({
               !inventoryINFO.product ||
               !inventoryINFO.category ||
               !inventoryINFO.price ||
-              !inventoryINFO.img.length > 0 ||
+              inventoryINFO.img.length === 0 ||
               !inventoryINFO.status ||
               !inventoryINFO.rating ||
               !inventoryINFO.wouldBuyAgain) && (
