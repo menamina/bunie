@@ -230,7 +230,7 @@ async function getComment(commentID: number) {
   );
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
     if (res.status === 204) {
       error.noComment = "No comment found";
       throw error;
@@ -254,7 +254,7 @@ async function getMiniProfile(username: string, view: string) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
     if (res.status === 403) {
       error.noUser = "No user found";
       throw error;
@@ -276,7 +276,7 @@ async function getLikes(userID: number, pageParam: number) {
   );
 
   if (!res.ok) {
-    const error = new Error("error");
+    const error: any = new Error("error");
     if (res.status === 201) {
       error.noUserLikes = "0 likes by this user";
       throw error;
@@ -309,7 +309,7 @@ async function updateProduct({
     },
   );
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.notFound = "Product not found";
@@ -335,7 +335,7 @@ async function updateComment(commentToUpdate: number) {
   );
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.commentNotFound = "Comment not found or not yours";
@@ -373,7 +373,7 @@ async function updatePost({
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
     if (res.status === 404) {
       error.noPostExists = "Post not found or not yours";
       throw error;
@@ -395,7 +395,7 @@ async function makeComment(commentData: any) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.postNotExisting = "This post no longer exists";
@@ -428,7 +428,7 @@ async function makePost(postData: any) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.noPostFoundToCommentOn = "This post no longer exists";
@@ -449,7 +449,7 @@ async function getPost(postID: number) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.postNotFound = "Post not found";
@@ -560,7 +560,7 @@ async function updateIMGS(imgs: any) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.userNotFound = "User not found or not your account";
@@ -583,7 +583,7 @@ async function updateUserData(staticProfDataUpdate: any) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
     const data = await res.json();
 
     if (res.status === 404) {
@@ -618,7 +618,7 @@ async function changePassword(passwordObj: any) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
     if (res.status === 400) {
       error.noUserFound = "No account found";
       throw error;
@@ -716,7 +716,7 @@ async function loginUser(loginINFO: any) {
   });
   if (!res.ok) {
     const errData = await res.json();
-    const err = new Error("Login failed");
+    const err: any = new Error("Login failed");
 
     if (res.status === 404) {
       err.data = errData.message;
@@ -736,7 +736,7 @@ async function signupUser(signupINFO: any) {
   });
   if (!res.ok) {
     const errData = await res.json();
-    const err = new Error();
+    const err: any = new Error();
 
     if (res.status === 500) {
       err.error = "Server error";
@@ -758,7 +758,7 @@ async function getProfile(username: string) {
   });
 
   if (!res.ok) {
-    const error = new Error("error");
+    const error: any = new Error("error");
     if (res.status === 404) {
       error.noUserFound = "No user found";
       throw error;
@@ -780,7 +780,7 @@ async function toggleFollow(userID: number) {
   });
 
   if (!res.ok) {
-    const error = new Error();
+    const error: any = new Error();
 
     if (res.status === 404) {
       error.noAccountFound = "Account does not exist";
@@ -804,7 +804,7 @@ async function getUserPosts(username: string, pageParam: number) {
   );
 
   if (!res.ok) {
-    const error = new Error("error");
+    const error: any = new Error("error");
 
     if (res.status === 404) {
       error.zeroposts = "Nothing to see here";
@@ -831,7 +831,7 @@ async function deleteProduct(productId: number) {
   );
   const data = await res.json();
   if (!res.ok) {
-    const error = new Error("error");
+    const error: any = new Error("error");
     error.backEndError = data.errMsg;
     throw error;
   }
