@@ -69,7 +69,7 @@ it("does not validate makeOrUpdatePostZod no title", () => {
 });
 
 
-it(validates search query with minimum 1 string, () => {
+it("validates search query with minimum 1 string", () => {
     const req = {
         query:"h"
     };
@@ -85,7 +85,7 @@ it(validates search query with minimum 1 string, () => {
 
   })
 
-it(throws error when there is no query, () => {
+it("throws error when there is no query", () => {
     const req = {
     };
 
@@ -156,10 +156,6 @@ it("adds inventory item with optional data missing", () => {
       category: "Test Category",
       price: 19.99,
       status: "Available",
-      dateOpurchase: "2024-01-01",
-      rating: 4,
-      notes: "Test notes",
-      wouldBuyAgain: "Yes"
     }
   };
 
@@ -173,3 +169,25 @@ it("adds inventory item with optional data missing", () => {
   expect(res.status).not.toHaveBeenCalled();
   expect(res.json).not.toHaveBeenCalled();c
 })
+
+it("does not add item to inventory with non-optional data missing", () => { 
+  const req = {
+    body: {
+      brand: "Test Brand",
+      product: "Test Product",
+      category: "Test Category",
+    }
+  };
+
+  const res = mockRes();
+
+  const next = jest.fn();
+
+  addOrUpdateInventoryZod(req, res, next);
+
+  expect(next).not.toHaveBeenCalled();
+  expect(res.status).toHaveBeenCalledWith(400);
+  expect(res.json).toHaveBeenCalledWith({
+    error
+  });
+});
