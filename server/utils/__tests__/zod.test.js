@@ -67,3 +67,43 @@ it("does not validate makeOrUpdatePostZod no title", () => {
   expect(next).not.toHaveBeenCalled();
   expect(res.status).toHaveBeenCalledWith(400);
 });
+
+
+it(validates search query with minimum 1 string, () => {
+    const req = {
+        query:"h"
+    };
+
+    const res = mockRes();
+    
+    const next = jest.fn();
+    searchZod(req, res, next);
+
+    expect(next).toHaveBeenCalled();
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+
+  })
+
+it(throws error when there is no query, () => {
+    const req = {
+    };
+
+    const res = mockRes();
+    
+    const next = jest.fn();
+
+    searchZod(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error
+    });
+
+  })
+
+  it(makes a comment, () => {
+    const req = {
+      body: "testing",
+      pID: 1
