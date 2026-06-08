@@ -42,11 +42,11 @@ function makeOrUpdateCommentZod(req, res, next) {
 
 function addOrUpdateInventoryZod(req, res, next) {
   const schema = z.object({
-    brand: z.string().optional(),
-    product: z.string().optional(),
-    category: z.string().optional(),
-    price: z.coerce.number().optional(),
-    status: z.string().optional(),
+    brand: z.string(),
+    product: z.string(),
+    category: z.string(),
+    price: z.coerce.number(),
+    status: z.string(),
     dateOpurchase: z.coerce.date().optional(),
     rating: z.string().or(z.number()).optional(),
     notes: z.string().optional(),

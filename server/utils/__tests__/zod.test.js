@@ -191,3 +191,25 @@ it("does not add item to inventory with non-optional data missing", () => {
     error
   });
 });
+
+it("updates profile with valid data", () => {
+  const req = {
+    body: {
+      name: "Test Name",
+      username: "testuser",
+      email: "test@gmail.com",
+      bio: "test bio"
+    }
+  };
+
+  const res = mockRes();
+
+  const next = jest.fn();
+
+  updateProfZod(req, res, next);
+
+  expect(next).toHaveBeenCalled();
+  expect(res.status).not.toHaveBeenCalled();
+  expect(res.json).not.toHaveBeenCalled();
+
+ })
