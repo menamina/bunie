@@ -103,7 +103,73 @@ it(throws error when there is no query, () => {
 
   })
 
-  it(makes a comment, () => {
+  it("makes a comment", () => {
     const req = {
       body: "testing",
       pID: 1
+    }
+
+    const res = mockRes();
+
+    const next = jest.fn();
+
+    makeOrUpdateCommentZod(req, res, next);
+
+    expect(next).toHaveBeenCalled();
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+
+  })
+
+
+it("adds inventory item with valid data", () => { 
+  const req = {
+    body: {
+      brand: "Test Brand",
+      product: "Test Product",
+      category: "Test Category",
+      price: 19.99,
+      status: "Available",
+      dateOpurchase: "2024-01-01",
+      rating: 4,
+      notes: "Test notes",
+      wouldBuyAgain: "Yes"
+    }
+  };
+
+  const res = mockRes();
+
+  const next = jest.fn();
+
+  addOrUpdateInventoryZod(req, res, next);
+
+  expect(next).toHaveBeenCalled();
+  expect(res.status).not.toHaveBeenCalled();
+  expect(res.json).not.toHaveBeenCalled();c
+})
+
+it("adds inventory item with optional data missing", () => { 
+  const req = {
+    body: {
+      brand: "Test Brand",
+      product: "Test Product",
+      category: "Test Category",
+      price: 19.99,
+      status: "Available",
+      dateOpurchase: "2024-01-01",
+      rating: 4,
+      notes: "Test notes",
+      wouldBuyAgain: "Yes"
+    }
+  };
+
+  const res = mockRes();
+
+  const next = jest.fn();
+
+  addOrUpdateInventoryZod(req, res, next);
+
+  expect(next).toHaveBeenCalled();
+  expect(res.status).not.toHaveBeenCalled();
+  expect(res.json).not.toHaveBeenCalled();c
+})
