@@ -16,6 +16,7 @@
 - Css
 - Tanstack
 - Typescript
+- Unit testing
 
 # Application features
 
