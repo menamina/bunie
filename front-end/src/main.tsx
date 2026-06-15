@@ -9,7 +9,6 @@ import Feed from "./components/feed";
 import PostOpen from "./components/postOpen";
 import Search from "./components/search";
 import Settings from "./components/settings";
-import Welcome from "./components/welcome";
 
 const queryClient = new QueryClient();
 

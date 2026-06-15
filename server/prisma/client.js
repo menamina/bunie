@@ -4,7 +4,10 @@ const { PrismaClient } = require("@prisma/client");
 const { PrismaPg } = require("@prisma/adapter-pg");
 const { Pool } = require("pg");
 
-const connection = process.env.DATABASEURL;
+const mode = process.env.MODE;
+
+const connection =
+  mode === "test" ? process.env.TEST_DATABASE : process.env.DATABASEURL;
 
 const pool = new Pool({
   connectionString: connection,

@@ -1,4 +1,3 @@
-
 import { passwordGenie, checkPassword } from "../password";
 
 it("generates a salted hash and checks it correctly", async () => {
@@ -12,5 +11,4 @@ it("generates a salted hash and checks it correctly", async () => {
 
   const isNotMatch = await checkPassword("wrongPassword", saltedHash);
   expect(isNotMatch).toBe(false);
-}
-
+});
