@@ -58,13 +58,16 @@ it("rejects a user signing up with no username with POST", async () => {
 // login
 
 it("logs user in with valid info", async () => {
-  const password = passwordGenie("hello");
+  const password = await passwordGenie("hello");
 
-  const test = prisma.user.create({
-    name: "test",
-    username: "test",
-    email: "test@gmail.com",
-    saltedHash: password,
+  const test = await prisma.user.create({
+    data: {
+      name: "test",
+      username: "test",
+      email: "test@gmail.com",
+      saltedHash: password,
+      profile: { create: { bio: null } },
+    },
   });
 
   const res = await request.post("/login-API").send({
@@ -74,5 +77,58 @@ it("logs user in with valid info", async () => {
 
   expect(res.status).toBe(200);
   expect(response.body.user.email).toBe("test@gmail.com");
+  await prisma.user.delete({ where: { id: test.id } });
+});
+
+it("rejects login req that has invalid info", async () => {
+  const password = await passwordGenie("hello");
+
+  const test = await prisma.user.create({
+    data: {
+      name: "test",
+      username: "test",
+      email: "test@gmail.com",
+      saltedHash: password,
+      profile: { create: { bio: null } },
+    },
+  });
+
+  const res = await request.post("/login-API").send({
+    email: "test@gmail.com",
+    password: "byebye",
+  });
+
+  expect(res.status).toBe(404);
+  expect(response.body.message).toBe("Incorrect password");
+  await prisma.user.delete({ where: { id: test.id } });
+});
+
+// logout
+it("logs user out successfully", async () => {
+  const { passwordGenie } = require("../../utils/password");
+  const password = await passwordGenie("hello");
+
+  const test = await prisma.user.create({
+    data: {
+      name: "test",
+      username: "test_logout",
+      email: "testlogout@gmail.com",
+      saltedHash: password,
+      profile: { create: { bio: null } },
+    },
+  });
+
+  const agent = supertest.agent(app);
+
+  await agent.post("/login-API").send({
+    email: "testlogout@gmail.com",
+    password: "hello",
+  });
+
+  const res = await agent.post("/log-out");
+
+  expect(res.status).toBe(200);
+  expect(res.body).toEqual({ success: true });
+
   await prisma.user.delete({ where: { id: test.id } });
 });
