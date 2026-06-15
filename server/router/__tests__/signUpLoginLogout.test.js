@@ -132,3 +132,57 @@ it("logs user out successfully", async () => {
 
   await prisma.user.delete({ where: { id: test.id } });
 });
+
+it("does not user out successfully", async () => {
+  const { passwordGenie } = require("../../utils/password");
+  const password = await passwordGenie("hello");
+
+  const test = await prisma.user.create({
+    data: {
+      name: "test",
+      username: "test_logout",
+      email: "testlogout@gmail.com",
+      saltedHash: password,
+      profile: { create: { bio: null } },
+    },
+  });
+
+
+
+  await request.post("/login-API").send({
+    email: "testlogout@gmail.com",
+    password: "hello",
+  });
+
+  const res = await agent.post("/log-out");
+
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toEqual({ success: true });
+
+  await prisma.user.delete({ where: { id: test.id } });
+});
+
+
+beforeEach(() => {
+    const test = await prisma.user.findUnique({
+        where: {
+            username: "test"
+        }
+    })
+  await prisma.user.delete({ where: { id: test.id } })
+
+
+  const password = await passwordGenie("hello");
+
+  const test = await prisma.user.create({
+    data: {
+      name: "test",
+      username: "test",
+      email: "test@gmail.com",
+      saltedHash: password,
+      profile: { create: { bio: null } },
+    },
+  });
+
+})
+
