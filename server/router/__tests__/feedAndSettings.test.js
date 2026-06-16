@@ -107,6 +107,7 @@ it("gets following feed posts when authenticated", async () => {
   expect(res.status).toBe(200);
   expect(res.status).not.toBe(500);
   expect(res.body).toHaveProperty("feed");
+  logout();
 });
 
 it("does not get following feed posts when not authenticated", async () => {
@@ -120,19 +121,43 @@ it("does not get following feed posts when not authenticated", async () => {
 it("gets logged in users profile settings when authenticated and correct user", async () => {
   login();
   const res = agent.get("/get-my-profile-settings/");
-  expect(res.status);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("feed");
+  expect(res.body).toHaveProperty("nextCursor");
+  expect(res.status).not.toBe(401);
+  logout();
 });
 
-it("does not get a users settings when not logged in", async () => {});
-
-it("does not get a users settings when logged in but NOT correct user", async () => {});
+it("does not get a users settings when not logged in", async () => {
+  const res = request.get("/get-my-profile-settings/");
+  expect(res.status).not.toBe(200);
+  expect(res.status).toBe(401);
+  expect(res.body).toBe("nto authenticated");
+});
 
 // image crud settings
-it("updates one profile image", async () => {});
+// to mock a multipart upload: attach(fieldName, fileData, fileName)
+// Buffer.from() simulates converting text to binary for storing files
+it("updates one profile image", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
+    "pfp",
+    Buffer.from("image-data"),
+    "12345.jpg",
+  );
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("updatedIMGS");
+  logout();
+});
+
 it("updates one header image", async () => {});
+
 it("does not update multiple profile images", async () => {});
+
 it("does not update multiple header images", async () => {});
+
 it("does not update profile image with wrong multer fields", async () => {});
+
 it("does not update header image with wrong multer fields", async () => {});
 
 // non image settings crud
