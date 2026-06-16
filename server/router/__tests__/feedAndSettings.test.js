@@ -273,6 +273,21 @@ it("updates password when current password matches database and new is valid req
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("success");
   logout();
+
+  return await agent.post("/login-API").send({
+    email: "tester@gmail.com",
+    password: "helloagain123",
+  });
+
+  const res2 = await agent.post("/update-my-password-API/").send({
+    oldPassword: "helloagain123",
+    newPassword: "12345678",
+    confirmNewPassword: "12345678",
+  });
+  expect(res2.status).not.toBe(403);
+  expect(res2.status).toBe(200);
+  expect(res2.body).toHaveProperty("success");
+  logout();
 });
 
 it("does not update profile when current password does not match database but new password meets valid reqs", async () => {
@@ -293,7 +308,7 @@ it("does not update profile when current password does not match database but ne
 it("updates password when current pass === database AND new pass meets validation BUT confirmed password does not match new password", async () => {
   login();
   const res = await agent.post("/update-my-password-API/").send({
-    oldPassword: "lalalalala",
+    oldPassword: "12345678",
     newPassword: "helloagain123",
     confirmNewPassword: "helloagain00000",
   });
@@ -303,6 +318,11 @@ it("updates password when current pass === database AND new pass meets validatio
   expect(res.body).toHaveProperty("success");
   logout();
 });
-it("does not update password when current pass === database AND new pass does not match confirmed password", async () => {});
-it("does not delete user account when who is logged in does not match account to be deleted", async () => {});
-it("deletes user account when who is logged in does match account to be deleted", async () => {});
+
+it("deletes user account when who is logged in does match account to be deleted", async () => {
+  login();
+  const res = agent.delete("/delete-my-account-API");
+  expect(res.status).toBe(200);
+  exepct(res.status).not.toBe(401);
+  expect(res.body).toHaveProperty("userDeleted");
+});
