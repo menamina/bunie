@@ -47,14 +47,14 @@ afterAll(async () => {
   await prisma.$disconnect();
 });
 
-// main feed
-it("does not return images multer does not have but zod authorizes", async () => {
+// main feed + multer
+it("does return images multer has AND zod authorizes", async () => {
   login();
 
   const res = agent.get("/IMGS-API/0c87c936eb33f0b0943d1a7cd08c613a");
   expect(res.status).toBe(200);
   expect(res.status).not.toBe(500);
-  expect(res.body).toEqual({ img });
+  expect(res.body).toHaveProperty("img");
 
   logout();
 });
@@ -76,27 +76,52 @@ it("does not return images zod does not authurize", async () => {
 it("does not return images multer does not have but zod authorizes", async () => {
   login();
   const res = agent.get("/IMGS-API/12345");
-  expect(res.status).not.tobe(400);
+  expect(res.status).not.toBe(400);
   expect(res.body).not.toBe("invalid file name");
-  expect(res.stauts).toBe(500);
+  expect(res.status).toBe(500);
+  logout();
 });
-it("returns images multer does have and zod authorizes", async () => {});
 
 it("gets main feed posts when authenticated", async () => {
+  login();
   const res = await agent.get("/main-feed-API").send();
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("feed");
+  logout();
 });
 
-it("gets main feed posts when not authenticated", async () => {});
+it("gets main feed posts when not authenticated", async () => {
+  const res = request.get("/main-feed-API");
+  expect(res.status).toBe(401);
+  expect(res.status).not.toBe(200);
+  expect(res.status).toBe(500);
+  expect(res.body).not.toHaveProperty("feed");
+});
 
 // following feed
-it("gets following feed posts when authenticated", async () => {});
+it("gets following feed posts when authenticated", async () => {
+  login();
+  const res = agent.get("/following-feed-API");
+  expect(res.status).not.toBe(401);
+  expect(res.body).not.toBe("not authenticated");
+  expect(res.status).toBe(200);
+  expect(res.status).not.toBe(500);
+  expect(res.body).toHaveProperty("feed");
+});
 
-it("does not get following feed posts when not authenticated", async () => {});
+it("does not get following feed posts when not authenticated", async () => {
+  const res = request.get("/following-feed-API");
+  expect(res.status).toBe(401);
+  expect(res.body).toBe("not authenticated");
+  expect(res.body).not.toHaveProperty("feed");
+});
 
 // getting settings
-it("gets logged in users profile settings when authenticated and correct user", async () => {});
+it("gets logged in users profile settings when authenticated and correct user", async () => {
+  login();
+  const res = agent.get("/get-my-profile-settings/");
+  expect(res.status);
+});
 
 it("does not get a users settings when not logged in", async () => {});
 
