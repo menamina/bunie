@@ -53,7 +53,7 @@ it("signs up a user with POST", async () => {
 });
 
 it("rejects a user signing up with no username", async () => {
-  const uniqueEmail = `test_${Date.now()}@example.com`;
+  const uniqueEmail = `test@example.com`;
 
   const res = await request.post("/sign-up-API").send({
     name: "Test",

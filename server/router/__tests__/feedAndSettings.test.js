@@ -3,7 +3,9 @@ const supertest = require("supertest");
 const request = supertest(app);
 const agent = supertest.agent(app);
 const prisma = require("../../prisma/client");
+const { passwordGenie } = require("../../utils/password");
 
+// helper functions
 async function createTestUser(
   email = "test@gmail.com",
   username = "test",
@@ -21,12 +23,64 @@ async function createTestUser(
   });
 }
 
+const user = createTestUser();
+
+const agent = supertest.agent(app);
+
+async function login() {
+  return await agent.post("/login-API").send({
+    email: "test@gmail.com",
+    password: "hello",
+  });
+}
+
+async function logout() {
+  return await agent.post("/log-out");
+}
+
+async function dlt() {
+  return await prisma.user.delete({ where: { email: user.email } });
+}
+
 afterAll(async () => {
+  dlt();
   await prisma.$disconnect();
 });
 
 // main feed
-it("does not return images multer does not have", async () => {});
+it("does not return images multer does not have but zod authorizes", async () => {
+  login();
+
+  const res = agent.get("/IMGS-API/0c87c936eb33f0b0943d1a7cd08c613a");
+  expect(res.status).toBe(200);
+  expect(res.status).not.toBe(500);
+  expect(res.body).toEqual({ img });
+
+  logout();
+});
+
+it("does not return images zod does not authurize", async () => {
+  login();
+
+  const res = agent.get("/IMGS-API/..");
+  expect(res.status).toBe(400);
+  expect(res.body).toBe("invalid file name");
+
+  const res = agent.get("/IMGS-API/..//..");
+  expect(res.status).toBe(400);
+  expect(res.body).toBe("invalid file name");
+
+  logout();
+});
+
+it("does not return images multer does not have but zod authorizes", async () => {
+  login();
+  const res = agent.get("/IMGS-API/12345");
+  expect(res.status).not.tobe(400);
+  expect(res.body).not.toBe("invalid file name");
+  expect(res.stauts).toBe(500);
+});
+it("returns images multer does have and zod authorizes", async () => {});
 
 it("gets main feed posts when authenticated", async () => {
   const res = await agent.get("/main-feed-API").send();
