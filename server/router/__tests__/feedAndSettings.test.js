@@ -9,7 +9,7 @@ const { passwordGenie } = require("../../utils/password");
 async function createTestUser(
   email = "test@gmail.com",
   username = "test",
-  password = "hello",
+  password = "12345678",
 ) {
   const hashedPassword = await passwordGenie(password);
   return await prisma.user.create({
@@ -30,7 +30,7 @@ const agent = supertest.agent(app);
 async function login() {
   return await agent.post("/login-API").send({
     email: "test@gmail.com",
-    password: "hello",
+    password: "12345678",
   });
 }
 
@@ -39,7 +39,7 @@ async function logout() {
 }
 
 async function dlt() {
-  return await prisma.user.delete({ where: { email: user.email } });
+  return await prisma.user.delete({ where: { id: user.id } });
 }
 
 afterAll(async () => {
@@ -140,11 +140,9 @@ it("does not get a users settings when not logged in", async () => {
 // Buffer.from() simulates converting text to binary for storing files
 it("updates one profile image", async () => {
   login();
-  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
-    "pfp",
-    Buffer.from("image-data"),
-    "12345.jpg",
-  );
+  const res = await agent
+    .patch("/update-my-IMGS-API/")
+    .attach("pfp", Buffer.from("image-data"), "12345.jpg");
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("updatedIMGS");
   logout();
@@ -175,7 +173,8 @@ it("does not update multiple profile images", async () => {
 
 it("does not update multiple header images", async () => {
   login();
-  const res = (await agent.patch("/update-my-IMGS-API/"))
+  const res = await agent
+    .patch("/update-my-IMGS-API/")
     .attach("header", Buffer.from("image-data"), "12345.jpg")
     .attach("header", Buffer.from("image-data2"), "54321.jpg");
   expect(res.status).not.toBe(200);
@@ -186,11 +185,9 @@ it("does not update multiple header images", async () => {
 
 it("does not update profile image with wrong multer fields", async () => {
   login();
-  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
-    "fakePFP",
-    Buffer.from("image-data"),
-    "12345.jpg",
-  );
+  const res = await agent
+    .patch("/update-my-IMGS-API/")
+    .attach("fakePFP", Buffer.from("image-data"), "12345.jpg");
   expect(res.status).not.toBe(200);
   expect(res.body).not.toHaveProperty("updatedIMGS");
   expect(res.status).toBe(500);
@@ -199,11 +196,9 @@ it("does not update profile image with wrong multer fields", async () => {
 
 it("does not update header image with wrong multer fields", async () => {
   login();
-  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
-    "fakeHeader",
-    Buffer.from("image-data"),
-    "12345.jpg",
-  );
+  const res = await agent
+    .patch("/update-my-IMGS-API/")
+    .attach("fakeHeader", Buffer.from("image-data"), "12345.jpg");
   expect(res.status).not.toBe(200);
   expect(res.body).not.toHaveProperty("updatedIMGS");
   expect(res.status).toBe(500);
@@ -226,21 +221,88 @@ it("updates profile with valid info", async () => {
 });
 
 it("does not update profile with already taken email", async () => {
-  login();
   const differentUser = createTestUser("tester@gmail.com");
+  return await agent.post("/login-API").send({
+    email: "tester@gmail.com",
+    password: "12345678",
+  });
   const res = agent.patch("/update-my-profile-API/").send({
     email: "test@gmail.com",
   });
+  expect(res.status).toBe(200);
+  expect(res.body).not.toHaveProperty("updatedUser");
+  expect(res.body).not.toHaveProperty("usernameTaken");
+  expect(res.body).toHaveProperty("emailTaken");
+  await prisma.user.delete({
+    where: {
+      id: differentUser.id,
+    },
+  });
+  logout();
 });
 
-it("does not update profile with already taken username", async () => {});
+it("does not update profile with already taken username", async () => {
+  const differentUser = createTestUser("tester@gmail.com", "tester2");
+  return await agent.post("/login-API").send({
+    id: "tester@gmail.com",
+    password: "12345678",
+  });
+  const res = agent.patch("/update-my-profile-API/").send({
+    username: "test",
+  });
+  expect(res.status).toBe(200);
+  expect(res.body).not.toHaveProperty("updatedUser");
+  expect(res.body).toHaveProperty("usernameTaken");
+  expect(res.body).not.toHaveProperty("emailTaken");
+  await prisma.user.delete({
+    where: {
+      id: differentUser.id,
+    },
+  });
+  logout();
+});
 
-it("does not update profile with invalid data", async () => {});
+it("updates password when current password matches database and new is valid requirements", async () => {
+  login();
+  const res = await agent.post("/update-my-password-API/").send({
+    oldPassword: "12345678",
+    newPassword: "helloagain123",
+    confirmNewPassword: "helloagain123",
+  });
+  expect(res.status).not.toBe(403);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("success");
+  logout();
+});
 
-it("updates password when current password matches database", async () => {});
+it("does not update profile when current password does not match database but new password meets valid reqs", async () => {
+  login();
+  const res = await agent.post("/update-my-password-API/").send({
+    oldPassword: "lalalalala",
+    newPassword: "helloagain123",
+    confirmNewPassword: "helloagain123",
+  });
+  expect(res.status).toBe(401);
+  expect(res.status).not.toBe(200);
+  expect(res.status).not.toBe(403);
+  expect(res.body).toHaveProperty("passwordDontMatch");
+  expect(res.body).not.toHaveProperty("validationErrors");
+  logout();
+});
 
-it("does not update profile when current password does not match database", async () => {});
-it("updates password when current pass === database AND new pass meets validation AND confirmed password is matches new password", async () => {});
+it("updates password when current pass === database AND new pass meets validation BUT confirmed password does not match new password", async () => {
+  login();
+  const res = await agent.post("/update-my-password-API/").send({
+    oldPassword: "lalalalala",
+    newPassword: "helloagain123",
+    confirmNewPassword: "helloagain00000",
+  });
+  expect(res.status).toBe(403);
+  expect(res.status).not.toBe(200);
+  expect(res.body).toHaveProperty("validationErrors");
+  expect(res.body).toHaveProperty("success");
+  logout();
+});
 it("does not update password when current pass === database AND new pass does not match confirmed password", async () => {});
 it("does not delete user account when who is logged in does not match account to be deleted", async () => {});
 it("deletes user account when who is logged in does match account to be deleted", async () => {});
