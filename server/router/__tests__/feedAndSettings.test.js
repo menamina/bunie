@@ -211,9 +211,34 @@ it("does not update header image with wrong multer fields", async () => {
 });
 
 // non image settings crud
-it("updates profile with valid info", async () => {});
-it("does not update profile with non valid info", async () => {});
+it("updates profile with valid info", async () => {
+  login();
+  const res = await agent.patch("/update-my-profile-API/").send({
+    name: "testing",
+    email: "tester@aol.com",
+    bio: "hi",
+  });
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("updatedUser");
+  expect(res.body).not.toHaveProperty("usernameTaken");
+  expect(res.body).not.toHaveProperty("emailTaken");
+  logout();
+});
+
+it("does not update profile with already taken email", async () => {
+  login();
+  const differentUser = createTestUser("tester@gmail.com");
+  const res = agent.patch("/update-my-profile-API/").send({
+    email: "test@gmail.com",
+  });
+});
+
+it("does not update profile with already taken username", async () => {});
+
+it("does not update profile with invalid data", async () => {});
+
 it("updates password when current password matches database", async () => {});
+
 it("does not update profile when current password does not match database", async () => {});
 it("updates password when current pass === database AND new pass meets validation AND confirmed password is matches new password", async () => {});
 it("does not update password when current pass === database AND new pass does not match confirmed password", async () => {});
