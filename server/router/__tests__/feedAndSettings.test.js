@@ -150,15 +150,65 @@ it("updates one profile image", async () => {
   logout();
 });
 
-it("updates one header image", async () => {});
+it("updates one header image", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
+    "header",
+    Buffer.from("image-data"),
+    "123456.jpg",
+  );
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("updatedIMGS");
+  logout();
+});
 
-it("does not update multiple profile images", async () => {});
+it("does not update multiple profile images", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/"))
+    .attach("pfp", Buffer.from("image-data"), "12345.jpg")
+    .attach("pfp", Buffer.from("image-data2"), "54321.jpg");
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("updatedIMGS");
+  expect(res.status).toBe(500);
+  logout();
+});
 
-it("does not update multiple header images", async () => {});
+it("does not update multiple header images", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/"))
+    .attach("header", Buffer.from("image-data"), "12345.jpg")
+    .attach("header", Buffer.from("image-data2"), "54321.jpg");
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("updatedIMGS");
+  expect(res.status).toBe(500);
+  logout();
+});
 
-it("does not update profile image with wrong multer fields", async () => {});
+it("does not update profile image with wrong multer fields", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
+    "fakePFP",
+    Buffer.from("image-data"),
+    "12345.jpg",
+  );
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("updatedIMGS");
+  expect(res.status).toBe(500);
+  logout();
+});
 
-it("does not update header image with wrong multer fields", async () => {});
+it("does not update header image with wrong multer fields", async () => {
+  login();
+  const res = (await agent.patch("/update-my-IMGS-API/")).attach(
+    "fakeHeader",
+    Buffer.from("image-data"),
+    "12345.jpg",
+  );
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("updatedIMGS");
+  expect(res.status).toBe(500);
+  logout();
+});
 
 // non image settings crud
 it("updates profile with valid info", async () => {});
