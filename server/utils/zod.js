@@ -8,7 +8,6 @@ function searchZod(req, res, next) {
     schema.parse(req.query);
     next();
   } catch (error) {
-    console.log("here in zod:", error.message);
     return res.status(400).json({ error: error.message });
   }
 }
@@ -22,7 +21,6 @@ function makeOrUpdatePostZod(req, res, next) {
     schema.parse(req.body);
     next();
   } catch (error) {
-    console.error("Validation error:", error);
     return res.status(400).json({ error: error.message });
   }
 }
