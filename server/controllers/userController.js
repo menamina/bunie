@@ -52,7 +52,7 @@ async function getFollowers(req, res) {
     });
 
     if (!fullFollowerList) {
-      return res.status(404).json({ message: "no user found" });
+      return res.status(404).json({ message: "no followers" });
     }
     return res.status(200).json(fullFollowerList);
   } catch (error) {
@@ -84,7 +84,7 @@ async function getFollowing(req, res) {
     });
 
     if (!fullFollowingList) {
-      return res.status(404).json({ message: "no user found" });
+      return res.status(404).json({ message: "no followings" });
     }
     return res.status(200).json(fullFollowingList);
   } catch (error) {
@@ -302,7 +302,9 @@ async function updateUserProfile(req, res) {
   } catch (error) {
     console.error(error);
     if (error.code === "P2025") {
-      return res.status(404).json({ message: "Account not found or not yours" });
+      return res
+        .status(404)
+        .json({ message: "Account not found or not yours" });
     }
     return res.status(500).json({ errMsg: "server error" });
   }

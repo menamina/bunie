@@ -75,18 +75,49 @@ it("does not get users profile with an account that is deleted or nonexistant", 
 
 it("gets users follower count by username", async () => {
   login();
-  const res = await agent.get(`get-user-followers/${user.username}`);
+  const res = await agent.get(`/get-user-followers/${user.username}`);
   expect(res.status).toBe(404);
   expect(res.body).toHaveProperty("message");
+  expect(res.body.message).toBe("no followers");
+  logout();
 });
 
-it("gets users following count by username", async () => {});
+it("gets users following count by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-following/${user.username}`);
+  expect(res.status).toBe(404);
+  expect(res.body).toHaveProperty("message");
+  expect(res.body.message).toBe("no followings");
+  logout();
+});
 
-it("gets users posts by username", async () => {});
+it("gets users posts by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-following/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("feed");
+  expect(res.body.feed).toBe([]);
+  expect(res.body.nextCursor).toBe(null);
+  logout();
+});
 
-it("gets users inventory by username", async () => {});
+it("gets users inventory by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-inventory/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("noInventory");
+  expect(res.body.noInventory).toBe(true);
+  logout();
+});
 
-it("gets users in progress by username", async () => {});
+it("gets users in progress by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-in-progress/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("noInventory");
+  expect(res.body.noInventory).toBe(true);
+  logout();
+});
 
 it("gets users limbo by username", async () => {});
 
