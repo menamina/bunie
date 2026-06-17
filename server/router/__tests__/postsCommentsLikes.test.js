@@ -100,24 +100,69 @@ it("does not make a post with more than 4 images even if required data is valid"
 
 it("does not make a post with missing required data (title)", async () => {
   login();
-  const res = await agent.post("/make-post-API").field("body", "hello");
+  const res = await agent.post("/make-post-API").send({ body: "hello" });
   expect(res.status).not.toBe(201);
   expect(res.status).toBe(400);
   expect(res.body).toHaveProperty("error");
   logout();
 });
 
-it("makes a comment with valid post id", async () => {});
+it("updates a post with valid id and valid required data", async () => {
+  login();
+  const res = await agent.post(`/update-post/${firstPost}`).send({
+    title: "notHerro",
+  });
+  expect(res.status).toBe(200);
+  expectCookies(res.body).toHaveProperty("updatedPost");
+  logout();
+});
 
-it("does not make a comment with inalid post id", async () => {});
+let firstComment;
 
-it("updates a post with valid id and valid required data", async () => {});
+it("makes a comment with valid post id", async () => {
+  login();
+  const res = await agent.post(`/make-comment-API`).send({
+    pID: firstPost,
+    body: "numunumu",
+  });
+  firstComment = res.body.comment.id;
+  expect(res.status).toBe(201);
+  expectCookies(res.body).toHaveProperty("comment");
+  logout();
+});
 
-it("does not update a post with valid id and invalid required data", async () => {});
+it("does not make a comment with inalid post id", async () => {
+  login();
+  const res = await agent.post(`/make-comment-API`).send({
+    pID: 394838,
+    body: "numunumu",
+  });
+  expect(res.status).not.toBe(201);
+  expectCookies(res.body).not.toHaveProperty("comment");
+  logout();
+});
 
-it("updates a comment with valid id and valid required data", async () => {});
+it("updates a comment with valid id and valid required data", async () => {
+  login();
+  const res = await agent.post(`/update-comment/${firstComment}`).send({
+    commentToUpdate: firstPost,
+    body: "huminahumina",
+  });
+  expect(res.status).toBe(200);
+  expectCookies(res.body).toHaveProperty("updatedComment");
+  logout();
+});
 
-it("does not update a comment with valid id and invalid required data", async () => {});
+it("does not update a comment with valid id and invalid required data", async () => {
+  login();
+  const res = await agent.post(`/update-comment/${firstComment}`).send({
+    commentToUpdate: firstPost,
+    body: "",
+  });
+  expect(res.status).not.toBe(200);
+  expectCookies(res.body).not.toHaveProperty("updatedComment");
+  logout();
+});
 
 // likes
 
