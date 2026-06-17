@@ -1,11 +1,123 @@
 const app = require("../../server");
 const supertest = require("supertest");
-request = supertest(app);
+const request = supertest(app);
+const agent = supertest.agent(app);
 const prisma = require("../../prisma/client");
+const { passwordGenie } = require("../../utils/password");
+
+// helper functions
+async function createTestUser(
+  email = "test@gmail.com",
+  username = "test",
+  password = "12345678",
+) {
+  const hashedPassword = await passwordGenie(password);
+  return await prisma.user.create({
+    data: {
+      name: "Test User",
+      username,
+      email,
+      saltedHash: hashedPassword,
+      profile: { create: { bio: null } },
+    },
+  });
+}
+
+const user = createTestUser();
+
+const agent = supertest.agent(app);
+
+async function login() {
+  return await agent.post("/login-API").send({
+    email: "test@gmail.com",
+    password: "12345678",
+  });
+}
+
+async function logout() {
+  return await agent.post("/log-out");
+}
+
+async function dlt(userID) {
+  return await prisma.user.delete({ where: { id: userID } });
+}
 
 afterAll(async () => {
+  dlt(user.id);
   await prisma.$disconnect();
 });
+
+// post||patch posts + comments
+let firstPost;
+
+it("makes a post with required data that is valid - no images ", async () => {
+  login();
+  const res = (await agent.post("/make-post-API")).send({
+    title: "herro",
+    body: "hi",
+  });
+
+  firstPost = res.body.post;
+
+  expect(res.status).toBe(201);
+  expect(res.body).toHaveProperty("post");
+  logout();
+});
+
+it("makes a post with required data that is valid - with 3 images ", async () => {
+  login();
+  const res = await agent
+    .post("/make-post-API")
+    .field("title", "testurr")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg")
+    .attach("image", Buffer.from("fake-image-data2"), "test2.jpg")
+    .attach("image", Buffer.from("fake-image-data3"), "test3.jpg");
+
+  firstPost = res.body.post;
+
+  expect(res.status).toBe(201);
+  expect(res.body).toHaveProperty("post");
+  logout();
+});
+
+it("does not make a post with more than 4 images even if required data is valid", async () => {
+  login();
+  const res = await agent
+    .post("/make-post-API")
+    .field("title", "testurr")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg")
+    .attach("image", Buffer.from("fake-image-data2"), "test2.jpg")
+    .attach("image", Buffer.from("fake-image-data3"), "test3.jpg")
+    .attach("image", Buffer.from("fake-image-data4"), "test4.jpg")
+    .attach("image", Buffer.from("fake-image-data5"), "test5.jpg");
+
+  firstPost = res.body.post;
+
+  expect(res.status).not.toBe(201);
+  expect(res.body).not.toHaveProperty("post");
+  logout();
+});
+
+it("does not make a post with missing required data (title)", async () => {
+  login();
+  const res = await agent.post("/make-post-API").field("body", "hello");
+  expect(res.status).not.toBe(201);
+  expect(res.status).toBe(400);
+  expect(res.body).toHaveProperty("error");
+  logout();
+});
+
+it("makes a comment with valid post id", async () => {});
+
+it("does not make a comment with inalid post id", async () => {});
+
+it("updates a post with valid id and valid required data", async () => {});
+
+it("does not update a post with valid id and invalid required data", async () => {});
+
+it("updates a comment with valid id and valid required data", async () => {});
+
+it("does not update a comment with valid id and invalid required data", async () => {});
 
 // likes
 
@@ -28,28 +140,6 @@ it("likes a comment with valid id", async () => {});
 it("unlikes a post");
 
 it("does not like a comment with invalid id", async () => {});
-
-// post||patch posts + comments
-
-it("makes a post with required data that is valid - no images ", async () => {});
-
-it("makes a post with required data that is valid - with 3 images ", async () => {});
-
-it("does not make a post with more than 4 images even if required data is valid", async () => {});
-
-it("does not make a post with missing required data", async () => {});
-
-it("makes a comment with valid post id", async () => {});
-
-it("does not make a comment with inalid post id", async () => {});
-
-it("updates a post with valid id and valid required data", async () => {});
-
-it("does not update a post with valid id and invalid required data", async () => {});
-
-it("updates a comment with valid id and valid required data", async () => {});
-
-it("does not update a comment with valid id and invalid required data", async () => {});
 
 // deleting posts + comments
 
