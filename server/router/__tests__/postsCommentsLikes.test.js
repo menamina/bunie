@@ -62,7 +62,6 @@ let firstPost;
 let secondPost;
 
 it("makes a post with required data that is valid - no images ", async () => {
-  await login();
   const res = await agent.post("/make-post-API").send({
     title: "herro",
     body: "hi",
@@ -72,11 +71,9 @@ it("makes a post with required data that is valid - no images ", async () => {
 
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("post");
-  await logout();
 });
 
 it("makes a post with required data that is valid - with 3 images ", async () => {
-  await login();
   const res = await agent
     .post("/make-post-API")
     .field("title", "testurr")
@@ -89,11 +86,9 @@ it("makes a post with required data that is valid - with 3 images ", async () =>
 
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("post");
-  await logout();
 });
 
 it("does not make a post with more than 4 images even if required data is valid", async () => {
-  await login();
   const res = await agent
     .post("/make-post-API")
     .field("title", "testurr")
@@ -106,33 +101,27 @@ it("does not make a post with more than 4 images even if required data is valid"
 
   expect(res.status).not.toBe(201);
   expect(res.body).not.toHaveProperty("post");
-  await logout();
 });
 
 it("does not make a post with missing required data (title)", async () => {
-  await login();
   const res = await agent.post("/make-post-API").send({ body: "hello" });
   expect(res.status).not.toBe(201);
   expect(res.status).toBe(400);
   expect(res.body).toHaveProperty("error");
-  await logout();
 });
 
 it("updates a post with valid id and valid required data", async () => {
-  await login();
   const res = await agent.patch(`/update-post/${firstPost}`).send({
     title: "notHerro",
     body: "updated body",
   });
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("updatedPost");
-  await logout();
 });
 
 let firstComment;
 
 it("makes a comment with valid post id", async () => {
-  await login();
   const res = await agent.post(`/make-comment-API`).send({
     pID: firstPost,
     body: "numunumu",
@@ -140,142 +129,111 @@ it("makes a comment with valid post id", async () => {
   firstComment = res.body.comment.id;
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("comment");
-  await logout();
 });
 
 it("does not make a comment with inalid post id", async () => {
-  await login();
   const res = await agent.post(`/make-comment-API`).send({
     pID: 394838,
     body: "numunumu",
   });
   expect(res.status).not.toBe(201);
   expect(res.body).not.toHaveProperty("comment");
-  await logout();
 });
 
 it("updates a comment with valid id and valid required data", async () => {
-  await login();
   const res = await agent.patch(`/update-comment/${firstComment}`).send({
     body: "huminahumina",
   });
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("updatedComment");
-  await logout();
 });
 
 it("does not update a comment with valid id and invalid required data", async () => {
-  await login();
   const res = await agent.patch(`/update-comment/${firstComment}`).send({
     body: "",
   });
   expect(res.status).not.toBe(200);
   expect(res.body).not.toHaveProperty("updatedComment");
-  await logout();
 });
 
 // likes
 
 it("gets post by valid id", async () => {
-  await login();
   const res = await agent.get(`/get-this-post/${firstPost}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("id");
   expect(res.body.id).toBe(firstPost);
-  await logout();
 });
 
 it("does not get post by invalid id", async () => {
-  await login();
   const res = await agent.get(`/get-this-post/999999`);
   expect(res.status).toBe(404);
   expect(res.body).toHaveProperty("message");
-  await logout();
 });
 
 it("gets comment by valid id", async () => {
-  await login();
   const res = await agent.get(`/get-this-comment/${firstComment}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("id");
   expect(res.body.id).toBe(firstComment);
-  await logout();
 });
 
 it("does not get comment by invalid id", async () => {
-  await login();
   const res = await agent.get(`/get-this-comment/999999`);
   expect(res.status).toBe(404);
   expect(res.body).toHaveProperty("message");
-  await logout();
 });
 
 it("it likes a post with a valid id", async () => {
-  await login();
   const res = await agent.patch(`/like-post/${secondPost}`);
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("liked");
   expect(res.body.liked).toBe(true);
-  await logout();
 });
 
 it("unlikes a post", async () => {
-  await login();
   const res = await agent.patch(`/like-post/${secondPost}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("liked");
   expect(res.body.liked).toBe(false);
-  await logout();
 });
 
 it("it does not like a post with a invalid id", async () => {
-  await login();
   const res = await agent.patch(`/like-post/999999`);
   expect(res.status).toBe(500);
-  await logout();
 });
 
 it("likes a comment with valid id", async () => {
-  await login();
   const res = await agent.patch(`/like-comment/${firstComment}`);
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("liked");
   expect(res.body.liked).toBe(true);
-  await logout();
 });
 
 it("unlikes a comment", async () => {
-  await login();
   const res = await agent.patch(`/like-comment/${firstComment}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("liked");
   expect(res.body.liked).toBe(false);
-  await logout();
 });
 
 it("does not like a comment with invalid id", async () => {
-  await login();
   const res = await agent.patch(`/like-comment/999999`);
   expect(res.status).toBe(500);
-  await logout();
 });
 
 // deleting posts + comments
 
 it("deletes a post", async () => {
-  await login();
   const res = await agent.delete(`/delete-post/${secondPost}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("postDeleted");
   expect(res.body.postDeleted).toBe(true);
-  await logout();
 });
 
 it("deletes a comment", async () => {
-  await login();
   const res = await agent.delete(`/delete-comment/${firstComment}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("commentDeleted");
   expect(res.body.commentDeleted).toBe(true);
-  await logout();
 });
