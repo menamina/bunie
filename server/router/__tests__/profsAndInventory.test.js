@@ -43,7 +43,7 @@ async function dlt(userID) {
 }
 
 afterAll(async () => {
-  dlt();
+  dlt(user.id);
   await prisma.$disconnect();
 });
 
@@ -114,26 +114,134 @@ it("gets users in progress by username", async () => {
   login();
   const res = await agent.get(`/get-user-in-progress/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noInventory");
-  expect(res.body.noInventory).toBe(true);
+  expect(res.body).toHaveProperty("noInProgress");
+  expect(res.body.noInProgress).toBe(true);
   logout();
 });
 
-it("gets users limbo by username", async () => {});
+it("gets users limbo by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-limbo/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("limbo");
+  expect(res.body.limbo).toBe(true);
+  logout();
+});
 
-it("gets users decluttered by username", async () => {});
+it("gets users decluttered by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-decluttered/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("noDecluttered");
+  expect(res.body.noDecluttered).toBe(true);
+  logout();
+});
 
-it("gets users finished by username", async () => {});
+it("gets users finished by username", async () => {
+  login();
+  const res = await agent.get(`/get-user-finished/${user.username}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("noFinished");
+  expect(res.body.noFinished).toBe(true);
+  logout();
+});
 
-it("gets users liked posts and comments by id", async () => {});
+it("gets users liked posts and comments by id", async () => {
+  login();
+  const res = await agent.get(`/get-user-likes/${user.id}`);
+  expect(res.status).toBe(200);
+  expect(res.body.likesOrdered).toBe([]);
+  expect(res.body.nextCursor).toBe(null);
+  logout();
+});
 
 // inventory
-it("adds item to inventory with image", async () => {});
+let inventoryProdID;
+it("adds item to inventory with image and req data valid", async () => {
+  login();
+  const res = await agent
+    .post("/add-to-inventory-API")
+    .field("brand", "Test Brand")
+    .field("product", "Test Product")
+    .field("category", "Test Category")
+    .field("price", "19.99")
+    .field("status", "in-progress")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg");
 
-it("does not add item to inventory without image", async () => {});
+  inventoryProdID = res.body.id;
 
-it("updates inventory with valid data and image", async () => {});
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("addedProduct");
+  logout();
+});
 
-it("does not update inventory without an image", async () => {});
+it("does not add item to inventory without required data but has an image", async () => {
+  login();
+  const res = await agent
+    .post("/add-to-inventory-API")
+    .field("brand", "Test Brand")
+    .field("product", "Test Product")
+    // .field("category", "Test Category")
+    .field("price", "19.99")
+    .field("status", "in-progress")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg");
 
-it("deletes an item from specific selection by product id", async () => {});
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("addedProduct");
+  logout();
+});
+
+it("does not add item to inventory without image", async () => {
+  login();
+  const res = await agent
+    .post("/add-to-inventory-API")
+    .field("brand", "Test Brand")
+    .field("product", "Test Product")
+    .field("category", "Test Category")
+    .field("price", "19.99")
+    .field("status", "in-progress");
+
+  expect(res.status).not.toBe(200);
+  expect(res.body).not.toHaveProperty("addedProduct");
+  logout();
+});
+
+it("updates inventory with valid data and image", async () => {
+  login();
+  const res = await agent
+    .post(`/update-inventory-status/${inventoryProdID}`)
+    .field("brand", "nooooo")
+    .field("product", "Test")
+    .field("category", " Category")
+    .field("price", "100")
+    .field("status", "in-progress")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg");
+
+  expect(res.status).toBe(201);
+  expect(res.body).toHaveProperty("updatedProduct");
+  logout();
+});
+
+it("does not update inventory without an image", async () => {
+  login();
+  const res = await agent
+    .post(`/update-inventory-status/${inventoryProdID}`)
+    .field("brand", "111111")
+    .field("product", "Test")
+    .field("category", " Category")
+    .field("price", "100")
+    .field("status", "in-progress");
+
+  expect(res.status).not.toBe(201);
+  expect(res.body).not.toHaveProperty("updatedProduct");
+  logout();
+});
+
+it("deletes an item from specific selection by product id", async () => {
+  login();
+  const res = await agent.delete(`delete-from-where:/${inventoryProdID}`);
+  expect(res.status).toBe(20);
+  expect(res.body).not.toHaveProperty("success");
+  expect(res.body.success).toBe(true);
+  logout();
+});
