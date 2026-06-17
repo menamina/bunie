@@ -6,6 +6,8 @@ const prisma = require("../../prisma/client");
 const { passwordGenie } = require("../../utils/password");
 
 // helper functions
+let user;
+
 async function createTestUser(
   email = "test@gmail.com",
   username = "test",
@@ -23,27 +25,35 @@ async function createTestUser(
   });
 }
 
-const user = createTestUser();
-
-const agent = supertest.agent(app);
-
 async function login() {
-  return await agent.post("/login-API").send({
+  await agent.post("/login-API").send({
     email: "test@gmail.com",
     password: "12345678",
   });
 }
 
 async function logout() {
-  return await agent.post("/log-out");
+  await agent.post("/log-out");
 }
 
 async function dlt(userID) {
-  return await prisma.user.delete({ where: { id: userID } });
+  await prisma.user.delete({ where: { id: userID } });
 }
 
+beforeAll(async () => {
+  user = await createTestUser();
+});
+
+beforeEach(async () => {
+  await login();
+});
+
+afterEach(async () => {
+  await logout();
+});
+
 afterAll(async () => {
-  dlt(user.id);
+  await dlt(user.id);
   await prisma.$disconnect();
 });
 
