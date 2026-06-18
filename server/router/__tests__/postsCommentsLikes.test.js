@@ -41,6 +41,7 @@ async function dlt(userID) {
 }
 
 beforeAll(async () => {
+  await prisma.user.deleteMany({});
   user = await createTestUser();
 });
 
