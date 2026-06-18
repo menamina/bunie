@@ -23,7 +23,7 @@ it("validates searchZod with valid query", () => {
     };
 
     const res = mockRes();
-    
+
     const next = jest.fn();
     searchZod(req, res, next);
 
@@ -31,7 +31,7 @@ it("validates searchZod with valid query", () => {
     expect(res.status).not.toHaveBeenCalled();
     expect(res.json).not.toHaveBeenCalled();
 
-}
+});
 
 
 it("validates makeOrUpdatePostZod with title and no body", () => {

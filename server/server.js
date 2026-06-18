@@ -54,4 +54,9 @@ function ifError(error) {
   }
   console.log(`Server running on port ${port}`);
 }
-server.listen(port, ifError);
+
+if (require.main === module) {
+  server.listen(port, ifError);
+}
+
+module.exports = server;

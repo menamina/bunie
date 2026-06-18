@@ -76,9 +76,9 @@ it("does not return images zod does not authurize", async () => {
   expect(res.status).toBe(400);
   expect(res.body).toBe("invalid file name");
 
-  const res = agent.get("/IMGS-API/..//..");
-  expect(res.status).toBe(400);
-  expect(res.body).toBe("invalid file name");
+  const res2 = agent.get("/IMGS-API/..//..");
+  expect(res2.status).toBe(400);
+  expect(res2.body).toBe("invalid file name");
 
   logout();
 });
