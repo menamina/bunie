@@ -93,52 +93,52 @@ it("gets users following count by username", async () => {
 });
 
 it("gets users posts by username", async () => {
-  const res = await agent.get(`/get-user-following/${user.username}`);
+  const res = await agent.get(`/get-user-posts/${user.username}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("feed");
-  expect(res.body.feed).toBe([]);
+  expect(res.body.feed).toEqual([]);
   expect(res.body.nextCursor).toBe(null);
 });
 
 it("gets users inventory by username", async () => {
   const res = await agent.get(`/get-user-inventory/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noInventory");
-  expect(res.body.noInventory).toBe(true);
+  expect(res.body).toHaveProperty("inventory");
+  expect(res.body.inventory).toEqual([]);
 });
 
 it("gets users in progress by username", async () => {
   const res = await agent.get(`/get-user-in-progress/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noInProgress");
-  expect(res.body.noInProgress).toBe(true);
+  expect(res.body).toHaveProperty("inventory");
+  expect(res.body.inventory).toEqual([]);
 });
 
 it("gets users limbo by username", async () => {
   const res = await agent.get(`/get-user-limbo/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("limbo");
-  expect(res.body.limbo).toBe(true);
+  expect(res.body).toHaveProperty("inventory");
+  expect(res.body.inventory).toEqual([]);
 });
 
 it("gets users decluttered by username", async () => {
   const res = await agent.get(`/get-user-decluttered/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noDecluttered");
-  expect(res.body.noDecluttered).toBe(true);
+  expect(res.body).toHaveProperty("inventory");
+  expect(res.body.inventory).toEqual([]);
 });
 
 it("gets users finished by username", async () => {
   const res = await agent.get(`/get-user-finished/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noFinished");
-  expect(res.body.noFinished).toBe(true);
+  expect(res.body).toHaveProperty("inventory");
+  expect(res.body.inventory).toEqual([]);
 });
 
 it("gets users liked posts and comments by id", async () => {
   const res = await agent.get(`/get-user-likes/${user.id}`);
   expect(res.status).toBe(200);
-  expect(res.body.likesOrdered).toBe([]);
+  expect(res.body.likesOrdered).toEqual([]);
   expect(res.body.nextCursor).toBe(null);
 });
 
@@ -215,8 +215,8 @@ it("does not update inventory without an image", async () => {
 });
 
 it("deletes an item from specific selection by product id", async () => {
-  const res = await agent.delete(`delete-from-where:/${inventoryProdID}`);
-  expect(res.status).toBe(20);
-  expect(res.body).not.toHaveProperty("success");
+  const res = await agent.delete(`delete-from-where/${inventoryProdID}`);
+  expect(res.status).toBe(200);
+  expect(res.body).toHaveProperty("success");
   expect(res.body.success).toBe(true);
 });

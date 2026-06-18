@@ -51,7 +51,7 @@ async function getFollowers(req, res) {
       },
     });
 
-    if (!fullFollowerList) {
+    if (fullFollowerList.followers.length === 0) {
       return res.status(404).json({ message: "no followers" });
     }
     return res.status(200).json(fullFollowerList);
@@ -83,7 +83,7 @@ async function getFollowing(req, res) {
       },
     });
 
-    if (!fullFollowingList) {
+    if (fullFollowingList.followings.length === 0) {
       return res.status(404).json({ message: "no followings" });
     }
     return res.status(200).json(fullFollowingList);

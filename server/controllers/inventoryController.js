@@ -13,10 +13,6 @@ async function getUserInventory(req, res) {
         },
       },
     });
-
-    if (!thisUsersInventory) {
-      return res.status(204).json({ noInventory: true });
-    }
     return res.status(200).json(thisUsersInventory);
   } catch (error) {
     console.error(error);
@@ -38,9 +34,6 @@ async function getUserInProgress(req, res) {
       },
     });
 
-    if (!thisUsersInProgress) {
-      return res.status(204).json({ noInProgress: true });
-    }
     return res.status(200).json(thisUsersInProgress);
   } catch (error) {
     console.error(error);
@@ -62,9 +55,6 @@ async function getUserLimbo(req, res) {
       },
     });
 
-    if (!thisUsersLimbo) {
-      return res.status(204).json({ noLimbo: true });
-    }
     return res.status(200).json(thisUsersLimbo);
   } catch (error) {
     console.error(error);
@@ -86,9 +76,6 @@ async function getUserDecluttered(req, res) {
       },
     });
 
-    if (!thisUsersDecluttered) {
-      return res.status(204).json({ noDecluttered: true });
-    }
     return res.status(200).json(thisUsersDecluttered);
   } catch (error) {
     console.error(error);
@@ -110,9 +97,6 @@ async function getUserFinished(req, res) {
       },
     });
 
-    if (!thisUsersFinished) {
-      return res.status(204).json({ noFinished: true });
-    }
     return res.status(200).json(thisUsersFinished);
   } catch (error) {
     console.error(error);

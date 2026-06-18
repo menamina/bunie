@@ -6,6 +6,7 @@ const passwordValidation = require("../utils/passwordValOnly");
 const passport = require("../utils/passport");
 const multer = require("../utils/multer");
 const zoddie = require("../utils/zod");
+const prisma = require("../prisma/client");
 
 const { signUpUser } = require("../controllers/authController");
 const { IMGS, getMainFeed, getFollowingFeed } = require("../controllers/feedController");
@@ -68,7 +69,7 @@ router.get("/session-check-API", isAuth, (req, res) => {
 });
 
 router.post("/login-API", (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", async (err, user, info) => {
     if (err) {
       return next(err);
     }
@@ -76,18 +77,36 @@ router.post("/login-API", (req, res, next) => {
       return res.status(404).json({ message: info.message });
     }
 
-    req.login(user, (err) => {
+    req.login(user, async (err) => {
       if (err) return next(err);
+
+      const fullUser = await prisma.user.findUnique({
+        where: { id: user.id },
+        select: {
+          id: true,
+          name: true,
+          username: true,
+          email: true,
+          profile: {
+            select: {
+              pfp: true,
+              header: true,
+              bio: true,
+            },
+          },
+        },
+      });
+
       return res.json({
         user: {
-          id: user.id,
-          name: user.name,
-          username: user.username,
-          email: user.email,
+          id: fullUser.id,
+          name: fullUser.name,
+          username: fullUser.username,
+          email: fullUser.email,
           profile: {
-            pfp: user.profile.pfp,
-            header: user.profile.header,
-            bio: user.profile.bio,
+            pfp: fullUser.profile.pfp,
+            header: fullUser.profile.header,
+            bio: fullUser.profile.bio,
           },
         },
       });

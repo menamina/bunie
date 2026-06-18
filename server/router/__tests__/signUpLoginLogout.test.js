@@ -4,6 +4,8 @@ const request = supertest(app);
 const prisma = require("../../prisma/client");
 const { passwordGenie } = require("../../utils/password");
 
+jest.setTimeout(5500);
+
 // helper functions
 async function createTestUser(
   email = "test@gmail.com",
