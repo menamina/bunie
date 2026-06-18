@@ -363,6 +363,10 @@ async function toggleFollow(req, res) {
     const currentUserID = Number(req.user.id);
     const userToFollowID = Number(userID);
 
+    if (currentUserID === userToFollowID) {
+      return res.status(400).json({ success: false });
+    }
+
     const existingFollow = await prisma.followRelation.findUnique({
       where: {
         follower_following: {

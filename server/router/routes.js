@@ -9,7 +9,11 @@ const zoddie = require("../utils/zod");
 const prisma = require("../prisma/client");
 
 const { signUpUser } = require("../controllers/authController");
-const { IMGS, getMainFeed, getFollowingFeed } = require("../controllers/feedController");
+const {
+  IMGS,
+  getMainFeed,
+  getFollowingFeed,
+} = require("../controllers/feedController");
 const { query } = require("../controllers/searchController");
 const {
   getProfile,
@@ -141,8 +145,18 @@ router.patch(
   ]),
   updateUserIMGS,
 );
-router.patch("/update-my-profile-API/", isAuth, zoddie.updateProfZod, updateUserProfile);
-router.post("/update-my-password-API/", isAuth, passwordValidation, updateUserPassword);
+router.patch(
+  "/update-my-profile-API/",
+  isAuth,
+  zoddie.updateProfZod,
+  updateUserProfile,
+);
+router.post(
+  "/update-my-password-API/",
+  isAuth,
+  passwordValidation,
+  updateUserPassword,
+);
 router.delete("/delete-my-account-API/", isAuth, deleteUserAccount);
 
 // inventory //
@@ -156,6 +170,7 @@ router.post(
 router.patch(
   "/update-inventory-status/:productID",
   isAuth,
+  multer.single("image"),
   zoddie.addOrUpdateInventoryZod,
   updateInventory,
 );
@@ -168,11 +183,33 @@ router.get("/get-this-comment/:id", isAuth, getComment);
 router.patch("/like-post/:postID", isAuth, togglePostLike);
 router.patch("/like-comment/:commentID", isAuth, toggleCommentLike);
 
-router.post("/make-post-API", isAuth, multer.array("image", 4), zoddie.makeOrUpdatePostZod, makeAPost);
-router.post("/make-comment-API", isAuth, zoddie.makeOrUpdateCommentZod, makeAComment);
+router.post(
+  "/make-post-API",
+  isAuth,
+  multer.array("image", 4),
+  zoddie.makeOrUpdatePostZod,
+  makeAPost,
+);
+router.post(
+  "/make-comment-API",
+  isAuth,
+  zoddie.makeOrUpdateCommentZod,
+  makeAComment,
+);
 
-router.patch("/update-post/:postToUpdate", isAuth, multer.array("image", 4), zoddie.makeOrUpdatePostZod, updatePost);
-router.patch("/update-comment/:commentToUpdate", isAuth, zoddie.makeOrUpdateCommentZod, updateComment);
+router.patch(
+  "/update-post/:postToUpdate",
+  isAuth,
+  multer.array("image", 4),
+  zoddie.makeOrUpdatePostZod,
+  updatePost,
+);
+router.patch(
+  "/update-comment/:commentToUpdate",
+  isAuth,
+  zoddie.makeOrUpdateCommentZod,
+  updateComment,
+);
 
 router.delete("/delete-post/:postToDelete", isAuth, deletePost);
 router.delete("/delete-comment/:commentToDelete", isAuth, deleteComment);

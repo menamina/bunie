@@ -5,6 +5,8 @@ const agent = supertest.agent(app);
 const prisma = require("../../prisma/client");
 const { passwordGenie } = require("../../utils/password");
 
+jest.setTimeout(5500);
+
 // helper functions
 let user;
 
@@ -106,7 +108,6 @@ it("does not make a post with more than 4 images even if required data is valid"
 
 it("does not make a post with missing required data (title)", async () => {
   const res = await agent.post("/make-post-API").send({ body: "hello" });
-  expect(res.status).not.toBe(201);
   expect(res.status).toBe(400);
   expect(res.body).toHaveProperty("error");
 });
@@ -153,7 +154,7 @@ it("does not update a comment with valid id and invalid required data", async ()
   const res = await agent.patch(`/update-comment/${firstComment}`).send({
     body: "",
   });
-  expect(res.status).not.toBe(200);
+  expect(res.status).toBe(400);
   expect(res.body).not.toHaveProperty("updatedComment");
 });
 

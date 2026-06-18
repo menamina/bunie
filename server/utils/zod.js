@@ -14,7 +14,7 @@ function searchZod(req, res, next) {
 
 function makeOrUpdatePostZod(req, res, next) {
   const schema = z.object({
-    title: z.coerce.string(),
+    title: z.string().min(1),
     body: z.string().optional(),
   });
   try {
@@ -27,7 +27,7 @@ function makeOrUpdatePostZod(req, res, next) {
 
 function makeOrUpdateCommentZod(req, res, next) {
   const schema = z.object({
-    body: z.string(),
+    body: z.string().min(1),
     pID: z.coerce.number().optional(),
   });
   try {

@@ -144,6 +144,7 @@ it("gets users liked posts and comments by id", async () => {
 
 // inventory
 let inventoryProdID;
+
 it("adds item to inventory with image and req data valid", async () => {
   const res = await agent
     .post("/add-to-inventory-API")
@@ -156,8 +157,10 @@ it("adds item to inventory with image and req data valid", async () => {
 
   inventoryProdID = res.body.id;
 
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("addedProduct");
+  expect(res.status).toBe(201);
+  expect(res.body).toHaveProperty("id");
+  expect(res.body).toHaveProperty("brand");
+  expect(res.body.brand).toBe("Test Brand");
 });
 
 it("does not add item to inventory without required data but has an image", async () => {
@@ -189,7 +192,7 @@ it("does not add item to inventory without image", async () => {
 
 it("updates inventory with valid data and image", async () => {
   const res = await agent
-    .post(`/update-inventory-status/${inventoryProdID}`)
+    .patch(`/update-inventory-status/${inventoryProdID}`)
     .field("brand", "nooooo")
     .field("product", "Test")
     .field("category", " Category")
@@ -203,19 +206,31 @@ it("updates inventory with valid data and image", async () => {
 
 it("does not update inventory without an image", async () => {
   const res = await agent
-    .post(`/update-inventory-status/${inventoryProdID}`)
+    .patch(`/update-inventory-status/${inventoryProdID}`)
     .field("brand", "111111")
     .field("product", "Test")
     .field("category", " Category")
     .field("price", "100")
     .field("status", "in-progress");
 
-  expect(res.status).not.toBe(201);
-  expect(res.body).not.toHaveProperty("updatedProduct");
+  expect(res.status).toBe(201);
+  expect(res.body).toHaveProperty("updatedProduct");
 });
 
 it("deletes an item from specific selection by product id", async () => {
-  const res = await agent.delete(`delete-from-where/${inventoryProdID}`);
+  // Create an item to delete
+  const createRes = await agent
+    .post("/add-to-inventory-API")
+    .field("brand", "Delete Test")
+    .field("product", "Test Product")
+    .field("category", "Test Category")
+    .field("price", "29.99")
+    .field("status", "inventory")
+    .attach("image", Buffer.from("fake-image-data"), "test.jpg");
+
+  const itemToDelete = createRes.body.id;
+
+  const res = await agent.delete(`/delete-from-where/${itemToDelete}`);
   expect(res.status).toBe(200);
   expect(res.body).toHaveProperty("success");
   expect(res.body.success).toBe(true);

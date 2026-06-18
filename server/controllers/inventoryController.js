@@ -127,17 +127,17 @@ async function addProduct(req, res) {
         brand,
         product,
         category,
-        price,
+        price: parseFloat(price),
         img: imgFileName,
         status: status ? status : "noStatus",
         purchaseDate: dateOpurchase ? dateOpurchase : null,
-        rating: rating ? rating : null,
+        rating: rating ? Number(rating) : null,
         notes: notes ? notes : null,
         wouldBuyAgain,
       },
     });
 
-    return res.status(201).json({ addedProduct });
+    return res.status(201).json(addedProduct);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -160,19 +160,30 @@ async function updateInventory(req, res) {
       wouldBuyAgain,
       purchaseDate,
     } = req.body;
+    const image = req.file;
+    const imgFileName = image ? image.filename : null;
+
+    const existingProduct = await prisma.inventory.findUnique({
+      where: { id: productIDNum },
+    });
+
+    if (!existingProduct || existingProduct.belongsTo !== userID) {
+      return res.status(404).json({ message: "Product not found" });
+    }
 
     const updatedProduct = await prisma.inventory.update({
-      where: { belongsTo: userID, id: productIDNum },
+      where: { id: productIDNum },
       data: {
         ...(brand && { brand }),
         ...(product && { product }),
         ...(category && { category }),
-        ...(price && { price }),
+        ...(price && { price: parseFloat(price) }),
         ...(status && { status }),
-        ...(rating && { rating }),
+        ...(rating && { rating: Number(rating) }),
         ...(notes && { notes }),
         ...(wouldBuyAgain && { wouldBuyAgain }),
         ...(purchaseDate && { purchaseDate }),
+        ...(imgFileName && { img: imgFileName }),
       },
     });
 
@@ -191,8 +202,11 @@ async function deleteProduct(req, res) {
     const userID = Number(req.user.id);
     const productIDNum = Number(productID);
 
-    await prisma.inventory.delete({
-      where: { belongsTo: userID, id: productIDNum },
+    await prisma.inventory.deleteMany({
+      where: {
+        id: productIDNum,
+        belongsTo: userID,
+      },
     });
 
     return res.status(200).json({ success: true });
