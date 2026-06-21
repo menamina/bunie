@@ -103,7 +103,7 @@ it("gets users posts by username", async () => {
 it("gets users inventory by username", async () => {
   const res = await agent.get(`/get-user-inventory/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("noStatus");
+  expect(res.body).toHaveProperty("inventory");
   expect(res.body.inventory).toEqual([]);
 });
 
@@ -225,7 +225,7 @@ it("deletes an item from specific selection by product id", async () => {
     .field("product", "Test Product")
     .field("category", "skincare")
     .field("price", "29.99")
-    .field("status", "inventory")
+    .field("status", "noStatus")
     .attach("image", Buffer.from("fake-image-data"), "test.jpg");
 
   const itemToDelete = createRes.body.id;
