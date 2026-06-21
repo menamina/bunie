@@ -125,7 +125,7 @@ it("does not get a users settings when not logged in", async () => {
   const res = await request.get("/get-my-profile-settings/");
   expect(res.status).not.toBe(200);
   expect(res.status).toBe(401);
-  expect(res.body).toBe("nto authenticated");
+  expect(res.body.message).toBe("not authenticated");
 });
 
 // image crud settings
@@ -193,20 +193,24 @@ it("updates profile with valid info", async () => {
     bio: "hi",
   });
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("updatedUser");
+  expect(res.body).toHaveProperty("email");
+  expect(res.body).toHaveProperty("username");
   expect(res.body).not.toHaveProperty("usernameTaken");
   expect(res.body).not.toHaveProperty("emailTaken");
 });
 
 it("does not update profile with already taken email", async () => {
   const differentUser = await createTestUser("tester@gmail.com");
+
   await agent.post("/login-API").send({
     email: "tester@gmail.com",
     password: "12345678",
   });
+
   const res = await agent.patch("/update-my-profile-API/").send({
     email: "test@gmail.com",
   });
+
   expect(res.status).toBe(200);
   expect(res.body).not.toHaveProperty("updatedUser");
   expect(res.body).not.toHaveProperty("usernameTaken");
@@ -272,7 +276,7 @@ it("does not update profile when current password does not match database but ne
   expect(res.status).toBe(401);
   expect(res.status).not.toBe(200);
   expect(res.status).not.toBe(403);
-  expect(res.body).toHaveProperty("passwordDontMatch");
+  expect(res.body.message).toHaveProperty("passwordDontMatch");
   expect(res.body).not.toHaveProperty("validationErrors");
 });
 

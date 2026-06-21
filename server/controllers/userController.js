@@ -298,7 +298,13 @@ async function updateUserProfile(req, res) {
       },
     });
 
-    return res.status(200).json(updatedUser);
+    const returnUpdatedUser = {
+      email: updatedUser.email,
+      username: updatedUser.username,
+      ...(updatedUser.profile.bio && { bio: updatedUser.profile.bio }),
+    };
+
+    return res.status(200).json(returnUpdatedUser);
   } catch (error) {
     console.error(error);
     if (error.code === "P2025") {
