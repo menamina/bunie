@@ -231,7 +231,7 @@ async function getMyProfileSettings(req, res) {
     if (!userProfSettings) {
       return res.status(204).json({ noProfile: true });
     }
-    return res.status(200).json(userProfSettings);
+    return res.status(200).json({ userProfSettings });
   } catch (error) {
     console.error(error);
     return res.status(500).json({ errMsg: "server error" });
@@ -296,6 +296,9 @@ async function updateUserProfile(req, res) {
         ...(email && { email }),
         profile: { update: { ...(bio && { bio }) } },
       },
+      include: {
+        profile: true,
+      },
     });
 
     const returnUpdatedUser = {
@@ -333,7 +336,7 @@ async function updateUserPassword(req, res) {
     const passwordMatch = await checkPassword(oldPassword, user.saltedHash);
 
     if (!passwordMatch) {
-      return res.status(401).json({ passwordsDontMatch: true });
+      return res.status(401).json({ message: { passwordDontMatch: true } });
     }
 
     const updatedSaltedHash = await passwordGenie(confirmNewPassword);

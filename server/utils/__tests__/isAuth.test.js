@@ -1,4 +1,4 @@
-import isAuth from "../isAuth.js";
+const isAuth = require("../isAuth.js");
 
 function mockRes() {
   const res = {};

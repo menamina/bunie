@@ -1,4 +1,4 @@
-import { passwordGenie, checkPassword } from "../password";
+const { passwordGenie, checkPassword } = require("../password");
 
 it("generates a salted hash and checks it correctly", async () => {
   const password = "mySecretPassword";

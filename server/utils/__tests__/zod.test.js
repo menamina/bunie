@@ -1,11 +1,11 @@
 // Tests for zod schemas
-import {
+const {
   searchZod,
   makeOrUpdatePostZod,
   makeOrUpdateCommentZod,
   addOrUpdateInventoryZod,
   updateProfZod,
-} from "../zod.js";
+} = require("../zod.js");
 
 function mockRes() {
   const res = {};

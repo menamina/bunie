@@ -1,4 +1,4 @@
-import validation from "../validator";
+const validation = require("../validator");
 
 function mocRes() {
   const res = {};

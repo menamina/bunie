@@ -200,7 +200,7 @@ it("updates profile with valid info", async () => {
 });
 
 it("does not update profile with already taken email", async () => {
-  const differentUser = await createTestUser("tester@gmail.com");
+  const differentUser = await createTestUser("tester@gmail.com", "tester");
 
   await agent.post("/login-API").send({
     email: "tester@gmail.com",
