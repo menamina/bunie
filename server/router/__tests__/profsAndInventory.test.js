@@ -41,7 +41,6 @@ async function dlt(userID) {
 }
 
 beforeAll(async () => {
-  await prisma.user.deleteMany({});
   user = await createTestUser();
 });
 
@@ -55,6 +54,7 @@ afterEach(async () => {
 
 afterAll(async () => {
   await dlt(user.id);
+
   await prisma.$disconnect();
 });
 
@@ -103,7 +103,7 @@ it("gets users posts by username", async () => {
 it("gets users inventory by username", async () => {
   const res = await agent.get(`/get-user-inventory/${user.username}`);
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("inventory");
+  expect(res.body).toHaveProperty("noStatus");
   expect(res.body.inventory).toEqual([]);
 });
 
@@ -150,9 +150,9 @@ it("adds item to inventory with image and req data valid", async () => {
     .post("/add-to-inventory-API")
     .field("brand", "Test Brand")
     .field("product", "Test Product")
-    .field("category", "Test Category")
+    .field("category", "skincare")
     .field("price", "19.99")
-    .field("status", "in-progress")
+    .field("status", "inProgress")
     .attach("image", Buffer.from("fake-image-data"), "test.jpg");
 
   inventoryProdID = res.body.id;
@@ -182,9 +182,9 @@ it("does not add item to inventory without image", async () => {
     .post("/add-to-inventory-API")
     .field("brand", "Test Brand")
     .field("product", "Test Product")
-    .field("category", "Test Category")
+    .field("category", "skincare")
     .field("price", "19.99")
-    .field("status", "in-progress");
+    .field("status", "inProgress");
 
   expect(res.status).not.toBe(200);
   expect(res.body).not.toHaveProperty("addedProduct");
@@ -195,9 +195,9 @@ it("updates inventory with valid data and image", async () => {
     .patch(`/update-inventory-status/${inventoryProdID}`)
     .field("brand", "nooooo")
     .field("product", "Test")
-    .field("category", " Category")
+    .field("category", "skincare")
     .field("price", "100")
-    .field("status", "in-progress")
+    .field("status", "inProgress")
     .attach("image", Buffer.from("fake-image-data"), "test.jpg");
 
   expect(res.status).toBe(201);
@@ -209,9 +209,9 @@ it("does not update inventory without an image", async () => {
     .patch(`/update-inventory-status/${inventoryProdID}`)
     .field("brand", "111111")
     .field("product", "Test")
-    .field("category", " Category")
+    .field("category", "skincare")
     .field("price", "100")
-    .field("status", "in-progress");
+    .field("status", "inProgress");
 
   expect(res.status).toBe(201);
   expect(res.body).toHaveProperty("updatedProduct");
@@ -223,7 +223,7 @@ it("deletes an item from specific selection by product id", async () => {
     .post("/add-to-inventory-API")
     .field("brand", "Delete Test")
     .field("product", "Test Product")
-    .field("category", "Test Category")
+    .field("category", "skincare")
     .field("price", "29.99")
     .field("status", "inventory")
     .attach("image", Buffer.from("fake-image-data"), "test.jpg");
