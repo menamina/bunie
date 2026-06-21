@@ -64,7 +64,7 @@ it("does return images multer has AND zod authorizes", async () => {
   expect(res.status).toBe(200);
   expect(res.status).not.toBe(500);
   expect(res.body).toHaveProperty("data");
-  expect(res.body).toHaveProperty("type");
+  expect(res.body.type).toBe("Buffer");
 });
 
 it("does not return images zod does not authurize", async () => {
@@ -109,7 +109,7 @@ it("gets following feed posts when authenticated", async () => {
 it("does not get following feed posts when not authenticated", async () => {
   const res = await request.get("/following-feed-API");
   expect(res.status).toBe(401);
-  expect(res.body).toBe("not authenticated");
+  expect(res.body.message).toBe("not authenticated");
   expect(res.body).not.toHaveProperty("feed");
 });
 
@@ -117,9 +117,8 @@ it("does not get following feed posts when not authenticated", async () => {
 it("gets logged in users profile settings when authenticated and correct user", async () => {
   const res = await agent.get("/get-my-profile-settings/");
   expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("feed");
-  expect(res.body).toHaveProperty("nextCursor");
-  expect(res.status).not.toBe(401);
+  expect(res.body).toHaveProperty("userProfSettings");
+  expect(res.status).not.toBe(500);
 });
 
 it("does not get a users settings when not logged in", async () => {

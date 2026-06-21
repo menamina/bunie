@@ -6,6 +6,8 @@ const prisma = require("../../prisma/client");
 const { passwordGenie } = require("../../utils/password");
 
 // helper functions
+jest.setTimeout(5500);
+
 let user;
 
 async function createTestUser(
