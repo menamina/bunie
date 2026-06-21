@@ -1,5 +1,4 @@
 // Tests for zod schemas
-
 import {
   searchZod,
   makeOrUpdatePostZod,
@@ -15,11 +14,12 @@ function mockRes() {
   return res;
 }
 
-it("validates searchZod with valid query", () => {
+describe("searchZod", () => {
+  it("validates with valid query", () => {
     const req = {
-        query: {
+      query: {
         q: "test",
-        },
+      },
     };
 
     const res = mockRes();
@@ -30,9 +30,39 @@ it("validates searchZod with valid query", () => {
     expect(next).toHaveBeenCalled();
     expect(res.status).not.toHaveBeenCalled();
     expect(res.json).not.toHaveBeenCalled();
+  });
 
+  it("validates search query with minimum 1 string", () => {
+    const req = {
+      query: "h",
+    };
+
+    const res = mockRes();
+
+    const next = jest.fn();
+    searchZod(req, res, next);
+
+    expect(next).toHaveBeenCalled();
+    expect(res.status).not.toHaveBeenCalled();
+    expect(res.json).not.toHaveBeenCalled();
+  });
+
+  it("throws error when there is no query", () => {
+    const req = {};
+
+    const res = mockRes();
+
+    const next = jest.fn();
+
+    searchZod(req, res, next);
+
+    expect(next).not.toHaveBeenCalled();
+    expect(res.status).toHaveBeenCalledWith(400);
+    expect(res.json).toHaveBeenCalledWith({
+      error,
+    });
+  });
 });
-
 
 it("validates makeOrUpdatePostZod with title and no body", () => {
   const req = {
@@ -54,8 +84,7 @@ it("validates makeOrUpdatePostZod with title and no body", () => {
 
 it("does not validate makeOrUpdatePostZod no title", () => {
   const req = {
-    body: {}
-    },
+    body: {},
   };
 
   const res = mockRes();
@@ -68,61 +97,24 @@ it("does not validate makeOrUpdatePostZod no title", () => {
   expect(res.status).toHaveBeenCalledWith(400);
 });
 
+it("makes a comment", () => {
+  const req = {
+    body: "testing",
+    pID: 1,
+  };
 
-it("validates search query with minimum 1 string", () => {
-    const req = {
-        query:"h"
-    };
+  const res = mockRes();
 
-    const res = mockRes();
-    
-    const next = jest.fn();
-    searchZod(req, res, next);
+  const next = jest.fn();
 
-    expect(next).toHaveBeenCalled();
-    expect(res.status).not.toHaveBeenCalled();
-    expect(res.json).not.toHaveBeenCalled();
+  makeOrUpdateCommentZod(req, res, next);
 
-  })
+  expect(next).toHaveBeenCalled();
+  expect(res.status).not.toHaveBeenCalled();
+  expect(res.json).not.toHaveBeenCalled();
+});
 
-it("throws error when there is no query", () => {
-    const req = {
-    };
-
-    const res = mockRes();
-    
-    const next = jest.fn();
-
-    searchZod(req, res, next);
-
-    expect(next).not.toHaveBeenCalled();
-    expect(res.status).toHaveBeenCalledWith(400);
-    expect(res.json).toHaveBeenCalledWith({
-      error
-    });
-
-  })
-
-  it("makes a comment", () => {
-    const req = {
-      body: "testing",
-      pID: 1
-    }
-
-    const res = mockRes();
-
-    const next = jest.fn();
-
-    makeOrUpdateCommentZod(req, res, next);
-
-    expect(next).toHaveBeenCalled();
-    expect(res.status).not.toHaveBeenCalled();
-    expect(res.json).not.toHaveBeenCalled();
-
-  })
-
-
-it("adds inventory item with valid data", () => { 
+it("adds inventory item with valid data", () => {
   const req = {
     body: {
       brand: "Test Brand",
@@ -133,8 +125,8 @@ it("adds inventory item with valid data", () => {
       dateOpurchase: "2024-01-01",
       rating: 4,
       notes: "Test notes",
-      wouldBuyAgain: "Yes"
-    }
+      wouldBuyAgain: "Yes",
+    },
   };
 
   const res = mockRes();
@@ -145,10 +137,11 @@ it("adds inventory item with valid data", () => {
 
   expect(next).toHaveBeenCalled();
   expect(res.status).not.toHaveBeenCalled();
-  expect(res.json).not.toHaveBeenCalled();c
-})
+  expect(res.json).not.toHaveBeenCalled();
+  c;
+});
 
-it("adds inventory item with optional data missing", () => { 
+it("adds inventory item with optional data missing", () => {
   const req = {
     body: {
       brand: "Test Brand",
@@ -156,7 +149,7 @@ it("adds inventory item with optional data missing", () => {
       category: "Test Category",
       price: 19.99,
       status: "Available",
-    }
+    },
   };
 
   const res = mockRes();
@@ -167,16 +160,17 @@ it("adds inventory item with optional data missing", () => {
 
   expect(next).toHaveBeenCalled();
   expect(res.status).not.toHaveBeenCalled();
-  expect(res.json).not.toHaveBeenCalled();c
-})
+  expect(res.json).not.toHaveBeenCalled();
+  c;
+});
 
-it("does not add item to inventory with non-optional data missing", () => { 
+it("does not add item to inventory with non-optional data missing", () => {
   const req = {
     body: {
       brand: "Test Brand",
       product: "Test Product",
       category: "Test Category",
-    }
+    },
   };
 
   const res = mockRes();
@@ -188,7 +182,7 @@ it("does not add item to inventory with non-optional data missing", () => {
   expect(next).not.toHaveBeenCalled();
   expect(res.status).toHaveBeenCalledWith(400);
   expect(res.json).toHaveBeenCalledWith({
-    error
+    error,
   });
 });
 
@@ -198,8 +192,8 @@ it("updates profile with valid data", () => {
       name: "Test Name",
       username: "testuser",
       email: "test@gmail.com",
-      bio: "test bio"
-    }
+      bio: "test bio",
+    },
   };
 
   const res = mockRes();
@@ -211,5 +205,4 @@ it("updates profile with valid data", () => {
   expect(next).toHaveBeenCalled();
   expect(res.status).not.toHaveBeenCalled();
   expect(res.json).not.toHaveBeenCalled();
-
- })
+});
