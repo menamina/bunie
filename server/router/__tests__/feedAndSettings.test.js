@@ -58,7 +58,6 @@ afterAll(async () => {
   await prisma.$disconnect();
 });
 
-// main feed + multer
 describe("main feed", () => {
   it("gets main feed posts when authenticated", async () => {
     const res = await agent.get("/main-feed-API").send();
@@ -73,7 +72,6 @@ describe("main feed", () => {
   });
 });
 
-// following feed
 describe("following feed", () => {
   it("gets following feed posts when authenticated", async () => {
     const res = await agent.get("/following-feed-API");
@@ -92,7 +90,6 @@ describe("following feed", () => {
   });
 });
 
-// getting settings
 describe("getting settings", () => {
   it("gets logged in users profile settings when authenticated and correct user", async () => {
     const res = await agent.get("/get-my-profile-settings/");
@@ -108,6 +105,10 @@ describe("getting settings", () => {
     expect(res.body.message).toBe("not authenticated");
   });
 });
+
+// image crud settings
+// to mock a multipart upload: attach(fieldName, fileData, fileName)
+// Buffer.from() simulates converting text to binary for storing files
 
 describe("multer images", () => {
   it("does return images multer has AND zod authorizes", async () => {
@@ -189,120 +190,118 @@ describe("multer images", () => {
   });
 });
 
-// image crud settings
-// to mock a multipart upload: attach(fieldName, fileData, fileName)
-// Buffer.from() simulates converting text to binary for storing files
-
 // non image settings crud
-it("updates profile with valid info", async () => {
-  const res = await agent.patch("/update-my-profile-API/").send({
-    name: "testing",
-    email: "tester@aol.com",
-    bio: "hi",
-  });
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("email");
-  expect(res.body).toHaveProperty("username");
-  expect(res.body).not.toHaveProperty("usernameTaken");
-  expect(res.body).not.toHaveProperty("emailTaken");
-});
-
-it("does not update profile with already taken email", async () => {
-  const differentUser = await createTestUser("tester@gmail.com", "tester");
-
-  await agent.post("/login-API").send({
-    email: "tester@gmail.com",
-    password: "12345678",
+describe("non image settings CRUD", () => {
+  it("updates profile with valid info", async () => {
+    const res = await agent.patch("/update-my-profile-API/").send({
+      name: "testing",
+      email: "tester@aol.com",
+      bio: "hi",
+    });
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("email");
+    expect(res.body).toHaveProperty("username");
+    expect(res.body).not.toHaveProperty("usernameTaken");
+    expect(res.body).not.toHaveProperty("emailTaken");
   });
 
-  const res = await agent.patch("/update-my-profile-API/").send({
-    email: "test@gmail.com",
+  it("does not update profile with already taken email", async () => {
+    const differentUser = await createTestUser("tester@gmail.com", "tester");
+
+    await agent.post("/login-API").send({
+      email: "tester@gmail.com",
+      password: "12345678",
+    });
+
+    const res = await agent.patch("/update-my-profile-API/").send({
+      email: "test@gmail.com",
+    });
+
+    expect(res.status).toBe(200);
+    expect(res.body).not.toHaveProperty("updatedUser");
+    expect(res.body).not.toHaveProperty("usernameTaken");
+    expect(res.body).toHaveProperty("emailTaken");
+    await prisma.user.delete({
+      where: {
+        id: differentUser.id,
+      },
+    });
   });
 
-  expect(res.status).toBe(200);
-  expect(res.body).not.toHaveProperty("updatedUser");
-  expect(res.body).not.toHaveProperty("usernameTaken");
-  expect(res.body).toHaveProperty("emailTaken");
-  await prisma.user.delete({
-    where: {
-      id: differentUser.id,
-    },
-  });
-});
-
-it("does not update profile with already taken username", async () => {
-  const differentUser = await createTestUser("tester@gmail.com", "tester2");
-  await agent.post("/login-API").send({
-    email: "tester@gmail.com",
-    password: "12345678",
-  });
-  const res = await agent.patch("/update-my-profile-API/").send({
-    username: "test",
-  });
-  expect(res.status).toBe(200);
-  expect(res.body).not.toHaveProperty("updatedUser");
-  expect(res.body).toHaveProperty("usernameTaken");
-  expect(res.body).not.toHaveProperty("emailTaken");
-  await prisma.user.delete({
-    where: {
-      id: differentUser.id,
-    },
-  });
-});
-
-it("updates password when current password matches database and new is valid requirements", async () => {
-  const res = await agent.post("/update-my-password-API/").send({
-    oldPassword: "12345678",
-    newPassword: "helloagain123",
-    confirmNewPassword: "helloagain123",
-  });
-  expect(res.status).not.toBe(403);
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("success");
-
-  await agent.post("/login-API").send({
-    email: "test@gmail.com",
-    password: "helloagain123",
+  it("does not update profile with already taken username", async () => {
+    const differentUser = await createTestUser("tester@gmail.com", "tester2");
+    await agent.post("/login-API").send({
+      email: "tester@gmail.com",
+      password: "12345678",
+    });
+    const res = await agent.patch("/update-my-profile-API/").send({
+      username: "test",
+    });
+    expect(res.status).toBe(200);
+    expect(res.body).not.toHaveProperty("updatedUser");
+    expect(res.body).toHaveProperty("usernameTaken");
+    expect(res.body).not.toHaveProperty("emailTaken");
+    await prisma.user.delete({
+      where: {
+        id: differentUser.id,
+      },
+    });
   });
 
-  const res2 = await agent.post("/update-my-password-API/").send({
-    oldPassword: "helloagain123",
-    newPassword: "12345678",
-    confirmNewPassword: "12345678",
-  });
-  expect(res2.status).not.toBe(403);
-  expect(res2.status).toBe(200);
-  expect(res2.body).toHaveProperty("success");
-});
+  it("updates password when current password matches database and new is valid requirements", async () => {
+    const res = await agent.post("/update-my-password-API/").send({
+      oldPassword: "12345678",
+      newPassword: "helloagain123",
+      confirmNewPassword: "helloagain123",
+    });
+    expect(res.status).not.toBe(403);
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("success");
 
-it("does not update profile when current password does not match database but new password meets valid reqs", async () => {
-  const res = await agent.post("/update-my-password-API/").send({
-    oldPassword: "lalalalala",
-    newPassword: "helloagain123",
-    confirmNewPassword: "helloagain123",
-  });
-  expect(res.status).toBe(401);
-  expect(res.status).not.toBe(200);
-  expect(res.status).not.toBe(403);
-  expect(res.body.message).toHaveProperty("passwordDontMatch");
-  expect(res.body).not.toHaveProperty("validationErrors");
-});
+    await agent.post("/login-API").send({
+      email: "test@gmail.com",
+      password: "helloagain123",
+    });
 
-it("updates password when current pass === database AND new pass meets validation BUT confirmed password does not match new password", async () => {
-  const res = await agent.post("/update-my-password-API/").send({
-    oldPassword: "12345678",
-    newPassword: "helloagain123",
-    confirmNewPassword: "helloagain00000",
+    const res2 = await agent.post("/update-my-password-API/").send({
+      oldPassword: "helloagain123",
+      newPassword: "12345678",
+      confirmNewPassword: "12345678",
+    });
+    expect(res2.status).not.toBe(403);
+    expect(res2.status).toBe(200);
+    expect(res2.body).toHaveProperty("success");
   });
-  expect(res.status).toBe(403);
-  expect(res.status).not.toBe(200);
-  expect(res.body).toHaveProperty("validationErrors");
-  expect(res.body).not.toHaveProperty("success");
-});
 
-it("deletes user account when who is logged in does match account to be deleted", async () => {
-  const res = await agent.delete("/delete-my-account-API");
-  expect(res.status).toBe(200);
-  expect(res.status).not.toBe(401);
-  expect(res.body).toHaveProperty("userDeleted");
+  it("does not update profile when current password does not match database but new password meets valid reqs", async () => {
+    const res = await agent.post("/update-my-password-API/").send({
+      oldPassword: "lalalalala",
+      newPassword: "helloagain123",
+      confirmNewPassword: "helloagain123",
+    });
+    expect(res.status).toBe(401);
+    expect(res.status).not.toBe(200);
+    expect(res.status).not.toBe(403);
+    expect(res.body.message).toHaveProperty("passwordDontMatch");
+    expect(res.body).not.toHaveProperty("validationErrors");
+  });
+
+  it("updates password when current pass === database AND new pass meets validation BUT confirmed password does not match new password", async () => {
+    const res = await agent.post("/update-my-password-API/").send({
+      oldPassword: "12345678",
+      newPassword: "helloagain123",
+      confirmNewPassword: "helloagain00000",
+    });
+    expect(res.status).toBe(403);
+    expect(res.status).not.toBe(200);
+    expect(res.body).toHaveProperty("validationErrors");
+    expect(res.body).not.toHaveProperty("success");
+  });
+
+  it("deletes user account when who is logged in does match account to be deleted", async () => {
+    const res = await agent.delete("/delete-my-account-API");
+    expect(res.status).toBe(200);
+    expect(res.status).not.toBe(401);
+    expect(res.body).toHaveProperty("userDeleted");
+  });
 });
