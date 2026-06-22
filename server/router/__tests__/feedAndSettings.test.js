@@ -59,131 +59,139 @@ afterAll(async () => {
 });
 
 // main feed + multer
-it("does return images multer has AND zod authorizes", async () => {
-  const res = await agent.get("/IMGS-API/0c87c936eb33f0b0943d1a7cd08c613a");
-  expect(res.status).toBe(200);
-  expect(res.status).not.toBe(500);
-  expect(res.body).toHaveProperty("data");
-  expect(res.body.type).toBe("Buffer");
-});
+describe("main feed", () => {
+  it("gets main feed posts when authenticated", async () => {
+    const res = await agent.get("/main-feed-API").send();
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("feed");
+  });
 
-it("does not return images zod does not authurize", async () => {
-  const res = await agent.get("/IMGS-API/..");
-  expect(res.status).toBe(400);
-  expect(res.body).toBe("invalid file name");
-
-  const res2 = await agent.get("/IMGS-API/..//..");
-  expect(res2.status).toBe(400);
-  expect(res2.body).toBe("invalid file name");
-});
-
-it("does not return images multer does not have but zod authorizes", async () => {
-  const res = await agent.get("/IMGS-API/12345");
-  expect(res.status).not.toBe(400);
-  expect(res.body).not.toBe("invalid file name");
-  expect(res.status).toBe(500);
-});
-
-it("gets main feed posts when authenticated", async () => {
-  const res = await agent.get("/main-feed-API").send();
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("feed");
-});
-
-it("does not get main feed posts when not authenticated", async () => {
-  const res = await request.get("/main-feed-API");
-  expect(res.status).toBe(401);
-  expect(res.body).not.toHaveProperty("feed");
+  it("does not get main feed posts when not authenticated", async () => {
+    const res = await request.get("/main-feed-API");
+    expect(res.status).toBe(401);
+    expect(res.body).not.toHaveProperty("feed");
+  });
 });
 
 // following feed
-it("gets following feed posts when authenticated", async () => {
-  const res = await agent.get("/following-feed-API");
-  expect(res.status).not.toBe(401);
-  expect(res.body).not.toBe("not authenticated");
-  expect(res.status).toBe(200);
-  expect(res.status).not.toBe(500);
-  expect(res.body).toHaveProperty("feed");
-});
+describe("following feed", () => {
+  it("gets following feed posts when authenticated", async () => {
+    const res = await agent.get("/following-feed-API");
+    expect(res.status).not.toBe(401);
+    expect(res.body).not.toBe("not authenticated");
+    expect(res.status).toBe(200);
+    expect(res.status).not.toBe(500);
+    expect(res.body).toHaveProperty("feed");
+  });
 
-it("does not get following feed posts when not authenticated", async () => {
-  const res = await request.get("/following-feed-API");
-  expect(res.status).toBe(401);
-  expect(res.body.message).toBe("not authenticated");
-  expect(res.body).not.toHaveProperty("feed");
+  it("does not get following feed posts when not authenticated", async () => {
+    const res = await request.get("/following-feed-API");
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe("not authenticated");
+    expect(res.body).not.toHaveProperty("feed");
+  });
 });
 
 // getting settings
-it("gets logged in users profile settings when authenticated and correct user", async () => {
-  const res = await agent.get("/get-my-profile-settings/");
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("userProfSettings");
-  expect(res.status).not.toBe(500);
+describe("getting settings", () => {
+  it("gets logged in users profile settings when authenticated and correct user", async () => {
+    const res = await agent.get("/get-my-profile-settings/");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("userProfSettings");
+    expect(res.status).not.toBe(500);
+  });
+
+  it("does not get a users settings when not logged in", async () => {
+    const res = await request.get("/get-my-profile-settings/");
+    expect(res.status).not.toBe(200);
+    expect(res.status).toBe(401);
+    expect(res.body.message).toBe("not authenticated");
+  });
 });
 
-it("does not get a users settings when not logged in", async () => {
-  const res = await request.get("/get-my-profile-settings/");
-  expect(res.status).not.toBe(200);
-  expect(res.status).toBe(401);
-  expect(res.body.message).toBe("not authenticated");
+describe("multer images", () => {
+  it("does return images multer has AND zod authorizes", async () => {
+    const res = await agent.get("/IMGS-API/0c87c936eb33f0b0943d1a7cd08c613a");
+    expect(res.status).toBe(200);
+    expect(res.status).not.toBe(500);
+    expect(res.body).toHaveProperty("data");
+    expect(res.body.type).toBe("Buffer");
+  });
+
+  it("does not return images zod does not authurize", async () => {
+    const res = await agent.get("/IMGS-API/..");
+    expect(res.status).toBe(400);
+    expect(res.body).toBe("invalid file name");
+
+    const res2 = await agent.get("/IMGS-API/..//..");
+    expect(res2.status).toBe(400);
+    expect(res2.body).toBe("invalid file name");
+  });
+
+  it("does not return images multer does not have but zod authorizes", async () => {
+    const res = await agent.get("/IMGS-API/12345");
+    expect(res.status).not.toBe(400);
+    expect(res.body).not.toBe("invalid file name");
+    expect(res.status).toBe(500);
+  });
+  it("updates one profile image", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("pfp", Buffer.from("image-data"), "12345.jpg");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("updatedIMGS");
+  });
+
+  it("updates one header image", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("header", Buffer.from("image-data"), "123456.jpg");
+    expect(res.status).toBe(200);
+    expect(res.body).toHaveProperty("updatedIMGS");
+  });
+
+  it("does not update multiple profile images", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("pfp", Buffer.from("image-data"), "12345.jpg")
+      .attach("pfp", Buffer.from("image-data2"), "54321.jpg");
+    expect(res.status).not.toBe(200);
+    expect(res.body).not.toHaveProperty("updatedIMGS");
+    expect(res.status).toBe(500);
+  });
+
+  it("does not update multiple header images", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("header", Buffer.from("image-data"), "12345.jpg")
+      .attach("header", Buffer.from("image-data2"), "54321.jpg");
+    expect(res.status).not.toBe(200);
+    expect(res.body).not.toHaveProperty("updatedIMGS");
+    expect(res.status).toBe(500);
+  });
+
+  it("does not update profile image with wrong multer fields", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("fakePFP", Buffer.from("image-data"), "12345.jpg");
+    expect(res.status).not.toBe(200);
+    expect(res.body).not.toHaveProperty("updatedIMGS");
+    expect(res.status).toBe(500);
+  });
+
+  it("does not update header image with wrong multer fields", async () => {
+    const res = await agent
+      .patch("/update-my-IMGS-API/")
+      .attach("fakeHeader", Buffer.from("image-data"), "12345.jpg");
+    expect(res.status).not.toBe(200);
+    expect(res.body).not.toHaveProperty("updatedIMGS");
+    expect(res.status).toBe(500);
+  });
 });
 
 // image crud settings
 // to mock a multipart upload: attach(fieldName, fileData, fileName)
 // Buffer.from() simulates converting text to binary for storing files
-it("updates one profile image", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("pfp", Buffer.from("image-data"), "12345.jpg");
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("updatedIMGS");
-});
-
-it("updates one header image", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("header", Buffer.from("image-data"), "123456.jpg");
-  expect(res.status).toBe(200);
-  expect(res.body).toHaveProperty("updatedIMGS");
-});
-
-it("does not update multiple profile images", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("pfp", Buffer.from("image-data"), "12345.jpg")
-    .attach("pfp", Buffer.from("image-data2"), "54321.jpg");
-  expect(res.status).not.toBe(200);
-  expect(res.body).not.toHaveProperty("updatedIMGS");
-  expect(res.status).toBe(500);
-});
-
-it("does not update multiple header images", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("header", Buffer.from("image-data"), "12345.jpg")
-    .attach("header", Buffer.from("image-data2"), "54321.jpg");
-  expect(res.status).not.toBe(200);
-  expect(res.body).not.toHaveProperty("updatedIMGS");
-  expect(res.status).toBe(500);
-});
-
-it("does not update profile image with wrong multer fields", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("fakePFP", Buffer.from("image-data"), "12345.jpg");
-  expect(res.status).not.toBe(200);
-  expect(res.body).not.toHaveProperty("updatedIMGS");
-  expect(res.status).toBe(500);
-});
-
-it("does not update header image with wrong multer fields", async () => {
-  const res = await agent
-    .patch("/update-my-IMGS-API/")
-    .attach("fakeHeader", Buffer.from("image-data"), "12345.jpg");
-  expect(res.status).not.toBe(200);
-  expect(res.body).not.toHaveProperty("updatedIMGS");
-  expect(res.status).toBe(500);
-});
 
 // non image settings crud
 it("updates profile with valid info", async () => {
