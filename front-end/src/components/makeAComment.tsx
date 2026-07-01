@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useOutletContext } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   makeCommentMut,
@@ -9,7 +8,6 @@ import {
 } from "../ts-queries/queries";
 import PostCard from "./postcard";
 import "../css/comment.css";
-import TempIcon from "../imgs/cafe.jpeg";
 
 interface CommentArgs {
   closeModal: any;
@@ -17,6 +15,7 @@ interface CommentArgs {
   edit?: boolean;
   comment?: any;
   postToCommentOn?: any;
+  user: User;
 }
 
 function MakeAComment({
@@ -24,6 +23,7 @@ function MakeAComment({
   postObj = null,
   edit = false,
   comment = null,
+  user,
 }: CommentArgs) {
   const [commentData, setCommentData] = useState<any>(
     edit
@@ -150,7 +150,7 @@ function MakeAComment({
         <div className="yourReply" onClick={(e) => e.stopPropagation()}>
           <div>
             <img
-              src={TempIcon}
+              src={`http://localhost:5555/IMGS-API/${user.profile.pfp}`}
               alt="your profile image"
               className="pfpIMG"
             />

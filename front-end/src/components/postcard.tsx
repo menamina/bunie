@@ -307,7 +307,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
       )}
 
       {makeAComment && (
-        <MakeAComment postObj={post} closeModal={setMakeAComment} />
+        <MakeAComment postObj={post} closeModal={setMakeAComment} user={user} />
       )}
       {editPostClicked && (
         <MakeAPost post={post} closeModal={cancelUpdate} user={user} />

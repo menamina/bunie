@@ -8,7 +8,6 @@ import {
 } from "../ts-queries/queries";
 
 import MakeAComment from "./makeAComment";
-import TempIcon from "../imgs/cafe.jpeg";
 
 import FilledHeart from "../imgs/filledHeart.png";
 import EmptyHeart from "../imgs/emptyHeart.png";
@@ -75,7 +74,7 @@ function CommentCard({ comment }: any) {
   return (
     <div className="commentCard">
       <div>
-        <img src={TempIcon} />
+        <img src={`http://localhost:5555/IMGS-API/${user.profile.pfp}`} />
       </div>
       <div>
         <div>
