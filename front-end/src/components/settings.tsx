@@ -322,8 +322,8 @@ function Settings() {
                   <div className="imgErrModal">
                     <div>
                       <div>
-                        {(dataUpdateErr as any).error || dataUpdateErr.message}{" "}
-                        hello
+                        {(dataUpdateErr as any).error ||
+                          dataUpdateErr.message}{" "}
                       </div>
                     </div>
                   </div>

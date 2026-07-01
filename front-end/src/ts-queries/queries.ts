@@ -591,6 +591,7 @@ async function updateUserData(staticProfDataUpdate: any) {
       throw error;
     } else if (res.status === 409) {
       error.error = data.message;
+      throw error;
     } else if (res.status === 500) {
       error.error = "Server error, try again";
       throw error;

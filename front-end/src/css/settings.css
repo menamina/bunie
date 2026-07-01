@@ -251,3 +251,11 @@
   font-weight: 600;
   margin-bottom: 10px;
 }
+
+.imgErrModal {
+  text-align: center;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: rgb(140, 100, 0);
+  font-weight: 600;
+}
