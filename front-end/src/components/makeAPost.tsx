@@ -41,7 +41,7 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
-      queryClient.invalidateQueries({ queryKey: ["feed"] });
+      queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
       queryClient.invalidateQueries({ queryKey: ["following-feed"] });
     },
   });
@@ -55,6 +55,8 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
     ...updatePostMut(),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["post", post.id] });
+      queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
+      queryClient.invalidateQueries({ queryKey: ["following-feed"] });
       queryClient.invalidateQueries({
         queryKey: ["profilePosts", user.username],
       });
@@ -212,7 +214,9 @@ function MakeAPost({ closeModal, post = null, user }: MakeAPostArgs) {
                       onClick={() =>
                         setPostData((prev) => ({
                           ...prev,
-                          image: prev.image.filter((img: any) => img !== thisImg),
+                          image: prev.image.filter(
+                            (img: any) => img !== thisImg,
+                          ),
                         }))
                       }
                     >
