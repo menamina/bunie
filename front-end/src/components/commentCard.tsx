@@ -52,7 +52,7 @@ function CommentCard({ comment }: any) {
         queryKey: ["post", comment.idOfPost],
       });
       queryClient.invalidateQueries({
-        queryKey: ["profileLikes", user.username],
+        queryKey: ["profileLikes", (user as any).id],
       });
     },
   });

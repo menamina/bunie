@@ -77,7 +77,7 @@ function PostCard({ post, postOpen = false }: PostCardArgs) {
         queryKey: ["profilePosts", post?.madeby?.username],
       });
       queryClient.invalidateQueries({
-        queryKey: ["profileLikes", user?.username],
+        queryKey: ["profileLikes", (user as any).id],
       });
       queryClient.invalidateQueries({ queryKey: ["mainFeed"] });
       queryClient.invalidateQueries({ queryKey: ["following-feed"] });
