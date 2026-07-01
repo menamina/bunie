@@ -37,7 +37,9 @@ function AddToInventory({
   const { mutate: updateProduct, isPending: updatePending } = useMutation({
     ...updateProductMut(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["view-status", user.username] });
+      queryClient.invalidateQueries({
+        queryKey: ["view-status", user.username],
+      });
       closeInventoryModal();
     },
   });
@@ -179,36 +181,17 @@ function AddToInventory({
               />
             </div>
           )}
-          {inventoryINFO.img.length > 1 &&
-            inventoryINFO.img.map((img, index) => (
-              <div key={index} className="previewIvenPhoto">
-                <button
-                  className="dltPicX"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setInventoryINFO((prev) => ({ ...prev, img: [] }));
-                  }}
-                  type="button"
-                >
-                  X
-                </button>
-                <img
-                  src={
-                    typeof img === "string"
-                      ? `http://localhost:5555/IMGS-API/${img}`
-                      : URL.createObjectURL(img)
-                  }
-                  alt="preview"
-                  className="preview"
-                />
-              </div>
-            ))}
+
           {inventoryINFO.img.length === 0 ? (
             <div>
               <img
                 src={UploadIMG}
                 alt="upload image icon"
-                onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
+                onClick={(e) =>
+                  (
+                    e.currentTarget.nextElementSibling as HTMLInputElement
+                  )?.click()
+                }
                 className="curs0r upload img"
               />
               <input
@@ -217,10 +200,11 @@ function AddToInventory({
                 accept="image/*"
                 hidden
                 onChange={(e) => {
-                  if (e.currentTarget.files?.[0]) {
+                  const file = e.target.files?.[0];
+                  if (file) {
                     setInventoryINFO((prev) => ({
                       ...prev,
-                      img: [e.currentTarget.files![0]],
+                      img: [file],
                     }));
                   }
                 }}
