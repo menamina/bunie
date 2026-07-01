@@ -325,8 +325,8 @@ function Settings() {
                         <div>{(dataUpdateErr as any).error}</div>
                       )}
                       {(dataUpdateErr as any).validationErrors &&
-                        dataUpdateErr.validationErrors.map((error) => (
-                          <div>error</div>
+                        (dataUpdateErr as any).validationErrors.map((error: any, index: number) => (
+                          <div key={index}>{error.msg || error.message || error}</div>
                         ))}
                     </div>
                   </div>

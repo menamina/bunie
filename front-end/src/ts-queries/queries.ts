@@ -600,6 +600,7 @@ async function updateUserData(staticProfDataUpdate: any) {
       throw error;
     } else if (res.status === 400) {
       error.validationErrors = data.validationErrors;
+      throw error;
     }
   }
 

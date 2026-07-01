@@ -66,7 +66,10 @@ function updateProfZod(req, res, next) {
       .trim()
       .min(3)
       .max(30)
-      .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, _ or -"),
+      .regex(
+        /^[a-zA-Z0-9_-]+$/,
+        "Username can only contain letters, numbers, _ or -, and cannot contain spaces",
+      ),
     email: z.string().trim().email(),
     bio: z.string().trim().optional(),
   });
@@ -74,7 +77,7 @@ function updateProfZod(req, res, next) {
     schema.parse(req.body);
     next();
   } catch (error) {
-    return res.status(400).json({ error: error.message });
+    return res.status(400).json({ validationErrors: error.issues });
   }
 }
 
