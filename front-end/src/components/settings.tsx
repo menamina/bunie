@@ -321,10 +321,13 @@ function Settings() {
                 {dataUpdateErr && (
                   <div className="imgErrModal">
                     <div>
-                      <div>
-                        {(dataUpdateErr as any).error ||
-                          dataUpdateErr.message}{" "}
-                      </div>
+                      {(dataUpdateErr as any).error && (
+                        <div>{(dataUpdateErr as any).error}</div>
+                      )}
+                      {(dataUpdateErr as any).validationErrors &&
+                        dataUpdateErr.validationErrors.map((error) => (
+                          <div>error</div>
+                        ))}
                     </div>
                   </div>
                 )}

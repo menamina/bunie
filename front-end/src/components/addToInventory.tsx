@@ -37,7 +37,7 @@ function AddToInventory({
   const { mutate: updateProduct, isPending: updatePending } = useMutation({
     ...updateProductMut(),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["view-status"] });
+      queryClient.invalidateQueries({ queryKey: ["view-status", user.username] });
       closeInventoryModal();
     },
   });
@@ -66,9 +66,9 @@ function AddToInventory({
           status: product.status,
           backup: product.backup || "",
           purchaseDate: product.purchaseDate || "",
-          rating: product.rating || "",
+          rating: product.rating || "na",
           notes: product.notes || "",
-          wouldBuyAgain: product.wouldBuyAgain || "",
+          wouldBuyAgain: product.wouldBuyAgain || "na",
         },
   );
 
@@ -82,7 +82,6 @@ function AddToInventory({
     void (editMode
       ? updateProduct({ productID: product.id, productData: inventoryINFO })
       : addProduct(inventoryINFO));
-    closeInventoryModal(false);
   }
 
   return (

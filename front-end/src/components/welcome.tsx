@@ -120,10 +120,10 @@ function Welcome() {
   }
 
   function validateUsername(username: string) {
-    if (!/^[a-zA-Z0-9._-]+$/.test(username)) {
+    if (!/^[a-zA-Z0-9_-]+$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
-        invalidChars: "Username can only contain letters, numbers, . _ or -",
+        invalidChars: "Username can only contain letters, numbers, _ or -",
       }));
     } else {
       setInvalidUsername((prev) => ({
@@ -132,10 +132,10 @@ function Welcome() {
       }));
     }
 
-    if (/^[._-]/.test(username)) {
+    if (/^[_-]/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
-        cannotBegin: "Username cannot begin with . _ or -",
+        cannotBegin: "Username cannot begin with _ or -",
       }));
     } else {
       setInvalidUsername((prev) => ({
@@ -144,10 +144,10 @@ function Welcome() {
       }));
     }
 
-    if (/[._-]$/.test(username)) {
+    if (/[_-]$/.test(username)) {
       setInvalidUsername((prev) => ({
         ...prev,
-        cannotEnd: "Username cannot end with . _ or -",
+        cannotEnd: "Username cannot end with _ or -",
       }));
     } else {
       setInvalidUsername((prev) => ({

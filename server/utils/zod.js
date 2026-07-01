@@ -60,10 +60,15 @@ function addOrUpdateInventoryZod(req, res, next) {
 
 function updateProfZod(req, res, next) {
   const schema = z.object({
-    name: z.coerce.string(),
-    username: z.coerce.string(),
-    email: z.string().email(),
-    bio: z.coerce.string().optional(),
+    name: z.string().trim().min(1),
+    username: z
+      .string()
+      .trim()
+      .min(3)
+      .max(30)
+      .regex(/^[a-zA-Z0-9_-]+$/, "Username can only contain letters, numbers, _ or -"),
+    email: z.string().trim().email(),
+    bio: z.string().trim().optional(),
   });
   try {
     schema.parse(req.body);

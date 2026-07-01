@@ -587,7 +587,7 @@ async function updateUserData(staticProfDataUpdate: any) {
     const data = await res.json();
 
     if (res.status === 404) {
-      error.message = "Account not found or not yours";
+      error.error = "Account not found or not yours";
       throw error;
     } else if (res.status === 409) {
       error.error = data.message;
@@ -598,6 +598,8 @@ async function updateUserData(staticProfDataUpdate: any) {
     } else if (res.status === 403) {
       error.error = data.message;
       throw error;
+    } else if (res.status === 400) {
+      error.validationErrors = data.validationErrors;
     }
   }
 
@@ -855,11 +857,13 @@ async function deleteProduct(productId: number): Promise<any> {
       credentials: "include",
     },
   );
-  const data = await res.json();
+
   if (!res.ok) {
+    const data = await res.json();
     const error: any = new Error("error");
     error.backEndError = data.errMsg;
     throw error;
   }
-  return data;
+
+  return await res.json();
 }
