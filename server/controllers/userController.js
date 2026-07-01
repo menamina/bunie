@@ -282,9 +282,9 @@ async function updateUserProfile(req, res) {
       const emailTaken = alreadyTaken.some((u) => u.email === email);
 
       if (usernameTaken) {
-        return res.status(200).json({ usernameTaken: true });
+        return res.status(409).json({ message: "Username taken" });
       } else if (emailTaken) {
-        return res.status(200).json({ emailTaken: true });
+        return res.status(409).json({ message: "Email taken" });
       }
     }
 
@@ -309,7 +309,6 @@ async function updateUserProfile(req, res) {
 
     return res.status(200).json(returnUpdatedUser);
   } catch (error) {
-    console.error(error);
     if (error.code === "P2025") {
       return res
         .status(404)

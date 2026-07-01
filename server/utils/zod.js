@@ -60,9 +60,9 @@ function addOrUpdateInventoryZod(req, res, next) {
 
 function updateProfZod(req, res, next) {
   const schema = z.object({
-    name: z.coerce.string().optional(),
-    username: z.coerce.string().optional(),
-    email: z.string().email().optional(),
+    name: z.coerce.string(),
+    username: z.coerce.string(),
+    email: z.string().email(),
     bio: z.coerce.string().optional(),
   });
   try {

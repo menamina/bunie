@@ -279,7 +279,7 @@ function Welcome() {
 
       {view === "signup" && (
         <div className="signupDIV">
-          {signUpError && <div>{(signUpError as any).error}</div>}
+          {signUpError && <h2>{(signUpError as any).error}</h2>}
           <form onSubmit={signupSugmit}>
             <div>
               <label htmlFor="name"></label>

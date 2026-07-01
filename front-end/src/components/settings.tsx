@@ -195,7 +195,11 @@ function Settings() {
                       className="wantedHeader noHeaderOverlay"
                       src={URL.createObjectURL(iconHeaderData.header as File)}
                       alt="your updated header"
-                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
+                      onClick={(e) =>
+                        (
+                          e.currentTarget.nextElementSibling as HTMLInputElement
+                        )?.click()
+                      }
                       style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : user?.profile?.header &&
@@ -204,14 +208,22 @@ function Settings() {
                       className="wantedHeader overlay"
                       src={`http://localhost:5555/IMGS-API/${user.profile.header}`}
                       alt="your updated header"
-                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
+                      onClick={(e) =>
+                        (
+                          e.currentTarget.nextElementSibling as HTMLInputElement
+                        )?.click()
+                      }
                       style={{ width: "100%", objectFit: "cover" }}
                     />
                   ) : (
                     <div
                       className="wantedHeader overlay"
                       style={{ backgroundColor: "white", width: "100%" }}
-                      onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
+                      onClick={(e) =>
+                        (
+                          e.currentTarget.nextElementSibling as HTMLInputElement
+                        )?.click()
+                      }
                     ></div>
                   )}
                   <input
@@ -245,7 +257,11 @@ function Settings() {
                         : URL.createObjectURL(iconHeaderData.pfp as File)
                     }
                     alt="your updated pfp"
-                    onClick={(e) => (e.currentTarget.nextElementSibling as HTMLInputElement)?.click()}
+                    onClick={(e) =>
+                      (
+                        e.currentTarget.nextElementSibling as HTMLInputElement
+                      )?.click()
+                    }
                   />
                   <input
                     type="file"
@@ -305,7 +321,10 @@ function Settings() {
                 {dataUpdateErr && (
                   <div className="imgErrModal">
                     <div>
-                      <div>{(dataUpdateErr as any).error || dataUpdateErr.message}</div>
+                      <div>
+                        {(dataUpdateErr as any).error || dataUpdateErr.message}{" "}
+                        hello
+                      </div>
                     </div>
                   </div>
                 )}
@@ -421,7 +440,6 @@ function Settings() {
         </div>
       )}
       {settingsView === "change password" && (
-        // ability to view passwords too
         <div className="rightOfSettings changePass">
           {updatePassErr && (
             <div className="passwordErrModal">
@@ -464,11 +482,13 @@ function Settings() {
                 </div>
               )}
               {(updatePassErr as any).validationErrors &&
-                (updatePassErr as any).validationErrors.map((error: any, index: number) => (
-                  <div className="validationErr" key={index}>
-                    {error.msg || error.message || error}
-                  </div>
-                ))}
+                (updatePassErr as any).validationErrors.map(
+                  (error: any, index: number) => (
+                    <div className="validationErr" key={index}>
+                      {error.msg || error.message || error}
+                    </div>
+                  ),
+                )}
             </div>
           )}
           <div className="changePasswordForm">

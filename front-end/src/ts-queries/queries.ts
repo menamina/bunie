@@ -587,13 +587,15 @@ async function updateUserData(staticProfDataUpdate: any) {
     const data = await res.json();
 
     if (res.status === 404) {
-      error.noPostFound = "Account not found or not yours";
+      error.message = "Account not found or not yours";
       throw error;
+    } else if (res.status === 409) {
+      error.error = data.message;
     } else if (res.status === 500) {
-      error.serverError = "Server error, try again";
+      error.error = "Server error, try again";
       throw error;
     } else if (res.status === 403) {
-      error.otherMessage = data.message;
+      error.error = data.message;
       throw error;
     }
   }
@@ -759,16 +761,16 @@ async function signupUser(signupINFO: any): Promise<any> {
   });
   if (!res.ok) {
     const errData = await res.json();
-    const err: any = new Error();
+    const error: any = new Error();
 
     if (res.status === 500) {
-      err.error = "Server error";
+      error.error = "Server error";
     } else if (res.status === 400) {
-      err.error = errData.validationErrors;
-    } else if (res.status === 403) {
-      err.error = errData.message;
+      error.error = errData.validationErrors;
+    } else if (res.status === 409) {
+      error.error = errData.message;
     }
-    throw err;
+    throw error;
   }
 
   return await res.json();
